@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>دليل الإرشادات | معمل ميدلاب للتحاليل الطبية</title>
+  <link href="images/logo.png" type="image/x-icon" rel="icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet" />
+ <style>
+/* =========================
+   MEDLAB BLUE MEDICAL THEME
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+  --primary: #1769AA;
+  --primary-dark: #0B4F8A;
+  --primary-deep: #083B66;
+  --primary-light: #EAF4FB;
+  --primary-soft: #F4F9FD;
+
+  --secondary: #0B5E96;
+  --accent: #f8b400;
+  --accent-dark: #e6a200;
+
+  --whatsapp-color: #25D366;
+  --success-color: #28a745;
+  --error-color: #dc3545;
+  --warning-color: #ffc107;
+
+  --white: #ffffff;
+  --light-bg: #F5F8FB;
+  --gray-light: #F5F7FA;
+  --gray-medium: #E1E8EF;
+  --gray-dark: #6C757D;
+  --gray: #64748B;
+
+  --dark-text: #1E293B;
+  --text-color: #263746;
+  --text-light: #F8F9FA;
+
+  --border-color: #D8E5EF;
+
+  --shadow-sm: 0 4px 14px rgba(8, 59, 102, 0.07);
+  --shadow-md: 0 8px 24px rgba(8, 59, 102, 0.10);
+  --shadow-lg: 0 14px 35px rgba(8, 59, 102, 0.14);
+
+  --radius-card: 1.2rem;
+}
+
+/* =========================
+   BODY
+========================= */
+body {
+  font-family: 'Tajawal', sans-serif;
+  background:
+    radial-gradient(circle at top right, rgba(23,105,170,0.06), transparent 35%),
+    linear-gradient(120deg, #F8FBFD, #EEF6FB);
+  color: var(--dark-text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* =========================
+   HEADER & NAVIGATION
+========================= */
+.mobile-header {
+  background: rgba(255,255,255,0.96);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(23,105,170,0.08);
+}
+
+.header-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+
+.logo-area h1 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.logo-area span {
+  font-size: 0.8rem;
+  color: var(--secondary);
+  font-weight: 600;
+}
+
+.menu-toggle {
+  background: transparent;
+  border: none;
+  font-size: 1.8rem;
+  color: var(--primary-dark);
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.menu-toggle:hover {
+  color: var(--primary);
+  transform: scale(1.08);
+}
+
+.mobile-nav {
+  display: none;
+  background: rgba(255,255,255,0.98);
+  border-top: 1px solid rgba(23,105,170,0.08);
+  box-shadow: var(--shadow-sm);
+}
+
+.mobile-nav.active {
+  display: block;
+}
+
+.mobile-nav ul {
+  list-style: none;
+  padding: 0.5rem 0;
+}
+
+.mobile-nav li a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1rem 1.5rem;
+  color: var(--dark-text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.25s ease;
+  border-right: 3px solid transparent;
+}
+
+.mobile-nav li a i {
+  width: 1.8rem;
+  color: var(--primary);
+}
+
+.mobile-nav li a:hover {
+  background: var(--primary-light);
+  border-right-color: var(--primary);
+  color: var(--primary-dark);
+  padding-right: 1.8rem;
+}
+
+/* =========================
+   HERO GUIDANCE
+========================= */
+.guidance-hero {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255,255,255,0.12), transparent 30%),
+    linear-gradient(135deg, var(--primary-deep) 0%, var(--primary-dark) 55%, var(--primary) 100%);
+  padding: 3rem 0 3.5rem;
+  color: white;
+  border-radius: 0 0 2rem 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(8,59,102,0.12);
+}
+
+.guidance-hero::after {
+  content: '';
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  left: -120px;
+  bottom: -200px;
+  background: radial-gradient(circle, rgba(255,255,255,0.12), transparent 70%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-content h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.hero-content p {
+  font-size: 1.1rem;
+  opacity: 0.94;
+  max-width: 700px;
+}
+
+.breadcrumb {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  opacity: 0.9;
+}
+
+.breadcrumb a {
+  color: white;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   SECTION TITLE
+========================= */
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 2rem 0 1.5rem;
+  position: relative;
+  display: inline-block;
+  color: var(--primary-dark);
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: 0;
+  width: 65px;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--primary),
+    var(--accent)
+  );
+  border-radius: 4px;
+}
+
+/* =========================
+   GUIDE CARDS
+========================= */
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.guide-card {
+  background: var(--white);
+  border-radius: var(--radius-card);
+  padding: 1.8rem;
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+  border: 1px solid var(--border-color);
+}
+
+.guide-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(23,105,170,0.22);
+}
+
+.icon-circle {
+  background: var(--primary-light);
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-bottom: 1.2rem;
+  border: 1px solid rgba(23,105,170,0.12);
+}
+
+.icon-circle i {
+  font-size: 1.8rem;
+  color: var(--primary);
+}
+
+.guide-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+  color: var(--primary-dark);
+  font-weight: 800;
+}
+
+.guide-card p {
+  color: var(--gray);
+  margin-bottom: 1rem;
+}
+
+/* =========================
+   STEPS
+========================= */
+.steps-list {
+  list-style: none;
+  margin-top: 0.8rem;
+}
+
+.steps-list li {
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+
+.steps-list li i {
+  color: var(--primary);
+  font-size: 0.85rem;
+  margin-top: 0.2rem;
+}
+
+/* =========================
+   WARNING NOTE
+========================= */
+.warning-note {
+  background: #FFF8E7;
+  border-right: 4px solid var(--accent);
+  padding: 1rem 1.2rem;
+  border-radius: 1rem;
+  margin: 1.5rem 0;
+  color: #664D03;
+  box-shadow: 0 3px 10px rgba(248,180,0,0.07);
+}
+
+.warning-note i {
+  color: var(--accent-dark);
+}
+
+/* =========================
+   INFO BANNER
+========================= */
+.info-banner {
+  background:
+    linear-gradient(120deg, var(--primary-light), #FFFFFF);
+  border: 1px solid var(--border-color);
+  border-radius: 1.5rem;
+  padding: 1.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin: 2rem 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.info-banner h3,
+.info-banner h4 {
+  color: var(--primary-dark);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--primary-dark)
+  );
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border-radius: 2rem;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.25s ease;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(8,59,102,0.12);
+}
+
+.btn:hover {
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 7px 18px rgba(8,59,102,0.18);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid var(--primary);
+  color: var(--primary-dark);
+  box-shadow: none;
+}
+
+.btn-outline:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+/* =========================
+   FAQ
+========================= */
+.faq-item {
+  background: var(--white);
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.faq-item:hover {
+  border-color: rgba(23,105,170,0.22);
+}
+
+.faq-question {
+  font-weight: 800;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  color: var(--primary-dark);
+  gap: 15px;
+}
+
+.faq-question i {
+  color: var(--primary);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  color: var(--gray);
+  padding-top: 0;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 300px;
+  padding-top: 0.8rem;
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+  background:
+    linear-gradient(135deg, var(--primary-deep), var(--primary-dark));
+  color: #EEF6FC;
+  text-align: center;
+  padding: 1.8rem 0;
+  margin-top: 3rem;
+  border-radius: 1.5rem 1.5rem 0 0;
+  box-shadow: 0 -6px 20px rgba(8,59,102,0.08);
+}
+
+footer a {
+  color: white;
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: #B9DDF2;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.2rem;
+  }
+
+  .hero-content h2 {
+    font-size: 1.7rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .guide-grid {
+    gap: 1.2rem;
+  }
+
+  .guide-card {
+    padding: 1.4rem;
+  }
+
+  .guidance-hero {
+    padding: 2.3rem 0 2.8rem;
+    border-radius: 0 0 1.4rem 1.4rem;
+  }
+
+  .info-banner {
+    padding: 1.3rem;
+    border-radius: 1.2rem;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .btn-outline {
+    width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+  <header class="mobile-header">
+    <div class="container header-flex">
+      <div class="logo-area">
+        <h1>ميدلاب <span>⚕️ للتحاليل الطبية</span></h1>
+      </div>
+      <button class="menu-toggle" aria-label="القائمة"><i class="fas fa-bars"></i></button>
+    </div>
+    <nav class="mobile-nav">
+      <ul>
+        <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+        <li><a href="#preparation"><i class="fas fa-syringe"></i> إرشادات ما قبل التحليل</a></li>
+        <li><a href="#during"><i class="fas fa-flask"></i> أثناء التحليل</a></li>
+        <li><a href="#results"><i class="fas fa-file-alt"></i> فهم النتائج</a></li>
+        <li><a href="#faq"><i class="fas fa-question-circle"></i> أسئلة شائعة</a></li>
+        <li><a href="#contact"><i class="fas fa-headset"></i> تواصل مع المختص</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="guidance-hero" id="home">
+      <div class="container hero-content">
+        <div class="breadcrumb">
+          <span><i class="fas fa-compass"></i> دليل المريض الشامل</span>
+        </div>
+        <h2>إرشادات ما قبل الفحص الطبي<br>دقتك تبدأ من التحضير السليم</h2>
+        <p>نوفر لك كل المعلومات اللازمة لضمان دقة نتائج تحاليلك. خطوة بخطوة من التحضير حتى استلام التقرير.</p>
+      </div>
+    </section>
+
+    <div class="container">
+      <!-- قسم ارشادات رئيسية -->
+      <div class="guide-grid" id="preparation">
+        <div class="guide-card">
+          <div class="icon-circle"><i class="fas fa-clock"></i></div>
+          <h3>الصيام قبل التحليل</h3>
+          <p>العديد من التحاليل مثل السكر الصائم، الدهون الثلاثية، والكوليسترول تتطلب صياماً دقيقاً.</p>
+          <ul class="steps-list">
+            <li><i class="fas fa-check-circle"></i> الصيام من 8 إلى 12 ساعة (ماء فقط)</li>
+            <li><i class="fas fa-check-circle"></i> الامتناع عن التدخين والكافيين قبل 8 ساعات</li>
+            <li><i class="fas fa-check-circle"></i> استشر مختبر المعمل لتحاليل خاصة</li>
+          </ul>
+        </div>
+        <div class="guide-card">
+          <div class="icon-circle"><i class="fas fa-pills"></i></div>
+          <h3>الأدوية والمكملات</h3>
+          <p>بعض الأدوية تؤثر على نتائج التحاليل الهرمونية ووظائف الكبد والكلى.</p>
+          <ul class="steps-list">
+            <li><i class="fas fa-exclamation-triangle"></i> أبلغ فريق المعمل بجميع الأدوية</li>
+            <li><i class="fas fa-check-circle"></i> مميعات الدم، مضادات الالتهاب قد تحتاج إيقاف مؤقت</li>
+            <li><i class="fas fa-check-circle"></i> لا توقف الدواء دون استشارة طبيبك</li>
+          </ul>
+        </div>
+        <div class="guide-card">
+          <div class="icon-circle"><i class="fas fa-person-walking-arrow-right"></i></div>
+          <h3>التحضير البدني</h3>
+          <p>الرياضة المجهدة والتوتر قد تغير قيم بعض الهرمونات والإنزيمات.</p>
+          <ul class="steps-list">
+            <li><i class="fas fa-check-circle"></i> تجنب التمارين العنيفة قبل 24 ساعة</li>
+            <li><i class="fas fa-check-circle"></i> النوم الكافي ليلة الفحص (7-8 ساعات)</li>
+            <li><i class="fas fa-check-circle"></i> الوصول قبل الموعد بـ 15 دقيقة للاسترخاء</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- خلال التحليل وطريقة سحب العينة -->
+      <div id="during">
+        <h2 class="section-title">خلال عملية سحب العينة</h2>
+        <div class="guide-grid">
+          <div class="guide-card">
+            <div class="icon-circle"><i class="fas fa-hand-holding-heart"></i></div>
+            <h3>سحب الدم الوريدي</h3>
+            <p>إجراء سريع وآمن باستخدام أدوات معقمة مرة واحدة. نستخدم تقنيات حديثة لتقليل الألم.</p>
+            <ul class="steps-list">
+              <li><i class="fas fa-check-circle"></i> اشرب ماءً كافياً لتسهيل سحب العينة</li>
+              <li><i class="fas fa-check-circle"></i> أخبر الفني إذا كنت تعاني من دوار أو خوف من الإبر</li>
+              <li><i class="fas fa-check-circle"></i> اضغط على مكان السحب لمدة دقيقتين بعد الانتهاء</li>
+            </ul>
+          </div>
+          <div class="guide-card">
+            <div class="icon-circle"><i class="fas fa-microscope"></i></div>
+            <h3>عينات البول والبراز</h3>
+            <p>التعليمات الدقيقة لجمع العينات تضمن دقة التحليل المخبري.</p>
+            <ul class="steps-list">
+              <li><i class="fas fa-check-circle"></i> عينة بول منتصف التدفق بعد تنظيف المنطقة</li>
+              <li><i class="fas fa-check-circle"></i> عينة البراز: تجنب ملامسة الماء، استخدم الحاوية المعقمة</li>
+              <li><i class="fas fa-check-circle"></i> تسليم العينات خلال ساعة من جمعها</li>
+            </ul>
+          </div>
+          <div class="guide-card">
+            <div class="icon-circle"><i class="fas fa-baby-carriage"></i></div>
+            <h3>تحاليل خاصة (أطفال/حوامل)</h3>
+            <p>إرشادات مخصصة للفئات الأكثر حساسية لضمان راحتهم وسلامة العينة.</p>
+            <ul class="steps-list">
+              <li><i class="fas fa-check-circle"></i> للأطفال: تخدير موضعي متوفر عند الحاجة</li>
+              <li><i class="fas fa-check-circle"></i> للحوامل: توقيت التحاليل الهرمونية بدقة وفقاً لعمر الحمل</li>
+              <li><i class="fas fa-check-circle"></i> استشارة مسبقة مع استشاري المعمل</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- فهم النتائج -->
+      <div id="results">
+        <h2 class="section-title">كيف تفهم نتائج تحاليلك؟</h2>
+        <div class="guide-grid">
+          <div class="guide-card">
+            <h3><i class="fas fa-tachometer-alt"></i> قراءة المؤشرات الحيوية</h3>
+            <p>ارتفاع أو انخفاض بسيط لا يعني بالضرورة مرضاً، استشر طبيبك لتفسير النتائج مع التاريخ السريري.</p>
+          </div>
+          <div class="guide-card">
+            <h3><i class="fas fa-chart-simple"></i> تنسيق التقرير</h3>
+            <p>نقدم تقارير رقمية وورقية مع شرح للاختصارات الطبية باللغة العربية.</p>
+          </div>
+          <div class="guide-card">
+            <h3><i class="fas fa-phone-alt"></i> استشارة ما بعد التحليل</h3>
+            <p>فريق من الأطباء المتخصصين متاح لتوضيح أي استفسار حول النتائج (خدمة مجانية).</p>
+          </div>
+        </div>
+        <div class="warning-note">
+          <i class="fas fa-lightbulb" style="margin-left: 10px; color: var(--accent);"></i>
+          <strong>تذكير هام:</strong> النتائج المخبرية أداة مساعدة للتشخيص، ولا تغني عن الفحص السريري من قبل الطبيب المعالج.
+        </div>
+      </div>
+
+      <!-- أسئلة شائعة FAQ -->
+      <div id="faq">
+        <h2 class="section-title">الأسئلة الشائعة حول التحاليل الطبية</h2>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>هل يمكن إجراء التحاليل أثناء الدورة الشهرية؟</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">نعم معظم التحاليل لا تتأثر، ولكن يفضل إبلاغ المختص لأن بعض الهرمونات (الاستروجين والبروجسترون) تتغير خلال مراحل الدورة. تحاليل الخصوبة عادة تُجرى في أيام محددة.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>كم تستغرق نتيجة التحليل؟</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">التحاليل الروتينية (صورة دم كاملة، سكر) خلال 4-6 ساعات. التحاليل الهرمونية والمناعية خلال 24 ساعة. التحاليل الجزيئية والوراثية من 3 إلى 10 أيام حسب التعقيد.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>هل يجب أن أحضر ملفي الطبي السابق؟</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">ننصح بإحضار أي تقارير سابقة، خاصة التحاليل القديمة لمقارنة النتائج. يساعد الطبيب على متابعة تطور الحالة الصحية بدقة.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>كيف أتأكد من جودة المعمل؟</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">معمل ميدلاب معتمد وفق مواصفات الجودة الدولية ISO 15189، ويشارك في برامج ضبط الجودة الخارجية. جميع الأجهزة معايرة دورياً.</div>
+        </div>
+      </div>
+
+      <!-- قسم تواصل ومعلومات إضافية -->
+      <div id="contact" style="background: #e9f0f5; border-radius: 1.5rem; padding: 2rem; margin: 2.5rem 0;">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
+          <div>
+            <h3 style="color: var(--primary-dark);"><i class="fas fa-headset"></i> فريق الدعم الطبي</h3>
+            <p>للاستفسارات حول التحضير للتحاليل أو حجز موعد، تواصل مع خدمة العملاء عبر الواتساب أو الهاتف.</p>
+            <div style="display: flex; gap: 0.8rem; margin-top: 1rem;">
+              <span><i class="fas fa-phone-alt"></i> 01061730854</span>
+              <span><i class="fab fa-whatsapp"></i> 01061730854</span>
+            </div>
+          </div>
+          <a href="appointment.html" class="btn" style="background: var(--secondary);"><i class="fas fa-calendar-alt"></i> احجز موعدك الآن</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p><i class="fas fa-flask"></i> معمل ميدلاب للتحاليل الطبية - دقة وثقة منذ 2011</p>
+      <p style="font-size: 0.85rem; margin-top: 8px;">جميع الإرشادات مقدمة للتوعية الصحية، يُرجى استشارة الطبيب لتفسير نتائج التحاليل</p>
+      <p style="margin-top: 0.5rem;">&copy; 2025 ميدلاب. كل الحقوق محفوظة</p>
+    </div>
+  </footer>
+
+  <script>
+    // القائمة المتنقلة
+    document.addEventListener('DOMContentLoaded', function () {
+      const menuToggle = document.querySelector('.menu-toggle');
+      const mobileNav = document.querySelector('.mobile-nav');
+      if (menuToggle && mobileNav) {
+        menuToggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          mobileNav.classList.toggle('active');
+        });
+        document.addEventListener('click', (e) => {
+          if (!mobileNav.contains(e.target) && !menuToggle.contains(e.target)) {
+            mobileNav.classList.remove('active');
+          }
+        });
+      }
+
+      // FAQ accordion
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(item => {
+        const questionDiv = item.querySelector('.faq-question');
+        questionDiv.addEventListener('click', () => {
+          const isActive = item.classList.contains('active');
+          faqItems.forEach(i => i.classList.remove('active'));
+          if (!isActive) item.classList.add('active');
+        });
+      });
+      // افتح أول عنصر بشكل افتراضي لطيف
+      if(faqItems.length) faqItems[0].classList.add('active');
+
+      // smooth scroll للروابط الداخلية في القائمة
+      const navLinks = document.querySelectorAll('.mobile-nav a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          const hash = this.getAttribute('href');
+          if(hash && hash.startsWith('#')) {
+            e.preventDefault();
+            const targetId = hash.substring(1);
+            const targetElement = document.getElementById(targetId);
+            if(targetElement) {
+              targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              mobileNav.classList.remove('active');
+            }
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

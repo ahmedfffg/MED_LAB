@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>اتصل بنا - معمل ميدلاب</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="images/logo.png" type="image/x-icon" rel="icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* إضافة الأنماط المفقودة من CSS المقدم */
+        .contact {
+            padding: 140px 0 50px;
+            background: var(--secondary-color);
+            color: white;
+            margin-top: 60px;
+        }
+        
+        .ai-assistant-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            border: none;
+            transition: transform 0.4s, box-shadow 0.4s;
+        }
+        
+        .ai-assistant-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .ai-icon {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            transition: transform 0.3s;
+        }
+        
+        .ai-assistant-card:hover .ai-icon {
+            transform: rotate(15deg) scale(1.2);
+        }
+
+        .ai-title {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .ai-description {
+            color: #fff;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .contact-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--text-dark);
+        }
+
+        .form-title {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .form-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 50%;
+            transform: translateX(50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent-color);
+            border-radius: 3px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Tajawal', sans-serif;
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-control:focus {
+            border: 1px solid var(--primary-color);
+            box-shadow: 0 0 8px rgba(37,99,235,0.3);
+            outline: none;
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        @media (max-width: 768px) {
+            .contact {
+                padding: 120px 0 30px;
+            }
+            
+            .ai-assistant-card,
+            .contact-form {
+                padding: 20px;
+                margin: 20px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="mobile-header">
+        <div class="container">
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1>معمل ميدلاب</h1>
+        </div>
+        <nav class="mobile-nav">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+                <li><a href="index.html#services"><i class="fas fa-flask"></i> خدماتنا</a></li>
+                <li><a href="index.html#doctors"><i class="fas fa-user-md"></i> فريق العمل</a></li>
+                <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> حجز فحص</a></li>
+                <li><a href="contact.html"><i class="fas fa-headset"></i> خدمة العملاء</a></li>
+                <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="contact">
+        <div class="container">
+            <h1 class="section-titles">اتصل بنا</h1>
+            
+            <!-- بطاقة المساعد الطبي الذكي -->
+            <div class="ai-assistant-card">
+                <i class="fas fa-robot ai-icon"></i>
+                <h3 class="ai-title">المساعد الطبي الذكي</h3>
+                <p class="ai-description">مساعدنا الافتراضي متاح للإجابة على استفساراتك الطبية العامة وتقديم النصائح الأولية</p>
+                <a href="ai-assistant.html" class="btn">
+                    ابدأ المحادثة الآن <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+            
+            <div class="contact-form">
+                <h3 class="form-title">أو أرسل لنا رسالة مباشرة</h3>
+                
+                <form id="contactForm" method="POST" action="submit_contact.php">
+                    <div class="form-group">
+                        <label for="message-type">نوع الرسالة</label>
+                        <select id="message-type" class="form-control" required>
+                            <option value="">اختر نوع الرسالة</option>
+                            <option value="complaint">شكوى</option>
+                            <option value="inquiry">استفسار</option>
+                            <option value="suggestion">مقترح</option>
+                            <option value="other">أخرى</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="name">الاسم الكامل</label>
+                        <input type="text" name="name" id="name" class="form-control" required>
+                    </div>                   
+                    
+                    <div class="form-group">
+                        <label for="email">البريد الإلكتروني</label>
+                        <input type="email" name="email" id="email" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">رقم الجوال</label>
+                        <input type="tel" name="phone" id="phone" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">نص الرسالة</label>
+                        <textarea name="message" id="message" rows="5" class="form-control" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn">
+                        <i class="fas fa-paper-plane"></i> إرسال الرسالة
+                    </button>
+                </form>        
+            </div>    
+        </div>
+    </main>
+
+    <!-- إضافة زر الواتساب العائم -->
+    <a href="https://wa.me/+20161730854" class="floating-whatsapp" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mobileNav = document.querySelector('.mobile-nav');
+
+            if (menuToggle && mobileNav) {
+                menuToggle.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    mobileNav.classList.toggle('active');
+                    menuToggle.classList.toggle('open');
+                });
+
+                document.querySelectorAll('.mobile-nav a').forEach(link => {
+                    link.addEventListener('click', function () {
+                        mobileNav.classList.remove('active');
+                        menuToggle.classList.remove('open');
+                    });
+                });
+
+                document.addEventListener('click', function (e) {
+                    if (!mobileNav.contains(e.target) && !menuToggle.contains(e.target)) {
+                        mobileNav.classList.remove('active');
+                        menuToggle.classList.remove('open');
+                    }
+                });
+            }
+
+            // معالجة إرسال النموذج
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('تم إرسال رسالتك بنجاح، شكراً لتواصلك معنا!');
+                this.reset();
+            });
+
+            // تحسينات اللمس
+            document.querySelectorAll('a, button').forEach(element => {
+                element.addEventListener('touchstart', function () {
+                    this.style.transform = 'scale(0.95)';
+                });
+
+                element.addEventListener('touchend', function () {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
