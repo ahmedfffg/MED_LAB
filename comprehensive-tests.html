@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>التحاليل الشاملة - معمل ميدلاب</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="images/logo.png" type="image/x-icon">
+
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap"
+    rel="stylesheet">
+
+  <style>
+
+    /* =========================================================
+       MEDLAB - COMPREHENSIVE TESTS PAGE
+    ========================================================= */
+
+    :root {
+      --primary-color: #1769AA;
+      --primary-dark: #0B4F8A;
+      --primary-deeper: #083B66;
+      --primary-light: #EAF4FB;
+      --secondary-color: #083B66;
+
+      --accent-color: #f8b400;
+      --accent-dark: #e6a200;
+
+      --light-color: #F4F8FC;
+      --white: #ffffff;
+
+      --text-color: #1E293B;
+      --text-light: #64748B;
+
+      --border-color: #DCE6EF;
+
+      --success-color: #16A34A;
+
+      --shadow-sm:
+        0 4px 14px rgba(8, 59, 102, 0.07);
+
+      --shadow-md:
+        0 10px 30px rgba(8, 59, 102, 0.10);
+
+      --shadow-lg:
+        0 18px 45px rgba(8, 59, 102, 0.15);
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Tajawal', sans-serif;
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--text-color);
+
+      background:
+        linear-gradient(
+          135deg,
+          #F8FBFE 0%,
+          #F1F6FA 50%,
+          #EDF5FB 100%
+        );
+
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 15px;
+    }
+
+    /* =========================================================
+       BUTTON
+    ========================================================= */
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+
+      min-height: 46px;
+      padding: 12px 24px;
+
+      border: none;
+      border-radius: 10px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-dark)
+        );
+
+      color: white;
+
+      font-family: 'Tajawal', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+
+      text-decoration: none;
+
+      cursor: pointer;
+
+      transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+
+      box-shadow:
+        0 6px 18px rgba(23,105,170,.18);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+
+      box-shadow:
+        0 12px 25px rgba(8,59,102,.20);
+    }
+
+    .btn-accent {
+      background:
+        linear-gradient(
+          135deg,
+          var(--accent-color),
+          var(--accent-dark)
+        );
+
+      color: #24313D;
+    }
+
+    /* =========================================================
+       HEADER
+    ========================================================= */
+
+    .mobile-header {
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-dark)
+        );
+
+      padding: 14px 0;
+
+      box-shadow:
+        0 5px 20px rgba(8,59,102,.15);
+
+      position: relative;
+      z-index: 1000;
+    }
+
+    .mobile-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mobile-header h1 {
+      color: white;
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    .menu-toggle {
+      width: 44px;
+      height: 44px;
+
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 10px;
+
+      background: rgba(255,255,255,.08);
+
+      color: white;
+
+      font-size: 22px;
+
+      cursor: pointer;
+
+      transition: .25s ease;
+    }
+
+    .menu-toggle:hover {
+      background: rgba(255,255,255,.18);
+      transform: translateY(-2px);
+    }
+
+    /* =========================================================
+       NAV
+    ========================================================= */
+
+    .mobile-nav {
+      display: none;
+
+      position: absolute;
+
+      top: 100%;
+      right: 0;
+
+      width: 100%;
+
+      background: rgba(255,255,255,.98);
+
+      z-index: 999;
+
+      box-shadow:
+        0 10px 30px rgba(8,59,102,.15);
+
+      border-top:
+        1px solid #E5EDF4;
+    }
+
+    .mobile-nav.active {
+      display: block;
+    }
+
+    .mobile-nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 5px 0;
+    }
+
+    .mobile-nav li a {
+      display: flex;
+      align-items: center;
+
+      padding: 14px 20px;
+
+      color: var(--text-color);
+
+      text-decoration: none;
+
+      font-weight: 600;
+
+      border-bottom:
+        1px solid #EEF2F6;
+
+      transition: .25s ease;
+    }
+
+    .mobile-nav li a:hover {
+      background: var(--primary-light);
+      color: var(--primary-color);
+
+      padding-right: 28px;
+    }
+
+    .mobile-nav li a i {
+      width: 25px;
+      margin-left: 10px;
+
+      color: var(--primary-color);
+
+      text-align: center;
+    }
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(8,59,102,.96),
+          rgba(23,105,170,.90)
+        ),
+        url('images/lab-bg.jpg') center/cover;
+
+      color: white;
+
+      padding: 90px 0;
+
+      text-align: center;
+
+      box-shadow:
+        0 12px 35px rgba(8,59,102,.15);
+    }
+
+    .hero::before {
+      content: "";
+
+      position: absolute;
+
+      width: 450px;
+      height: 450px;
+
+      right: -180px;
+      top: -250px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(255,255,255,.14),
+          transparent 70%
+        );
+    }
+
+    .hero::after {
+      content: "";
+
+      position: absolute;
+
+      width: 350px;
+      height: 350px;
+
+      left: -150px;
+      bottom: -220px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(255,255,255,.10),
+          transparent 70%
+        );
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-icon {
+      width: 82px;
+      height: 82px;
+
+      margin: 0 auto 20px;
+
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: rgba(255,255,255,.12);
+
+      border:
+        1px solid rgba(255,255,255,.20);
+
+      font-size: 38px;
+    }
+
+    .hero h2 {
+      color: white;
+
+      font-size: 2.3rem;
+
+      margin-bottom: 18px;
+
+      font-weight: 800;
+    }
+
+    .hero p {
+      max-width: 850px;
+
+      margin: auto;
+
+      color: rgba(255,255,255,.94);
+
+      font-size: 1.15rem;
+    }
+
+    /* =========================================================
+       INTRO
+    ========================================================= */
+
+    .intro {
+      padding: 55px 0 25px;
+      background: white;
+    }
+
+    .section-title {
+      text-align: center;
+
+      color: var(--secondary-color);
+
+      font-size: 2rem;
+
+      margin-bottom: 12px;
+
+      font-weight: 800;
+    }
+
+    .section-subtitle {
+      text-align: center;
+
+      max-width: 750px;
+
+      margin: 0 auto 35px;
+
+      color: var(--text-light);
+
+      font-size: 1.05rem;
+    }
+
+    /* =========================================================
+       TEST CATEGORIES
+    ========================================================= */
+
+    .tests-section {
+      padding: 45px 0 70px;
+
+      background: white;
+    }
+
+    .test-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fit,
+          minmax(300px, 1fr)
+        );
+
+      gap: 28px;
+    }
+
+    .test-card {
+      position: relative;
+
+      background:
+        linear-gradient(
+          145deg,
+          #FFFFFF,
+          #F5F9FC
+        );
+
+      border:
+        1px solid #DFEAF2;
+
+      border-radius: var(--radius-md);
+
+      padding: 28px;
+
+      box-shadow: var(--shadow-sm);
+
+      overflow: hidden;
+
+      transition:
+        transform .3s ease,
+        box-shadow .3s ease,
+        border-color .3s ease;
+    }
+
+    .test-card::before {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      right: 0;
+
+      width: 100%;
+      height: 4px;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--primary-color),
+          #42A5F5
+        );
+    }
+
+    .test-card:hover {
+      transform: translateY(-7px);
+
+      box-shadow: var(--shadow-md);
+
+      border-color:
+        rgba(23,105,170,.22);
+    }
+
+    .test-icon {
+      width: 58px;
+      height: 58px;
+
+      border-radius: 14px;
+
+      background: var(--primary-light);
+
+      color: var(--primary-color);
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      font-size: 25px;
+
+      margin-bottom: 18px;
+    }
+
+    .test-card h3 {
+      color: var(--primary-dark);
+
+      font-size: 1.35rem;
+
+      margin-bottom: 10px;
+    }
+
+    .test-card p {
+      color: var(--text-light);
+
+      margin-bottom: 18px;
+
+      font-size: 15px;
+    }
+
+    .test-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .test-list li {
+      display: flex;
+      align-items: center;
+
+      padding: 9px 0;
+
+      border-bottom:
+        1px dashed #DCE5ED;
+    }
+
+    .test-list li:last-child {
+      border-bottom: none;
+    }
+
+    .test-list li::before {
+      content: "✓";
+
+      width: 23px;
+      height: 23px;
+
+      min-width: 23px;
+
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      margin-left: 9px;
+
+      border-radius: 50%;
+
+      background: var(--primary-light);
+
+      color: var(--primary-color);
+
+      font-size: 12px;
+
+      font-weight: 900;
+    }
+
+    /* =========================================================
+       PREPARATION
+    ========================================================= */
+
+    .preparation {
+      padding: 65px 0;
+
+      background:
+        linear-gradient(
+          135deg,
+          #F0F7FC,
+          #FFFFFF
+        );
+    }
+
+    .prep-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fit,
+          minmax(250px, 1fr)
+        );
+
+      gap: 22px;
+
+      margin-top: 30px;
+    }
+
+    .prep-card {
+      background: white;
+
+      padding: 25px;
+
+      border-radius: var(--radius-md);
+
+      border:
+        1px solid #E1EAF1;
+
+      box-shadow: var(--shadow-sm);
+
+      text-align: center;
+
+      transition: .3s ease;
+    }
+
+    .prep-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .prep-card i {
+      width: 60px;
+      height: 60px;
+
+      border-radius: 50%;
+
+      background: var(--primary-light);
+
+      color: var(--primary-color);
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      margin: 0 auto 15px;
+
+      font-size: 24px;
+    }
+
+    .prep-card h3 {
+      color: var(--secondary-color);
+
+      font-size: 1.2rem;
+
+      margin-bottom: 8px;
+    }
+
+    .prep-card p {
+      color: var(--text-light);
+
+      font-size: 14px;
+    }
+
+    /* =========================================================
+       INFO BOX
+    ========================================================= */
+
+    .info-section {
+      padding: 55px 0;
+
+      background: white;
+    }
+
+    .info-box {
+      display: flex;
+      align-items: flex-start;
+
+      gap: 18px;
+
+      padding: 25px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary-light),
+          #FFFFFF
+        );
+
+      border-right:
+        5px solid var(--primary-color);
+
+      border-radius: var(--radius-md);
+
+      box-shadow: var(--shadow-sm);
+    }
+
+    .info-box i {
+      color: var(--primary-color);
+
+      font-size: 28px;
+
+      margin-top: 4px;
+    }
+
+    .info-box h3 {
+      color: var(--primary-dark);
+
+      margin-bottom: 8px;
+    }
+
+    .info-box p {
+      color: var(--text-light);
+    }
+
+    /* =========================================================
+       CTA
+    ========================================================= */
+
+    .cta {
+      padding: 70px 0;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary-deeper),
+          var(--primary-color)
+        );
+
+      color: white;
+
+      text-align: center;
+    }
+
+    .cta h2 {
+      color: white;
+
+      font-size: 2rem;
+
+      margin-bottom: 12px;
+    }
+
+    .cta p {
+      max-width: 700px;
+
+      margin: 0 auto 25px;
+
+      color: rgba(255,255,255,.9);
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    .footer {
+      background:
+        linear-gradient(
+          135deg,
+          var(--secondary-color),
+          var(--primary-dark)
+        );
+
+      color: white;
+
+      text-align: center;
+
+      padding: 28px 0;
+    }
+
+    .footer p {
+      margin: 0;
+
+      color: rgba(255,255,255,.9);
+    }
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
+
+    @media (max-width: 768px) {
+
+      .container {
+        width: 94%;
+        padding: 0 10px;
+      }
+
+      .hero {
+        padding: 65px 0;
+      }
+
+      .hero h2 {
+        font-size: 1.75rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .section-title {
+        font-size: 1.55rem;
+      }
+
+      .test-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .prep-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .info-box {
+        flex-direction: column;
+      }
+
+      .cta h2 {
+        font-size: 1.6rem;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 420px) {
+
+      body {
+        font-size: 15px;
+      }
+
+      .hero {
+        padding: 55px 12px;
+      }
+
+      .hero-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 30px;
+      }
+
+      .hero h2 {
+        font-size: 1.5rem;
+      }
+
+      .test-card {
+        padding: 22px 18px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================================================
+       HEADER
+  ========================================================= -->
+
+  <header class="mobile-header">
+
+    <div class="container">
+
+      <button class="menu-toggle" aria-label="فتح القائمة">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <h1>التحاليل الشاملة</h1>
+
+    </div>
+
+    <nav class="mobile-nav">
+
+      <ul>
+
+        <li>
+          <a href="index.html">
+            <i class="fas fa-home"></i>
+            الرئيسية
+          </a>
+        </li>
+
+        <li>
+          <a href="#blood">
+            <i class="fas fa-droplet"></i>
+            تحاليل الدم
+          </a>
+        </li>
+
+        <li>
+          <a href="#liver">
+            <i class="fas fa-vial"></i>
+            وظائف الكبد
+          </a>
+        </li>
+
+        <li>
+          <a href="#kidney">
+            <i class="fas fa-filter"></i>
+            وظائف الكلى
+          </a>
+        </li>
+
+        <li>
+          <a href="#diabetes">
+            <i class="fas fa-cubes-stacked"></i>
+            السكر
+          </a>
+        </li>
+
+        <li>
+          <a href="#lipids">
+            <i class="fas fa-heart-pulse"></i>
+            الدهون
+          </a>
+        </li>
+
+        <li>
+          <a href="#vitamins">
+            <i class="fas fa-pills"></i>
+            الفيتامينات والمعادن
+          </a>
+        </li>
+
+        <li>
+          <a href="#thyroid">
+            <i class="fas fa-flask"></i>
+            الغدة الدرقية
+          </a>
+        </li>
+
+        <li>
+          <a href="#preparation">
+            <i class="fas fa-circle-info"></i>
+            قبل التحليل
+          </a>
+        </li>
+
+      </ul>
+
+    </nav>
+
+  </header>
+
+
+  <!-- =========================================================
+       HERO
+  ========================================================= -->
+
+  <section class="hero">
+
+    <div class="container">
+
+      <div class="hero-icon">
+        <i class="fas fa-microscope"></i>
+      </div>
+
+      <h2>التحاليل الشاملة</h2>
+
+      <p>
+        مجموعة متكاملة من الفحوصات المخبرية الأساسية للمساعدة
+        في تقييم الحالة الصحية العامة ومتابعة أهم مؤشرات الجسم
+        ووظائف الأعضاء المختلفة.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       INTRO
+  ========================================================= -->
+
+  <section class="intro">
+
+    <div class="container">
+
+      <h2 class="section-title">
+        مجموعة متكاملة من الفحوصات
+      </h2>
+
+      <p class="section-subtitle">
+        نوفر مجموعة واسعة من التحاليل الأساسية والمتخصصة،
+        ويتم اختيار الفحوصات المناسبة وفق الحالة الصحية
+        وتوجيهات الطبيب.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       TESTS
+  ========================================================= -->
+
+  <section class="tests-section">
+
+    <div class="container">
+
+      <div class="test-grid">
+
+
+        <!-- CBC -->
+
+        <article class="test-card" id="blood">
+
+          <div class="test-icon">
+            <i class="fas fa-droplet"></i>
+          </div>
+
+          <h3>تحاليل الدم الأساسية</h3>
+
+          <p>
+            فحوصات تساعد في تقييم مكونات الدم وبعض المؤشرات
+            العامة للحالة الصحية.
+          </p>
+
+          <ul class="test-list">
+
+            <li>صورة الدم الكاملة CBC</li>
+
+            <li>الهيموجلوبين Hb</li>
+
+            <li>عدد كرات الدم الحمراء</li>
+
+            <li>عدد كرات الدم البيضاء</li>
+
+            <li>الصفائح الدموية</li>
+
+            <li>مؤشرات خلايا الدم</li>
+
+          </ul>
+
+        </article>
+
+
+        <!-- LIVER -->
+
+        <article class="test-card" id="liver">
+
+          <div class="test-icon">
+            <i class="fas fa-vial"></i>
+          </div>
+
+          <h3>وظائف الكبد</h3>
+
+          <p>
+            مجموعة من الفحوصات التي تساعد الطبيب في تقييم
+            وظائف الكبد ومتابعة بعض الحالات المرضية.
+          </p>
+
+          <ul class="test-list">
+
+            <li>ALT</li>
+
+            <li>AST</li>
+
+            <li>ALP</li>
+
+            <li>Total Bilirubin</li>
+
+            <li>Direct Bilirubin</li>
+
+            <li>Total Protein</li>
+
+            <li>Albumin</li>
+
+          </ul>
+
+        </article>
+
+
+        <!-- KIDNEY -->
+
+        <article class="test-card" id="kidney">
+
+          <div class="test-icon">
+            <i class="fas fa-filter"></i>
+          </div>
+
+          <h3>وظائف الكلى</h3>
+
+          <p>
+            فحوصات تساعد في تقييم وظائف الكلى ومتابعة
+            بعض المؤشرات المرتبطة بها.
+          </p>
+
+          <ul class="test-list">
+
+            <li>Creatinine</li>
+
+            <li>Urea</li>
+
+            <li>BUN</li>
+
+            <li>eGFR</li>
+
+            <li>Uric Acid</li>
+
+            <li>Electrolytes حسب الحالة</li>
+
+          </ul>
+
+        </article>
+
+
+        <!-- DIABETES -->
+
+        <article class="test-card" id="diabetes">
+
+          <div class="test-icon">
+            <i class="fas fa-cubes-stacked"></i>
+          </div>
+
+          <h3>تحاليل السكر</h3>
+
+          <p>
+            فحوصات لتقييم مستوى الجلوكوز ومتابعة مؤشرات
+            التحكم في مستوى السكر بالدم.
+          </p>
+
+          <ul class="test-list">
+
+            <li>Fasting Blood Glucose</li>
+
+            <li>Random Blood Glucose</li>
+
+            <li>HbA1c</li>
+
+            <li>Postprandial Glucose</li>
+
+            <li>Glucose Tolerance Test حسب الطلب</li>
+
+          </ul>
+
+        </article>
+
+
+        <!-- LIPIDS -->
+
+        <article class="test-card" id="lipids">
+
+          <div class="test-icon">
+            <i class="fas fa-heart-pulse"></i>
+          </div>
+
+          <h3>الدهون والكوليسترول</h3>
+
+          <p>
+            تحاليل تساعد في تقييم مستويات الدهون والكوليسترول
+            ضمن التقييم الصحي العام أو متابعة الحالات.
+          </p>
+
+          <ul class="test-list">
+
+            <li>Total Cholesterol</li>
+
+            <li>HDL Cholesterol</li>
+
+            <li>LDL Cholesterol</li>
+
+            <li>Triglycerides</li>
+
+            <li>Non-HDL Cholesterol</li>
+
+          </ul>
+
+        </article>
+
+
+        <!-- IRON -->
+
+        <article class="test-card">
+
+          <div class="test-icon">
+            <i class="fas fa-magnet"></i>
+          </div>
+
+          <h3>الحديد ومخزون الحديد</h3>
+
+          <p>
+            فحوصات تساعد في تقييم حالة الحديد ومخزونه
+            عند وجود أسباب تستدعي ذلك.
+          </p>
+
+          <ul class="test-list">
+
+            <li>Serum Iron</li>
+
+            <li>Ferritin</li>
+
+            <li>TIBC</li>
+
+            <li>Transferrin</li>
+
+            <li>Transferrin Saturation</li>
+
+          </ul>
+
+        </article>
+
+
+        <!-- VITAMINS -->
+
+        <article class="test-card" id="vitamins">
+
+          <div class="test-icon">
+            <i class="fas fa-pills"></i>
+          </div>
+
+          <h3>الفيتامينات والمعادن</h3>
+
+          <p>
+            فحوصات يتم طلبها حسب الأعراض والحالة الصحية
+            ونمط التغذية والتقييم الطبي.
+          </p>
+
+          <ul class="test-list">
+
+            <li>Vitamin D</li>
+
+            <li>Vitamin B12</li>
+
+            <li>Folate</li>
+
+            <li>Calcium</li>
+
+            <li>Magnesium</li>
+
+            <li>Zinc حسب الحاجة</li>
+
+          </ul>
+
+        </article>
+
+
+        <!-- THYROID -->
+
+        <article class="test-card" id="thyroid">
+
+          <div class="test-icon">
+            <i class="fas fa-flask"></i>
+          </div>
+
+          <h3>تحاليل الغدة الدرقية</h3>
+
+          <p>
+            مجموعة من الفحوصات المستخدمة لتقييم وظيفة الغدة
+            الدرقية حسب الحالة الطبية.
+          </p>
+
+          <ul class="test-list">
+
+            <li>TSH</li>
+
+            <li>Free T4</li>
+
+            <li>Free T3</li>
+
+            <li>Thyroid Antibodies حسب الحالة</li>
+
+          </ul>
+
+        </article>
+
+
+        <!-- INFLAMMATION -->
+
+        <article class="test-card">
+
+          <div class="test-icon">
+            <i class="fas fa-temperature-half"></i>
+          </div>
+
+          <h3>مؤشرات الالتهاب</h3>
+
+          <p>
+            بعض الفحوصات التي قد يستخدمها الطبيب ضمن تقييم
+            الالتهابات أو متابعة الحالة.
+          </p>
+
+          <ul class="test-list">
+
+            <li>CRP</li>
+
+            <li>ESR</li>
+
+            <li>High Sensitivity CRP حسب الحالة</li>
+
+          </ul>
+
+        </article>
+
+
+        <!-- URINE -->
+
+        <article class="test-card">
+
+          <div class="test-icon">
+            <i class="fas fa-flask-vial"></i>
+          </div>
+
+          <h3>تحاليل البول</h3>
+
+          <p>
+            فحوصات تساعد في تقييم بعض مؤشرات الجهاز البولي
+            والكلى حسب الحالة.
+          </p>
+
+          <ul class="test-list">
+
+            <li>Complete Urine Analysis</li>
+
+            <li>Urine Culture</li>
+
+            <li>Urine Albumin</li>
+
+            <li>Microalbumin</li>
+
+          </ul>
+
+        </article>
+
+
+        <!-- STOOL -->
+
+        <article class="test-card">
+
+          <div class="test-icon">
+            <i class="fas fa-vial-virus"></i>
+          </div>
+
+          <h3>تحاليل البراز</h3>
+
+          <p>
+            فحوصات مختلفة يتم اختيارها حسب الأعراض والتقييم
+            الطبي والجهاز الهضمي.
+          </p>
+
+          <ul class="test-list">
+
+            <li>Stool Analysis</li>
+
+            <li>Stool Culture</li>
+
+            <li>Occult Blood</li>
+
+            <li>Parasite Examination</li>
+
+          </ul>
+
+        </article>
+
+
+        <!-- ELECTROLYTES -->
+
+        <article class="test-card">
+
+          <div class="test-icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+
+          <h3>الأملاح والمعادن</h3>
+
+          <p>
+            فحوصات تساعد في تقييم بعض العناصر والأملاح
+            المهمة في الجسم.
+          </p>
+
+          <ul class="test-list">
+
+            <li>Sodium</li>
+
+            <li>Potassium</li>
+
+            <li>Calcium</li>
+
+            <li>Magnesium</li>
+
+            <li>Phosphorus</li>
+
+          </ul>
+
+        </article>
+
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       PREPARATION
+  ========================================================= -->
+
+  <section class="preparation" id="preparation">
+
+    <div class="container">
+
+      <h2 class="section-title">
+        قبل إجراء التحليل
+      </h2>
+
+      <p class="section-subtitle">
+        تختلف تعليمات التحضير من تحليل لآخر، لذلك يُفضل
+        التأكد من تعليمات المعمل أو الطبيب قبل سحب العينة.
+      </p>
+
+
+      <div class="prep-grid">
+
+
+        <div class="prep-card">
+
+          <i class="fas fa-clock"></i>
+
+          <h3>توقيت التحليل</h3>
+
+          <p>
+            بعض الفحوصات تحتاج إلى وقت محدد خلال اليوم،
+            خصوصًا بعض التحاليل الهرمونية.
+          </p>
+
+        </div>
+
+
+        <div class="prep-card">
+
+          <i class="fas fa-utensils"></i>
+
+          <h3>الصيام</h3>
+
+          <p>
+            ليست كل التحاليل تحتاج إلى صيام. اسأل المعمل
+            عن تعليمات التحليل المطلوب قبل الحضور.
+          </p>
+
+        </div>
+
+
+        <div class="prep-card">
+
+          <i class="fas fa-pills"></i>
+
+          <h3>الأدوية</h3>
+
+          <p>
+            أخبر المختص بالأدوية والمكملات التي تستخدمها،
+            ولا توقف أي دواء من نفسك.
+          </p>
+
+        </div>
+
+
+        <div class="prep-card">
+
+          <i class="fas fa-glass-water"></i>
+
+          <h3>الماء</h3>
+
+          <p>
+            في كثير من الحالات يُسمح بشرب الماء، لكن
+            اتبع التعليمات الخاصة بالتحليل المطلوب.
+          </p>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       INFO
+  ========================================================= -->
+
+  <section class="info-section">
+
+    <div class="container">
+
+      <div class="info-box">
+
+        <i class="fas fa-circle-info"></i>
+
+        <div>
+
+          <h3>معلومة مهمة</h3>
+
+          <p>
+            وجود عرض معين لا يعني بالضرورة وجود مرض محدد،
+            كما أن اختيار التحاليل المناسبة يعتمد على الأعراض
+            والتاريخ الصحي والفحص الطبي. لذلك يُفضل استشارة
+            الطبيب أو المختص لتحديد الفحوصات المناسبة للحالة.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       CTA
+  ========================================================= -->
+
+  <section class="cta">
+
+    <div class="container">
+
+      <h2>
+        هل تحتاج إلى إجراء تحاليل؟
+      </h2>
+
+      <p>
+        احجز موعدك في معمل ميدلاب واحصل على خدمة مخبرية
+        دقيقة مع الالتزام بإجراءات الجودة وسلامة العينات.
+      </p>
+
+      <a href="appointment.html" class="btn btn-accent">
+
+        <i class="fas fa-calendar-check"></i>
+
+        احجز موعدك الآن
+
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       FOOTER
+  ========================================================= -->
+
+  <footer class="footer">
+
+    <div class="container">
+
+      <p>
+        &copy; 2025 معمل ميدلاب. جميع الحقوق محفوظة.
+      </p>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =========================================================
+       JAVASCRIPT
+  ========================================================= -->
+
+  <script>
+
+    document.addEventListener(
+      'DOMContentLoaded',
+      function () {
+
+        const menuToggle =
+          document.querySelector('.menu-toggle');
+
+        const mobileNav =
+          document.querySelector('.mobile-nav');
+
+        if (!menuToggle || !mobileNav) return;
+
+
+        menuToggle.addEventListener(
+          'click',
+          function (event) {
+
+            event.stopPropagation();
+
+            mobileNav.classList.toggle('active');
+
+          }
+        );
+
+
+        document.addEventListener(
+          'click',
+          function (event) {
+
+            if (
+              !mobileNav.contains(event.target) &&
+              !menuToggle.contains(event.target)
+            ) {
+
+              mobileNav.classList.remove('active');
+
+            }
+
+          }
+        );
+
+
+        const navLinks =
+          mobileNav.querySelectorAll('a');
+
+
+        navLinks.forEach(
+          function (link) {
+
+            link.addEventListener(
+              'click',
+              function () {
+
+                mobileNav.classList.remove('active');
+
+              }
+            );
+
+          }
+        );
+
+      }
+    );
+
+  </script>
+
+</body>
+
+</html>

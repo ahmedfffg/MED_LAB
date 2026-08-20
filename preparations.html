@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>تحضيرات ما قبل التحاليل - معمل ميدلاب</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="images/logo.png" type="image/x-icon">
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap"
+        rel="stylesheet">
+
+  <style>
+
+    /* =====================================================
+       MEDLAB - PREPARATION PAGE
+    ===================================================== */
+
+    :root {
+      --primary: #1769AA;
+      --primary-dark: #0B4F8A;
+      --primary-deep: #083B66;
+      --primary-light: #EAF4FB;
+
+      --accent: #F8B400;
+      --accent-light: #FFF7DF;
+
+      --success: #16A34A;
+      --danger: #DC3545;
+      --warning: #F59E0B;
+
+      --text: #26384A;
+      --text-light: #64748B;
+
+      --white: #FFFFFF;
+      --border: #DCE6EF;
+
+      --shadow-sm: 0 4px 15px rgba(8,59,102,.07);
+      --shadow-md: 0 10px 30px rgba(8,59,102,.11);
+      --shadow-lg: 0 18px 45px rgba(8,59,102,.15);
+
+      --radius: 14px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background:
+        linear-gradient(
+          135deg,
+          #F8FBFE,
+          #EEF5FB
+        );
+      color: var(--text);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 15px;
+    }
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    .mobile-header {
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-dark)
+        );
+
+      padding: 14px 0;
+
+      box-shadow:
+        0 5px 20px rgba(8,59,102,.15);
+
+      position: relative;
+      z-index: 1000;
+    }
+
+    .mobile-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mobile-header h1 {
+      color: white;
+      font-size: 1.45rem;
+      margin: 0;
+      font-weight: 800;
+    }
+
+    .menu-toggle {
+      width: 44px;
+      height: 44px;
+
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 10px;
+
+      background: rgba(255,255,255,.08);
+
+      color: white;
+      font-size: 22px;
+
+      cursor: pointer;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      transition: .25s;
+    }
+
+    .menu-toggle:hover {
+      background: rgba(255,255,255,.18);
+      transform: translateY(-2px);
+    }
+
+    /* =====================================================
+       NAVIGATION
+    ===================================================== */
+
+    .mobile-nav {
+      display: none;
+
+      position: absolute;
+      top: 100%;
+      right: 0;
+
+      width: 100%;
+
+      background: white;
+
+      box-shadow:
+        0 12px 30px rgba(8,59,102,.14);
+
+      border-top: 1px solid #E5EDF4;
+
+      z-index: 999;
+    }
+
+    .mobile-nav.active {
+      display: block;
+    }
+
+    .mobile-nav ul {
+      list-style: none;
+      padding: 5px 0;
+    }
+
+    .mobile-nav li a {
+      display: flex;
+      align-items: center;
+
+      padding: 14px 20px;
+
+      color: var(--text);
+      text-decoration: none;
+
+      border-bottom: 1px solid #EDF1F5;
+
+      font-weight: 600;
+
+      transition: .25s;
+    }
+
+    .mobile-nav li a:hover {
+      background: var(--primary-light);
+      color: var(--primary);
+      padding-right: 28px;
+    }
+
+    .mobile-nav li a i {
+      width: 25px;
+      margin-left: 10px;
+      color: var(--primary);
+    }
+
+    /* =====================================================
+       HERO
+    ===================================================== */
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(8,59,102,.96),
+          rgba(23,105,170,.92)
+        ),
+        url('images/lab-bg.jpg') center/cover;
+
+      color: white;
+
+      padding: 85px 0;
+
+      text-align: center;
+    }
+
+    .hero::before {
+      content: "";
+
+      position: absolute;
+
+      width: 430px;
+      height: 430px;
+
+      top: -230px;
+      right: -150px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(255,255,255,.13),
+          transparent 70%
+        );
+    }
+
+    .hero::after {
+      content: "";
+
+      position: absolute;
+
+      width: 330px;
+      height: 330px;
+
+      bottom: -200px;
+      left: -100px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(255,255,255,.10),
+          transparent 70%
+        );
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-icon {
+      width: 82px;
+      height: 82px;
+
+      margin: 0 auto 20px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+
+      background: rgba(255,255,255,.12);
+
+      border: 1px solid rgba(255,255,255,.2);
+
+      font-size: 35px;
+    }
+
+    .hero h2 {
+      color: white;
+      font-size: 2.2rem;
+      margin-bottom: 18px;
+      font-weight: 800;
+    }
+
+    .hero p {
+      max-width: 780px;
+      margin: auto;
+
+      font-size: 1.15rem;
+
+      color: rgba(255,255,255,.94);
+    }
+
+    /* =====================================================
+       IMPORTANT NOTICE
+    ===================================================== */
+
+    .important-section {
+      padding: 45px 0 10px;
+    }
+
+    .important-box {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--accent-light),
+          #FFFFFF
+        );
+
+      border-right: 5px solid var(--accent);
+
+      border-radius: var(--radius);
+
+      padding: 25px;
+
+      box-shadow: var(--shadow-sm);
+    }
+
+    .important-icon {
+      width: 48px;
+      height: 48px;
+
+      min-width: 48px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+
+      background: #FFF0C4;
+
+      color: #B77900;
+
+      font-size: 20px;
+    }
+
+    .important-box h3 {
+      color: #8A6200;
+      margin-bottom: 6px;
+      font-size: 1.25rem;
+    }
+
+    .important-box p {
+      color: #665522;
+      margin: 0;
+    }
+
+    /* =====================================================
+       MAIN
+    ===================================================== */
+
+    .preparations {
+      padding: 45px 0 70px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-title h2 {
+      color: var(--primary-deep);
+      font-size: 1.9rem;
+      margin-bottom: 8px;
+    }
+
+    .section-title p {
+      color: var(--text-light);
+      max-width: 700px;
+      margin: auto;
+    }
+
+    /* =====================================================
+       CARDS
+    ===================================================== */
+
+    .prep-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fit,
+          minmax(300px, 1fr)
+        );
+
+      gap: 25px;
+    }
+
+    .prep-card {
+      background: white;
+
+      border-radius: var(--radius-lg);
+
+      padding: 28px;
+
+      border: 1px solid rgba(23,105,170,.08);
+
+      box-shadow: var(--shadow-sm);
+
+      transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+    }
+
+    .prep-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .prep-icon {
+      width: 58px;
+      height: 58px;
+
+      border-radius: 14px;
+
+      background: var(--primary-light);
+
+      color: var(--primary);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 25px;
+
+      margin-bottom: 18px;
+    }
+
+    .prep-card h3 {
+      color: var(--primary-dark);
+      margin-bottom: 12px;
+      font-size: 1.35rem;
+    }
+
+    .prep-card p {
+      color: var(--text-light);
+      margin-bottom: 15px;
+    }
+
+    .prep-list {
+      list-style: none;
+    }
+
+    .prep-list li {
+      position: relative;
+
+      padding: 8px 28px 8px 0;
+
+      border-bottom: 1px dashed #E4EAF0;
+    }
+
+    .prep-list li:last-child {
+      border-bottom: none;
+    }
+
+    .prep-list li::before {
+      content: "✓";
+
+      position: absolute;
+
+      right: 0;
+      top: 9px;
+
+      width: 20px;
+      height: 20px;
+
+      border-radius: 50%;
+
+      background: var(--primary-light);
+
+      color: var(--primary);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    /* =====================================================
+       FASTING
+    ===================================================== */
+
+    .fasting-section {
+      padding: 60px 0;
+
+      background:
+        linear-gradient(
+          135deg,
+          #F0F7FC,
+          #FFFFFF
+        );
+
+      border-top: 1px solid #DCE8F1;
+      border-bottom: 1px solid #DCE8F1;
+    }
+
+    .fasting-box {
+      background: white;
+
+      border-radius: var(--radius-lg);
+
+      padding: 35px;
+
+      box-shadow: var(--shadow-md);
+
+      border-top: 5px solid var(--primary);
+    }
+
+    .fasting-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      margin-bottom: 25px;
+    }
+
+    .fasting-header i {
+      width: 55px;
+      height: 55px;
+
+      border-radius: 50%;
+
+      background: var(--primary-light);
+
+      color: var(--primary);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 23px;
+    }
+
+    .fasting-header h2 {
+      margin: 0;
+      color: var(--primary-deep);
+    }
+
+    .fasting-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fit,
+          minmax(250px, 1fr)
+        );
+
+      gap: 20px;
+    }
+
+    .fasting-item {
+      padding: 20px;
+
+      border-radius: 12px;
+
+      background: #F8FBFE;
+
+      border: 1px solid #E3ECF3;
+    }
+
+    .fasting-item h4 {
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+    }
+
+    .fasting-item p {
+      color: var(--text-light);
+      font-size: 15px;
+    }
+
+    /* =====================================================
+       STEPS
+    ===================================================== */
+
+    .steps-section {
+      padding: 65px 0;
+    }
+
+    .steps {
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fit,
+          minmax(220px, 1fr)
+        );
+
+      gap: 25px;
+    }
+
+    .step {
+      position: relative;
+
+      text-align: center;
+
+      background: white;
+
+      padding: 30px 20px;
+
+      border-radius: var(--radius);
+
+      box-shadow: var(--shadow-sm);
+
+      border: 1px solid #E4EBF2;
+    }
+
+    .step-number {
+      width: 48px;
+      height: 48px;
+
+      margin: 0 auto 15px;
+
+      border-radius: 50%;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-dark)
+        );
+
+      color: white;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .step h3 {
+      color: var(--primary-dark);
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    .step p {
+      color: var(--text-light);
+      font-size: 15px;
+    }
+
+    /* =====================================================
+       FAQ
+    ===================================================== */
+
+    .faq-section {
+      padding: 60px 0;
+
+      background: white;
+    }
+
+    .faq {
+      max-width: 850px;
+      margin: auto;
+    }
+
+    .faq-item {
+      background: #F8FBFE;
+
+      border: 1px solid #E1EAF2;
+
+      border-radius: 12px;
+
+      padding: 20px;
+
+      margin-bottom: 15px;
+    }
+
+    .faq-item h3 {
+      color: var(--primary-dark);
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+    }
+
+    .faq-item p {
+      color: var(--text-light);
+      margin: 0;
+    }
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    .footer {
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary-deep),
+          var(--primary-dark)
+        );
+
+      color: white;
+
+      text-align: center;
+
+      padding: 28px 0;
+
+      margin-top: 50px;
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255,255,255,.9);
+    }
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 768px) {
+
+      .container {
+        width: 94%;
+        padding: 0 10px;
+      }
+
+      .hero {
+        padding: 65px 10px;
+      }
+
+      .hero h2 {
+        font-size: 1.7rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .prep-grid,
+      .fasting-grid,
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .important-box {
+        padding: 20px;
+      }
+
+      .fasting-box {
+        padding: 25px 20px;
+      }
+
+      .section-title h2 {
+        font-size: 1.55rem;
+      }
+
+      .mobile-header h1 {
+        font-size: 1.25rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+
+      body {
+        font-size: 15px;
+      }
+
+      .hero {
+        padding: 55px 10px;
+      }
+
+      .hero h2 {
+        font-size: 1.5rem;
+      }
+
+      .prep-card {
+        padding: 22px 18px;
+      }
+
+      .fasting-box {
+        padding: 22px 17px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ================= HEADER ================= -->
+
+  <header class="mobile-header">
+
+    <div class="container">
+
+      <button class="menu-toggle" aria-label="فتح القائمة">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <h1>تحضيرات ما قبل التحاليل</h1>
+
+    </div>
+
+    <nav class="mobile-nav">
+
+      <ul>
+
+        <li>
+          <a href="index.html">
+            <i class="fas fa-home"></i>
+            الرئيسية
+          </a>
+        </li>
+
+        <li>
+          <a href="#general">
+            <i class="fas fa-clipboard-check"></i>
+            إرشادات عامة
+          </a>
+        </li>
+
+        <li>
+          <a href="#fasting">
+            <i class="fas fa-utensils"></i>
+            الصيام قبل التحليل
+          </a>
+        </li>
+
+        <li>
+          <a href="#special">
+            <i class="fas fa-vial"></i>
+            تحضيرات خاصة
+          </a>
+        </li>
+
+        <li>
+          <a href="#steps">
+            <i class="fas fa-list-check"></i>
+            خطوات التحضير
+          </a>
+        </li>
+
+        <li>
+          <a href="#faq">
+            <i class="fas fa-circle-question"></i>
+            الأسئلة الشائعة
+          </a>
+        </li>
+
+      </ul>
+
+    </nav>
+
+  </header>
+
+
+  <!-- ================= HERO ================= -->
+
+  <section class="hero">
+
+    <div class="container">
+
+      <div class="hero-icon">
+        <i class="fas fa-clipboard-check"></i>
+      </div>
+
+      <h2>تحضيرات ما قبل التحاليل</h2>
+
+      <p>
+        التحضير الصحيح قبل إجراء التحاليل يساعد على الحصول على نتائج أكثر دقة
+        ويقلل من العوامل التي قد تؤثر على نتيجة الفحص.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= IMPORTANT ================= -->
+
+  <section class="important-section">
+
+    <div class="container">
+
+      <div class="important-box">
+
+        <div class="important-icon">
+          <i class="fas fa-triangle-exclamation"></i>
+        </div>
+
+        <div>
+
+          <h3>معلومة مهمة</h3>
+
+          <p>
+            تختلف تعليمات التحضير حسب نوع التحليل. لا تحتاج جميع التحاليل إلى
+            الصيام، لذلك يُفضل التأكد من تعليمات التحليل المحدد قبل الذهاب إلى
+            المعمل، واتباع تعليمات الطبيب أو المعمل عند وجود تعليمات خاصة.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= GENERAL ================= -->
+
+  <section class="preparations" id="general">
+
+    <div class="container">
+
+      <div class="section-title">
+
+        <h2>إرشادات عامة قبل التحاليل</h2>
+
+        <p>
+          مجموعة من النصائح البسيطة التي تساعدك على الاستعداد لإجراء التحليل.
+        </p>
+
+      </div>
+
+
+      <div class="prep-grid">
+
+        <div class="prep-card">
+
+          <div class="prep-icon">
+            <i class="fas fa-glass-water"></i>
+          </div>
+
+          <h3>شرب الماء</h3>
+
+          <p>
+            الحفاظ على الترطيب المناسب يساعد على سهولة سحب عينة الدم.
+          </p>
+
+          <ul class="prep-list">
+
+            <li>اشرب كمية مناسبة من الماء.</li>
+            <li>لا تمنع الماء إلا إذا طلب منك الطبيب ذلك.</li>
+            <li>تجنب الإفراط في المشروبات المحلاة.</li>
+
+          </ul>
+
+        </div>
+
+
+        <div class="prep-card">
+
+          <div class="prep-icon">
+            <i class="fas fa-person-running"></i>
+          </div>
+
+          <h3>تجنب المجهود الشديد</h3>
+
+          <p>
+            بعض الأنشطة البدنية القوية قد تؤثر على بعض نتائج التحاليل.
+          </p>
+
+          <ul class="prep-list">
+
+            <li>تجنب ممارسة الرياضة العنيفة قبل التحليل مباشرة.</li>
+            <li>احصل على فترة راحة قبل سحب العينة.</li>
+            <li>أخبر المختص إذا قمت بمجهود بدني شديد.</li>
+
+          </ul>
+
+        </div>
+
+
+        <div class="prep-card">
+
+          <div class="prep-icon">
+            <i class="fas fa-mug-hot"></i>
+          </div>
+
+          <h3>المشروبات قبل التحليل</h3>
+
+          <p>
+            بعض المشروبات قد تؤثر على بعض الفحوصات، خصوصًا عند طلب الصيام.
+          </p>
+
+          <ul class="prep-list">
+
+            <li>اتبع تعليمات الصيام الخاصة بالتحليل.</li>
+            <li>تجنب القهوة والشاي إذا كان التحليل يتطلب الصيام.</li>
+            <li>الماء غالبًا هو الخيار المناسب أثناء الصيام.</li>
+
+          </ul>
+
+        </div>
+
+
+        <div class="prep-card">
+
+          <div class="prep-icon">
+            <i class="fas fa-pills"></i>
+          </div>
+
+          <h3>الأدوية</h3>
+
+          <p>
+            بعض الأدوية قد تؤثر على نتائج بعض التحاليل.
+          </p>
+
+          <ul class="prep-list">
+
+            <li>أخبر المختص بالأدوية التي تستخدمها.</li>
+            <li>لا توقف أي دواء من نفسك.</li>
+            <li>اتبع تعليمات الطبيب بخصوص الجرعات قبل التحليل.</li>
+
+          </ul>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= FASTING ================= -->
+
+  <section class="fasting-section" id="fasting">
+
+    <div class="container">
+
+      <div class="fasting-box">
+
+        <div class="fasting-header">
+
+          <i class="fas fa-utensils"></i>
+
+          <h2>الصيام قبل التحليل</h2>
+
+        </div>
+
+
+        <div class="fasting-grid">
+
+          <div class="fasting-item">
+
+            <h4>تحاليل قد تتطلب الصيام</h4>
+
+            <p>
+              بعض تحاليل السكر والدهون قد يطلب الطبيب أو المعمل إجراؤها
+              بعد فترة صيام محددة حسب نوع الفحص.
+            </p>
+
+          </div>
+
+
+          <div class="fasting-item">
+
+            <h4>هل الماء مسموح؟</h4>
+
+            <p>
+              في كثير من حالات الصيام المخبري يكون شرب الماء مسموحًا،
+              لكن يجب الالتزام بالتعليمات المحددة للتحليل.
+            </p>
+
+          </div>
+
+
+          <div class="fasting-item">
+
+            <h4>القهوة والشاي</h4>
+
+            <p>
+              عند طلب الصيام، تجنب القهوة والشاي والمشروبات الأخرى
+              ما لم تكن لديك تعليمات مختلفة من المختص.
+            </p>
+
+          </div>
+
+
+          <div class="fasting-item">
+
+            <h4>مدة الصيام</h4>
+
+            <p>
+              لا توجد مدة واحدة مناسبة لجميع التحاليل. مدة الصيام تعتمد
+              على نوع التحليل والتعليمات الطبية الخاصة به.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= SPECIAL ================= -->
+
+  <section class="preparations" id="special">
+
+    <div class="container">
+
+      <div class="section-title">
+
+        <h2>تحضيرات خاصة حسب نوع العينة</h2>
+
+        <p>
+          بعض أنواع العينات تحتاج إلى تعليمات خاصة لضمان جودة العينة.
+        </p>
+
+      </div>
+
+
+      <div class="prep-grid">
+
+        <div class="prep-card">
+
+          <div class="prep-icon">
+            <i class="fas fa-droplet"></i>
+          </div>
+
+          <h3>تحاليل الدم</h3>
+
+          <ul class="prep-list">
+
+            <li>تأكد من معرفة ما إذا كان التحليل يحتاج إلى صيام.</li>
+            <li>اشرب الماء حسب التعليمات.</li>
+            <li>اجلس فترة قصيرة للراحة قبل سحب العينة.</li>
+            <li>أخبر المختص بأي أدوية أو مكملات تستخدمها.</li>
+
+          </ul>
+
+        </div>
+
+
+        <div class="prep-card">
+
+          <div class="prep-icon">
+            <i class="fas fa-flask"></i>
+          </div>
+
+          <h3>عينة البول</h3>
+
+          <ul class="prep-list">
+
+            <li>استخدم العبوة المخصصة لجمع العينة.</li>
+            <li>اتبع تعليمات المعمل الخاصة بطريقة جمع العينة.</li>
+            <li>تجنب تلوث العينة بأي مواد خارجية.</li>
+            <li>سلّم العينة للمعمل في الوقت المحدد.</li>
+
+          </ul>
+
+        </div>
+
+
+        <div class="prep-card">
+
+          <div class="prep-icon">
+            <i class="fas fa-vial"></i>
+          </div>
+
+          <h3>عينات البراز</h3>
+
+          <ul class="prep-list">
+
+            <li>استخدم العبوة المخصصة من المعمل.</li>
+            <li>احرص على عدم اختلاط العينة بالماء.</li>
+            <li>اتبع التعليمات الخاصة بنوع التحليل.</li>
+            <li>أخبر المعمل إذا كنت تستخدم أدوية معينة.</li>
+
+          </ul>
+
+        </div>
+
+
+        <div class="prep-card">
+
+          <div class="prep-icon">
+            <i class="fas fa-venus-mars"></i>
+          </div>
+
+          <h3>تحاليل الهرمونات</h3>
+
+          <ul class="prep-list">
+
+            <li>بعض الهرمونات تحتاج إلى توقيت محدد لسحب العينة.</li>
+            <li>قد يرتبط بعض الفحوصات بمرحلة معينة من الدورة الشهرية.</li>
+            <li>اذكر للطبيب أو المختص الأدوية الهرمونية المستخدمة.</li>
+            <li>اتبع الموعد المحدد للتحليل بدقة.</li>
+
+          </ul>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= STEPS ================= -->
+
+  <section class="steps-section" id="steps">
+
+    <div class="container">
+
+      <div class="section-title">
+
+        <h2>كيف تستعد للتحليل؟</h2>
+
+        <p>
+          اتبع هذه الخطوات البسيطة قبل زيارة المعمل.
+        </p>
+
+      </div>
+
+
+      <div class="steps">
+
+        <div class="step">
+
+          <div class="step-number">1</div>
+
+          <h3>اعرف تعليمات التحليل</h3>
+
+          <p>
+            تأكد من معرفة ما إذا كان التحليل يحتاج إلى صيام أو تحضير خاص.
+          </p>
+
+        </div>
+
+
+        <div class="step">
+
+          <div class="step-number">2</div>
+
+          <h3>جهز نفسك</h3>
+
+          <p>
+            احصل على قسط مناسب من الراحة وتجنب المجهود الشديد قبل التحليل.
+          </p>
+
+        </div>
+
+
+        <div class="step">
+
+          <div class="step-number">3</div>
+
+          <h3>أخبر المختص</h3>
+
+          <p>
+            أخبر فريق المعمل بأي أدوية أو تعليمات طبية خاصة بك.
+          </p>
+
+        </div>
+
+
+        <div class="step">
+
+          <div class="step-number">4</div>
+
+          <h3>احضر في الموعد</h3>
+
+          <p>
+            الالتزام بالموعد والتعليمات يساعد على الحصول على عينة مناسبة.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= FAQ ================= -->
+
+  <section class="faq-section" id="faq">
+
+    <div class="container">
+
+      <div class="section-title">
+
+        <h2>الأسئلة الشائعة</h2>
+
+        <p>
+          إجابات مختصرة على بعض الأسئلة التي قد تخطر ببالك قبل التحليل.
+        </p>
+
+      </div>
+
+
+      <div class="faq">
+
+        <div class="faq-item">
+
+          <h3>
+            هل كل التحاليل تحتاج إلى صيام؟
+          </h3>
+
+          <p>
+            لا. تختلف تعليمات التحضير حسب نوع التحليل، وبعض التحاليل لا تحتاج
+            إلى صيام على الإطلاق.
+          </p>
+
+        </div>
+
+
+        <div class="faq-item">
+
+          <h3>
+            هل أستطيع شرب الماء أثناء الصيام؟
+          </h3>
+
+          <p>
+            في كثير من التحاليل التي تتطلب الصيام يكون الماء مسموحًا،
+            ولكن الأفضل الالتزام بالتعليمات المحددة للتحليل.
+          </p>
+
+        </div>
+
+
+        <div class="faq-item">
+
+          <h3>
+            هل أتوقف عن تناول الدواء قبل التحليل؟
+          </h3>
+
+          <p>
+            لا توقف أي دواء من نفسك. أخبر الطبيب أو المختص بالأدوية التي
+            تستخدمها واتبع التعليمات التي تحصل عليها.
+          </p>
+
+        </div>
+
+
+        <div class="faq-item">
+
+          <h3>
+            ماذا أفعل إذا لم ألتزم بتعليمات التحضير؟
+          </h3>
+
+          <p>
+            أخبر موظف المعمل قبل سحب العينة، فقد يكون من الأفضل تأجيل التحليل
+            أو اتباع تعليمات أخرى حسب نوع الفحص.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= FOOTER ================= -->
+
+  <footer class="footer">
+
+    <div class="container">
+
+      <p>
+        &copy; 2026 معمل ميدلاب. جميع الحقوق محفوظة.
+      </p>
+
+    </div>
+
+  </footer>
+
+
+  <!-- ================= SCRIPT ================= -->
+
+  <script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+      const menuToggle =
+        document.querySelector('.menu-toggle');
+
+      const mobileNav =
+        document.querySelector('.mobile-nav');
+
+
+      if (menuToggle && mobileNav) {
+
+        menuToggle.addEventListener('click', function (e) {
+
+          e.stopPropagation();
+
+          mobileNav.classList.toggle('active');
+
+        });
+
+
+        document.addEventListener('click', function (e) {
+
+          if (
+            !mobileNav.contains(e.target) &&
+            !menuToggle.contains(e.target)
+          ) {
+
+            mobileNav.classList.remove('active');
+
+          }
+
+        });
+
+
+        const links =
+          mobileNav.querySelectorAll('a');
+
+        links.forEach(function (link) {
+
+          link.addEventListener('click', function () {
+
+            mobileNav.classList.remove('active');
+
+          });
+
+        });
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام حجز المواعيد - معامل ميدلاب للتحاليل الطبية</title>
+    <link href="images/logo.png" type="image/x-icon" rel="icon">
+    <link rel="stylesheet" href="css/appointment.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">         
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+  
+
+<style id="booking-price-enhancements">
+.referral-group{margin-top:1rem}.tests-price-summary{margin:1rem 0;padding:1rem;border:1px solid rgba(13,110,253,.14);border-radius:16px;background:linear-gradient(135deg,#f8fbff,#eef7ff);box-shadow:0 8px 24px rgba(15,80,120,.07)}.price-summary-row{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.55rem 0;color:#34495e}.price-summary-row.total-row{border-top:1px dashed rgba(0,0,0,.12);margin-top:.3rem;padding-top:.85rem}.price-summary-row.total-row strong{font-size:1.25rem;color:#087f5b}.price-warning{align-items:flex-start;gap:.5rem;margin-top:.75rem;padding:.7rem .8rem;border-radius:10px;background:#fff8e6;color:#8a5a00;font-size:.88rem}.price-note{margin-top:.75rem;padding-top:.75rem;border-top:1px solid rgba(0,0,0,.08);color:#667085;font-size:.84rem;line-height:1.8}.test-item label{display:flex!important;align-items:center;justify-content:space-between;gap:.7rem;width:100%}.test-label-name{flex:1;line-height:1.55}.test-price-badge{flex:0 0 auto;padding:.28rem .55rem;border-radius:999px;background:#e8f7ef;color:#087f5b;font-size:.78rem;font-weight:700;white-space:nowrap}.test-price-badge.unavailable{background:#f2f4f7;color:#667085}.selected-test{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.7rem .8rem;margin-bottom:.55rem;border-radius:12px;background:#f8fafc;border-right:3px solid #0d6efd}.selected-test-info{display:flex;flex-direction:column;gap:.2rem;min-width:0}.selected-test-name{line-height:1.5}.selected-test-price{color:#087f5b;font-weight:700}.remove-test{border:0;background:transparent;color:#dc3545;cursor:pointer;width:36px;height:36px;border-radius:50%}.remove-test:hover{background:rgba(220,53,69,.08)}.selected-empty{text-align:center;padding:1rem;color:var(--gray-dark)}.booking-confirmation{max-width:1000px;margin:1.5rem auto 3rem;padding:1.5rem;border-radius:24px;background:linear-gradient(145deg,#fff,#f5fbff);border:1px solid rgba(13,110,253,.15);box-shadow:0 18px 50px rgba(15,80,120,.12);gap:1.2rem;align-items:flex-start}.confirmation-icon{width:58px;height:58px;flex:0 0 58px;border-radius:50%;display:grid;place-items:center;background:#e8f7ef;color:#087f5b;font-size:1.4rem}.confirmation-content{flex:1;min-width:0}.confirmation-kicker{color:#087f5b;font-weight:800;font-size:.9rem}.confirmation-content h2{margin:.2rem 0 .3rem;color:#17324d}.confirmation-subtitle{margin:0 0 1rem;color:#667085}.confirmation-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1rem}.confirmation-meta>div{padding:.8rem;border-radius:12px;background:rgba(255,255,255,.85);border:1px solid rgba(0,0,0,.06)}.confirmation-meta span{display:block;color:#667085;font-size:.78rem;margin-bottom:.25rem}.confirmation-tests{border:1px solid rgba(0,0,0,.07);border-radius:14px;overflow:hidden;background:#fff}.confirmation-tests-title{padding:.8rem 1rem;font-weight:800;background:#eef7ff;color:#17324d}.confirmation-test-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.65rem 1rem;border-top:1px solid #eef1f4}.confirmation-test-row strong{color:#087f5b;white-space:nowrap}.confirmation-notes{margin-top:.75rem;padding:.8rem 1rem;border-radius:12px;background:#f8fafc}.confirmation-price-box{margin-top:1rem;padding:1rem 1.1rem;border-radius:14px;background:#17324d;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:1rem}.confirmation-price-box strong{font-size:1.35rem}.confirmation-disclaimer{display:flex;gap:.7rem;align-items:flex-start;margin-top:1rem;padding:1rem;border-radius:14px;background:#fff8e6;color:#705400;line-height:1.8;font-size:.9rem}.confirmation-actions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem}.copy-status{margin-top:.6rem;color:#087f5b;font-weight:700;min-height:1.3em}.modal-open{overflow:hidden}@media(max-width:700px){.booking-confirmation{margin:1rem;padding:1rem;flex-direction:column}.confirmation-meta{grid-template-columns:1fr}.confirmation-test-row{align-items:flex-start;flex-direction:column;gap:.25rem}.confirmation-price-box{align-items:flex-start;flex-direction:column}.test-price-badge{font-size:.7rem}}
+</style>
+</head>
+<body>
+
+    <header class="mobile-header">
+        <div class="container">
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1>معمل ميدلاب</h1>
+        </div>
+        <nav class="mobile-nav">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+                <li><a href="index.html#services"><i class="fas fa-flask"></i> خدماتنا</a></li>
+                <li><a href="index.html#doctors"><i class="fas fa-user-md"></i> فريق العمل</a></li>
+                <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> حجز فحص</a></li>
+                <li><a href="contact.html"><i class="fas fa-headset"></i> خدمة العملاء</a></li>
+                <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        <h1 class="page-title">حجز موعد طبي</h1>
+        
+        <div id="notification-area"></div>
+        
+        <div class="appointment-card">
+            <div class="form-header">
+                <h2 class="form-title">
+                    <i class="fas fa-calendar-alt"></i>
+                    نموذج حجز الموعد
+                </h2>
+            </div>
+            
+            <div class="form-body">
+                <form id="appointment-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullname" class="form-label">الاسم بالكامل</label>
+                            <input type="text" id="fullname" class="form-control" required>
+                            <div class="invalid-feedback">الرجاء إدخال الاسم بالكامل</div>
+                        </div>
+                        
+                            <div class="form-group">
+                                <label for="phone" class="form-label">رقم الهاتف</label>
+                                <input type="tel" id="phone" class="form-control" required>
+                                <div class="invalid-feedback">الرجاء إدخال رقم هاتف صحيح</div>
+                            </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="age" class="form-label">العمر</label>
+                            <input type="number" id="age" class="form-control" min="1" max="120">
+                            <div class="invalid-feedback">الرجاء إدخال عمر صحيح</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="gender" class="form-label">الجنس</label>
+                            <select id="gender" class="form-control">
+                                <option value="">اختر الجنس</option>
+                                <option value="male">ذكر</option>
+                                <option value="female">أنثى</option>
+                            </select>
+                        </div>
+                    </div>
+
+                <div class="form-group">
+              <label for="referringDoctor" class="form-label">الطبيب المحول</label>
+              <input type="text" id="referringDoctor" class="form-control" placeholder="أدخل اسم الطبيب المحول" required>
+          <div class="invalid-feedback">الرجاء إدخال اسم الطبيب المحول</div>
+            </div>
+
+                    <div class="form-group referral-group">
+                        <label for="referral-source" class="form-label"><i class="fas fa-bullhorn"></i> عرفتنا منين؟</label>
+                        <select id="referral-source" class="form-control" required>
+                            <option value="">اختر مصدر معرفتك بالمعمل</option>
+                            <option value="الطبيب الخاص بي">الطبيب الخاص بي</option>
+                            <option value="زملائي">زملائي</option>
+                            <option value="وسائل التواصل الاجتماعي">وسائل التواصل الاجتماعي</option>
+                            <option value="من المكان">من المكان</option>
+                            <option value="من العائلة">من العائلة</option>
+                        </select>
+                        <div class="invalid-feedback">الرجاء اختيار عرفتنا منين</div>
+                    </div>
+                    
+                    <div class="tests-section">
+                        <div class="form-group">
+                            <label class="form-label">التحاليل المطلوبة</label>
+                            <button type="button" id="open-tests-modal" class="btn btn-outline" style="width: 100%;">
+                                <i class="fas fa-vials"></i> اختر التحاليل المطلوبة
+                            </button>
+                            
+                            <div class="selected-tests-container">
+                                <div class="selected-tests-header">
+                                    <span class="selected-tests-title">التحاليل المختارة</span>
+                                    <button type="button" id="clear-all-tests" class="btn btn-outline" style="padding: 0.5rem 1rem;">
+                                        <i class="fas fa-trash"></i> حذف الكل
+                                    </button>
+                                </div>
+                                <div id="selected-tests-list" class="selected-tests-list">
+                                    <div style="text-align: center; padding: 1rem; color: var(--gray-dark);">
+                                        لم يتم اختيار أي تحاليل بعد
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tests-price-summary" class="tests-price-summary" aria-live="polite">
+                        <div class="price-summary-row"><span><i class="fas fa-vials"></i> عدد التحاليل</span><strong id="tests-count">0</strong></div>
+                        <div class="price-summary-row total-row"><span><i class="fas fa-receipt"></i> إجمالي أسعار الموقع</span><strong><span id="tests-total">0</span> جنيه</strong></div>
+                        <div id="price-warning" class="price-warning" style="display:none;"><i class="fas fa-circle-info"></i><span>يوجد تحليل أو أكثر بدون سعر مسجل، لذلك لم يدخل ضمن الإجمالي.</span></div>
+                        <div class="price-note"><i class="fas fa-tag"></i> الأسعار المعروضة هي الأسعار الأساسية على الموقع الإلكتروني <strong>دون أي خصومات</strong>. السعر النهائي داخل المعمل يحدد حسب الباقة المختارة والطبيب المُحيل والخصومات أو العروض السارية.</div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="date" class="form-label">تاريخ الموعد</label>
+                            <input type="date" id="date" class="form-control" required>
+                            <div class="invalid-feedback">الرجاء اختيار تاريخ صحيح</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="time" class="form-label">وقت الموعد</label>
+                            <input type="time" id="time" class="form-control" required>
+                            <div class="invalid-feedback">الرجاء اختيار وقت صحيح</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes" class="form-label">ملاحظات (اختياري)</label>
+                        <textarea id="notes" class="form-control" placeholder="أي معلومات إضافية تريد إضافتها"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="submit-btn">
+                            <i class="fas fa-calendar-check"></i>
+                            <span id="btn-text">تأكيد الحجز</span>
+                            <span id="btn-spinner" class="spinner" style="display: none;"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <section id="booking-confirmation" class="booking-confirmation" style="display:none;" aria-live="polite">
+        <div class="confirmation-icon"><i class="fas fa-check"></i></div>
+        <div class="confirmation-content">
+            <div class="confirmation-kicker">تم استلام الحجز بنجاح</div>
+            <h2>ملخص الحجز والأسعار</h2>
+            <p class="confirmation-subtitle">راجع التفاصيل التالية. الأسعار المعروضة هي أسعار الموقع قبل الخصومات.</p>
+            <div id="confirmation-details"></div>
+            <div class="confirmation-price-box"><span>إجمالي أسعار الموقع</span><strong><span id="confirmation-total">0</span> جنيه</strong></div>
+            <div class="confirmation-disclaimer"><i class="fas fa-circle-info"></i><span><strong>تنبيه مهم:</strong> الأسعار الموجودة في الموقع الإلكتروني هي الأسعار الأساسية دون أي خصومات، أما السعر النهائي في المعمل فيتحدد حسب الباقة المختارة والطبيب المُحيل وأي خصومات أو عروض سارية.</span></div>
+            <div class="confirmation-actions">
+                <button type="button" id="copy-booking-message" class="btn btn-outline"><i class="fas fa-copy"></i> نسخ رسالة الحجز</button>
+                <button type="button" id="whatsapp-booking-message" class="btn btn-primary"><i class="fab fa-whatsapp"></i> فتح الرسالة على واتساب</button>
+            </div>
+            <div id="copy-status" class="copy-status"></div>
+        </div>
+    </section>
+
+    <div id="tests-modal" class="tests-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-vials"></i> اختر التحاليل المطلوبة</h3>
+                <button type="button" class="close-modal" aria-label="إغلاق">&times;</button>
+            </div>
+
+            <div class="search-container">
+                <div class="form-group">
+                    <div class="search-input-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="tests-search" class="form-control search-input" 
+                               placeholder="ابحث بالعربية أو الإنجليزية...">
+                        <button type="button" id="clear-search" class="clear-search-btn" title="مسح البحث">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tests-container" class="tests-content"></div>
+            
+            <div class="modal-actions">
+                <button id="cancel-selection" class="btn btn-outline">
+                    <i class="fas fa-times"></i> إلغاء
+                </button>
+                <button id="confirm-selection" class="btn btn-primary">
+                    <i class="fas fa-check"></i> تأكيد الاختيار
+                </button>
+            </div>
+        </div>
+    </div>
+  
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const allTests = {
+                "تحاليل الدم (Blood Tests)": [
+                    "CBC (صورة دم كاملة)",
+                    "ESR (تحليل سرعة ترسيب الدم)",
+                    "Reticulocyte Count (عدد الخلايا الشبكية)",
+                    "Blood Film (شريحة الدم)",
+                    "Iron (الحديد)",
+                    "Ferritin (فيريتين)",
+                    "TIBC (السعة الكلية للحديد)",
+                    "Transferrin (ترانسفيرين)",
+                    "Vitamin B12 (فيتامين ب12)",
+                    "Vitamin B9 (فيتامين ب 9)",
+                    "Vitamin D (فيتامين د)",
+                    "magnesium (ماغنيسيوم)",
+                    "soduim (صوديوم)",
+                    "Zinc (زنك)",
+                    "potasuim (بوتاسيوم)",
+                    "Alkaline phosphate(فوسفور)",
+                    "Calcium(كالسيوم)",
+                    "Copper (نحاس)",
+                    "Chloride (الكلورايد)",
+                    "Folic Acid (حمض الفوليك)",
+                    "Hemoglobin Electrophoresis (هيموجلوبين كهربائي)"
+                ],
+                "تحاليل تخثر الدم (Coagulation Tests)": [
+                    "PT (زمن البروثرومبين)",
+                    "PTT (زمن الثرومبوبلاستين الجزئي)",
+                    "INR (النسبة المعيارية الدولية)",
+                    "Fibrinogen (فيبرينوجين)",
+                    "D-Dimer (دي دايمر)",
+                    "Protein C & S (بروتين سي وإس)"
+                ],
+                "تحاليل الكيمياء الحيوية (Biochemistry Tests)": {
+                    "سكر الدم (Glucose Tests)": [
+                        "FBS (سكر صائم)",
+                        "RBS (سكر عشوائي)",
+                        "HbA1c (الهيموجلوبين السكري)",
+                        "OGTT (اختبار تحمل الجلوكوز)"
+                    ],
+                    "وظائف الكبد (Liver Function Tests)": [
+                        "AST (SGOT)",
+                        "ALT (SGPT)",
+                        "ALP (الفوسفاتاز القلوي)",
+                        "Bilirubin (Total & Direct)",
+                        "Albumin (الألبومين)",
+                        "Total Protein (البروتين الكلي)",
+                        "GGT (جاما جلوتاميل ترانسفيراز)"
+                    ],
+                    "وظائف الكلى (Kidney Function Tests)": [
+                        "Creatinine (كرياتينين)",
+                        "Urea (يوريا)",
+                        "Uric Acid (حمض اليوريك)",
+                        "eGFR (معدل الترشيح الكبيبي)"
+                    ],
+                    "الدهون (Lipid Profile)": [
+                        "Cholesterol (الكوليسترول الكلي)",
+                        "HDL (الكوليسترول الجيد)",
+                        "LDL (الكوليسترول الضار)",
+                        "Triglycerides (الدهون الثلاثية)"
+                    ],
+                    "أملاح الدم (Electrolytes)": [
+                        "Sodium (الصوديوم)",
+                        "Potassium (البوتاسيوم)",
+                        "Calcium (الكالسيوم)",
+                        "Magnesium (الماغنسيوم)",
+                        "Phosphorus (الفوسفور)",
+                        "Chloride (الكلوريد)"
+                    ]
+                },
+                "تحاليل المناعة والأجسام المضادة (Immunology & Serology)": [
+                    "CRP (بروتين سي التفاعلي)",
+                    "RF (عامل الروماتويد)",
+                    "ANA (الأجسام المضادة للنواة)",
+                    "Anti-dsDNA (أجسام مضادة للحمض النووي)",
+                    "ASO (مضادات الستربتوليزين)",
+                    "IgE (الجلوبيولين المناعي هـ)",
+                    "IgG, IgM, IgA (الأجسام المناعية)",
+                    "HBsAg (فيروس بي)",
+                    "HCV Ab (فيروس سي)",
+                    "HIV Ab (فيروس الإيدز)",
+                    "CMV IgG/IgM (سايتوميجالو فيروس)",
+                    "EBV (فيروس إبشتاين بار)"
+                ],
+                "تحاليل الهرمونات (Hormones Tests)": {
+                    "هرمونات الغدة الدرقية (Thyroid Function Tests)": [
+                        "TSH",
+                        "T3 (Total & Free)",
+                        "T4 (Total & Free)"
+                    ],
+                    "هرمونات الجنس (Sex Hormones)": [
+                        "Testosterone (التستوستيرون)",
+                        "Estrogen (الإستروجين)",
+                        "Progesterone (البروجسترون)",
+                        "Prolactin (البرولاكتين)",
+                        "FSH",
+                        "LH"
+                    ],
+                    "هرمونات الغدة النخامية (Pituitary Hormones)": [
+                        "Growth Hormone (هرمون النمو)",
+                        "ACTH (هرمون الكورتيكوتروبين)"
+                    ],
+                    "هرمونات البنكرياس (Pancreatic Hormones)": [
+                        "Insulin (الإنسولين)",
+                        "C-Peptide (سي-ببتايد)"
+                    ]
+                },
+                "تحاليل البول والبراز (Urine & Stool Tests)": [
+                    "Urine Analysis (تحليل البول)",
+                    "Urine Culture (مزرعة البول)",
+                    "24-Hour Urine Protein (بروتين البول 24 ساعة)",
+                    "Stool Analysis (تحليل البراز)",
+                    "Stool Culture (مزرعة البراز)",
+                    "H.pylori (جرثومة معدة)",
+                    "Occult Blood in stool (دم خفي في البراز)",
+                    "Ova & Parasites (بيض الطفيليات)"
+                ],
+                "التحاليل الجينية والوراثية (Genetic Tests)": [
+                    "Karyotype (الكروموسومات)",
+                    "PCR (تفاعل البوليميراز المتسلسل)",
+                    "DNA Sequencing (تسلسل الحمض النووي)",
+                    "BRCA1 & BRCA2 (جينات سرطان الثدي)"
+                ],
+                "تحاليل الأورام (Tumor Markers)": [
+                    "AFP (ألفا فيتوبروتين)",
+                    "CEA (مستضد سرطاني مضغي)",
+                    "PSA (مستضد البروستاتا النوعي)",
+                    "CA-125 (سرطان المبيض)",
+                    "CA 15-3 (سرطان الثدي)",
+                    "CA 19-9 (سرطان البنكرياس)"
+                ]
+            };
+
+    const testPrices = {
+  "CBC (صورة دم كاملة)": 200,
+  "ESR (تحليل سرعة ترسيب الدم)": 100,
+  "Reticulocyte Count (عدد الخلايا الشبكية)": 170,
+  "Blood Film (شريحة الدم)": null,
+  "Iron (الحديد)": 300,
+  "Ferritin (فيريتين)": 300,
+  "TIBC (السعة الكلية للحديد)": 250,
+  "Transferrin (ترانسفيرين)": 200,
+  "Vitamin B12 (فيتامين ب12)": 700,
+  "Vitamin B9 (فيتامين ب 9)": null,
+  "Vitamin D (فيتامين د)": 500,
+  "magnesium (ماغنيسيوم)": 200,
+  "soduim (صوديوم)": 200,
+  "Zinc (زنك)": 300,
+  "potasuim (بوتاسيوم)": 200,
+  "Alkaline phosphate(فوسفور)": 150,
+  "Calcium(كالسيوم)": 150,
+  "Copper (نحاس)": null,
+  "Chloride (الكلورايد)": 60,
+  "Folic Acid (حمض الفوليك)": null,
+  "Hemoglobin Electrophoresis (هيموجلوبين كهربائي)": 350,
+  "PT (زمن البروثرومبين)": 100,
+  "PTT (زمن الثرومبوبلاستين الجزئي)": 100,
+  "INR (النسبة المعيارية الدولية)": null,
+  "Fibrinogen (فيبرينوجين)": null,
+  "D-Dimer (دي دايمر)": 300,
+  "Protein C & S (بروتين سي وإس)": null,
+  "FBS (سكر صائم)": 100,
+  "RBS (سكر عشوائي)": 100,
+  "HbA1c (الهيموجلوبين السكري)": 250,
+  "OGTT (اختبار تحمل الجلوكوز)": null,
+  "AST (SGOT)": 125,
+  "ALT (SGPT)": 125,
+  "ALP (الفوسفاتاز القلوي)": 150,
+  "Bilirubin (Total & Direct)": 150,
+  "Albumin (الألبومين)": 100,
+  "Total Protein (البروتين الكلي)": 400,
+  "GGT (جاما جلوتاميل ترانسفيراز)": 150,
+  "Creatinine (كرياتينين)": 100,
+  "Urea (يوريا)": 100,
+  "Uric Acid (حمض اليوريك)": 100,
+  "eGFR (معدل الترشيح الكبيبي)": null,
+  "Cholesterol (الكوليسترول الكلي)": 150,
+  "HDL (الكوليسترول الجيد)": 100,
+  "LDL (الكوليسترول الضار)": 150,
+  "Triglycerides (الدهون الثلاثية)": 150,
+  "Sodium (الصوديوم)": 200,
+  "Potassium (البوتاسيوم)": 200,
+  "Calcium (الكالسيوم)": 150,
+  "Magnesium (الماغنسيوم)": 200,
+  "Phosphorus (الفوسفور)": 150,
+  "Chloride (الكلوريد)": 60,
+  "CRP (بروتين سي التفاعلي)": 30,
+  "RF (عامل الروماتويد)": 100,
+  "ANA (الأجسام المضادة للنواة)": 300,
+  "Anti-dsDNA (أجسام مضادة للحمض النووي)": 90,
+  "ASO (مضادات الستربتوليزين)": 100,
+  "IgE (الجلوبيولين المناعي هـ)": 250,
+  "IgG, IgM, IgA (الأجسام المناعية)": null,
+  "HBsAg (فيروس بي)": 200,
+  "HCV Ab (فيروس سي)": 200,
+  "HIV Ab (فيروس الإيدز)": 200,
+  "CMV IgG/IgM (سايتوميجالو فيروس)": 280,
+  "EBV (فيروس إبشتاين بار)": 300,
+  "TSH": 200,
+  "T3 (Total & Free)": 200,
+  "T4 (Total & Free)": 200,
+  "Testosterone (التستوستيرون)": 200,
+  "Estrogen (الإستروجين)": 300,
+  "Progesterone (البروجسترون)": 200,
+  "Prolactin (البرولاكتين)": 250,
+  "FSH": 250,
+  "LH": 250,
+  "Growth Hormone (هرمون النمو)": 200,
+  "ACTH (هرمون الكورتيكوتروبين)": null,
+  "Insulin (الإنسولين)": 200,
+  "C-Peptide (سي-ببتايد)": 300,
+  "Urine Analysis (تحليل البول)": 100,
+  "Urine Culture (مزرعة البول)": 350,
+  "24-Hour Urine Protein (بروتين البول 24 ساعة)": 200,
+  "Stool Analysis (تحليل البراز)": 100,
+  "Stool Culture (مزرعة البراز)": 350,
+  "H.pylori (جرثومة معدة)": 150,
+  "Occult Blood in stool (دم خفي في البراز)": 200,
+  "Ova & Parasites (بيض الطفيليات)": null,
+  "Karyotype (الكروموسومات)": null,
+  "PCR (تفاعل البوليميراز المتسلسل)": 600,
+  "DNA Sequencing (تسلسل الحمض النووي)": 3000,
+  "BRCA1 & BRCA2 (جينات سرطان الثدي)": 3200,
+  "AFP (ألفا فيتوبروتين)": 300,
+  "CEA (مستضد سرطاني مضغي)": 400,
+  "PSA (مستضد البروستاتا النوعي)": 250,
+  "CA-125 (سرطان المبيض)": 400,
+  "CA 15-3 (سرطان الثدي)": 400,
+  "CA 19-9 (سرطان البنكرياس)": 400
+};
+
+    const $ = (id) => document.getElementById(id);
+    const testsModal = $('tests-modal');
+    const openModalBtn = $('open-tests-modal');
+    const closeModalBtn = document.querySelector('.close-modal');
+    const cancelBtn = $('cancel-selection');
+    const confirmBtn = $('confirm-selection');
+    const testsContainer = $('tests-container');
+    const selectedTestsList = $('selected-tests-list');
+    const clearAllBtn = $('clear-all-tests');
+    const appointmentForm = $('appointment-form');
+    const submitBtn = $('submit-btn');
+    const notificationArea = $('notification-area');
+    const searchInput = $('tests-search');
+    const clearSearchBtn = $('clear-search');
+    const testsCountEl = $('tests-count');
+    const testsTotalEl = $('tests-total');
+    const priceWarningEl = $('price-warning');
+    const confirmationEl = $('booking-confirmation');
+    const confirmationDetailsEl = $('confirmation-details');
+    const confirmationTotalEl = $('confirmation-total');
+    const copyMessageBtn = $('copy-booking-message');
+    const whatsappMessageBtn = $('whatsapp-booking-message');
+    const copyStatusEl = $('copy-status');
+
+    let tempSelectedTests = [];
+    let selectedTests = [];
+    let lastBookingMessage = '';
+    let lastBookingPhone = '';
+
+    function normalize(value) {
+        return String(value || '').toLowerCase().replace(/\s+/g, ' ').replace(/\s*\(\s*/g, '(').replace(/\s*\)\s*/g, ')').trim();
+    }
+
+    const priceLookup = new Map(Object.entries(testPrices).map(([name, price]) => [normalize(name), price]));
+    const priceAliases = new Map([
+        [normalize('magnesium (ماغنيسيوم)'), 200],
+        [normalize('Magnesium (الماغنسيوم)'), 200],
+        [normalize('soduim (صوديوم)'), 200],
+        [normalize('Sodium (الصوديوم)'), 200],
+        [normalize('potasuim (بوتاسيوم)'), 200],
+        [normalize('Potassium (البوتاسيوم)'), 200],
+        [normalize('Alkaline phosphate (فوسفور)'), 150],
+        [normalize('Calcium (كالسيوم)'), 150],
+        [normalize('H.pylori (جرثومة المعدة)'), 150]
+    ]);
+
+    function getTestPrice(name) {
+        const key = normalize(name);
+        if (priceLookup.has(key)) return priceLookup.get(key);
+        if (priceAliases.has(key)) return priceAliases.get(key);
+        return null;
+    }
+
+    function formatMoney(value) {
+        return Number(value || 0).toLocaleString('ar-EG');
+    }
+
+    function priceSummary(tests = selectedTests) {
+        let total = 0;
+        let missing = 0;
+        tests.forEach(test => {
+            const price = getTestPrice(test);
+            if (typeof price === 'number' && Number.isFinite(price)) total += price;
+            else missing++;
+        });
+        return { total, missing };
+    }
+
+    function updatePriceSummary() {
+        const summary = priceSummary();
+        if (testsCountEl) testsCountEl.textContent = selectedTests.length;
+        if (testsTotalEl) testsTotalEl.textContent = formatMoney(summary.total);
+        if (priceWarningEl) priceWarningEl.style.display = summary.missing ? 'flex' : 'none';
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function flattenTestsData(testsData) {
+        const result = [];
+        Object.entries(testsData).forEach(([category, tests]) => {
+            if (Array.isArray(tests)) {
+                tests.forEach(test => result.push({
+                    name: test,
+                    category,
+                    arabicName: test.split('(')[0].trim(),
+                    englishName: test.includes('(') ? (test.match(/\(([^)]+)\)/) || [,''])[1] : ''
+                }));
+            } else {
+                Object.entries(tests).forEach(([subCategory, subTests]) => {
+                    subTests.forEach(test => result.push({
+                        name: test,
+                        category: `${category} - ${subCategory}`,
+                        arabicName: test.split('(')[0].trim(),
+                        englishName: test.includes('(') ? (test.match(/\(([^)]+)\)/) || [,''])[1] : ''
+                    }));
+                });
+            }
+        });
+        return result;
+    }
+
+    const flattenedTests = flattenTestsData(allTests);
+
+    function searchTests(query) {
+        const q = String(query || '').trim().toLowerCase();
+        if (!q) return flattenedTests;
+        return flattenedTests.filter(test =>
+            test.name.toLowerCase().includes(q) ||
+            test.arabicName.toLowerCase().includes(q) ||
+            test.englishName.toLowerCase().includes(q)
+        );
+    }
+
+    function createTestCheckbox(test) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'test-item';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = 'test-' + Math.random().toString(36).slice(2);
+        checkbox.value = test.name;
+        checkbox.checked = tempSelectedTests.includes(test.name);
+
+        const label = document.createElement('label');
+        label.htmlFor = checkbox.id;
+        label.innerHTML = `<span class="test-label-name">${escapeHtml(test.name)}</span>`;
+
+        const price = getTestPrice(test.name);
+        const badge = document.createElement('span');
+        badge.className = 'test-price-badge' + (typeof price === 'number' ? '' : ' unavailable');
+        badge.textContent = typeof price === 'number' ? `${formatMoney(price)} جنيه` : 'السعر غير مسجل';
+        label.appendChild(badge);
+
+        checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+                if (!tempSelectedTests.includes(test.name)) tempSelectedTests.push(test.name);
+            } else {
+                tempSelectedTests = tempSelectedTests.filter(t => t !== test.name);
+            }
+        });
+
+        wrapper.append(checkbox, label);
+        return wrapper;
+    }
+
+    function displayTests(tests) {
+        testsContainer.innerHTML = '';
+        if (!tests.length) {
+            testsContainer.innerHTML = '<div class="no-results"><i class="fas fa-search"></i><p>لا توجد نتائج مطابقة للبحث</p></div>';
+            return;
+        }
+
+        const groups = {};
+        tests.forEach(test => {
+            if (!groups[test.category]) groups[test.category] = [];
+            groups[test.category].push(test);
+        });
+
+        Object.entries(groups).forEach(([category, list]) => {
+            const categoryDiv = document.createElement('div');
+            categoryDiv.className = 'test-category';
+            const title = document.createElement('h4');
+            title.className = 'category-title';
+            title.innerHTML = '<i class="fas fa-vial"></i> ' + escapeHtml(category);
+            const grid = document.createElement('div');
+            grid.className = 'tests-grid';
+            list.forEach(test => grid.appendChild(createTestCheckbox(test)));
+            categoryDiv.append(title, grid);
+            testsContainer.appendChild(categoryDiv);
+        });
+    }
+
+    function renderSelectedTests() {
+        selectedTestsList.innerHTML = '';
+        if (!selectedTests.length) {
+            selectedTestsList.innerHTML = '<div class="selected-empty">لم يتم اختيار أي تحاليل بعد</div>';
+            updatePriceSummary();
+            return;
+        }
+
+        selectedTests.forEach(test => {
+            const row = document.createElement('div');
+            row.className = 'selected-test';
+
+            const info = document.createElement('div');
+            info.className = 'selected-test-info';
+            const name = document.createElement('span');
+            name.className = 'selected-test-name';
+            name.textContent = test;
+            const price = document.createElement('small');
+            price.className = 'selected-test-price';
+            const value = getTestPrice(test);
+            price.textContent = typeof value === 'number' ? `${formatMoney(value)} جنيه` : 'السعر غير مسجل';
+            info.append(name, price);
+
+            const remove = document.createElement('button');
+            remove.type = 'button';
+            remove.className = 'remove-test';
+            remove.title = 'حذف التحليل';
+            remove.innerHTML = '<i class="fas fa-times"></i>';
+            remove.addEventListener('click', () => {
+                selectedTests = selectedTests.filter(item => item !== test);
+                tempSelectedTests = [...selectedTests];
+                syncState();
+                renderSelectedTests();
+            });
+
+            row.append(info, remove);
+            selectedTestsList.appendChild(row);
+        });
+        updatePriceSummary();
+    }
+
+    function syncState() {
+        window.selectedTests = selectedTests;
+        window.renderSelectedTests = renderSelectedTests;
+        window.addTestsToSelectedList = addTestsToSelectedList;
+        updatePriceSummary();
+    }
+
+    function addTestsToSelectedList(testNames) {
+        if (!Array.isArray(testNames)) return;
+        let added = 0;
+        testNames.forEach(test => {
+            if (typeof test !== 'string' || !test.trim()) return;
+            const exists = selectedTests.some(existing => normalize(existing) === normalize(test));
+            if (!exists) {
+                selectedTests.push(test.trim());
+                added++;
+            }
+        });
+        tempSelectedTests = [...selectedTests];
+        syncState();
+        renderSelectedTests();
+        if (added) showNotification(`تمت إضافة ${added} تحليل من الباقة المختارة`, 'success');
+    }
+
+    function loadPackageFromStorage() {
+        const stored = localStorage.getItem('selected_package');
+        if (stored) {
+            try {
+                const data = JSON.parse(stored);
+                if (Array.isArray(data.tests)) addTestsToSelectedList(data.tests);
+                if (data.name) showNotification(`تم تطبيق باقة "${data.name}"`, 'success');
+            } catch (error) { console.error('خطأ في قراءة الباقة:', error); }
+            localStorage.removeItem('selected_package');
+        }
+
+        const pending = localStorage.getItem('pending_tests_from_package');
+        if (pending) {
+            try {
+                const tests = JSON.parse(pending);
+                if (Array.isArray(tests) && tests.length) addTestsToSelectedList(tests);
+            } catch (error) { console.error('خطأ في قراءة التحاليل المعلقة:', error); }
+            localStorage.removeItem('pending_tests_from_package');
+        }
+    }
+
+    function openModal() {
+        tempSelectedTests = [...selectedTests];
+        searchInput.value = '';
+        displayTests(flattenedTests);
+        testsModal.classList.add('show');
+        testsModal.style.display = 'block';
+        document.body.classList.add('modal-open');
+        setTimeout(() => searchInput.focus(), 50);
+    }
+
+    function closeModal() {
+        testsModal.classList.remove('show');
+        testsModal.style.display = 'none';
+        document.body.classList.remove('modal-open');
+        searchInput.value = '';
+    }
+
+    function showNotification(message, type = 'info') {
+        if (!notificationArea) return;
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-times-circle' : type === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle'}"></i><span>${escapeHtml(message)}</span>`;
+        notificationArea.appendChild(notification);
+        setTimeout(() => notification.remove(), 4500);
+    }
+
+    function validateForm() {
+        let valid = true;
+        const required = ['fullname', 'phone', 'date', 'time', 'referral-source'];
+        required.forEach(id => {
+            const field = $(id);
+            const empty = !field || !String(field.value).trim();
+            if (field) field.classList.toggle('is-invalid', empty);
+            if (empty) valid = false;
+        });
+
+        const phone = $('phone');
+        const phoneValue = phone.value.replace(/\D/g, '');
+        const phoneValid = /^(01\d{9}|20?1\d{9})$/.test(phoneValue) || /^\d{10,15}$/.test(phoneValue);
+        if (!phoneValid) {
+            phone.classList.add('is-invalid');
+            valid = false;
+        } else phone.classList.remove('is-invalid');
+
+        if (!selectedTests.length) {
+            showNotification('الرجاء اختيار تحليل واحد على الأقل', 'error');
+            valid = false;
+        }
+        return valid;
+    }
+
+    function collectBookingData() {
+        const summary = priceSummary();
+        return {
+            name: $('fullname').value.trim(),
+            phone: $('phone').value.trim(),
+            age: $('age').value.trim(),
+            gender: $('gender').value,
+            referral: $('referral-source').value,
+            date: $('date').value,
+            time: $('time').value,
+            notes: $('notes').value.trim(),
+            tests: [...selectedTests],
+            total: summary.total,
+            missing: summary.missing
+        };
+    }
+
+    function formatDate(value) {
+        if (!value) return 'غير محدد';
+        return new Date(value + 'T00:00:00').toLocaleDateString('ar-EG', {year:'numeric', month:'long', day:'numeric'});
+    }
+
+    function buildBookingConfirmation(booking) {
+        const rows = booking.tests.map((test, index) => {
+            const price = getTestPrice(test);
+            return `<div class="confirmation-test-row"><span><b>${index + 1}.</b> ${escapeHtml(test)}</span><strong>${typeof price === 'number' ? formatMoney(price) + ' جنيه' : 'السعر غير مسجل'}</strong></div>`;
+        }).join('');
+
+        confirmationDetailsEl.innerHTML = `
+            <div class="confirmation-meta">
+                <div><span>المريض</span><strong>${escapeHtml(booking.name)}</strong></div>
+                <div><span>الموعد</span><strong>${formatDate(booking.date)} - ${escapeHtml(booking.time)}</strong></div>
+                <div><span>عرفتنا منين</span><strong>${escapeHtml(booking.referral)}</strong></div>
+            </div>
+            <div class="confirmation-tests">
+                <div class="confirmation-tests-title">تفاصيل التحاليل</div>${rows}
+            </div>
+            ${booking.notes ? `<div class="confirmation-notes"><b>ملاحظات:</b> ${escapeHtml(booking.notes)}</div>` : ''}
+        `;
+        confirmationTotalEl.textContent = formatMoney(booking.total);
+
+        lastBookingPhone = booking.phone;
+        lastBookingMessage = `مرحباً ${booking.name} 🌷
+
+تم استلام طلب حجز التحاليل في معمل ميدلاب.
+
+📅 الموعد: ${formatDate(booking.date)} - ${booking.time}
+📍 عرفتنا منين: ${booking.referral}
+
+🧪 التحاليل المطلوبة:
+${booking.tests.map((test, i) => { const p = getTestPrice(test); return `${i+1}. ${test} — ${typeof p === 'number' ? formatMoney(p) + ' جنيه' : 'السعر غير مسجل'}`; }).join('\n')}
+
+💰 إجمالي أسعار الموقع: ${formatMoney(booking.total)} جنيه
+
+⚠️ تنبيه مهم:
+الأسعار الموضحة في الموقع الإلكتروني هي الأسعار الأساسية دون أي خصومات. السعر النهائي داخل المعمل قد يختلف حسب الباقة المختارة والطبيب المُحيل وأي خصومات أو عروض سارية وقت إجراء التحاليل.
+
+شكراً لاختياركم معمل ميدلاب ❤️`;
+
+        copyStatusEl.textContent = booking.missing ? 'تنبيه: يوجد تحليل أو أكثر بدون سعر مسجل، ولم يدخل ضمن الإجمالي.' : '';
+    }
+
+    openModalBtn.addEventListener('click', openModal);
+    closeModalBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+    confirmBtn.addEventListener('click', () => {
+        selectedTests = [...tempSelectedTests];
+        syncState();
+        renderSelectedTests();
+        closeModal();
+    });
+
+    clearAllBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        selectedTests = [];
+        tempSelectedTests = [];
+        syncState();
+        renderSelectedTests();
+    });
+
+    searchInput.addEventListener('input', () => displayTests(searchTests(searchInput.value)));
+    searchInput.addEventListener('keydown', event => {
+        if (event.key === 'Enter') event.preventDefault();
+        if (event.key === 'Escape') closeModal();
+    });
+    clearSearchBtn.addEventListener('click', event => {
+        event.preventDefault();
+        searchInput.value = '';
+        displayTests(flattenedTests);
+        searchInput.focus();
+    });
+
+    testsModal.addEventListener('click', event => {
+        if (event.target === testsModal) closeModal();
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && testsModal.classList.contains('show')) closeModal();
+    });
+
+    appointmentForm.addEventListener('submit', event => {
+        event.preventDefault();
+        if (!validateForm()) return;
+
+        const btnText = $('btn-text');
+        const spinner = $('btn-spinner');
+        submitBtn.disabled = true;
+        btnText.textContent = 'جاري تأكيد الحجز...';
+        spinner.style.display = 'inline-block';
+
+        setTimeout(() => {
+            const booking = collectBookingData();
+            buildBookingConfirmation(booking);
+            submitBtn.disabled = false;
+            btnText.textContent = 'تأكيد الحجز';
+            spinner.style.display = 'none';
+            showNotification('تم حجز الموعد بنجاح، وظهر ملخص الحجز بالأسفل.', 'success');
+            confirmationEl.style.display = 'flex';
+            confirmationEl.scrollIntoView({behavior:'smooth', block:'start'});
+
+            appointmentForm.reset();
+            selectedTests = [];
+            tempSelectedTests = [];
+            syncState();
+            renderSelectedTests();
+        }, 800);
+    });
+
+    copyMessageBtn.addEventListener('click', async () => {
+        if (!lastBookingMessage) return;
+        try { await navigator.clipboard.writeText(lastBookingMessage); }
+        catch (e) {
+            const area = document.createElement('textarea');
+            area.value = lastBookingMessage;
+            document.body.appendChild(area);
+            area.select();
+            document.execCommand('copy');
+            area.remove();
+        }
+        copyStatusEl.textContent = 'تم نسخ رسالة التأكيد بنجاح ✓';
+        setTimeout(() => copyStatusEl.textContent = '', 3000);
+    });
+
+    whatsappMessageBtn.addEventListener('click', () => {
+        if (!lastBookingMessage) return;
+        const raw = lastBookingPhone.replace(/\D/g, '');
+        const phone = raw.startsWith('20') ? raw : raw.startsWith('0') ? '20' + raw.slice(1) : raw;
+        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(lastBookingMessage)}`, '_blank', 'noopener,noreferrer');
+    });
+
+    // منع اختيار تاريخ في الماضي.
+    const dateInput = $('date');
+    const today = new Date();
+    const localToday = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    dateInput.min = localToday;
+
+    syncState();
+    renderSelectedTests();
+    loadPackageFromStorage();
+});
+</script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.menu-toggle')
+            const mobileNav = document.querySelector('.mobile-nav')
+
+            if (menuToggle && mobileNav) {
+                menuToggle.addEventListener('click', function (e) {
+                    e.stopPropagation()
+                    mobileNav.classList.toggle('active')
+                    menuToggle.classList.toggle('open')
+                })
+
+                document.querySelectorAll('.mobile-nav a').forEach(link => {
+                    link.addEventListener('click', function () {
+                        mobileNav.classList.remove('active')
+                        menuToggle.classList.remove('open')
+                    })
+                })
+
+                document.addEventListener('click', function (e) {
+                    if (!mobileNav.contains(e.target) && !menuToggle.contains(e.target)) {
+                        mobileNav.classList.remove('active')
+                        menuToggle.classList.remove('open')
+                    }
+                })
+            }
+
+            document.querySelectorAll('a, button').forEach(element => {
+                element.addEventListener('touchstart', function () {
+                    this.style.transform = 'scale(0.95)'
+                })
+
+                element.addEventListener('touchend', function () {
+                    this.style.transform = 'scale(1)'
+                })
+            })
+        })
+    </script>
+    
+    <script>
+    const modalActions = document.querySelector('.modal-actions');
+
+    let initialHeight = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+        // لو الحجم قل → الكيبورد فتح
+        if (window.innerHeight < initialHeight - 150) {
+            modalActions.classList.add('hidden-under-keyboard');
+        } else {
+            // لما الكيبورد يقفل
+            modalActions.classList.remove('hidden-under-keyboard');
+        }
+    });
+</script>
+</body>
+</html>

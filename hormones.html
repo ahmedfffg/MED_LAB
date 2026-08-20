@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>تحاليل الغدد والهرمونات - معمل ميدلاب</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="images/logo.png" type="image/x-icon" />
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --primary-color: #1769AA;
+      --primary-dark: #0B4F8A;
+      --primary-deeper: #083B66;
+      --primary-light: #EAF4FB;
+      --primary-soft: #F5FAFE;
+
+      --secondary-color: #083B66;
+
+      --accent-color: #f8b400;
+      --accent-dark: #e6a200;
+
+      --success-color: #16A34A;
+
+      --white: #ffffff;
+      --text-color: #26384A;
+      --text-light: #64748B;
+      --border-color: #DCE6EF;
+
+      --shadow-sm: 0 4px 14px rgba(11, 79, 138, 0.08);
+      --shadow-md: 0 10px 30px rgba(11, 79, 138, 0.12);
+      --shadow-lg: 0 18px 45px rgba(11, 79, 138, 0.16);
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Tajawal', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-color);
+      background:
+        linear-gradient(
+          135deg,
+          #F8FBFF 0%,
+          #EEF5FB 50%,
+          #F8FBFF 100%
+        );
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 15px;
+    }
+
+    /* =========================
+       BUTTON
+    ========================= */
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      padding: 12px 22px;
+
+      font-family: 'Tajawal', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-dark)
+        );
+
+      color: white;
+
+      border: none;
+      border-radius: 10px;
+
+      cursor: pointer;
+      text-decoration: none;
+
+      transition: all 0.25s ease;
+
+      box-shadow:
+        0 6px 18px rgba(23, 105, 170, 0.18);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary-dark),
+          var(--primary-deeper)
+        );
+
+      box-shadow:
+        0 10px 25px rgba(8, 59, 102, 0.22);
+    }
+
+    /* =========================
+       HEADINGS
+    ========================= */
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      color: var(--secondary-color);
+    }
+
+    h1 {
+      font-size: 2.1rem;
+      font-weight: 800;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      text-align: center;
+      margin: 40px 0 30px;
+      font-weight: 800;
+    }
+
+    h3 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      font-weight: 800;
+    }
+
+    h4 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      font-weight: 800;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .mobile-header {
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-dark)
+        );
+
+      padding: 14px 0;
+
+      box-shadow:
+        0 4px 18px rgba(8, 59, 102, 0.16);
+
+      position: relative;
+      z-index: 1000;
+    }
+
+    .mobile-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mobile-header h1 {
+      color: white;
+      margin: 0;
+      font-size: 1.45rem;
+    }
+
+    .menu-toggle {
+      width: 44px;
+      height: 44px;
+
+      background: rgba(255,255,255,0.10);
+
+      border: 1px solid rgba(255,255,255,0.15);
+
+      border-radius: 10px;
+
+      color: white;
+
+      font-size: 22px;
+
+      cursor: pointer;
+
+      transition: all 0.25s ease;
+    }
+
+    .menu-toggle:hover {
+      background: rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+    }
+
+    /* =========================
+       NAV
+    ========================= */
+
+    .mobile-nav {
+      display: none;
+
+      position: absolute;
+
+      top: 100%;
+      right: 0;
+
+      width: 100%;
+
+      background: rgba(255,255,255,0.98);
+
+      z-index: 999;
+
+      box-shadow:
+        0 10px 25px rgba(8,59,102,0.14);
+
+      border-top:
+        1px solid #E2EAF2;
+    }
+
+    .mobile-nav.active {
+      display: block;
+    }
+
+    .mobile-nav ul {
+      list-style: none;
+      padding: 5px 0;
+      margin: 0;
+    }
+
+    .mobile-nav li a {
+      display: flex;
+      align-items: center;
+
+      padding: 14px 20px;
+
+      color: var(--text-color);
+
+      text-decoration: none;
+
+      border-bottom:
+        1px solid #EDF1F5;
+
+      font-weight: 600;
+
+      transition: all 0.25s ease;
+    }
+
+    .mobile-nav li a:hover {
+      background: var(--primary-light);
+      color: var(--primary-color);
+      padding-right: 28px;
+    }
+
+    .mobile-nav li a i {
+      width: 25px;
+      margin-left: 10px;
+      color: var(--primary-color);
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      position: relative;
+
+      overflow: hidden;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(8,59,102,0.95),
+          rgba(23,105,170,0.91)
+        ),
+        url('images/hormones-bg.jpg') center/cover;
+
+      color: white;
+
+      padding: 90px 0;
+
+      text-align: center;
+
+      box-shadow:
+        0 12px 35px rgba(8,59,102,0.14);
+    }
+
+    .hero::before {
+      content: '';
+
+      position: absolute;
+
+      width: 450px;
+      height: 450px;
+
+      top: -230px;
+      right: -150px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(255,255,255,0.13),
+          transparent 70%
+        );
+    }
+
+    .hero::after {
+      content: '';
+
+      position: absolute;
+
+      width: 350px;
+      height: 350px;
+
+      bottom: -220px;
+      left: -100px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(255,255,255,0.10),
+          transparent 70%
+        );
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h3 {
+      color: white;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      font-weight: 800;
+    }
+
+    .hero p {
+      max-width: 820px;
+      margin: auto;
+
+      font-size: 1.2rem;
+
+      color: rgba(255,255,255,0.95);
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .tests-section {
+      padding: 65px 0;
+      background: white;
+    }
+
+    .test-categories {
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fill,
+          minmax(300px, 1fr)
+        );
+
+      gap: 30px;
+
+      margin-bottom: 45px;
+    }
+
+    /* =========================
+       CATEGORY
+    ========================= */
+
+    .category {
+      position: relative;
+
+      background:
+        linear-gradient(
+          145deg,
+          #FFFFFF,
+          var(--primary-soft)
+        );
+
+      border-radius: var(--radius-md);
+
+      padding: 25px;
+
+      border:
+        1px solid rgba(23,105,170,0.09);
+
+      box-shadow: var(--shadow-sm);
+
+      overflow: hidden;
+
+      transition: all 0.3s ease;
+    }
+
+    .category::before {
+      content: '';
+
+      position: absolute;
+
+      top: 0;
+      right: 0;
+
+      width: 100%;
+      height: 4px;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--primary-color),
+          #38BDF8
+        );
+    }
+
+    .category:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .category h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      color: var(--primary-dark);
+    }
+
+    .category h3 i {
+      width: 42px;
+      height: 42px;
+
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 10px;
+
+      background: var(--primary-light);
+
+      color: var(--primary-color);
+    }
+
+    .test-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .test-list li {
+      display: flex;
+      align-items: center;
+
+      padding: 10px 0;
+
+      border-bottom:
+        1px dashed #DCE5ED;
+    }
+
+    .test-list li:last-child {
+      border-bottom: none;
+    }
+
+    .test-list li::before {
+      content: "✓";
+
+      width: 24px;
+      height: 24px;
+
+      min-width: 24px;
+
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      margin-left: 10px;
+
+      border-radius: 50%;
+
+      background: var(--primary-light);
+
+      color: var(--primary-color);
+
+      font-size: 12px;
+
+      font-weight: 900;
+    }
+
+    /* =========================
+       INFO BOX
+    ========================= */
+
+    .info-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #EAF4FB,
+          #FFFFFF
+        );
+
+      border-right:
+        5px solid var(--primary-color);
+
+      border-radius: 12px;
+
+      padding: 22px;
+
+      margin: 35px 0;
+
+      box-shadow: var(--shadow-sm);
+    }
+
+    .info-box i {
+      color: var(--primary-color);
+      font-size: 25px;
+      margin-top: 3px;
+    }
+
+    .info-box strong {
+      color: var(--primary-dark);
+    }
+
+    /* =========================
+       METHODS
+    ========================= */
+
+    .methods {
+      padding: 55px 0;
+
+      background:
+        linear-gradient(
+          135deg,
+          #F1F7FC,
+          #FFFFFF
+        );
+
+      border-top:
+        1px solid #DCE9F3;
+
+      border-bottom:
+        1px solid #DCE9F3;
+    }
+
+    .method-cards {
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fill,
+          minmax(240px, 1fr)
+        );
+
+      gap: 25px;
+    }
+
+    .method-card {
+      background: white;
+
+      padding: 28px;
+
+      border-radius: var(--radius-md);
+
+      text-align: center;
+
+      border:
+        1px solid #E2EBF3;
+
+      box-shadow: var(--shadow-sm);
+
+      transition: all 0.3s ease;
+    }
+
+    .method-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .method-card i {
+      width: 70px;
+      height: 70px;
+
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+
+      background: var(--primary-light);
+
+      color: var(--primary-color);
+
+      font-size: 2.4rem;
+
+      margin-bottom: 15px;
+    }
+
+    .method-card h3 {
+      color: var(--secondary-color);
+      font-size: 1.25rem;
+    }
+
+    .method-card p {
+      color: var(--text-light);
+      font-size: 15px;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    .footer {
+      background:
+        linear-gradient(
+          135deg,
+          var(--secondary-color),
+          var(--primary-dark)
+        );
+
+      color: white;
+
+      text-align: center;
+
+      padding: 28px 0;
+
+      margin-top: 0;
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255,255,255,0.92);
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 768px) {
+
+      .container {
+        width: 94%;
+        padding: 0 10px;
+      }
+
+      .test-categories,
+      .method-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 65px 0;
+      }
+
+      .hero h3 {
+        font-size: 1.7rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .category {
+        padding: 21px;
+      }
+
+      .info-box {
+        padding: 18px;
+      }
+    }
+
+    @media (max-width: 420px) {
+
+      body {
+        font-size: 15px;
+      }
+
+      .hero {
+        padding: 55px 10px;
+      }
+
+      .hero h3 {
+        font-size: 1.5rem;
+      }
+
+      .mobile-header h1 {
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       HEADER
+  ========================= -->
+
+  <header class="mobile-header">
+
+    <div class="container">
+
+      <button class="menu-toggle" aria-label="فتح القائمة">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <h1>تحاليل الغدد والهرمونات</h1>
+
+    </div>
+
+    <nav class="mobile-nav">
+
+      <ul>
+
+        <li>
+          <a href="index.html">
+            <i class="fas fa-home"></i>
+            الرئيسية
+          </a>
+        </li>
+
+        <li>
+          <a href="#thyroid">
+            <i class="fas fa-shield-virus"></i>
+            تحاليل الغدة الدرقية
+          </a>
+        </li>
+
+        <li>
+          <a href="#reproductive">
+            <i class="fas fa-venus-mars"></i>
+            هرمونات الخصوبة
+          </a>
+        </li>
+
+        <li>
+          <a href="#adrenal">
+            <i class="fas fa-bolt"></i>
+            هرمونات الغدة الكظرية
+          </a>
+        </li>
+
+        <li>
+          <a href="#metabolic">
+            <i class="fas fa-chart-line"></i>
+            الهرمونات والتمثيل الغذائي
+          </a>
+        </li>
+
+        <li>
+          <a href="#methods">
+            <i class="fas fa-microscope"></i>
+            طرق الفحص
+          </a>
+        </li>
+
+      </ul>
+
+    </nav>
+
+  </header>
+
+
+  <!-- =========================
+       HERO
+  ========================= -->
+
+  <section class="hero">
+
+    <div class="container">
+
+      <h3>
+        تحاليل دقيقة للغدد والهرمونات
+      </h3>
+
+      <p>
+        مجموعة متخصصة من الفحوصات الهرمونية للمساعدة في تقييم وظائف الغدد
+        ومتابعة اضطرابات الغدة الدرقية والخصوبة وبعض الحالات المرتبطة
+        بالتمثيل الغذائي، وفقًا لتقييم الطبيب.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       TESTS
+  ========================= -->
+
+  <section class="tests-section">
+
+    <div class="container">
+
+      <h2>
+        تحاليل الغدد والهرمونات المتاحة
+      </h2>
+
+
+      <!-- THYROID -->
+
+      <div class="test-categories">
+
+        <div class="category" id="thyroid">
+
+          <h3>
+            <i class="fas fa-shield-virus"></i>
+            تحاليل الغدة الدرقية
+          </h3>
+
+          <ul class="test-list">
+
+            <li>
+              TSH - الهرمون المحفز للغدة الدرقية
+            </li>
+
+            <li>
+              Free T4 - هرمون الثيروكسين الحر
+            </li>
+
+            <li>
+              Free T3 - هرمون ثلاثي يودوثيرونين الحر
+            </li>
+
+            <li>
+              Total T4
+            </li>
+
+            <li>
+              Total T3
+            </li>
+
+            <li>
+              Anti-TPO
+            </li>
+
+          </ul>
+
+        </div>
+
+
+        <!-- REPRODUCTIVE -->
+
+        <div class="category" id="reproductive">
+
+          <h3>
+            <i class="fas fa-venus-mars"></i>
+            هرمونات الخصوبة والتناسل
+          </h3>
+
+          <ul class="test-list">
+
+            <li>
+              FSH - الهرمون المنبه للجريبات
+            </li>
+
+            <li>
+              LH - الهرمون اللوتيني
+            </li>
+
+            <li>
+              Prolactin - هرمون الحليب
+            </li>
+
+            <li>
+              Estradiol - E2
+            </li>
+
+            <li>
+              Progesterone
+            </li>
+
+            <li>
+              Testosterone
+            </li>
+
+          </ul>
+
+        </div>
+
+
+        <!-- ADRENAL -->
+
+        <div class="category" id="adrenal">
+
+          <h3>
+            <i class="fas fa-bolt"></i>
+            هرمونات الغدة الكظرية
+          </h3>
+
+          <ul class="test-list">
+
+            <li>
+              Cortisol
+            </li>
+
+            <li>
+              ACTH
+            </li>
+
+            <li>
+              DHEA-S
+            </li>
+
+            <li>
+              Aldosterone
+            </li>
+
+            <li>
+              Renin
+            </li>
+
+            <li>
+              بعض فحوصات الغدة الكظرية المتخصصة
+            </li>
+
+          </ul>
+
+        </div>
+
+
+        <!-- METABOLIC -->
+
+        <div class="category" id="metabolic">
+
+          <h3>
+            <i class="fas fa-chart-line"></i>
+            الهرمونات والتمثيل الغذائي
+          </h3>
+
+          <ul class="test-list">
+
+            <li>
+              Insulin - الإنسولين
+            </li>
+
+            <li>
+              C-Peptide
+            </li>
+
+            <li>
+              Growth Hormone - GH
+            </li>
+
+            <li>
+              IGF-1
+            </li>
+
+            <li>
+              Parathyroid Hormone - PTH
+            </li>
+
+            <li>
+              Vitamin D
+            </li>
+
+          </ul>
+
+        </div>
+
+      </div>
+
+
+      <!-- INFO -->
+
+      <div class="info-box">
+
+        <i class="fas fa-circle-info"></i>
+
+        <div>
+
+          <strong>
+            ملاحظة مهمة:
+          </strong>
+
+          <p>
+            تختلف التحضيرات وتوقيت سحب العينة من تحليل لآخر، وبعض الهرمونات
+            تتأثر بوقت أخذ العينة أو بالأدوية والحالة الفسيولوجية للمريض.
+            لذلك يُفضل الالتزام بتعليمات الطبيب أو المعمل قبل إجراء التحليل.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       METHODS
+  ========================= -->
+
+  <section class="methods" id="methods">
+
+    <div class="container">
+
+      <h2>
+        طرق الفحص والمتابعة
+      </h2>
+
+      <div class="method-cards">
+
+
+        <div class="method-card">
+
+          <i class="fas fa-vial"></i>
+
+          <h3>
+            عينات الدم
+          </h3>
+
+          <p>
+            يتم سحب عينة دم وفق نوع التحليل المطلوب وتعليمات المعمل الخاصة
+            بكل فحص.
+          </p>
+
+        </div>
+
+
+        <div class="method-card">
+
+          <i class="fas fa-clock"></i>
+
+          <h3>
+            التوقيت المناسب
+          </h3>
+
+          <p>
+            بعض الهرمونات تحتاج إلى سحب العينة في توقيت محدد، ويحدد الطبيب
+            أو المعمل الموعد المناسب حسب نوع الفحص.
+          </p>
+
+        </div>
+
+
+        <div class="method-card">
+
+          <i class="fas fa-flask"></i>
+
+          <h3>
+            تحاليل متخصصة
+          </h3>
+
+          <p>
+            تتوفر فحوصات هرمونية متنوعة لتقييم وظائف الغدد ومتابعة الحالات
+            التي تستدعي قياس مستويات هرمونية محددة.
+          </p>
+
+        </div>
+
+
+        <div class="method-card">
+
+          <i class="fas fa-user-doctor"></i>
+
+          <h3>
+            التفسير الطبي
+          </h3>
+
+          <p>
+            يتم تفسير نتائج الهرمونات في ضوء العمر والأعراض والتاريخ المرضي
+            وباقي نتائج الفحوصات، ويفضل الرجوع للطبيب المختص.
+          </p>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       FOOTER
+  ========================= -->
+
+  <footer class="footer">
+
+    <div class="container">
+
+      <p>
+        &copy; 2026 معمل ميدلاب. جميع الحقوق محفوظة.
+      </p>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================= -->
+
+  <script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+      const menuToggle =
+        document.querySelector('.menu-toggle');
+
+      const mobileNav =
+        document.querySelector('.mobile-nav');
+
+
+      if (menuToggle && mobileNav) {
+
+        menuToggle.addEventListener('click', function (e) {
+
+          e.stopPropagation();
+
+          mobileNav.classList.toggle('active');
+
+        });
+
+
+        document.addEventListener('click', function (e) {
+
+          if (
+            !mobileNav.contains(e.target) &&
+            !menuToggle.contains(e.target)
+          ) {
+
+            mobileNav.classList.remove('active');
+
+          }
+
+        });
+
+
+        mobileNav.querySelectorAll('a').forEach(function (link) {
+
+          link.addEventListener('click', function () {
+
+            mobileNav.classList.remove('active');
+
+          });
+
+        });
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
