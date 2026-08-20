@@ -1,0 +1,673 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+  --primary-color: #1769aa;
+  --primary-dark: #0b4f8a;
+  --primary-deep: #083b66;
+  --secondary-color: #1769aa;
+  --accent-color: #f1c40f;
+  --danger-color: #ef4444;
+  --whatsapp-color: #25d366;
+
+  --bg-light: #f4f9fc;
+  --bg-gradient: linear-gradient(135deg, #1769aa, #2586c7);
+  --text-dark: #1e293b;
+  --text-light: #64748b;
+  --border-light: #dce8f1;
+  --blue-soft: #eaf4fb;
+}
+
+body {
+  font-family: 'Tajawal', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-dark);
+  background: linear-gradient(120deg, #f8fafc, #eef6fc);
+  overflow-x: hidden;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+.container {
+  width: 95%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* =========================
+   HEADER & NAV
+========================= */
+.mobile-header {
+  background: linear-gradient(135deg, var(--primary-deep), var(--primary-dark));
+  color: white;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(8, 59, 102, 0.18);
+  backdrop-filter: blur(8px);
+  animation: fadeDown 0.6s ease;
+}
+
+@keyframes fadeDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.mobile-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 26px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.menu-toggle:hover {
+  transform: rotate(90deg);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.logo img {
+  height: 40px;
+  margin-left: 10px;
+}
+
+.header-actions a {
+  color: white;
+  font-size: 20px;
+  transition: color 0.3s;
+}
+
+.header-actions a:hover {
+  color: var(--accent-color);
+}
+
+/* =========================
+   NAV
+========================= */
+.mobile-nav {
+  position: fixed;
+  top: 60px;
+  right: -100%;
+  width: 80%;
+  height: calc(100vh - 60px);
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(10px);
+  transition: right 0.4s ease;
+  box-shadow: -5px 0 20px rgba(8, 59, 102, 0.15);
+  z-index: 999;
+}
+
+.mobile-nav.active {
+  right: 0;
+}
+
+.mobile-nav ul {
+  list-style: none;
+  padding: 20px 0;
+}
+
+.mobile-nav ul li a {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  color: var(--text-dark);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-light);
+  transition: background 0.3s, padding-right 0.3s, color 0.3s;
+}
+
+.mobile-nav ul li a:hover {
+  background: rgba(23, 105, 170, 0.08);
+  color: var(--primary-color);
+  padding-right: 30px;
+}
+
+.mobile-nav ul li a i {
+  margin-left: 10px;
+  color: var(--primary-color);
+}
+
+/* =========================
+   HERO
+========================= */
+.hero {
+  background: linear-gradient(
+    135deg,
+    var(--primary-deep) 0%,
+    var(--primary-dark) 45%,
+    var(--primary-color) 100%
+  );
+  color: white;
+  padding: 140px 20px 100px;
+  text-align: center;
+  margin-top: 60px;
+  animation: fadeIn 1.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.13),
+    transparent 70%
+  );
+  animation: rotate 20s linear infinite;
+  pointer-events: none;
+}
+
+.hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero h1 {
+  font-size: 40px;
+  margin-bottom: 15px;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.btn {
+  display: inline-block;
+  background: var(--primary-color);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 5px 15px rgba(8, 59, 102, 0.18);
+}
+
+.btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 8px 20px rgba(8, 59, 102, 0.24);
+}
+
+.btn-sm {
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 20px;
+}
+
+.call-btn {
+  background-color: var(--primary-color);
+}
+
+.call-btn:hover {
+  background-color: var(--primary-dark);
+}
+
+.whatsapp-btn {
+  background-color: var(--whatsapp-color);
+}
+
+.whatsapp-btn:hover {
+  background-color: #1fb85a;
+}
+
+/* =========================
+   QUICK SERVICES
+========================= */
+.quick-services {
+  background-color: white;
+  padding: 20px 0;
+  box-shadow: 0 6px 20px rgba(8, 59, 102, 0.08);
+  border-radius: 12px;
+  margin-top: -30px;
+  transform: translateY(20px);
+  animation: fadeUp 1s ease;
+  border: 1px solid var(--border-light);
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.quick-services .container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 15px;
+}
+
+.quick-service a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 14px;
+  transition: transform 0.3s, color 0.3s;
+}
+
+.quick-service a:hover {
+  transform: translateY(-6px) scale(1.05);
+  color: var(--primary-dark);
+}
+
+.quick-service i {
+  font-size: 22px;
+  margin-bottom: 5px;
+  color: var(--secondary-color);
+}
+
+/* =========================
+   SECTION TITLE
+========================= */
+.section-title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: var(--secondary-color);
+  position: relative;
+  padding-bottom: 15px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.section-titles {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #ffffff;
+  position: relative;
+  padding-bottom: 15px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.section-titles::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 50%;
+  transform: translateX(50%);
+  width: 100px;
+  height: 4px;
+  background: var(--accent-color);
+  border-radius: 3px;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 50%;
+  transform: translateX(50%);
+  width: 100px;
+  height: 4px;
+  background: var(--accent-color);
+  border-radius: 3px;
+}
+
+/* =========================
+   SERVICE CARDS
+========================= */
+.service-card {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(8, 59, 102, 0.08);
+  transition: transform 0.4s, box-shadow 0.4s;
+  border: 1px solid var(--border-light);
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 25px rgba(8, 59, 102, 0.15);
+}
+
+.service-card i {
+  font-size: 42px;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+  transition: transform 0.3s;
+}
+
+.service-card:hover i {
+  transform: rotate(15deg) scale(1.2);
+}
+
+.service-card h3 {
+  margin-bottom: 10px;
+  color: var(--secondary-color);
+}
+
+.service-card p {
+  font-size: 15px;
+  margin-bottom: 15px;
+  color: var(--text-light);
+}
+
+/* =========================
+   APPOINTMENT FORM
+========================= */
+.appointment {
+  padding: 50px 0;
+  background: #f0f7ff;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #d5e2ec;
+  border-radius: 8px;
+  font-family: 'Tajawal', sans-serif;
+  background: #ffffff;
+  color: var(--text-dark);
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border: 1px solid var(--primary-color);
+  box-shadow: 0 0 8px rgba(23, 105, 170, 0.25);
+  outline: none;
+}
+
+/* =========================
+   CONTACT
+========================= */
+.contact {
+  padding: 50px 0;
+  background: linear-gradient(
+    135deg,
+    var(--primary-deep),
+    var(--primary-dark),
+    var(--primary-color)
+  );
+  color: white;
+}
+
+.contact-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.contact-method {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 12px;
+  transition: transform 0.3s, background 0.3s;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contact-method:hover {
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.contact-method i {
+  font-size: 34px;
+  margin-bottom: 15px;
+  color: var(--accent-color);
+}
+
+.contact-method h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.contact-method a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.social-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  background: var(--accent-color);
+  transform: translateY(-4px) scale(1.1);
+  color: var(--primary-deep);
+}
+
+/* =========================
+   FOOTER
+========================= */
+.footer {
+  background: linear-gradient(
+    135deg,
+    var(--primary-deep),
+    var(--primary-dark)
+  );
+  color: white;
+  padding: 40px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.12),
+    transparent 70%
+  );
+  animation: rotate 15s linear infinite;
+  pointer-events: none;
+}
+
+.footer .container {
+  position: relative;
+  z-index: 1;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: var(--accent-color);
+}
+
+/* =========================
+   FLOATING WHATSAPP
+========================= */
+.floating-whatsapp {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 60px;
+  height: 60px;
+  background-color: var(--whatsapp-color);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  z-index: 999;
+  animation: pulse 2s infinite;
+  transition: transform 0.3s;
+}
+
+.floating-whatsapp:hover {
+  transform: scale(1.1);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (min-width: 768px) {
+  .hero {
+    padding: 180px 0 120px;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+  }
+
+  .hero p {
+    font-size: 20px;
+  }
+
+  .mobile-nav {
+    width: 320px;
+  }
+}
+
+@media (max-width: 767px) {
+  .service-card {
+    padding: 20px 15px;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+  }
+
+  .hero p {
+    font-size: 16px;
+  }
+
+  .hero {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .hero-buttons {
+    gap: 10px;
+  }
+
+  .btn {
+    padding: 11px 20px;
+  }
+
+  .quick-services {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .floating-whatsapp {
+    width: 56px;
+    height: 56px;
+    font-size: 27px;
+    bottom: 16px;
+    left: 16px;
+  }
+}
