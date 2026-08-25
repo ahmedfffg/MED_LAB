@@ -2,14 +2,15 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اتصل بنا - معمل ميدلاب</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="images/logo.png" type="image/x-icon" rel="icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
-        /* إضافة الأنماط المفقودة من CSS المقدم */
+        /* أنماط الصفحة */
         .contact {
             padding: 140px 0 50px;
             background: var(--secondary-color);
@@ -119,6 +120,61 @@
             resize: vertical;
         }
 
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            z-index: 9999;
+            animation: slideIn 0.5s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .notification-success {
+            background: #10b981;
+        }
+
+        .notification-error {
+            background: #ef4444;
+        }
+
+        .notification-info {
+            background: #3b82f6;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
         @media (max-width: 768px) {
             .contact {
                 padding: 120px 0 30px;
@@ -144,7 +200,6 @@
             <ul>
                 <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
                 <li><a href="index.html#services"><i class="fas fa-flask"></i> خدماتنا</a></li>
-                <li><a href="index.html#doctors"><i class="fas fa-user-md"></i> فريق العمل</a></li>
                 <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> حجز فحص</a></li>
                 <li><a href="contact.html"><i class="fas fa-headset"></i> خدمة العملاء</a></li>
                 <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</a></li>
@@ -169,7 +224,7 @@
             <div class="contact-form">
                 <h3 class="form-title">أو أرسل لنا رسالة مباشرة</h3>
                 
-                <form id="contactForm" method="POST" action="submit_contact.php">
+                <form id="contactForm">
                     <div class="form-group">
                         <label for="message-type">نوع الرسالة</label>
                         <select id="message-type" class="form-control" required>
@@ -183,25 +238,25 @@
                     
                     <div class="form-group">
                         <label for="name">الاسم الكامل</label>
-                        <input type="text" name="name" id="name" class="form-control" required>
+                        <input type="text" id="name" class="form-control" required>
                     </div>                   
                     
                     <div class="form-group">
                         <label for="email">البريد الإلكتروني</label>
-                        <input type="email" name="email" id="email" class="form-control" required>
+                        <input type="email" id="email" class="form-control" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="phone">رقم الجوال</label>
-                        <input type="tel" name="phone" id="phone" class="form-control" required>
+                        <input type="tel" id="phone" class="form-control" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="message">نص الرسالة</label>
-                        <textarea name="message" id="message" rows="5" class="form-control" required></textarea>
+                        <textarea id="message" rows="5" class="form-control" required></textarea>
                     </div>
                     
-                    <button type="submit" class="btn">
+                    <button type="submit" class="btn" id="submitBtn">
                         <i class="fas fa-paper-plane"></i> إرسال الرسالة
                     </button>
                 </form>        
@@ -215,7 +270,23 @@
     </a>
 
     <script>
+        // ============================================================
+        // EMAILJS CONFIGURATION
+        // ============================================================
+        (function() {
+            emailjs.init({
+                publicKey: "YOUR_PUBLIC_KEY_HERE", // استبدل بالمفتاح العام من EmailJS
+            });
+        })();
+
+        // ============================================================
+        // FORM HANDLING
+        // ============================================================
         document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('contactForm');
+            const submitBtn = document.getElementById('submitBtn');
+
+            // القائمة المتنقلة
             const menuToggle = document.querySelector('.menu-toggle');
             const mobileNav = document.querySelector('.mobile-nav');
 
@@ -241,12 +312,89 @@
                 });
             }
 
-            // معالجة إرسال النموذج
-            document.getElementById('contactForm').addEventListener('submit', function(e) {
+            // ============================================================
+            // إرسال النموذج عبر EmailJS
+            // ============================================================
+            form.addEventListener('submit', async function(e) {
                 e.preventDefault();
-                alert('تم إرسال رسالتك بنجاح، شكراً لتواصلك معنا!');
-                this.reset();
+
+                const messageType = document.getElementById('message-type').value;
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const messageText = document.getElementById('message').value.trim();
+
+                // التحقق من صحة البيانات
+                if (!name || !email || !phone || !messageText || !messageType) {
+                    showNotification('الرجاء ملء جميع الحقول المطلوبة', 'error');
+                    return;
+                }
+
+                // تعطيل الزر أثناء الإرسال
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+
+                try {
+                    // إرسال البريد الإلكتروني عبر EmailJS
+                  const templateParams = {
+    message_type: messageType,
+    from_name: name,
+    from_email: email,
+    from_phone: phone,
+    message: messageText,
+    date: new Date().toLocaleString('ar-EG')
+};
+
+                    const response = await emailjs.send(
+                        'YOUR_SERVICE_ID_HERE', // استبدل بمعرف الخدمة
+                        'template_wt80ogp', // استبدل بمعرف القالب
+                        templateParams
+                    );
+
+                    console.log('✅ تم الإرسال بنجاح:', response);
+                    
+                    showNotification('✅ تم إرسال رسالتك بنجاح! سيتم الرد عليك قريباً.', 'success');
+                    form.reset();
+
+                } catch (error) {
+                    console.error('❌ خطأ في الإرسال:', error);
+                    showNotification('❌ حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة مرة أخرى.', 'error');
+                } finally {
+                    // إعادة تفعيل الزر
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال الرسالة';
+                }
             });
+
+            // ============================================================
+            // دالة عرض الإشعارات
+            // ============================================================
+            function showNotification(message, type) {
+                // حذف الإشعارات السابقة
+                const oldNotifications = document.querySelectorAll('.notification');
+                oldNotifications.forEach(n => n.remove());
+
+                const notification = document.createElement('div');
+                notification.className = `notification notification-${type}`;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+
+                // إزالة الإشعار بعد 5 ثواني
+                setTimeout(() => {
+                    notification.style.animation = 'slideOut 0.5s ease forwards';
+                    setTimeout(() => notification.remove(), 500);
+                }, 5000);
+            }
+
+            // إضافة الـ keyframes لـ slideOut
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
 
             // تحسينات اللمس
             document.querySelectorAll('a, button').forEach(element => {
