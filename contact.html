@@ -8,16 +8,27 @@
     <link href="images/logo.png" type="image/x-icon" rel="icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
-        /* أنماط الصفحة */
         .contact {
             padding: 140px 0 50px;
-            background: var(--secondary-color);
+            background: #0a4179;
             color: white;
             margin-top: 60px;
         }
         
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-titles {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: white;
+        }
+
         .ai-assistant-card {
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
@@ -37,7 +48,7 @@
 
         .ai-icon {
             font-size: 3rem;
-            color: var(--accent-color);
+            color: #8ac4ff;
             margin-bottom: 15px;
             transition: transform 0.3s;
         }
@@ -65,12 +76,12 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
             max-width: 600px;
             margin: 0 auto;
-            color: var(--text-dark);
+            color: #1a2a3a;
         }
 
         .form-title {
             text-align: center;
-            color: var(--primary-color);
+            color: #0a4179;
             margin-bottom: 30px;
             font-size: 1.3rem;
             position: relative;
@@ -85,7 +96,7 @@
             transform: translateX(50%);
             width: 80px;
             height: 4px;
-            background: var(--accent-color);
+            background: #499bda;
             border-radius: 3px;
         }
 
@@ -97,22 +108,35 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
-            color: var(--text-dark);
+            color: #1a2a3a;
+        }
+
+        .form-group label i {
+            color: #2a6a9a;
+            margin-left: 6px;
         }
 
         .form-control {
             width: 100%;
             padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            border: 2px solid #e8ecf0;
+            border-radius: 10px;
             font-family: 'Tajawal', sans-serif;
+            font-size: 0.95rem;
             transition: border 0.3s, box-shadow 0.3s;
+            background: #fafbfc;
+            color: #1a2a3a;
         }
         
         .form-control:focus {
-            border: 1px solid var(--primary-color);
-            box-shadow: 0 0 8px rgba(37,99,235,0.3);
+            border-color: #2a6a9a;
+            box-shadow: 0 0 0 4px rgba(42,106,154,0.08);
             outline: none;
+            background: white;
+        }
+
+        .form-control::placeholder {
+            color: #a0aab5;
         }
 
         textarea.form-control {
@@ -121,41 +145,137 @@
         }
 
         .btn {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
             padding: 12px 30px;
-            background: var(--primary-color);
+            background: linear-gradient(135deg, #0a4179, #499bda);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'Tajawal', sans-serif;
+            width: 100%;
+            justify-content: center;
         }
 
         .btn:hover {
-            background: var(--primary-dark);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 25px rgba(42,106,154,0.35);
         }
 
         .btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
+            transform: none;
+        }
+
+        .mobile-header {
+            background: linear-gradient(135deg, #0a4179, #499bda);
+            color: white;
+            padding: 0.5rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        }
+
+        .mobile-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .mobile-header h1 {
+            color: white;
+            font-size: 1.4rem;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .menu-toggle {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            font-size: 1.6rem;
+            padding: 0.3rem 0.8rem;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .menu-toggle:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .mobile-nav {
+            display: none;
+            background: white;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 0 0 20px 20px;
+            overflow: hidden;
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-nav ul {
+            list-style: none;
+            padding: 0.3rem 0;
+        }
+
+        .mobile-nav ul li {
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .mobile-nav ul li:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-nav ul li a {
+            display: block;
+            padding: 0.8rem 1.8rem;
+            color: #1a2a3a;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .mobile-nav ul li a i {
+            margin-left: 0.8rem;
+            width: 24px;
+            color: #2a6a9a;
+        }
+
+        .mobile-nav ul li a:hover {
+            background: #f0f7ff;
         }
 
         .notification {
             position: fixed;
-            top: 20px;
+            top: 80px;
             right: 20px;
             padding: 15px 25px;
-            border-radius: 10px;
+            border-radius: 12px;
             color: white;
             font-weight: 600;
             z-index: 9999;
             animation: slideIn 0.5s ease;
             box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            max-width: 400px;
         }
 
         .notification-success {
@@ -175,6 +295,36 @@
             to { transform: translateX(0); opacity: 1; }
         }
 
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        .floating-whatsapp {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .floating-whatsapp:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5);
+            color: white;
+        }
+
         @media (max-width: 768px) {
             .contact {
                 padding: 120px 0 30px;
@@ -184,6 +334,35 @@
             .contact-form {
                 padding: 20px;
                 margin: 20px auto;
+            }
+
+            .floating-whatsapp {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+                bottom: 20px;
+                left: 20px;
+            }
+
+            .section-titles {
+                font-size: 1.8rem;
+            }
+
+            .notification {
+                right: 10px;
+                left: 10px;
+                max-width: none;
+                top: 70px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mobile-header h1 {
+                font-size: 1.1rem;
+            }
+
+            .contact-form {
+                padding: 15px;
             }
         }
     </style>
@@ -202,7 +381,7 @@
                 <li><a href="index.html#services"><i class="fas fa-flask"></i> خدماتنا</a></li>
                 <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> حجز فحص</a></li>
                 <li><a href="contact.html"><i class="fas fa-headset"></i> خدمة العملاء</a></li>
-                <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</a></li>
+                <li><a href="admin/login.html"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</a></li>
             </ul>
         </nav>
     </header>
@@ -211,7 +390,6 @@
         <div class="container">
             <h1 class="section-titles">اتصل بنا</h1>
             
-            <!-- بطاقة المساعد الطبي الذكي -->
             <div class="ai-assistant-card">
                 <i class="fas fa-robot ai-icon"></i>
                 <h3 class="ai-title">المساعد الطبي الذكي</h3>
@@ -226,7 +404,7 @@
                 
                 <form id="contactForm">
                     <div class="form-group">
-                        <label for="message-type">نوع الرسالة</label>
+                        <label for="message-type"><i class="fas fa-tag"></i> نوع الرسالة</label>
                         <select id="message-type" class="form-control" required>
                             <option value="">اختر نوع الرسالة</option>
                             <option value="complaint">شكوى</option>
@@ -237,23 +415,23 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="name">الاسم الكامل</label>
-                        <input type="text" id="name" class="form-control" required>
+                        <label for="name"><i class="fas fa-user"></i> الاسم الكامل</label>
+                        <input type="text" id="name" class="form-control" placeholder="أدخل اسمك الكامل" required>
                     </div>                   
                     
                     <div class="form-group">
-                        <label for="email">البريد الإلكتروني</label>
-                        <input type="email" id="email" class="form-control" required>
+                        <label for="email"><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
+                        <input type="email" id="email" class="form-control" placeholder="example@email.com" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="phone">رقم الجوال</label>
-                        <input type="tel" id="phone" class="form-control" required>
+                        <label for="phone"><i class="fas fa-phone"></i> رقم الجوال</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="مثال: 01012345678" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="message">نص الرسالة</label>
-                        <textarea id="message" rows="5" class="form-control" required></textarea>
+                        <label for="message"><i class="fas fa-comment"></i> نص الرسالة</label>
+                        <textarea id="message" rows="5" class="form-control" placeholder="اكتب رسالتك هنا..." required></textarea>
                     </div>
                     
                     <button type="submit" class="btn" id="submitBtn">
@@ -264,23 +442,44 @@
         </div>
     </main>
 
-    <!-- إضافة زر الواتساب العائم -->
     <a href="https://wa.me/+20161730854" class="floating-whatsapp" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
 
     <script>
         // ============================================================
-        // EMAILJS CONFIGURATION
+        // تكوين Supabase (بدون مكتبة)
         // ============================================================
-        (function() {
-            emailjs.init({
-                publicKey: "YOUR_PUBLIC_KEY_HERE", // استبدل بالمفتاح العام من EmailJS
-            });
-        })();
+        const SUPABASE_URL = 'https://rlkqifdteyccagpdtdmu.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_XibO6Ri8DLKHG-rUEp4Bnw_bDzm67Xf';
 
         // ============================================================
-        // FORM HANDLING
+        // دالة لإرسال البيانات إلى Supabase باستخدام fetch
+        // ============================================================
+        async function sendToSupabase(data) {
+            const url = `${SUPABASE_URL}/rest/v1/contact_messages`;
+            
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_ANON_KEY,
+                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=representation'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`HTTP ${response.status}: ${errorText}`);
+            }
+
+            return await response.json();
+        }
+
+        // ============================================================
+        // الكود الرئيسي
         // ============================================================
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('contactForm');
@@ -313,11 +512,12 @@
             }
 
             // ============================================================
-            // إرسال النموذج عبر EmailJS
+            // إرسال النموذج
             // ============================================================
             form.addEventListener('submit', async function(e) {
                 e.preventDefault();
 
+                // جلب البيانات
                 const messageType = document.getElementById('message-type').value;
                 const name = document.getElementById('name').value.trim();
                 const email = document.getElementById('email').value.trim();
@@ -330,37 +530,53 @@
                     return;
                 }
 
-                // تعطيل الزر أثناء الإرسال
+                // التحقق من صحة البريد الإلكتروني
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    showNotification('الرجاء إدخال بريد إلكتروني صحيح', 'error');
+                    return;
+                }
+
+                // التحقق من صحة رقم الهاتف
+                const phoneRegex = /^01[0-9]{9}$/;
+                if (!phoneRegex.test(phone.replace(/\D/g, ''))) {
+                    showNotification('الرجاء إدخال رقم هاتف مصري صحيح (01xxxxxxxxx)', 'error');
+                    return;
+                }
+
+                // تعطيل الزر
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
 
                 try {
-                    // إرسال البريد الإلكتروني عبر EmailJS
-                  const templateParams = {
-    message_type: messageType,
-    from_name: name,
-    from_email: email,
-    from_phone: phone,
-    message: messageText,
-    date: new Date().toLocaleString('ar-EG')
-};
+                    const result = await sendToSupabase({
+                        message_type: messageType,
+                        name: name,
+                        email: email,
+                        phone: phone,
+                        message: messageText,
+                        status: 'new'
+                    });
 
-                    const response = await emailjs.send(
-                        'YOUR_SERVICE_ID_HERE', // استبدل بمعرف الخدمة
-                        'template_wt80ogp', // استبدل بمعرف القالب
-                        templateParams
-                    );
-
-                    console.log('✅ تم الإرسال بنجاح:', response);
-                    
+                    console.log('✅ تم حفظ الرسالة:', result);
                     showNotification('✅ تم إرسال رسالتك بنجاح! سيتم الرد عليك قريباً.', 'success');
                     form.reset();
 
                 } catch (error) {
-                    console.error('❌ خطأ في الإرسال:', error);
-                    showNotification('❌ حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة مرة أخرى.', 'error');
+                    console.error('❌ خطأ:', error);
+                    
+                    let errorMessage = 'حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة مرة أخرى.';
+                    
+                    if (error.message.includes('404')) {
+                        errorMessage = '⚠️ جدول contact_messages غير موجود. تأكد من تشغيل كود SQL في Supabase.';
+                    } else if (error.message.includes('401')) {
+                        errorMessage = '⚠️ مفتاح API غير صحيح. تأكد من SUPABASE_ANON_KEY.';
+                    } else if (error.message.includes('permission denied')) {
+                        errorMessage = '⚠️ ليس لديك صلاحية للإدراج. تأكد من سياسات RLS في Supabase.';
+                    }
+                    
+                    showNotification(errorMessage, 'error');
                 } finally {
-                    // إعادة تفعيل الزر
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال الرسالة';
                 }
@@ -370,7 +586,6 @@
             // دالة عرض الإشعارات
             // ============================================================
             function showNotification(message, type) {
-                // حذف الإشعارات السابقة
                 const oldNotifications = document.querySelectorAll('.notification');
                 oldNotifications.forEach(n => n.remove());
 
@@ -379,22 +594,11 @@
                 notification.textContent = message;
                 document.body.appendChild(notification);
 
-                // إزالة الإشعار بعد 5 ثواني
                 setTimeout(() => {
                     notification.style.animation = 'slideOut 0.5s ease forwards';
                     setTimeout(() => notification.remove(), 500);
                 }, 5000);
             }
-
-            // إضافة الـ keyframes لـ slideOut
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes slideOut {
-                    from { transform: translateX(0); opacity: 1; }
-                    to { transform: translateX(100%); opacity: 0; }
-                }
-            `;
-            document.head.appendChild(style);
 
             // تحسينات اللمس
             document.querySelectorAll('a, button').forEach(element => {
@@ -408,5 +612,6 @@
             });
         });
     </script>
+
 </body>
 </html>
