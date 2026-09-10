@@ -1,12 +1,8 @@
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl">
-
 <head>
-
-  <meta charset="UTF-8" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>باقات وعروض ميدلاب | تحاليل طبية</title>
 
@@ -18,518 +14,710 @@
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
+  >
 
   <link
     href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap"
     rel="stylesheet"
-  />
+  >
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
+    :root {
+      --offer-primary: #1769aa;
+      --offer-primary-dark: #0b4f8a;
+      --offer-primary-light: #2586c7;
+      --offer-light: #eef8fd;
+      --offer-border: #d8eaf4;
+      --offer-text: #183b56;
+      --offer-muted: #667085;
+      --offer-success: #16a34a;
+      --offer-danger: #dc2626;
+      --offer-bg-soft: #f6fbfe;
+      --offer-shadow: 0 8px 25px rgba(23, 105, 170, 0.08);
+      --offer-shadow-hover: 0 18px 40px rgba(23, 105, 170, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Tajawal", sans-serif;
+      background: #ffffff;
+      color: var(--offer-text);
+      margin: 0;
+      padding: 0;
+    }
 
     /* =========================================================
-       تحميل الباقات
-    ========================================================= */
+       HERO
+    ========================================================== */
 
-    .packages-loading {
+    .hero-offer {
+      position: relative;
+      background:
+        radial-gradient(circle at 85% 20%, rgba(37, 134, 199, 0.35), transparent 55%),
+        radial-gradient(circle at 10% 90%, rgba(23, 105, 170, 0.28), transparent 50%),
+        linear-gradient(135deg, #0b4f8a 0%, #1769aa 55%, #2586c7 100%);
+      color: #fff;
+      padding: 70px 0 80px;
+      margin-bottom: 40px;
+      overflow: hidden;
+      border-radius: 0 0 32px 32px;
+    }
+
+    .hero-offer::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+      background-size: 22px 22px;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .hero-offer .container {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
       text-align: center;
-      padding: 3rem;
+    }
+
+    .hero-offer h2 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      margin: 0 0 16px;
+      letter-spacing: -0.5px;
+      line-height: 1.4;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    .hero-offer h2 i {
+      margin-left: 10px;
+      opacity: 0.9;
+    }
+
+    .hero-offer p {
+      font-size: 1.12rem;
+      line-height: 1.9;
+      margin: 0 auto;
+      max-width: 680px;
+      color: rgba(255,255,255,0.92);
+    }
+
+    /* =========================================================
+       MENU TOGGLE
+    ========================================================== */
+
+    .menu-toggle {
+      position: absolute;
+      top: 22px;
+      right: 22px;
+      z-index: 100;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.28);
+      background: rgba(255,255,255,0.14);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.25s ease;
+    }
+
+    .menu-toggle:hover {
+      background: rgba(255,255,255,0.26);
+      transform: scale(1.05);
+    }
+
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      right: -320px;
+      width: 290px;
+      height: 100vh;
+      background: #fff;
+      z-index: 9999;
+      box-shadow: -10px 0 40px rgba(11, 79, 138, 0.18);
+      transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 80px 0 30px;
+      overflow-y: auto;
+    }
+
+    .mobile-nav.active {
+      right: 0;
+    }
+
+    .mobile-nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0 18px;
+    }
+
+    .mobile-nav li {
+      margin-bottom: 6px;
+    }
+
+    .mobile-nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      color: var(--offer-text);
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: 0.2s ease;
+    }
+
+    .mobile-nav a i {
+      color: var(--offer-primary);
+      width: 22px;
+      text-align: center;
+      font-size: 1.05rem;
+    }
+
+    .mobile-nav a:hover {
+      background: var(--offer-light);
+      color: var(--offer-primary-dark);
+      transform: translateX(-4px);
+    }
+
+    /* =========================================================
+       CONTAINER
+    ========================================================== */
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* =========================================================
+       SECTION TITLE
+    ========================================================== */
+
+    .section-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--offer-text);
+      margin: 0 0 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      padding-bottom: 14px;
+    }
+
+    .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 70px;
+      height: 4px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--offer-primary), var(--offer-primary-light));
+    }
+
+    .section-title i {
+      color: var(--offer-primary);
+      font-size: 1.4rem;
+      background: var(--offer-light);
+      width: 46px;
+      height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+    }
+
+    section {
+      margin-bottom: 70px;
+    }
+
+    /* =========================================================
+       PACKAGES GRID
+    ========================================================== */
+
+    .packages-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 26px;
+      margin-bottom: 40px;
+    }
+
+    /* =========================================================
+       PACKAGE CARD
+    ========================================================== */
+
+    .package-card {
+      position: relative;
+      background: #fff;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid var(--offer-border);
+      box-shadow: var(--offer-shadow);
+      transition:
+        transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        border-color 0.35s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .package-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 22px;
+      pointer-events: none;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.6);
+    }
+
+    .package-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--offer-shadow-hover);
+      border-color: #b8dced;
+    }
+
+    /* =========================================================
+       PACKAGE HEADER
+    ========================================================== */
+
+    .package-header {
+      position: relative;
+      background:
+        radial-gradient(circle at 90% 10%, rgba(255,255,255,0.25), transparent 55%),
+        linear-gradient(135deg, #0b4f8a, #1769aa 55%, #2586c7);
+      color: #fff;
+      padding: 26px 22px 24px;
+      overflow: hidden;
+    }
+
+    .package-header::before {
+      content: "";
+      position: absolute;
+      top: -30px;
+      left: -30px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      pointer-events: none;
+    }
+
+    .package-header::after {
+      content: "";
+      position: absolute;
+      bottom: -40px;
+      right: -20px;
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      pointer-events: none;
+    }
+
+    .package-header h3 {
+      position: relative;
+      z-index: 2;
+      margin: 0;
+      font-size: 1.28rem;
+      font-weight: 800;
+      line-height: 1.55;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.12);
+    }
+
+    .package-header .tag {
+      position: relative;
+      z-index: 2;
+      display: inline-block;
+      margin-top: 12px;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.35);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    /* =========================================================
+       PACKAGE BODY
+    ========================================================== */
+
+    .package-body {
+      padding: 22px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      background: #fff;
+    }
+
+    .package-description {
+      margin: 0 0 18px;
+      color: var(--offer-muted);
+      line-height: 1.85;
+      font-size: 0.96rem;
+    }
+
+    /* =========================================================
+       TESTS COUNT
+    ========================================================== */
+
+    .tests-count {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #475467;
+      font-size: 0.88rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #f0f9ff, #e8f5fc);
+      border: 1px solid #d8eef9;
+      padding: 10px 13px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+    }
+
+    .tests-count i {
+      color: var(--offer-primary);
+      font-size: 0.95rem;
+    }
+
+    .tests-count strong {
+      color: var(--offer-primary-dark);
+      font-weight: 800;
+      font-size: 1rem;
+      margin-right: 2px;
+    }
+
+    /* =========================================================
+       TEST LIST
+    ========================================================== */
+
+    .test-list {
+      list-style: none;
+      margin: 0 0 20px;
+      padding: 0;
+    }
+
+    .test-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 11px;
+      color: #344054;
+      line-height: 1.7;
+      font-size: 0.94rem;
+      padding: 2px 0;
+      transition: 0.2s ease;
+    }
+
+    .test-list li:hover {
+      color: var(--offer-primary-dark);
+      transform: translateX(-3px);
+    }
+
+    .test-list li i {
+      color: var(--offer-primary);
+      width: 20px;
+      min-width: 20px;
+      text-align: center;
+      margin-top: 3px;
+      font-size: 0.95rem;
+      transition: 0.2s ease;
+    }
+
+    .test-list li:hover i {
+      color: var(--offer-primary-light);
+      transform: scale(1.12);
+    }
+
+    /* =========================================================
+       PACKAGE PRICE BOX
+    ========================================================== */
+
+    .package-price-box {
+      position: relative;
+      background: linear-gradient(135deg, #eef8fd, #e3f3fb);
+      border: 1px solid #d7edf8;
+      border-radius: 16px;
+      padding: 16px 14px;
+      margin-top: auto;
+      margin-bottom: 16px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .package-price-box::before {
+      content: "";
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(23, 105, 170, 0.06);
+      pointer-events: none;
+    }
+
+    .package-price-label {
+      display: block;
+      color: #667085;
+      font-size: 0.88rem;
+      margin-bottom: 4px;
+      font-weight: 600;
+      position: relative;
+      z-index: 2;
+    }
+
+    .package-price {
+      position: relative;
+      z-index: 2;
+      color: var(--offer-primary-dark);
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .package-price-currency {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #475467;
+    }
+
+    /* =========================================================
+       BUTTON
+    ========================================================== */
+
+    .btn-offer {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      width: 100%;
+      min-height: 50px;
+      border-radius: 14px;
+      text-decoration: none;
+      background: linear-gradient(135deg, #1769aa, #2586c7);
+      color: #fff;
+      font-weight: 800;
+      transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.96rem;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(23, 105, 170, 0.18);
+    }
+
+    .btn-offer::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.18), transparent 55%);
+      opacity: 0;
+      transition: 0.3s ease;
+    }
+
+    .btn-offer:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 26px rgba(23, 105, 170, 0.28);
+    }
+
+    .btn-offer:hover::before {
+      opacity: 1;
+    }
+
+    .btn-offer:active {
+      transform: translateY(-1px);
+    }
+
+    .btn-offer:disabled {
+      opacity: 0.75;
+      cursor: wait;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* =========================================================
+       EMPTY / LOADING / ERROR
+    ========================================================== */
+
+    .empty-packages,
+    .loading-packages {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      border-radius: 20px;
+      background: var(--offer-bg-soft);
+      border: 1px dashed #b9dcea;
       color: #667085;
     }
 
-    .packages-loading .spinner {
-      display: inline-block;
-      width: 40px;
-      height: 40px;
-      border: 4px solid #e8ecf0;
-      border-top-color: #2a6a9a;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin-bottom: 1rem;
+    .empty-packages i {
+      font-size: 48px;
+      color: #8bbbd2;
+      margin-bottom: 16px;
     }
 
-    @keyframes spin {
+    .empty-packages h3 {
+      margin: 0 0 10px;
+      color: #344054;
+      font-size: 1.2rem;
+    }
+
+    .empty-packages p {
+      margin: 0;
+      line-height: 1.8;
+    }
+
+    .loading-packages .loader {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 18px;
+      border: 4px solid #dceef7;
+      border-top-color: #1769aa;
+      border-radius: 50%;
+      animation: packageSpin 0.8s linear infinite;
+    }
+
+    .loading-packages strong {
+      display: block;
+      color: #344054;
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+
+    .loading-packages p {
+      margin: 0;
+      font-size: 0.92rem;
+    }
+
+    @keyframes packageSpin {
       to {
         transform: rotate(360deg);
       }
     }
 
-    /* =========================================================
-       الباقات
-    ========================================================= */
-
-    .packages-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-
-    .package-card {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-      overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
-      border: 1px solid #e8ecf0;
-    }
-
-    .package-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-    }
-
-    /* =========================================================
-       صورة الباقة
-    ========================================================= */
-
-    .package-image {
-      width: 100%;
-      height: 190px;
-      overflow: hidden;
-      background: linear-gradient(135deg, #eef8ff, #dff3ff);
-    }
-
-    .package-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .package-image-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #2a6a9a;
-      font-size: 4rem;
-    }
-
-    /* =========================================================
-       Header الباقة
-    ========================================================= */
-
-    .package-header {
-      padding: 1.2rem 1.5rem;
-      background: linear-gradient(135deg, #f5f9ff, #e8f4fd);
-      border-bottom: 2px solid #d4e8f7;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .package-header h3 {
-      margin: 0;
-      color: #1a2a3a;
-      font-size: 1.2rem;
-    }
-
-    .package-header .tag {
-      background: #2a6a9a;
-      color: white;
-      padding: 0.2rem 0.8rem;
+    .supabase-error-box {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, #fff7f7, #fef2f2);
+      border: 1px solid #fecaca;
+      color: #991b1b;
       border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 700;
-    }
-
-    /* =========================================================
-       جسم الباقة
-    ========================================================= */
-
-    .package-body {
-      padding: 1.2rem 1.5rem 1.5rem;
-    }
-
-    .package-body p {
-      margin: 0 0 1rem;
-      color: #667085;
-      font-size: 0.95rem;
-      line-height: 1.6;
-    }
-
-    /* =========================================================
-       قائمة التحاليل
-    ========================================================= */
-
-    .test-list {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 1.2rem;
-    }
-
-    .test-list li {
-      padding: 0.45rem 0;
-      color: #1a2a3a;
-      font-size: 0.9rem;
-      border-bottom: 1px solid #f0f2f5;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-
-    .test-list li:last-child {
-      border-bottom: none;
-    }
-
-    .test-list li i {
-      color: #2a6a9a;
-      width: 20px;
+      padding: 28px 22px;
       text-align: center;
-      flex-shrink: 0;
+      box-shadow: 0 8px 25px rgba(220, 38, 38, 0.08);
     }
 
-    .no-tests {
-      color: #98a2b3;
-      font-size: 0.9rem;
-      text-align: center;
-      padding: 1rem 0;
+    .supabase-error-box i {
+      font-size: 40px;
+      margin-bottom: 12px;
+      color: #ef4444;
     }
 
-    /* =========================================================
-       السعر
-    ========================================================= */
-
-    .free-gift {
-      background: #e8f8f0;
-      padding: 0.7rem 1rem;
-      border-radius: 10px;
-      color: #1a7a5a;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 0.95rem;
+    .supabase-error-box h3 {
+      margin: 0 0 8px;
+      color: #991b1b;
+      font-size: 1.15rem;
     }
 
-    .free-gift i {
-      color: #2a9a7a;
-    }
-
-    /* =========================================================
-       زر الحجز
-    ========================================================= */
-
-    .btn-offer {
-      display: block;
-      width: 100%;
-      padding: 0.7rem;
-      background: linear-gradient(135deg, #1a3a5a, #2a6a9a);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-family: 'Tajawal', sans-serif;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .btn-offer:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(42, 106, 154, 0.3);
-    }
-
-    .btn-offer i {
-      margin-left: 0.4rem;
-    }
-
-    /* =========================================================
-       الحالات
-    ========================================================= */
-
-    .packages-empty {
-      text-align: center;
-      padding: 3rem;
-      color: #667085;
-      grid-column: 1 / -1;
-    }
-
-    .packages-empty i {
-      font-size: 3rem;
-      color: #d0d5dd;
-      margin-bottom: 1rem;
-      display: block;
-    }
-
-    .packages-error {
-      text-align: center;
-      padding: 3rem;
-      color: #e87a7a;
-      grid-column: 1 / -1;
-    }
-
-    .packages-error i {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      display: block;
-    }
-
-    .packages-error button {
-      margin-top: 1rem;
-      padding: 0.5rem 1.5rem;
-      border: 2px solid #2a6a9a;
-      background: transparent;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: 'Tajawal', sans-serif;
-      color: #2a6a9a;
-      font-weight: 700;
-    }
-
-    .packages-error button:hover {
-      background: #f0f7ff;
-    }
-
-    /* =========================================================
-       الإدارة
-    ========================================================= */
-
-    .admin-link {
-      display: inline-block;
-      margin-top: 2rem;
-      padding: 0.6rem 1.5rem;
-      background: #f0f2f5;
-      color: #1a2a3a;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: background 0.2s;
-    }
-
-    .admin-link:hover {
-      background: #e8ecf0;
-    }
-
-    .admin-link i {
-      margin-left: 0.5rem;
-    }
-
-    /* =========================================================
-       العنوان
-    ========================================================= */
-
-    .packages-header-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .section-title {
-      font-size: 1.8rem;
-      color: #1a2a3a;
-      margin-bottom: 0.5rem;
-    }
-
-    .section-title i {
-      color: #2a6a9a;
-      margin-left: 0.5rem;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1rem;
-    }
-
-    /* =========================================================
-       Hero
-    ========================================================= */
-
-    .hero-offer {
-      background: linear-gradient(135deg, #0a4179, #499bda);
-      color: white;
-      padding: 2.5rem 1rem;
-      text-align: center;
-      position: relative;
-    }
-
-    .hero-offer h2 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .hero-offer h2 i {
-      color: #8ac4ff;
-      margin-left: 0.5rem;
-    }
-
-    .hero-offer p {
-      max-width: 700px;
-      margin: 0 auto;
-      opacity: 0.9;
-      font-size: 1.1rem;
-    }
-
-    /* =========================================================
-       Mobile Menu
-    ========================================================= */
-
-    .menu-toggle {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: rgba(255, 255, 255, 0.15);
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      padding: 0.5rem 1rem;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .menu-toggle:hover {
-      background: rgba(255, 255, 255, 0.25);
-    }
-
-    .mobile-nav {
-      display: none;
-      background: white;
-      position: absolute;
-      top: 100%;
-      right: 0;
-      left: 0;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      border-radius: 0 0 20px 20px;
-      overflow: hidden;
-      z-index: 100;
-    }
-
-    .mobile-nav.active {
-      display: block;
-    }
-
-    .mobile-nav ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .mobile-nav ul li {
-      border-bottom: 1px solid #f0f2f5;
-    }
-
-    .mobile-nav ul li:last-child {
-      border-bottom: none;
-    }
-
-    .mobile-nav ul li a {
-      display: block;
-      padding: 0.8rem 1.8rem;
-      color: #1a2a3a;
-      text-decoration: none;
-      font-weight: 500;
-      transition: 0.2s;
-      text-align: right;
-    }
-
-    .mobile-nav ul li a i {
-      margin-left: 0.8rem;
-      width: 24px;
-      color: #2a6a9a;
-    }
-
-    .mobile-nav ul li a:hover {
-      background: #f0f7ff;
-    }
-
-    /* =========================================================
-       FAQ
-    ========================================================= */
-
-    .faq-item {
-      background: white;
-      border-radius: 12px;
-      border: 1px solid #e8ecf0;
-      margin-bottom: 0.8rem;
-      overflow: hidden;
-    }
-
-    .faq-question {
-      padding: 1rem 1.2rem;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 600;
-      transition: background 0.2s;
-    }
-
-    .faq-question:hover {
-      background: #f5f9ff;
-    }
-
-    .faq-question i {
-      transition: transform 0.3s;
-      color: #2a6a9a;
-    }
-
-    .faq-item.active .faq-question i {
-      transform: rotate(180deg);
-    }
-
-    .faq-answer {
-      padding: 0 1.2rem 1.2rem;
-      color: #667085;
-      display: none;
+    .supabase-error-box p {
+      margin: 6px 0;
       line-height: 1.8;
+      font-size: 0.94rem;
     }
 
-    .faq-item.active .faq-answer {
-      display: block;
+    .retry-btn {
+      margin-top: 16px;
+      border: none;
+      background: linear-gradient(135deg, #1769aa, #2586c7);
+      color: #fff;
+      padding: 11px 22px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.94rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.25s ease;
+      box-shadow: 0 6px 16px rgba(23, 105, 170, 0.2);
+    }
+
+    .retry-btn:hover {
+      background: linear-gradient(135deg, #0b4f8a, #1769aa);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(23, 105, 170, 0.28);
     }
 
     /* =========================================================
-       Footer
-    ========================================================= */
-
-    footer {
-      background: #1a2a3a;
-      color: white;
-      text-align: center;
-      padding: 2rem 1rem;
-      margin-top: 3rem;
-    }
-
-    footer p {
-      margin: 0.3rem 0;
-      opacity: 0.9;
-    }
-
-    footer i {
-      color: #499bda;
-      margin-left: 0.3rem;
-    }
-
-    /* =========================================================
-       Notification
-    ========================================================= */
+       NOTIFICATION
+    ========================================================== */
 
     .package-notification {
       position: fixed;
       top: 20px;
       right: 20px;
-      z-index: 9999;
-      animation: slideInRight 0.3s ease;
+      max-width: calc(100vw - 40px);
+      color: #fff;
+      padding: 14px 22px;
+      border-radius: 14px;
+      font-family: "Tajawal", sans-serif;
+      z-index: 99999;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      direction: rtl;
+      line-height: 1.6;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideInRight 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .package-notification.success {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+    }
+
+    .package-notification.error {
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+    }
+
+    .package-notification.info {
+      background: linear-gradient(135deg, #1769aa, #0b4f8a);
     }
 
     @keyframes slideInRight {
       from {
-        transform: translateX(100%);
+        transform: translateX(120%);
         opacity: 0;
       }
-
       to {
         transform: translateX(0);
         opacity: 1;
@@ -541,77 +729,247 @@
         transform: translateX(0);
         opacity: 1;
       }
-
       to {
-        transform: translateX(100%);
+        transform: translateX(120%);
         opacity: 0;
       }
     }
 
     /* =========================================================
-       Mobile
-    ========================================================= */
+       FAQ
+    ========================================================== */
 
-    @media (max-width: 768px) {
+    .faq-item {
+      cursor: pointer;
+      background: #fff;
+      border: 1px solid var(--offer-border);
+      border-radius: 16px;
+      margin-bottom: 14px;
+      overflow: hidden;
+      transition: 0.3s ease;
+      box-shadow: 0 4px 14px rgba(23, 105, 170, 0.05);
+    }
 
+    .faq-item:hover {
+      border-color: #b8dced;
+      box-shadow: 0 8px 22px rgba(23, 105, 170, 0.1);
+    }
+
+    .faq-item.active {
+      border-color: var(--offer-primary);
+      box-shadow: 0 10px 26px rgba(23, 105, 170, 0.13);
+    }
+
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px;
+      font-weight: 700;
+      color: var(--offer-text);
+      font-size: 1.02rem;
+      transition: 0.2s ease;
+    }
+
+    .faq-item.active .faq-question {
+      color: var(--offer-primary-dark);
+      background: linear-gradient(135deg, #f6fbfe, #eef8fd);
+    }
+
+    .faq-question i {
+      color: var(--offer-primary);
+      transition: transform 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .faq-item.active .faq-question i {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 20px;
+      color: #475467;
+      line-height: 1.9;
+      font-size: 0.95rem;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 300px;
+      padding: 0 20px 20px;
+    }
+
+    /* =========================================================
+       MEDICAL NOTICE
+    ========================================================== */
+
+    .medical-notice {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: linear-gradient(135deg, #eef8fd, #e3f3fb);
+      border: 1px solid #d9edf7;
+      border-radius: 18px;
+      padding: 20px 22px;
+      margin: 2rem 0;
+      text-align: center;
+      line-height: 1.8;
+      color: #355468;
+      font-weight: 500;
+      font-size: 0.98rem;
+      box-shadow: 0 6px 20px rgba(23, 105, 170, 0.06);
+    }
+
+    .medical-notice i {
+      color: var(--offer-primary);
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================== */
+
+    footer {
+      background: linear-gradient(135deg, #0b4f8a, #1769aa);
+      color: #fff;
+      text-align: center;
+      padding: 36px 20px 30px;
+      margin-top: 60px;
+      border-radius: 32px 32px 0 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 20px 20px;
+      pointer-events: none;
+    }
+
+    footer p {
+      position: relative;
+      z-index: 2;
+      margin: 6px 0;
+      line-height: 1.8;
+    }
+
+    footer p:first-child {
+      font-size: 1.08rem;
+      font-weight: 700;
+    }
+
+    footer p:first-child i {
+      margin-left: 8px;
+      opacity: 0.9;
+    }
+
+    footer p:last-child {
+      font-size: 0.88rem;
+      opacity: 0.85;
+      margin-top: 10px;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================== */
+
+    @media (max-width: 1000px) {
       .packages-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .hero-offer h2 {
-        font-size: 1.5rem;
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .hero-offer {
+        padding: 60px 0 70px;
+        border-radius: 0 0 24px 24px;
+      }
+
+      .hero-offer h2 {
+        font-size: 1.6rem;
       }
 
       .hero-offer p {
         font-size: 1rem;
       }
 
-      .section-title {
-        font-size: 1.3rem;
+      .packages-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
       }
 
-      .package-image {
-        height: 170px;
+      .package-header {
+        padding: 22px 18px;
       }
 
-      .packages-header-actions {
-        flex-direction: column;
-        align-items: stretch;
+      .package-body {
+        padding: 18px;
       }
 
-      .admin-link {
-        text-align: center;
-        margin-top: 0;
+      .package-price {
+        font-size: 1.55rem;
       }
 
       .package-notification {
-        right: 10px;
-        left: 10px;
-        top: 10px;
-        text-align: center;
+        top: 12px;
+        right: 12px;
+        left: 12px;
+        max-width: none;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+      }
+
+      .section-title i {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+
+      .medical-notice {
+        flex-direction: column;
+        gap: 8px;
+        padding: 18px;
+      }
+
+      footer {
+        border-radius: 24px 24px 0 0;
+        padding: 28px 16px 24px;
       }
     }
-
   </style>
-
 </head>
 
 <body>
 
   <!-- =========================================================
-       Hero
-  ========================================================= -->
+       HERO
+  ========================================================== -->
 
   <section class="hero-offer">
-
-    <button class="menu-toggle" type="button">
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-label="فتح القائمة"
+      aria-expanded="false"
+    >
       <i class="fas fa-bars"></i>
     </button>
 
-    <nav class="mobile-nav">
-
+    <nav class="mobile-nav" aria-label="القائمة الرئيسية">
       <ul>
-
         <li>
           <a href="index.html">
             <i class="fas fa-home"></i>
@@ -653,103 +1011,98 @@
             أسئلة شائعة
           </a>
         </li>
-
       </ul>
-
     </nav>
 
     <div class="container">
-
       <h2>
         <i class="fas fa-flask"></i>
         عروض وباقات ميدلاب
       </h2>
 
       <p>
-        باقات مصممة حسب الهدف الصحي، تجمع التحاليل المرتبطة ببعضها لتسهيل
-        المتابعة وتقديم قيمة أفضل من إجراء كل تحليل منفردًا.
+        باقات مصممة حسب الهدف الصحي، تجمع التحاليل المرتبطة ببعضها
+        لتسهيل المتابعة وتقديم قيمة أفضل من إجراء كل تحليل منفردًا.
       </p>
-
     </div>
-
   </section>
 
-
   <!-- =========================================================
-       Main
-  ========================================================= -->
+       MAIN
+  ========================================================== -->
 
-  <div class="container">
+  <main class="container">
 
     <!-- =======================================================
-         Packages
+         PACKAGES
     ======================================================== -->
+    <section id="packages">
 
-    <div id="packages">
+      <h2 class="section-title">
+        <i class="fas fa-boxes"></i>
+        باقات ميدلاب المختارة
+      </h2>
 
-      <div class="packages-header-actions">
+      <p
+        style="
+          text-align:center;
+          max-width:780px;
+          margin:-1rem auto 2rem;
+          color:#667085;
+          line-height:1.8;
+          font-size:1.02rem;
+        "
+      >
+        باقات مصممة حول احتياجات صحية واضحة، لتجمع التحاليل المرتبطة
+        معًا في فحص واحد وبقيمة أفضل.
+      </p>
 
-        <div>
+      <div
+        class="packages-grid"
+        id="packages-grid"
+        aria-live="polite"
+      >
 
-          <h2 class="section-title" style="margin-bottom:0;">
-            <i class="fas fa-boxes"></i>
-            باقات ميدلاب المختارة
-          </h2>
+        <div class="loading-packages">
+          <div class="loader"></div>
 
-        </div>
-
-      </div>
-
-
-      <div id="packages-container">
-
-        <div class="packages-loading">
-
-          <div class="spinner"></div>
+          <strong>
+            جاري تحميل الباقات...
+          </strong>
 
           <p>
-            جاري تحميل الباقات...
+            يتم جلب أحدث الباقات والعروض من قاعدة البيانات.
           </p>
-
         </div>
 
       </div>
 
-    </div>
+    </section>
 
 
     <!-- =======================================================
          FAQ
     ======================================================== -->
-
-    <div id="faq" style="margin-top:3rem;">
+    <section id="faq">
 
       <h2 class="section-title">
-
         <i class="fas fa-question-circle"></i>
-
         أسئلة شائعة عن الباقات
-
       </h2>
-
 
       <div class="faq-item">
 
         <div class="faq-question">
-
           <span>
             هل يمكن إضافة تحاليل أخرى إلى الباقة؟
           </span>
 
           <i class="fas fa-chevron-down"></i>
-
         </div>
 
         <div class="faq-answer">
-
           نعم، يمكن إضافة بعض التحاليل حسب احتياجك وبحسب سياسة المعمل.
           اسأل خدمة العملاء عن أفضل إضافة مرتبطة بالباقة التي اخترتها.
-
         </div>
 
       </div>
@@ -758,21 +1111,17 @@
       <div class="faq-item">
 
         <div class="faq-question">
-
           <span>
             ما الباقة المناسبة للفحص الدوري؟
           </span>
 
           <i class="fas fa-chevron-down"></i>
-
         </div>
 
         <div class="faq-answer">
-
           باقة الاطمئنان الشامل هي الخيار الأوسع للفحص المبدئي العام،
           بينما يمكن اختيار باقة أكثر تخصصًا إذا كان هدفك متابعة السكر
           والدهون أو الغدة أو الكبد والكلى.
-
         </div>
 
       </div>
@@ -781,71 +1130,52 @@
       <div class="faq-item">
 
         <div class="faq-question">
-
           <span>
             هل الباقات تغني عن استشارة الطبيب؟
           </span>
 
           <i class="fas fa-chevron-down"></i>
-
         </div>
 
         <div class="faq-answer">
-
           لا. الباقات أدوات للفحص والمتابعة، ويُفضل اختيار التحاليل
           بناءً على العمر والأعراض والتاريخ الصحي وتوصية الطبيب،
           خاصة عند وجود مرض مزمن أو علاج مستمر.
-
         </div>
 
       </div>
 
-    </div>
+    </section>
 
 
     <!-- =======================================================
-         Reminder
+         MEDICAL NOTICE
     ======================================================== -->
-
-    <div
-      style="
-        background:#eef2f5;
-        border-radius:1rem;
-        padding:1rem;
-        margin:2rem 0;
-        text-align:center;
-      "
-    >
-
+    <div class="medical-notice">
       <i class="fas fa-stethoscope"></i>
 
-      استشر طبيبك قبل اختيار الباقة المناسبة لحالتك الصحية.
-      فريق ميدلاب يسعد بتقديم الاستشارة المبدئية مجاناً.
-
+      <span>
+        استشر طبيبك قبل اختيار الباقة المناسبة لحالتك الصحية.
+        فريق ميدلاب يسعد بتقديم الاستشارة المبدئية مجاناً.
+      </span>
     </div>
 
-  </div>
-
+  </main>
 
   <!-- =========================================================
-       Footer
-  ========================================================= -->
+       FOOTER
+  ========================================================== -->
 
   <footer>
 
     <p>
-
       <i class="fas fa-dna"></i>
-
       معمل ميدلاب للتحاليل الطبية – دقة وثقة مع عروض حصرية
-
     </p>
 
     <p style="font-size:0.8rem;margin-top:5px;">
-
       العروض قابلة للتعديل حسب سياسة المعمل وتوافر الاختبارات |
       الباقات مصممة لتجميع التحاليل ذات العلاقة نفسها وتقديم قيمة أفضل
-
     </p>
 
     <p>
@@ -854,49 +1184,40 @@
 
   </footer>
 
-
-  <!-- =========================================================
-       Supabase
-  ========================================================= -->
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
   <script>
-
-    /* =========================================================
-       إعداد Supabase
-    ========================================================= */
+    "use strict";
 
     const SUPABASE_URL =
-      'https://rlkqifdteyccagpdtdmu.supabase.co';
+      "https://rlkqifdteyccagpdtdmu.supabase.co";
 
     const SUPABASE_ANON_KEY =
-      'sb_publishable_RGFcIAjYDUZqz63b8cjkKw_VdqD02tk';
-
+      "sb_publishable_XibO6Ri8DLKHG-rUEp4Bnw_bDzm67Xf";
 
     let supabaseClient = null;
 
+    let packagesStore = new Map();
 
     /* =========================================================
-       تشغيل Supabase
-    ========================================================= */
+       2. INITIALIZE SUPABASE
+    ========================================================== */
 
     function initializeSupabase() {
 
       try {
 
-        if (
-          !window.supabase ||
-          typeof window.supabase.createClient !== 'function'
-        ) {
-
+        if (!window.supabase) {
           throw new Error(
-            'مكتبة Supabase لم يتم تحميلها بشكل صحيح.'
+            "مكتبة Supabase لم يتم تحميلها."
           );
-
         }
 
+        if (
+          typeof window.supabase.createClient !== "function"
+        ) {
+          throw new Error(
+            "دالة createClient غير موجودة في مكتبة Supabase."
+          );
+        }
 
         supabaseClient =
           window.supabase.createClient(
@@ -904,58 +1225,201 @@
             SUPABASE_ANON_KEY
           );
 
-
-        console.log('====================================');
-        console.log('✅ Supabase تم تشغيله بنجاح');
-        console.log('📡 Project:', SUPABASE_URL);
-        console.log('====================================');
-
+        console.log(
+          "✅ تم إنشاء اتصال Supabase بنجاح."
+        );
 
         return true;
 
       } catch (error) {
 
         console.error(
-          '❌ فشل تشغيل Supabase:',
+          "❌ فشل إنشاء اتصال Supabase:",
+          error
+        );
+
+        showDatabaseError(
+          "تعذر تشغيل اتصال قاعدة البيانات.",
           error
         );
 
         return false;
-
       }
-
     }
 
 
     /* =========================================================
-       تحميل الباقات
-    ========================================================= */
+       3. ERROR DETAILS
+    ========================================================== */
+
+    function getErrorMessage(error) {
+
+      if (!error) {
+        return "خطأ غير معروف.";
+      }
+
+      const status =
+        error.status ||
+        error.statusCode ||
+        "";
+
+      const code =
+        error.code ||
+        "";
+
+      const message =
+        error.message ||
+        error.details ||
+        error.hint ||
+        "تعذر تنفيذ العملية.";
+
+      return [
+        status ? `Status: ${status}` : "",
+        code ? `Code: ${code}` : "",
+        message
+      ]
+      .filter(Boolean)
+      .join(" | ");
+    }
+
+
+    /* =========================================================
+       4. SHOW DATABASE ERROR
+    ========================================================== */
+
+    function showDatabaseError(title, error) {
+
+      const grid =
+        document.getElementById("packages-grid");
+
+      if (!grid) {
+        return;
+      }
+
+      const details =
+        getErrorMessage(error);
+
+      grid.innerHTML = `
+
+        <div class="supabase-error-box">
+
+          <i class="fas fa-triangle-exclamation"></i>
+
+          <h3>
+            ${escapeHtml(title)}
+          </h3>
+
+          <p>
+            حدثت مشكلة أثناء تحميل الباقات من قاعدة البيانات.
+          </p>
+
+          <p style="font-size:.88rem;opacity:.85;">
+            ${escapeHtml(details)}
+          </p>
+
+          <button
+            type="button"
+            class="retry-btn"
+            id="retry-packages-btn"
+          >
+            <i class="fas fa-rotate-right"></i>
+            إعادة المحاولة
+          </button>
+
+        </div>
+      `;
+
+
+      const retryButton =
+        document.getElementById(
+          "retry-packages-btn"
+        );
+
+      if (retryButton) {
+
+        retryButton.addEventListener(
+          "click",
+          loadPackages
+        );
+
+      }
+    }
+
+
+    /* =========================================================
+       5. HTML ESCAPE
+    ========================================================== */
+
+    function escapeHtml(value) {
+
+      if (
+        value === null ||
+        value === undefined
+      ) {
+        return "";
+      }
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+
+    /* =========================================================
+       6. FORMAT PRICE
+    ========================================================== */
+
+    function formatPrice(price) {
+
+      const numericPrice =
+        Number(price);
+
+      if (
+        !Number.isFinite(numericPrice)
+      ) {
+        return "0";
+      }
+
+      return numericPrice.toLocaleString(
+        "ar-EG",
+        {
+          maximumFractionDigits: 2
+        }
+      );
+    }
+
+
+    /* =========================================================
+       7. LOAD PACKAGES
+    ========================================================== */
 
     async function loadPackages() {
 
-      const container =
-        document.getElementById('packages-container');
-
-
-      if (!container) {
-
-        console.error(
-          '❌ لم يتم العثور على packages-container'
+      const grid =
+        document.getElementById(
+          "packages-grid"
         );
 
+      if (!grid) {
         return;
-
       }
 
 
-      container.innerHTML = `
+      grid.innerHTML = `
 
-        <div class="packages-loading">
+        <div class="loading-packages">
 
-          <div class="spinner"></div>
+          <div class="loader"></div>
+
+          <strong>
+            جاري تحميل الباقات...
+          </strong>
 
           <p>
-            جاري تحميل الباقات...
+            يتم جلب أحدث الباقات والعروض من قاعدة البيانات.
           </p>
 
         </div>
@@ -965,512 +1429,276 @@
 
       try {
 
+        if (!supabaseClient) {
+
+          const initialized =
+            initializeSupabase();
+
+          if (!initialized) {
+            return;
+          }
+        }
+
+
         console.log(
-          '🔄 جاري تحميل الباقات من Supabase...'
+          "🔄 جاري تحميل الباقات من Supabase..."
         );
 
 
-        /* =====================================================
-           1 - جلب الباقات النشطة
-        ====================================================== */
+        /*
+          ------------------------------------------------------
+          أولاً:
+          جلب الباقات النشطة فقط.
+          ------------------------------------------------------
+        */
 
         const {
           data: packages,
           error: packagesError
-        } = await supabaseClient
-
-          .from('packages')
-
-          .select(`
-            id,
-            name,
-            description,
-            price,
-            image_url,
-            is_active,
-            created_at
-          `)
-
-          .eq('is_active', true)
-
-          .order(
-            'created_at',
-            {
-              ascending: false
-            }
-          );
+        } =
+          await supabaseClient
+            .from("packages")
+            .select(
+              `
+                id,
+                name,
+                description,
+                price,
+                image_url,
+                is_active,
+                created_at
+              `
+            )
+            .eq(
+              "is_active",
+              true
+            )
+            .order(
+              "created_at",
+              {
+                ascending: false
+              }
+            );
 
 
         if (packagesError) {
 
           console.error(
-            '❌ خطأ في جلب الباقات:',
+            "❌ خطأ في جلب الباقات:",
             packagesError
           );
 
           throw packagesError;
-
         }
 
 
         console.log(
-          '📦 عدد الباقات:',
-          packages?.length || 0
+          "✅ تم تحميل الباقات:",
+          packages
         );
 
-
-        /* =====================================================
-           لا توجد باقات
-        ====================================================== */
 
         if (
           !packages ||
           packages.length === 0
         ) {
 
-          container.innerHTML = `
-
-            <div class="packages-empty">
-
-              <i class="fas fa-box-open"></i>
-
-              <p>
-                لا توجد باقات متاحة حالياً
-              </p>
-
-              <small style="color:#a0aab5;">
-                تواصل مع الإدارة لإضافة باقات جديدة
-              </small>
-
-            </div>
-
-          `;
+          renderEmptyPackages();
 
           return;
-
         }
 
 
-        /* =====================================================
-           2 - الحصول على IDs الباقات
-        ====================================================== */
+        /*
+          ------------------------------------------------------
+          حفظ الباقات في Map
+          ------------------------------------------------------
+        */
+
+        packagesStore.clear();
+
+
+        packages.forEach(
+          packageItem => {
+
+            packagesStore.set(
+              String(packageItem.id),
+              {
+                ...packageItem,
+                tests: []
+              }
+            );
+
+          }
+        );
+
 
         const packageIds =
           packages.map(
-            pkg => pkg.id
+            packageItem =>
+              packageItem.id
           );
 
 
-        /* =====================================================
-           3 - جلب التحاليل المرتبطة بالباقات
-           
-           الهيكلة الجديدة:
-
-           package_tests
-              |
-              | package_id
-              ↓
-           packages
-
-           package_tests
-              |
-              | test_id
-              ↓
-           tests
-        ====================================================== */
+        /*
+          ------------------------------------------------------
+          ثانياً:
+          جلب تحاليل الباقات.
+          ------------------------------------------------------
+        */
 
         const {
           data: packageTests,
           error: packageTestsError
-        } = await supabaseClient
-
-          .from('package_tests')
-
-          .select(`
-            id,
-            package_id,
-            test_id,
-            sort_order,
-            tests (
-              id,
-              name,
-              price,
-              is_active
+        } =
+          await supabaseClient
+            .from("package_tests")
+            .select(
+              `
+                id,
+                package_id,
+                test_id,
+                sort_order,
+                tests (
+                  id,
+                  name,
+                  price,
+                  is_active
+                )
+              `
             )
-          `)
-
-          .in(
-            'package_id',
-            packageIds
-          )
-
-          .order(
-            'sort_order',
-            {
-              ascending: true
-            }
-          );
+            .in(
+              "package_id",
+              packageIds
+            )
+            .order(
+              "sort_order",
+              {
+                ascending: true
+              }
+            );
 
 
         if (packageTestsError) {
 
           console.error(
-            '❌ خطأ في جلب تحاليل الباقات:',
+            "❌ خطأ في جلب تحاليل الباقات:",
             packageTestsError
           );
 
           throw packageTestsError;
-
         }
 
 
         console.log(
-          '🧪 عدد روابط التحاليل بالباقات:',
-          packageTests?.length || 0
+          "✅ تم تحميل تحاليل الباقات:",
+          packageTests
         );
 
 
-        /* =====================================================
-           4 - تجميع التحاليل حسب الباقة
-        ====================================================== */
+        /*
+          ------------------------------------------------------
+          ثالثاً:
+          تجميع التحاليل داخل كل باقة.
+          ------------------------------------------------------
+        */
 
-        const testsByPackage = {};
+        if (
+          Array.isArray(packageTests)
+        ) {
+
+          packageTests.forEach(
+            row => {
+
+              const packageId =
+                String(
+                  row.package_id
+                );
+
+              const packageItem =
+                packagesStore.get(
+                  packageId
+                );
 
 
-        (packageTests || []).forEach(
-          item => {
-
-            if (
-              !testsByPackage[item.package_id]
-            ) {
-
-              testsByPackage[item.package_id] = [];
-
-            }
+              if (!packageItem) {
+                return;
+              }
 
 
-            if (
-              item.tests
-            ) {
+              let test =
+                row.tests;
 
-              testsByPackage[item.package_id].push({
 
-                id:
-                  item.tests.id,
+              /*
+                أحياناً Supabase قد يرجع
+                العلاقة كـ Array.
+              */
 
-                name:
-                  item.tests.name,
+              if (
+                Array.isArray(test)
+              ) {
+                test =
+                  test[0] ||
+                  null;
+              }
 
-                price:
-                  item.tests.price,
 
-                sortOrder:
-                  item.sort_order
+              if (
+                !test ||
+                test.is_active === false
+              ) {
+                return;
+              }
 
+
+              packageItem.tests.push({
+                id: test.id,
+                name: test.name,
+                price: test.price,
+                sort_order:
+                  row.sort_order ??
+                  999999
               });
 
             }
+          );
 
-          }
+        }
+
+
+        /*
+          ------------------------------------------------------
+          رابعاً:
+          تحويل Map إلى Array.
+          ------------------------------------------------------
+        */
+
+        const finalPackages =
+          packages.map(
+            packageItem =>
+              packagesStore.get(
+                String(packageItem.id)
+              )
+          );
+
+
+        renderPackages(
+          finalPackages
         );
 
-
-        /* =====================================================
-           5 - بناء HTML
-        ====================================================== */
-
-        let html =
-          '<div class="packages-grid">';
-
-
-        packages.forEach(
-          pkg => {
-
-            const currentTests =
-              testsByPackage[pkg.id] || [];
-
-
-            /* =================================================
-               صورة الباقة
-            ================================================== */
-
-            let imageHTML = '';
-
-
-            if (
-              pkg.image_url &&
-              String(pkg.image_url).trim() !== ''
-            ) {
-
-              imageHTML = `
-
-                <div class="package-image">
-
-                  <img
-                    src="${escapeHtml(pkg.image_url)}"
-                    alt="${escapeHtml(pkg.name)}"
-                    loading="lazy"
-                    onerror="this.parentElement.innerHTML='<div class=&quot;package-image-placeholder&quot;><i class=&quot;fas fa-box-open&quot;></i></div>';"
-                  >
-
-                </div>
-
-              `;
-
-            } else {
-
-              imageHTML = `
-
-                <div class="package-image">
-
-                  <div class="package-image-placeholder">
-
-                    <i class="fas fa-box-open"></i>
-
-                  </div>
-
-                </div>
-
-              `;
-
-            }
-
-
-            /* =================================================
-               التحاليل
-            ================================================== */
-
-            let testsHTML = '';
-
-
-            if (
-              currentTests.length > 0
-            ) {
-
-              testsHTML =
-                currentTests
-                  .map(
-                    test => `
-
-                      <li>
-
-                        <i class="fas fa-flask"></i>
-
-                        <span>
-                          ${escapeHtml(test.name)}
-                        </span>
-
-                      </li>
-
-                    `
-                  )
-                  .join('');
-
-            } else {
-
-              testsHTML = `
-
-                <li class="no-tests">
-
-                  لا توجد تحاليل مضافة لهذه الباقة حالياً
-
-                </li>
-
-              `;
-
-            }
-
-
-            /* =================================================
-               بيانات التحاليل التي سيتم إرسالها للحجز
-            ================================================== */
-
-            const packageTestsForStorage =
-              currentTests.map(
-                test => ({
-
-                  id:
-                    test.id,
-
-                  name:
-                    test.name,
-
-                  price:
-                    Number(test.price || 0)
-
-                })
-              );
-
-
-            const packageData =
-              encodeURIComponent(
-                JSON.stringify({
-
-                  id:
-                    pkg.id,
-
-                  name:
-                    pkg.name,
-
-                  price:
-                    Number(pkg.price || 0),
-
-                  tests:
-                    packageTestsForStorage
-
-                })
-              );
-
-
-            /* =================================================
-               Card
-            ================================================== */
-
-            html += `
-
-              <div
-                class="package-card"
-                data-package-id="${escapeHtml(pkg.id)}"
-              >
-
-                ${imageHTML}
-
-
-                <div class="package-header">
-
-                  <h3>
-                    ${escapeHtml(pkg.name)}
-                  </h3>
-
-                  <div class="tag">
-                    باقة
-                  </div>
-
-                </div>
-
-
-                <div class="package-body">
-
-                  ${
-                    pkg.description
-                      ? `
-                        <p>
-                          ${escapeHtml(pkg.description)}
-                        </p>
-                      `
-                      : ''
-                  }
-
-
-                  <ul class="test-list">
-
-                    ${testsHTML}
-
-                  </ul>
-
-
-                  <div class="free-gift">
-
-                    <i class="fas fa-gift"></i>
-
-                    <span>
-                      سعر الباقة
-                      ${formatMoney(pkg.price)}
-                      ج فقط
-                    </span>
-
-                  </div>
-
-
-                  <a
-                    href="appointment.html"
-                    class="btn-offer"
-                    data-package='${escapeAttribute(JSON.stringify({
-                      id: pkg.id,
-                      name: pkg.name,
-                      price: Number(pkg.price || 0),
-                      tests: packageTestsForStorage
-                    }))}'
-                  >
-
-                    <i class="fas fa-calendar-check"></i>
-
-                    احجز ${escapeHtml(pkg.name)} الآن
-
-                  </a>
-
-                </div>
-
-              </div>
-
-            `;
-
-          }
-        );
-
-
-        html +=
-          '</div>';
-
-
-        container.innerHTML =
-          html;
-
-
-        /* =====================================================
-           تشغيل أزرار الحجز
-        ====================================================== */
-
-        attachButtonEvents();
-
-
-        console.log(
-          '✅ تم عرض الباقات بنجاح'
-        );
 
       } catch (error) {
 
         console.error(
-          '❌ خطأ أثناء تحميل الباقات:',
+          "❌ خطأ أثناء تحميل الباقات:",
           error
         );
 
-
-        container.innerHTML = `
-
-          <div class="packages-error">
-
-            <i class="fas fa-exclamation-triangle"></i>
-
-            <p>
-              حدث خطأ أثناء تحميل الباقات
-            </p>
-
-            <small style="color:#a0aab5;">
-
-              ${escapeHtml(
-                error?.message ||
-                'يرجى المحاولة مرة أخرى'
-              )}
-
-            </small>
-
-            <br>
-
-            <button
-              type="button"
-              onclick="loadPackages()"
-            >
-
-              <i class="fas fa-redo"></i>
-
-              إعادة المحاولة
-
-            </button>
-
-          </div>
-
-        `;
+        showDatabaseError(
+          "تعذر تحميل الباقات من قاعدة البيانات.",
+          error
+        );
 
       }
 
@@ -1478,136 +1706,81 @@
 
 
     /* =========================================================
-       إرسال الباقة إلى صفحة الحجز
-    ========================================================= */
+       8. RENDER EMPTY
+    ========================================================== */
 
-    function attachButtonEvents() {
+    function renderEmptyPackages() {
 
-      const buttons =
-        document.querySelectorAll(
-          '.btn-offer'
+      const grid =
+        document.getElementById(
+          "packages-grid"
         );
 
-
-      buttons.forEach(
-        button => {
-
-          button.addEventListener(
-            'click',
-            function(event) {
-
-              event.preventDefault();
+      if (!grid) {
+        return;
+      }
 
 
-              try {
+      grid.innerHTML = `
 
-                const rawPackage =
-                  this.getAttribute(
-                    'data-package'
-                  );
+        <div class="empty-packages">
 
+          <i class="fas fa-box-open"></i>
 
-                if (!rawPackage) {
+          <h3>
+            لا توجد باقات متاحة حالياً
+          </h3>
 
-                  throw new Error(
-                    'بيانات الباقة غير موجودة.'
-                  );
+          <p>
+            سيتم عرض الباقات والعروض هنا فور إضافتها وتفعيلها من لوحة الإدارة.
+          </p>
 
-                }
+        </div>
 
-
-                const packageData =
-                  JSON.parse(
-                    rawPackage
-                  );
+      `;
+    }
 
 
-                /* =============================================
-                   التأكد من البيانات
-                ============================================== */
+    /* =========================================================
+       9. RENDER PACKAGES
+    ========================================================== */
 
-                const selectedPackage = {
+    function renderPackages(packages) {
 
-                  id:
-                    packageData.id || null,
+      const grid =
+        document.getElementById(
+          "packages-grid"
+        );
 
-                  name:
-                    packageData.name || '',
-
-                  price:
-                    Number(
-                      packageData.price || 0
-                    ),
-
-                  tests:
-                    Array.isArray(
-                      packageData.tests
-                    )
-                      ? packageData.tests
-                      : []
-
-                };
+      if (!grid) {
+        return;
+      }
 
 
-                console.log(
-                  '📦 الباقة المختارة:',
-                  selectedPackage
-                );
+      if (
+        !Array.isArray(packages) ||
+        packages.length === 0
+      ) {
+
+        renderEmptyPackages();
+
+        return;
+      }
 
 
-                /* =============================================
-                   تخزين الباقة
-                ============================================== */
-
-                localStorage.setItem(
-                  'selected_package',
-                  JSON.stringify(
-                    selectedPackage
-                  )
-                );
+      grid.innerHTML = "";
 
 
-                /* =============================================
-                   إشعار
-                ============================================== */
+      packages.forEach(
+        packageItem => {
 
-                showNotification(
-                  `تم اختيار "${selectedPackage.name}" - جاري التوجيه للحجز`,
-                  'success'
-                );
+          const card =
+            createPackageCard(
+              packageItem
+            );
 
-
-                /* =============================================
-                   التوجيه للحجز
-                ============================================== */
-
-                setTimeout(
-                  () => {
-
-                    window.location.href =
-                      'appointment.html';
-
-                  },
-                  700
-                );
-
-
-              } catch (error) {
-
-                console.error(
-                  '❌ خطأ في اختيار الباقة:',
-                  error
-                );
-
-
-                showNotification(
-                  'حدث خطأ أثناء اختيار الباقة',
-                  'error'
-                );
-
-              }
-
-            }
+          grid.appendChild(
+            card
           );
 
         }
@@ -1617,144 +1790,653 @@
 
 
     /* =========================================================
-       escapeHtml
-    ========================================================= */
+       10. CREATE PACKAGE CARD
+    ========================================================== */
 
-    function escapeHtml(value) {
+    function createPackageCard(packageItem) {
+
+      const card =
+        document.createElement(
+          "article"
+        );
+
+      card.className =
+        "package-card";
+
+
+      card.dataset.packageId =
+        String(
+          packageItem.id
+        );
+
+
+      /*
+        ------------------------------------------------------
+        Header
+        ------------------------------------------------------
+      */
+
+      const header =
+        document.createElement(
+          "div"
+        );
+
+      header.className =
+        "package-header";
+
+
+      const title =
+        document.createElement(
+          "h3"
+        );
+
+      title.textContent =
+        packageItem.name ||
+        "باقة بدون اسم";
+
+
+      header.appendChild(
+        title
+      );
+
+
+      /*
+        Tag اختياري:
+        إذا كان لديك tag مستقبلاً
+        في جدول packages سيظهر تلقائياً.
+      */
 
       if (
-        value === null ||
-        value === undefined
+        packageItem.tag
       ) {
 
-        return '';
+        const tag =
+          document.createElement(
+            "div"
+          );
+
+        tag.className =
+          "tag";
+
+        tag.textContent =
+          packageItem.tag;
+
+        header.appendChild(
+          tag
+        );
 
       }
 
 
-      const div =
+      /*
+        ------------------------------------------------------
+        Body
+        ------------------------------------------------------
+      */
+
+      const body =
         document.createElement(
-          'div'
+          "div"
         );
 
-
-      div.textContent =
-        String(value);
-
-
-      return div.innerHTML;
-
-    }
+      body.className =
+        "package-body";
 
 
-    /* =========================================================
-       escapeAttribute
-       
-       تستخدم عند وضع JSON داخل data attribute
-    ========================================================= */
+      /*
+        Description
+        ------------------------------------------------------
+      */
 
-    function escapeAttribute(value) {
+      if (
+        packageItem.description
+      ) {
 
-      return escapeHtml(
-        String(value)
-          .replace(/&/g, '&amp;')
-          .replace(/"/g, '&quot;')
-          .replace(/'/g, '&#39;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-      );
+        const description =
+          document.createElement(
+            "p"
+          );
 
-    }
+        description.className =
+          "package-description";
 
+        description.textContent =
+          packageItem.description;
 
-    /* =========================================================
-       تنسيق السعر
-    ========================================================= */
-
-    function formatMoney(value) {
-
-      const number =
-        Number(value || 0);
-
-
-      return number.toLocaleString(
-        'ar-EG'
-      );
-
-    }
-
-
-    /* =========================================================
-       الإشعارات
-    ========================================================= */
-
-    function showNotification(
-      message,
-      type = 'success'
-    ) {
-
-      const oldNotifications =
-        document.querySelectorAll(
-          '.package-notification'
+        body.appendChild(
+          description
         );
 
-
-      oldNotifications.forEach(
-        notification => {
-          notification.remove();
-        }
-      );
+      }
 
 
-      const notification =
+      /*
+        ------------------------------------------------------
+        Tests
+        ------------------------------------------------------
+      */
+
+      const tests =
+        Array.isArray(
+          packageItem.tests
+        )
+          ? packageItem.tests
+          : [];
+
+
+      const testsCount =
         document.createElement(
-          'div'
+          "div"
         );
 
-
-      notification.className =
-        'package-notification';
-
-
-      const background =
-        type === 'success'
-          ? '#27ae60'
-          : '#e74c3c';
+      testsCount.className =
+        "tests-count";
 
 
-      notification.style.cssText = `
+      testsCount.innerHTML = `
 
-        position:fixed;
+        <i class="fas fa-vial"></i>
 
-        top:20px;
-
-        right:20px;
-
-        background:${background};
-
-        color:white;
-
-        padding:12px 24px;
-
-        border-radius:8px;
-
-        font-family:'Tajawal',sans-serif;
-
-        z-index:9999;
-
-        box-shadow:0 4px 15px rgba(0,0,0,0.2);
-
-        direction:rtl;
-
-        max-width:calc(100vw - 40px);
-
-        text-align:center;
+        عدد التحاليل داخل الباقة:
+        <strong>
+          ${tests.length}
+        </strong>
 
       `;
 
 
-      notification.textContent =
-        message;
+      body.appendChild(
+        testsCount
+      );
+
+
+      const testList =
+        document.createElement(
+          "ul"
+        );
+
+      testList.className =
+        "test-list";
+
+
+      if (
+        tests.length > 0
+      ) {
+
+        tests.forEach(
+          test => {
+
+            const li =
+              document.createElement(
+                "li"
+              );
+
+
+            li.innerHTML = `
+              <i class="fas fa-check-circle"></i>
+            `;
+
+
+            const testName =
+              document.createElement(
+                "span"
+              );
+
+            testName.textContent =
+              test.name ||
+              "تحليل";
+
+
+            li.appendChild(
+              testName
+            );
+
+
+            /*
+              مهم جداً:
+              لا نعرض سعر التحليل هنا.
+              السعر الوحيد الظاهر هو سعر الباقة.
+            */
+
+
+            testList.appendChild(
+              li
+            );
+
+          }
+        );
+
+      } else {
+
+        const li =
+          document.createElement(
+            "li"
+          );
+
+        li.innerHTML = `
+          <i class="fas fa-circle-info"></i>
+          <span>
+            لم تتم إضافة تحاليل لهذه الباقة بعد.
+          </span>
+        `;
+
+        testList.appendChild(
+          li
+        );
+
+      }
+
+
+      body.appendChild(
+        testList
+      );
+
+
+      /*
+        ------------------------------------------------------
+        Package Price
+        ------------------------------------------------------
+      */
+
+      const priceBox =
+        document.createElement(
+          "div"
+        );
+
+      priceBox.className =
+        "package-price-box";
+
+
+      const priceLabel =
+        document.createElement(
+          "span"
+        );
+
+      priceLabel.className =
+        "package-price-label";
+
+      priceLabel.textContent =
+        "سعر الباقة";
+
+
+      const price =
+        document.createElement(
+          "span"
+        );
+
+      price.className =
+        "package-price";
+
+      price.textContent =
+        formatPrice(
+          packageItem.price
+        );
+
+
+      const currency =
+        document.createElement(
+          "span"
+        );
+
+      currency.className =
+        "package-price-currency";
+
+      currency.textContent =
+        "جنيه";
+
+
+      price.appendChild(
+        currency
+      );
+
+
+      priceBox.appendChild(
+        priceLabel
+      );
+
+      priceBox.appendChild(
+        price
+      );
+
+
+      body.appendChild(
+        priceBox
+      );
+
+
+      /*
+        ------------------------------------------------------
+        Booking Button
+        ------------------------------------------------------
+      */
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+      button.type =
+        "button";
+
+      button.className =
+        "btn-offer";
+
+      button.dataset.packageId =
+        String(
+          packageItem.id
+        );
+
+
+      button.innerHTML = `
+        <i class="fas fa-calendar-check"></i>
+        احجز هذه الباقة الآن
+      `;
+
+
+      button.addEventListener(
+        "click",
+        function () {
+
+          selectPackage(
+            packageItem,
+            button
+          );
+
+        }
+      );
+
+
+      body.appendChild(
+        button
+      );
+
+
+      /*
+        ------------------------------------------------------
+        Finish
+        ------------------------------------------------------
+      */
+
+      card.appendChild(
+        header
+      );
+
+      card.appendChild(
+        body
+      );
+
+
+      return card;
+    }
+
+
+    /* =========================================================
+       11. SELECT PACKAGE
+    ========================================================== */
+
+    function selectPackage(
+      packageItem,
+      button
+    ) {
+
+      if (!packageItem) {
+
+        showNotification(
+          "تعذر تحديد الباقة.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      try {
+
+        if (button) {
+
+          button.disabled =
+            true;
+
+          button.innerHTML = `
+            <i class="fas fa-spinner fa-spin"></i>
+            جاري تجهيز الحجز...
+          `;
+
+        }
+
+
+        /*
+          ------------------------------------------------------
+          إنشاء بيانات الباقة
+          ------------------------------------------------------
+        */
+
+        const packageData = {
+
+          id:
+            packageItem.id,
+
+          package_id:
+            packageItem.id,
+
+          name:
+            packageItem.name ||
+            "",
+
+          package_name:
+            packageItem.name ||
+            "",
+
+          description:
+            packageItem.description ||
+            "",
+
+          price:
+            Number(
+              packageItem.price
+            ) || 0,
+
+          package_price:
+            Number(
+              packageItem.price
+            ) || 0,
+
+          image_url:
+            packageItem.image_url ||
+            "",
+
+          is_active:
+            packageItem.is_active !== false,
+
+          tests:
+            Array.isArray(
+              packageItem.tests
+            )
+              ? packageItem.tests.map(
+                  test => ({
+
+                    id:
+                      test.id,
+
+                    test_id:
+                      test.id,
+
+                    name:
+                      test.name ||
+                      "",
+
+                    /*
+                      نخزن السعر للتوافق مع
+                      appointment.html،
+                      لكن صفحة العروض لا تعرضه.
+                    */
+
+                    price:
+                      Number(
+                        test.price
+                      ) || 0
+
+                  })
+                )
+              : [],
+
+          selected_from:
+            "offers.html",
+
+          selected_at:
+            new Date().toISOString()
+
+        };
+
+
+        /*
+          ------------------------------------------------------
+          تخزين الباقة
+          ------------------------------------------------------
+        */
+
+        const serializedPackage =
+          JSON.stringify(
+            packageData
+          );
+
+
+        localStorage.setItem(
+          "selected_package",
+          serializedPackage
+        );
+
+
+        /*
+          أسماء إضافية للتوافق مع أكواد
+          الحجز القديمة.
+        */
+
+        localStorage.setItem(
+          "selectedPackage",
+          serializedPackage
+        );
+
+        localStorage.setItem(
+          "package_selected",
+          "true"
+        );
+
+
+        /*
+          تخزين ID منفصل أيضاً.
+        */
+
+        localStorage.setItem(
+          "selected_package_id",
+          String(
+            packageItem.id
+          )
+        );
+
+
+        console.log(
+          "✅ تم اختيار الباقة:",
+          packageData
+        );
+
+
+        showNotification(
+          `تم اختيار "${packageData.name}" - جاري التوجيه للحجز`,
+          "success"
+        );
+
+
+        /*
+          ------------------------------------------------------
+          الانتقال إلى صفحة الحجز
+          ------------------------------------------------------
+        */
+
+        setTimeout(
+          function () {
+
+            window.location.href =
+              "appointment.html";
+
+          },
+          700
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "❌ خطأ أثناء حفظ الباقة:",
+          error
+        );
+
+
+        if (button) {
+
+          button.disabled =
+            false;
+
+          button.innerHTML = `
+            <i class="fas fa-calendar-check"></i>
+            احجز هذه الباقة الآن
+          `;
+
+        }
+
+
+        showNotification(
+          "حدث خطأ أثناء تجهيز الباقة للحجز.",
+          "error"
+        );
+
+      }
+
+    }
+
+
+    /* =========================================================
+       12. NOTIFICATION
+    ========================================================== */
+
+    function showNotification(
+      message,
+      type = "info"
+    ) {
+
+      document
+        .querySelectorAll(
+          ".package-notification"
+        )
+        .forEach(
+          notification =>
+            notification.remove()
+        );
+
+
+      const notification =
+        document.createElement(
+          "div"
+        );
+
+
+      notification.className =
+        `package-notification ${type}`;
+
+
+      notification.innerHTML = `
+        <i class="fas ${
+          type === "success"
+            ? "fa-circle-check"
+            : type === "error"
+              ? "fa-circle-exclamation"
+              : "fa-circle-info"
+        }"></i>
+
+        <span>
+          ${escapeHtml(message)}
+        </span>
+      `;
 
 
       document.body.appendChild(
@@ -1763,218 +2445,207 @@
 
 
       setTimeout(
-        () => {
+        function () {
+
+          if (
+            !notification.isConnected
+          ) {
+            return;
+          }
+
 
           notification.style.animation =
-            'slideOutRight 0.3s ease';
+            "slideOutRight 0.3s ease";
 
 
           setTimeout(
-            () => {
+            function () {
 
-              notification.remove();
+              if (
+                notification.isConnected
+              ) {
+                notification.remove();
+              }
 
             },
             300
           );
 
         },
-        2000
+        2300
       );
 
     }
 
 
     /* =========================================================
-       القائمة المتنقلة + FAQ + تحميل الباقات
-    ========================================================= */
+       13. SUPABASE CONNECTION TEST
+    ========================================================== */
 
-    document.addEventListener(
-      'DOMContentLoaded',
-      function() {
+    async function testSupabaseConnection() {
 
-        /* =============================================
-           تشغيل Supabase
-        ============================================== */
+      try {
 
-        const supabaseReady =
-          initializeSupabase();
+        if (!supabaseClient) {
+
+          const initialized =
+            initializeSupabase();
+
+          if (!initialized) {
+            return;
+          }
+
+        }
 
 
-        if (!supabaseReady) {
+        console.log(
+          "🔎 اختبار اتصال Supabase..."
+        );
 
-          const container =
-            document.getElementById(
-              'packages-container'
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient
+            .from("packages")
+            .select(
+              "id,name"
+            )
+            .limit(1);
+
+
+        if (error) {
+
+          console.error(
+            "❌ اختبار Supabase فشل:",
+            error
+          );
+
+          console.error(
+            "تفاصيل الخطأ:",
+            getErrorMessage(error)
+          );
+
+          return false;
+        }
+
+
+        console.log(
+          "✅ اختبار Supabase ناجح:",
+          data
+        );
+
+
+        return true;
+
+
+      } catch (error) {
+
+        console.error(
+          "❌ خطأ في اختبار Supabase:",
+          error
+        );
+
+        return false;
+      }
+
+    }
+
+
+    /* =========================================================
+       14. MOBILE MENU
+    ========================================================== */
+
+    function setupMobileMenu() {
+
+      const toggleBtn =
+        document.querySelector(
+          ".menu-toggle"
+        );
+
+      const navMenu =
+        document.querySelector(
+          ".mobile-nav"
+        );
+
+
+      if (
+        !toggleBtn ||
+        !navMenu
+      ) {
+        return;
+      }
+
+
+      toggleBtn.addEventListener(
+        "click",
+        function (event) {
+
+          event.stopPropagation();
+
+          const isActive =
+            navMenu.classList.toggle(
+              "active"
             );
 
 
-          if (container) {
+          toggleBtn.setAttribute(
+            "aria-expanded",
+            isActive
+              ? "true"
+              : "false"
+          );
 
-            container.innerHTML = `
+        }
+      );
 
-              <div class="packages-error">
 
-                <i class="fas fa-database"></i>
+      document.addEventListener(
+        "click",
+        function (event) {
 
-                <p>
-                  تعذر الاتصال بقاعدة البيانات
-                </p>
+          if (
+            !navMenu.contains(
+              event.target
+            ) &&
+            !toggleBtn.contains(
+              event.target
+            )
+          ) {
 
-                <small style="color:#a0aab5;">
+            navMenu.classList.remove(
+              "active"
+            );
 
-                  تأكد من اتصال الإنترنت
-                  وإعدادات Supabase.
-
-                </small>
-
-              </div>
-
-            `;
+            toggleBtn.setAttribute(
+              "aria-expanded",
+              "false"
+            );
 
           }
 
-          return;
-
         }
+      );
 
 
-        /* =============================================
-           Mobile Menu
-        ============================================== */
+      navMenu
+        .querySelectorAll("a")
+        .forEach(
+          link => {
 
-        const toggleBtn =
-          document.querySelector(
-            '.menu-toggle'
-          );
-
-
-        const navMenu =
-          document.querySelector(
-            '.mobile-nav'
-          );
-
-
-        if (
-          toggleBtn &&
-          navMenu
-        ) {
-
-          toggleBtn.addEventListener(
-            'click',
-            function(event) {
-
-              event.stopPropagation();
-
-              navMenu.classList.toggle(
-                'active'
-              );
-
-            }
-          );
-
-
-          document.addEventListener(
-            'click',
-            function(event) {
-
-              if (
-                !navMenu.contains(
-                  event.target
-                ) &&
-                !toggleBtn.contains(
-                  event.target
-                )
-              ) {
+            link.addEventListener(
+              "click",
+              function () {
 
                 navMenu.classList.remove(
-                  'active'
+                  "active"
                 );
 
-              }
-
-            }
-          );
-
-
-          const navLinks =
-            navMenu.querySelectorAll(
-              'a'
-            );
-
-
-          navLinks.forEach(
-            link => {
-
-              link.addEventListener(
-                'click',
-                function() {
-
-                  navMenu.classList.remove(
-                    'active'
-                  );
-
-                }
-              );
-
-            }
-          );
-
-        }
-
-
-        /* =============================================
-           FAQ
-        ============================================== */
-
-        const faqs =
-          document.querySelectorAll(
-            '.faq-item'
-          );
-
-
-        faqs.forEach(
-          faq => {
-
-            const question =
-              faq.querySelector(
-                '.faq-question'
-              );
-
-
-            if (!question) {
-              return;
-            }
-
-
-            question.addEventListener(
-              'click',
-              function() {
-
-                const isActive =
-                  faq.classList.contains(
-                    'active'
-                  );
-
-
-                faqs.forEach(
-                  item => {
-
-                    item.classList.remove(
-                      'active'
-                    );
-
-                  }
+                toggleBtn.setAttribute(
+                  "aria-expanded",
+                  "false"
                 );
-
-
-                if (!isActive) {
-
-                  faq.classList.add(
-                    'active'
-                  );
-
-                }
 
               }
             );
@@ -1982,29 +2653,181 @@
           }
         );
 
+    }
 
-        if (
-          faqs.length > 0
-        ) {
 
-          faqs[0].classList.add(
-            'active'
+    /* =========================================================
+       15. FAQ
+    ========================================================== */
+
+    function setupFAQ() {
+
+      const faqs =
+        document.querySelectorAll(
+          ".faq-item"
+        );
+
+
+      if (!faqs.length) {
+        return;
+      }
+
+
+      faqs.forEach(
+        faq => {
+
+          const question =
+            faq.querySelector(
+              ".faq-question"
+            );
+
+
+          if (!question) {
+            return;
+          }
+
+
+          question.addEventListener(
+            "click",
+            function () {
+
+              const isActive =
+                faq.classList.contains(
+                  "active"
+                );
+
+
+              faqs.forEach(
+                item =>
+                  item.classList.remove(
+                    "active"
+                  )
+              );
+
+
+              if (!isActive) {
+
+                faq.classList.add(
+                  "active"
+                );
+
+              }
+
+            }
           );
 
         }
+      );
 
 
-        /* =============================================
-           تحميل الباقات
-        ============================================== */
+      /*
+        فتح أول سؤال تلقائياً
+      */
 
-        loadPackages();
+      faqs[0].classList.add(
+        "active"
+      );
 
+    }
+
+
+    /* =========================================================
+       16. CLEAN OLD PACKAGE DATA
+    ========================================================== */
+
+    function preparePackageStorage() {
+
+      /*
+        لا نحذف الباقة المختارة تلقائياً،
+        لأن appointment.html قد يعتمد عليها
+        إذا عاد المستخدم من صفحة الحجز.
+
+        لكننا لا نكتب أي بيانات جديدة
+        إلا عند اختيار باقة.
+      */
+
+      console.log(
+        "ℹ️ نظام اختيار الباقات جاهز."
+      );
+
+    }
+
+
+    /* =========================================================
+       17. PAGE INITIALIZATION
+    ========================================================== */
+
+    async function initializePage() {
+
+      console.log(
+        "🚀 تشغيل صفحة باقات وعروض ميدلاب..."
+      );
+
+
+      setupMobileMenu();
+
+      setupFAQ();
+
+      preparePackageStorage();
+
+
+      /*
+        إنشاء Supabase
+      */
+
+      const initialized =
+        initializeSupabase();
+
+
+      if (!initialized) {
+        return;
       }
-    );
+
+
+      /*
+        اختبار الاتصال.
+        لا نوقف الصفحة إذا فشل الاختبار،
+        لأن loadPackages سيعرض الخطأ بالتفصيل.
+      */
+
+      await testSupabaseConnection();
+
+
+      /*
+        تحميل الباقات
+      */
+
+      await loadPackages();
+
+
+      console.log(
+        "🏁 انتهى تشغيل صفحة الباقات."
+      );
+
+    }
+
+
+    /* =========================================================
+       18. START
+    ========================================================== */
+
+    if (
+      document.readyState ===
+      "loading"
+    ) {
+
+      document.addEventListener(
+        "DOMContentLoaded",
+        initializePage
+      );
+
+    } else {
+
+      initializePage();
+
+    }
 
   </script>
 
 </body>
-
 </html>
