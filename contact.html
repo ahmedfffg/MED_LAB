@@ -1,610 +1,411 @@
-```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>تواصل معنا | معمل MEDLAB</title>
+    <title>اتصل بنا - معمل ميدلاب</title>
 
-    <meta name="description" content="تواصل مع معمل MEDLAB للاستفسارات والشكاوى والمقترحات">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="images/logo.png" type="image/x-icon" rel="icon">
 
-    <link rel="icon" href="images/logo.png" type="image/x-icon">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap"
+          rel="stylesheet">
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: Arial, Tahoma, sans-serif;
-            background: #f4fbff;
-            color: #123;
-            min-height: 100vh;
-        }
-
-        /* =========================
-           HEADER
-        ========================= */
-
-        header {
-            background: linear-gradient(135deg, #0a4179, #318dcc);
+        .contact {
+            padding: 140px 0 50px;
+            background: #0a4179;
             color: white;
-            padding: 14px 6%;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 3px 15px rgba(0, 70, 130, 0.18);
+            margin-top: 60px;
+            min-height: calc(100vh - 60px);
         }
 
-        .header-container {
-            max-width: 1250px;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 25px;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: white;
-        }
-
-        .logo-container img {
-            width: 52px;
-            height: 52px;
-            object-fit: contain;
-            border-radius: 12px;
-            background: white;
-            padding: 4px;
-        }
-
-        .logo-text {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .logo-text strong {
-            font-size: 23px;
-            letter-spacing: 1px;
-        }
-
-        .logo-text span {
-            font-size: 12px;
-            opacity: 0.9;
-            margin-top: 3px;
-        }
-
-        nav {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 14px;
-            border-radius: 9px;
-            font-size: 15px;
-            transition: 0.25s ease;
-        }
-
-        nav a:hover,
-        nav a.active {
-            background: rgba(255, 255, 255, 0.18);
-        }
-
-        .menu-btn {
-            display: none;
-            border: none;
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            width: 44px;
-            height: 44px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 25px;
-        }
-
-        /* =========================
-           HERO
-        ========================= */
-
-        .hero {
-            background:
-                linear-gradient(
-                    rgba(10, 65, 121, 0.82),
-                    rgba(49, 141, 204, 0.78)
-                ),
-                url("images/contact-bg.jpg");
-
-            background-size: cover;
-            background-position: center;
-
-            min-height: 280px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            text-align: center;
-            color: white;
-
-            padding: 50px 20px;
-        }
-
-        .hero-content {
-            max-width: 800px;
-        }
-
-        .hero h1 {
-            font-size: 42px;
-            margin-bottom: 15px;
-        }
-
-        .hero p {
-            font-size: 18px;
-            line-height: 1.9;
-            opacity: 0.95;
-        }
-
-        /* =========================
-           MAIN
-        ========================= */
-
-        main {
-            max-width: 1150px;
-            margin: 55px auto;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 0 20px;
         }
 
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 0.85fr 1.15fr;
-            gap: 30px;
-            align-items: start;
+        .section-titles {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: white;
         }
 
         /* =========================
-           INFO CARD
+           AI Assistant
         ========================= */
 
-        .contact-info {
-            background: white;
-            border-radius: 20px;
+        .ai-assistant-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
             padding: 30px;
-            box-shadow: 0 8px 30px rgba(26, 104, 158, 0.10);
-            border: 1px solid #e2f2fb;
+            margin: 40px auto;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            border: none;
+            transition: transform 0.4s, box-shadow 0.4s;
         }
 
-        .contact-info h2 {
-            color: #0a5d96;
-            margin-bottom: 12px;
-            font-size: 27px;
+        .ai-assistant-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
 
-        .contact-info > p {
-            color: #607d8b;
-            line-height: 1.8;
-            margin-bottom: 25px;
+        .ai-icon {
+            font-size: 3rem;
+            color: #8ac4ff;
+            margin-bottom: 15px;
+            transition: transform 0.3s;
         }
 
-        .info-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            margin-bottom: 22px;
+        .ai-assistant-card:hover .ai-icon {
+            transform: rotate(15deg) scale(1.2);
         }
 
-        .info-icon {
-            width: 45px;
-            height: 45px;
-            flex-shrink: 0;
-            background: #e8f7ff;
-            color: #0879b9;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 21px;
+        .ai-title {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
         }
 
-        .info-content h3 {
-            color: #164d70;
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-
-        .info-content p,
-        .info-content a {
-            color: #667f8e;
-            text-decoration: none;
-            line-height: 1.7;
-            word-break: break-word;
-        }
-
-        .info-content a:hover {
-            color: #0879b9;
+        .ai-description {
+            color: #fff;
+            margin-bottom: 20px;
+            line-height: 1.6;
         }
 
         /* =========================
-           FORM CARD
+           Contact Form
         ========================= */
 
-        .contact-form-card {
-            background: white;
-            border-radius: 20px;
-            padding: 32px;
-            box-shadow: 0 8px 30px rgba(26, 104, 158, 0.10);
-            border: 1px solid #e2f2fb;
+        .contact-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            max-width: 600px;
+            margin: 0 auto;
+            color: #1a2a3a;
         }
 
-        .contact-form-card h2 {
-            color: #0a5d96;
-            font-size: 27px;
-            margin-bottom: 8px;
+        .form-title {
+            text-align: center;
+            color: #0a4179;
+            margin-bottom: 30px;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 15px;
         }
 
-        .form-subtitle {
-            color: #718792;
-            margin-bottom: 25px;
-            line-height: 1.7;
+        .form-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 50%;
+            transform: translateX(50%);
+            width: 80px;
+            height: 4px;
+            background: #499bda;
+            border-radius: 3px;
         }
 
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            color: #244f68;
-            font-weight: bold;
-            font-size: 14px;
+            font-weight: 500;
+            color: #1a2a3a;
         }
 
-        .required {
-            color: #e53935;
+        .form-group label i {
+            color: #2a6a9a;
+            margin-left: 6px;
         }
 
         .form-control {
             width: 100%;
-            border: 1px solid #cfe5f0;
-            background: #fbfeff;
-            border-radius: 11px;
-            padding: 13px 14px;
-            font-size: 15px;
-            color: #234;
-            outline: none;
-            transition: 0.25s ease;
-            font-family: inherit;
+            padding: 12px 15px;
+            border: 2px solid #e8ecf0;
+            border-radius: 10px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.95rem;
+            transition: border 0.3s, box-shadow 0.3s;
+            background: #fafbfc;
+            color: #1a2a3a;
+            box-sizing: border-box;
         }
 
         .form-control:focus {
-            border-color: #51a8d9;
-            box-shadow: 0 0 0 3px rgba(81, 168, 217, 0.13);
+            border-color: #2a6a9a;
+            box-shadow: 0 0 0 4px rgba(42, 106, 154, 0.08);
+            outline: none;
             background: white;
         }
 
+        .form-control::placeholder {
+            color: #a0aab5;
+        }
+
         textarea.form-control {
-            min-height: 145px;
+            min-height: 150px;
             resize: vertical;
-            line-height: 1.7;
         }
 
-        select.form-control {
-            cursor: pointer;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .submit-btn {
-            width: 100%;
-            border: none;
-            border-radius: 12px;
-            padding: 14px 20px;
-            background: linear-gradient(135deg, #0879b9, #43a9dc);
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #0a4179, #499bda);
             color: white;
-            font-size: 17px;
-            font-weight: bold;
-            font-family: inherit;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: 0.25s ease;
-            box-shadow: 0 7px 18px rgba(8, 121, 185, 0.18);
+            transition: all 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
+            width: 100%;
+            justify-content: center;
+            text-decoration: none;
+            box-sizing: border-box;
         }
 
-        .submit-btn:hover {
+        .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 23px rgba(8, 121, 185, 0.25);
+            box-shadow: 0 6px 25px rgba(42, 106, 154, 0.35);
         }
 
-        .submit-btn:disabled {
-            opacity: 0.65;
+        .btn:disabled {
+            opacity: 0.6;
             cursor: not-allowed;
             transform: none;
-            box-shadow: none;
         }
 
         /* =========================
-           MESSAGE
+           Header
         ========================= */
 
-        .form-message {
-            display: none;
-            padding: 13px 15px;
-            border-radius: 10px;
-            margin-bottom: 18px;
-            line-height: 1.7;
-            font-size: 14px;
-        }
-
-        .form-message.success {
-            display: block;
-            background: #e9f9ef;
-            color: #18713a;
-            border: 1px solid #bce9ca;
-        }
-
-        .form-message.error {
-            display: block;
-            background: #fff0f0;
-            color: #b3261e;
-            border: 1px solid #f1c2c0;
-        }
-
-        /* =========================
-           WHATSAPP
-        ========================= */
-
-        .whatsapp-btn {
-            position: fixed;
-            left: 22px;
-            bottom: 22px;
-
-            width: 56px;
-            height: 56px;
-
-            background: #25d366;
+        .mobile-header {
+            background: linear-gradient(135deg, #0a4179, #499bda);
             color: white;
+            padding: 0.5rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+        }
 
+        .mobile-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .mobile-header h1 {
+            color: white;
+            font-size: 1.4rem;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .menu-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            font-size: 1.6rem;
+            padding: 0.3rem 0.8rem;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .mobile-nav {
+            display: none;
+            background: white;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 0 0 20px 20px;
+            overflow: hidden;
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-nav ul {
+            list-style: none;
+            padding: 0.3rem 0;
+            margin: 0;
+        }
+
+        .mobile-nav ul li {
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .mobile-nav ul li:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-nav ul li a {
+            display: block;
+            padding: 0.8rem 1.8rem;
+            color: #1a2a3a;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .mobile-nav ul li a i {
+            margin-left: 0.8rem;
+            width: 24px;
+            color: #2a6a9a;
+        }
+
+        .mobile-nav ul li a:hover {
+            background: #f0f7ff;
+        }
+
+        /* =========================
+           Notifications
+        ========================= */
+
+        .notification {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            z-index: 9999;
+            animation: slideIn 0.5s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            max-width: 400px;
+        }
+
+        .notification-success {
+            background: #10b981;
+        }
+
+        .notification-error {
+            background: #ef4444;
+        }
+
+        .notification-info {
+            background: #3b82f6;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        /* =========================
+           WhatsApp
+        ========================= */
+
+        .floating-whatsapp {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
-            text-decoration: none;
-
-            font-size: 27px;
-
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.20);
-
+            font-size: 2rem;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
             z-index: 999;
-
-            transition: 0.25s ease;
-        }
-
-        .whatsapp-btn:hover {
-            transform: scale(1.08);
-        }
-
-        /* =========================
-           FOOTER
-        ========================= */
-
-        footer {
-            margin-top: 70px;
-            background: #083f6d;
-            color: white;
-            padding: 35px 20px 25px;
-        }
-
-        .footer-container {
-            max-width: 1150px;
-            margin: auto;
-            text-align: center;
-        }
-
-        .footer-container p {
-            line-height: 1.8;
-            opacity: 0.9;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .footer-links a {
-            color: white;
+            transition: all 0.3s ease;
             text-decoration: none;
-            opacity: 0.9;
         }
 
-        .footer-links a:hover {
-            opacity: 1;
-            text-decoration: underline;
-        }
-
-        /* =========================
-           LOADING
-        ========================= */
-
-        .loading-text {
-            display: none;
-            text-align: center;
-            margin-top: 10px;
-            color: #547586;
-            font-size: 13px;
+        .floating-whatsapp:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5);
+            color: white;
         }
 
         /* =========================
-           RESPONSIVE
+           Mobile
         ========================= */
 
-        @media (max-width: 850px) {
-
-            header {
-                padding: 11px 4%;
+        @media (max-width: 768px) {
+            .contact {
+                padding: 120px 0 30px;
             }
 
-            .header-container {
-                position: relative;
+            .ai-assistant-card,
+            .contact-form {
+                padding: 20px;
+                margin: 20px auto;
             }
 
-            .menu-btn {
-                display: flex;
-                align-items: center;
-                justify-content: center;
+            .floating-whatsapp {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+                bottom: 20px;
+                left: 20px;
             }
 
-            nav {
-                display: none;
-
-                position: absolute;
-                top: calc(100% + 10px);
-                right: 0;
-                left: 0;
-
-                background: #f8fdff;
-
-                border-radius: 14px;
-
-                padding: 10px;
-
-                box-shadow: 0 10px 30px rgba(0, 70, 130, 0.16);
-
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            nav.show {
-                display: flex;
-            }
-
-            nav a {
-                color: #155b83;
-                padding: 12px 14px;
-                border-radius: 9px;
-            }
-
-            nav a:hover,
-            nav a.active {
-                background: #e8f7ff;
-            }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero {
-                min-height: 240px;
-            }
-
-            .hero h1 {
-                font-size: 34px;
-            }
-
-            .hero p {
-                font-size: 16px;
+            .section-titles {
+                font-size: 1.8rem;
             }
         }
 
-        @media (max-width: 600px) {
-
-            body {
-                background: #f7fcff;
+        @media (max-width: 480px) {
+            .mobile-header h1 {
+                font-size: 1.1rem;
             }
 
-            .logo-container img {
-                width: 46px;
-                height: 46px;
-            }
-
-            .logo-text strong {
-                font-size: 20px;
-            }
-
-            .logo-text span {
-                font-size: 10px;
-            }
-
-            .hero {
-                min-height: 215px;
-                padding: 35px 18px;
-                background:
-                    linear-gradient(
-                        rgba(93, 184, 226, 0.82),
-                        rgba(128, 205, 237, 0.78)
-                    ),
-                    url("images/contact-bg.jpg");
-                background-size: cover;
-                background-position: center;
-            }
-
-            .hero h1 {
-                font-size: 30px;
-            }
-
-            .hero p {
-                font-size: 15px;
-                line-height: 1.8;
-            }
-
-            main {
-                margin: 30px auto;
-                padding: 0 13px;
-            }
-
-            .contact-info,
-            .contact-form-card {
-                padding: 22px 17px;
-                border-radius: 16px;
-            }
-
-            .contact-info h2,
-            .contact-form-card h2 {
-                font-size: 23px;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-                gap: 0;
-            }
-
-            .form-control {
-                background: #ffffff;
-                border-color: #c8e6f4;
-            }
-
-            .submit-btn {
-                padding: 13px;
-                font-size: 16px;
-            }
-
-            .whatsapp-btn {
-                left: 15px;
-                bottom: 15px;
-                width: 52px;
-                height: 52px;
+            .contact-form {
+                padding: 15px;
             }
         }
     </style>
@@ -612,958 +413,743 @@
 
 <body>
 
-    <!-- =========================
-         HEADER
-    ========================== -->
+<header class="mobile-header">
 
-    <header>
-        <div class="header-container">
+    <div class="container">
 
-            <a href="index.html" class="logo-container">
-                <img src="images/logo.png" alt="MEDLAB Logo">
+        <button class="menu-toggle" type="button" aria-label="فتح القائمة">
+            <i class="fas fa-bars"></i>
+        </button>
 
-                <div class="logo-text">
-                    <strong>MEDLAB</strong>
-                    <span>للدقة عنوان</span>
-                </div>
-            </a>
+        <h1>معمل ميدلاب</h1>
 
-            <button
-                class="menu-btn"
-                id="menuBtn"
-                type="button"
-                aria-label="فتح القائمة"
-                aria-expanded="false"
-            >
-                ☰
-            </button>
+    </div>
 
-            <nav id="mainNav">
+    <nav class="mobile-nav">
 
-                <a href="index.html">الرئيسية</a>
+        <ul>
 
-                <a href="appointment.html">الحجز</a>
-
-                <a href="packages.html">الباقات والعروض</a>
-
-                <a href="contact.html" class="active">تواصل معنا</a>
-
-            </nav>
-
-        </div>
-    </header>
-
-
-    <!-- =========================
-         HERO
-    ========================== -->
-
-    <section class="hero">
-
-        <div class="hero-content">
-
-            <h1>تواصل معنا</h1>
-
-            <p>
-                يسعدنا استقبال استفساراتك وشكاواك ومقترحاتك،
-                ونسعى دائماً لتقديم أفضل خدمة لك.
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         MAIN
-    ========================== -->
-
-    <main>
-
-        <div class="contact-grid">
-
-            <!-- =========================
-                 CONTACT INFORMATION
-            ========================== -->
-
-            <section class="contact-info">
-
-                <h2>تواصل مع MEDLAB</h2>
-
-                <p>
-                    يمكنك التواصل معنا من خلال البيانات التالية،
-                    أو إرسال رسالتك مباشرة من خلال نموذج التواصل.
-                </p>
-
-
-                <div class="info-item">
-
-                    <div class="info-icon">
-                        📍
-                    </div>
-
-                    <div class="info-content">
-
-                        <h3>العنوان</h3>
-
-                        <p>
-                            معمل MEDLAB
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="info-item">
-
-                    <div class="info-icon">
-                        📞
-                    </div>
-
-                    <div class="info-content">
-
-                        <h3>الهاتف</h3>
-
-                        <a href="tel:+20161730854">
-                            0161730854
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-                <div class="info-item">
-
-                    <div class="info-icon">
-                        💬
-                    </div>
-
-                    <div class="info-content">
-
-                        <h3>واتساب</h3>
-
-                        <a
-                            href="https://wa.me/20161730854"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            تواصل معنا عبر واتساب
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-                <div class="info-item">
-
-                    <div class="info-icon">
-                        ✉️
-                    </div>
-
-                    <div class="info-content">
-
-                        <h3>البريد الإلكتروني</h3>
-
-                        <a href="mailto:info@medlab.com">
-                            info@medlab.com
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =========================
-                 CONTACT FORM
-            ========================== -->
-
-            <section class="contact-form-card">
-
-                <h2>أرسل لنا رسالة</h2>
-
-                <p class="form-subtitle">
-                    اختر نوع الرسالة ثم اكتب بياناتك ورسالتك،
-                    وسنقوم بمراجعتها والتعامل معها.
-                </p>
-
-
-                <!-- رسالة النجاح / الخطأ -->
-
-                <div
-                    id="formMessage"
-                    class="form-message"
-                    role="alert"
-                ></div>
-
-
-                <form id="contactForm" novalidate>
-
-                    <!-- نوع الرسالة -->
-
-                    <div class="form-group">
-
-                        <label for="message-type">
-                            نوع الرسالة
-                            <span class="required">*</span>
-                        </label>
-
-                        <select
-                            id="message-type"
-                            class="form-control"
-                            required
-                        >
-
-                            <option value="">
-                                اختر نوع الرسالة
-                            </option>
-
-                            <option value="complaint">
-                                شكوى
-                            </option>
-
-                            <option value="inquiry">
-                                استفسار
-                            </option>
-
-                            <option value="suggestion">
-                                مقترح
-                            </option>
-
-                            <option value="other">
-                                أخرى
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- الاسم -->
-
-                    <div class="form-group">
-
-                        <label for="name">
-                            الاسم بالكامل
-                            <span class="required">*</span>
-                        </label>
-
-                        <input
-                            type="text"
-                            id="name"
-                            class="form-control"
-                            placeholder="اكتب اسمك بالكامل"
-                            autocomplete="name"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- Email + Phone -->
-
-                    <div class="form-row">
-
-                        <div class="form-group">
-
-                            <label for="email">
-                                البريد الإلكتروني
-                                <span class="required">*</span>
-                            </label>
-
-                            <input
-                                type="email"
-                                id="email"
-                                class="form-control"
-                                placeholder="example@email.com"
-                                autocomplete="email"
-                                dir="ltr"
-                                required
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="phone">
-                                رقم الهاتف
-                                <span class="required">*</span>
-                            </label>
-
-                            <input
-                                type="tel"
-                                id="phone"
-                                class="form-control"
-                                placeholder="01xxxxxxxxx"
-                                autocomplete="tel"
-                                inputmode="numeric"
-                                dir="ltr"
-                                required
-                            >
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- الرسالة -->
-
-                    <div class="form-group">
-
-                        <label for="message">
-                            الرسالة
-                            <span class="required">*</span>
-                        </label>
-
-                        <textarea
-                            id="message"
-                            class="form-control"
-                            placeholder="اكتب رسالتك هنا..."
-                            required
-                        ></textarea>
-
-                    </div>
-
-
-                    <!-- زر الإرسال -->
-
-                    <button
-                        type="submit"
-                        id="submitBtn"
-                        class="submit-btn"
-                    >
-                        إرسال الرسالة
-                    </button>
-
-                    <div
-                        id="loadingText"
-                        class="loading-text"
-                    >
-                        جاري إرسال الرسالة...
-                    </div>
-
-                </form>
-
-            </section>
-
-        </div>
-
-    </main>
-
-
-    <!-- =========================
-         WHATSAPP BUTTON
-    ========================== -->
-
-    <a
-        href="https://wa.me/20161730854"
-        class="whatsapp-btn"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="تواصل معنا عبر واتساب"
-        title="تواصل معنا عبر واتساب"
-    >
-        ☎
-    </a>
-
-
-    <!-- =========================
-         FOOTER
-    ========================== -->
-
-    <footer>
-
-        <div class="footer-container">
-
-            <div class="footer-links">
-
+            <li>
                 <a href="index.html">
+                    <i class="fas fa-home"></i>
                     الرئيسية
                 </a>
+            </li>
 
+            <li>
+                <a href="index.html#services">
+                    <i class="fas fa-flask"></i>
+                    خدماتنا
+                </a>
+            </li>
+
+            <li>
                 <a href="appointment.html">
-                    الحجز
+                    <i class="fas fa-calendar-check"></i>
+                    حجز فحص
                 </a>
+            </li>
 
-                <a href="packages.html">
-                    الباقات والعروض
-                </a>
-
+            <li>
                 <a href="contact.html">
-                    تواصل معنا
+                    <i class="fas fa-headset"></i>
+                    خدمة العملاء
                 </a>
+            </li>
+        </ul>
 
-            </div>
+    </nav>
 
-            <p>
-                © <span id="year"></span> MEDLAB -
-                جميع الحقوق محفوظة
+</header>
+
+
+<main class="contact">
+
+    <div class="container">
+
+        <h1 class="section-titles">
+            اتصل بنا
+        </h1>
+
+
+        <!-- =========================
+             AI Assistant
+        ========================== -->
+
+        <div class="ai-assistant-card">
+
+            <i class="fas fa-robot ai-icon"></i>
+
+            <h3 class="ai-title">
+                المساعد الطبي الذكي
+            </h3>
+
+            <p class="ai-description">
+                مساعدنا الافتراضي متاح للإجابة على استفساراتك الطبية العامة وتقديم النصائح الأولية
             </p>
+
+            <a href="ai-assistant.html" class="btn">
+                ابدأ المحادثة الآن
+                <i class="fas fa-arrow-left"></i>
+            </a>
 
         </div>
 
-    </footer>
+
+        <!-- =========================
+             Contact Form
+        ========================== -->
+
+        <div class="contact-form">
+
+            <h3 class="form-title">
+                أو أرسل لنا رسالة مباشرة
+            </h3>
 
 
-    <!-- =========================
-         JAVASCRIPT
-    ========================== -->
+            <form id="contactForm" novalidate>
 
-    <script>
+                <!-- نوع الرسالة -->
 
-        /* =========================================
-           SUPABASE CONFIGURATION
-        ========================================== */
+                <div class="form-group">
 
-        const SUPABASE_URL =
-            'https://rlkqifdteyccagpdtdmu.supabase.co';
+                    <label for="message-type">
+                        <i class="fas fa-tag"></i>
+                        نوع الرسالة
+                    </label>
 
-        const SUPABASE_ANON_KEY =
-            'sb_publishable_XibO6Ri8DLKHG-rUEp4Bnw_bDzm67Xf';
+                    <select
+                        id="message-type"
+                        class="form-control"
+                        required
+                    >
+
+                        <option value="">
+                            اختر نوع الرسالة
+                        </option>
+
+                        <option value="complaint">
+                            شكوى
+                        </option>
+
+                        <option value="inquiry">
+                            استفسار
+                        </option>
+
+                        <option value="suggestion">
+                            مقترح
+                        </option>
+
+                        <option value="other">
+                            أخرى
+                        </option>
+
+                    </select>
+
+                </div>
 
 
-        /* =========================================
-           ELEMENTS
-        ========================================== */
+                <!-- الاسم -->
 
-        const contactForm =
+                <div class="form-group">
+
+                    <label for="name">
+                        <i class="fas fa-user"></i>
+                        الاسم الكامل
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        class="form-control"
+                        placeholder="أدخل اسمك الكامل"
+                        autocomplete="name"
+                        maxlength="150"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- البريد -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        <i class="fas fa-envelope"></i>
+                        البريد الإلكتروني
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        class="form-control"
+                        placeholder="example@email.com"
+                        autocomplete="email"
+                        maxlength="200"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- الهاتف -->
+
+                <div class="form-group">
+
+                    <label for="phone">
+                        <i class="fas fa-phone"></i>
+                        رقم الجوال
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        class="form-control"
+                        placeholder="مثال: 01012345678"
+                        autocomplete="tel"
+                        maxlength="20"
+                        inputmode="numeric"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- الرسالة -->
+
+                <div class="form-group">
+
+                    <label for="message">
+                        <i class="fas fa-comment"></i>
+                        نص الرسالة
+                    </label>
+
+                    <textarea
+                        id="message"
+                        rows="5"
+                        class="form-control"
+                        placeholder="اكتب رسالتك هنا..."
+                        maxlength="3000"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <!-- زر الإرسال -->
+
+                <button
+                    type="submit"
+                    class="btn"
+                    id="submitBtn"
+                >
+
+                    <i class="fas fa-paper-plane"></i>
+                    إرسال الرسالة
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- WhatsApp -->
+
+<a
+    href="https://wa.me/+20161730854"
+    class="floating-whatsapp"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="التواصل عبر واتساب"
+>
+
+    <i class="fab fa-whatsapp"></i>
+
+</a>
+
+
+<script>
+
+/* ============================================================
+   إعدادات Supabase
+   ============================================================ */
+
+const SUPABASE_URL =
+    'https://rlkqifdteyccagpdtdmu.supabase.co';
+
+const SUPABASE_ANON_KEY =
+    'sb_publishable_XibO6Ri8DLKHG-rUEp4Bnw_bDzm67Xf';
+
+
+/* ============================================================
+   إرسال البيانات إلى جدول contact_messages
+   ============================================================ */
+
+async function sendToSupabase(data) {
+
+    const url =
+        `${SUPABASE_URL}/rest/v1/contact_messages`;
+
+    const response = await fetch(url, {
+
+        method: 'POST',
+
+        headers: {
+
+            'apikey': SUPABASE_ANON_KEY,
+
+            'Authorization':
+                `Bearer ${SUPABASE_ANON_KEY}`,
+
+            'Content-Type':
+                'application/json',
+
+            'Prefer':
+                'return=minimal'
+
+        },
+
+        body: JSON.stringify(data)
+
+    });
+
+
+    if (!response.ok) {
+
+        const errorText =
+            await response.text();
+
+        throw new Error(
+            `HTTP ${response.status}: ${errorText}`
+        );
+
+    }
+
+
+    return true;
+}
+
+
+/* ============================================================
+   تشغيل الصفحة
+   ============================================================ */
+
+document.addEventListener(
+    'DOMContentLoaded',
+    function () {
+
+        const form =
             document.getElementById('contactForm');
-
-        const messageType =
-            document.getElementById('message-type');
-
-        const nameInput =
-            document.getElementById('name');
-
-        const emailInput =
-            document.getElementById('email');
-
-        const phoneInput =
-            document.getElementById('phone');
-
-        const messageInput =
-            document.getElementById('message');
 
         const submitBtn =
             document.getElementById('submitBtn');
 
-        const formMessage =
-            document.getElementById('formMessage');
 
-        const loadingText =
-            document.getElementById('loadingText');
+        /* =====================================================
+           القائمة المتنقلة
+           ===================================================== */
 
-        const menuBtn =
-            document.getElementById('menuBtn');
+        const menuToggle =
+            document.querySelector('.menu-toggle');
 
-        const mainNav =
-            document.getElementById('mainNav');
+        const mobileNav =
+            document.querySelector('.mobile-nav');
 
 
-        /* =========================================
-           MOBILE MENU
-        ========================================== */
+        if (menuToggle && mobileNav) {
 
-        menuBtn.addEventListener('click', function () {
+            menuToggle.addEventListener(
+                'click',
+                function (e) {
 
-            const isOpen =
-                mainNav.classList.toggle('show');
+                    e.stopPropagation();
 
-            menuBtn.setAttribute(
-                'aria-expanded',
-                isOpen ? 'true' : 'false'
+                    mobileNav.classList.toggle('active');
+
+                    menuToggle.classList.toggle('open');
+
+                }
             );
 
-            menuBtn.textContent =
-                isOpen ? '✕' : '☰';
 
-        });
+            document
+                .querySelectorAll('.mobile-nav a')
+                .forEach(function (link) {
 
+                    link.addEventListener(
+                        'click',
+                        function () {
 
-        /* إغلاق القائمة عند اختيار رابط */
+                            mobileNav.classList.remove('active');
 
-        mainNav.querySelectorAll('a').forEach(function (link) {
+                            menuToggle.classList.remove('open');
 
-            link.addEventListener('click', function () {
-
-                mainNav.classList.remove('show');
-
-                menuBtn.setAttribute(
-                    'aria-expanded',
-                    'false'
-                );
-
-                menuBtn.textContent = '☰';
-
-            });
-
-        });
-
-
-        /* =========================================
-           YEAR
-        ========================================== */
-
-        document.getElementById('year').textContent =
-            new Date().getFullYear();
-
-
-        /* =========================================
-           SHOW MESSAGE
-        ========================================== */
-
-        function showMessage(text, type) {
-
-            formMessage.textContent = text;
-
-            formMessage.className =
-                'form-message ' + type;
-
-            formMessage.style.display = 'block';
-
-        }
-
-
-        /* =========================================
-           HIDE MESSAGE
-        ========================================== */
-
-        function hideMessage() {
-
-            formMessage.textContent = '';
-
-            formMessage.className =
-                'form-message';
-
-            formMessage.style.display = 'none';
-
-        }
-
-
-        /* =========================================
-           EMAIL VALIDATION
-        ========================================== */
-
-        function isValidEmail(email) {
-
-            const emailRegex =
-                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-            return emailRegex.test(email);
-
-        }
-
-
-        /* =========================================
-           EGYPTIAN PHONE VALIDATION
-        ========================================== */
-
-        function isValidEgyptianPhone(phone) {
-
-            const cleanedPhone =
-                phone.replace(/\D/g, '');
-
-            return /^01[0-9]{9}$/.test(cleanedPhone);
-
-        }
-
-
-        /* =========================================
-           SEND DATA TO SUPABASE
-        ========================================== */
-
-        async function sendToSupabase(data) {
-
-            const url =
-                `${SUPABASE_URL}/rest/v1/contact_messages`;
-
-            const response =
-                await fetch(url, {
-
-                    method: 'POST',
-
-                    headers: {
-
-                        apikey: SUPABASE_ANON_KEY,
-
-                        Authorization:
-                            `Bearer ${SUPABASE_ANON_KEY}`,
-
-                        'Content-Type':
-                            'application/json',
-
-                        Prefer:
-                            'return=representation'
-
-                    },
-
-                    body: JSON.stringify(data)
+                        }
+                    );
 
                 });
 
 
-            /* محاولة قراءة رد Supabase */
+            document.addEventListener(
+                'click',
+                function (e) {
 
-            let responseData = null;
+                    if (
+                        !mobileNav.contains(e.target) &&
+                        !menuToggle.contains(e.target)
+                    ) {
 
-            const contentType =
-                response.headers.get('content-type') || '';
+                        mobileNav.classList.remove('active');
 
-            if (contentType.includes('application/json')) {
-
-                try {
-
-                    responseData =
-                        await response.json();
-
-                } catch (error) {
-
-                    responseData = null;
-
-                }
-
-            } else {
-
-                try {
-
-                    responseData =
-                        await response.text();
-
-                } catch (error) {
-
-                    responseData = null;
-
-                }
-
-            }
-
-
-            /* لو الطلب فشل */
-
-            if (!response.ok) {
-
-                let errorMessage =
-                    'حدث خطأ أثناء إرسال الرسالة.';
-
-                if (
-                    responseData &&
-                    typeof responseData === 'object'
-                ) {
-
-                    if (responseData.message) {
-
-                        errorMessage =
-                            responseData.message;
-
-                    } else if (responseData.hint) {
-
-                        errorMessage =
-                            responseData.hint;
-
-                    } else if (responseData.details) {
-
-                        errorMessage =
-                            responseData.details;
+                        menuToggle.classList.remove('open');
 
                     }
 
                 }
-
-
-                /* أخطاء شائعة */
-
-                if (response.status === 401) {
-
-                    errorMessage =
-                        'مشكلة في مفتاح الاتصال بـ Supabase.';
-
-                } else if (response.status === 403) {
-
-                    errorMessage =
-                        'تم رفض العملية. تأكد من صلاحيات جدول contact_messages في Supabase.';
-
-                } else if (response.status === 404) {
-
-                    errorMessage =
-                        'جدول contact_messages غير موجود في قاعدة البيانات.';
-
-                }
-
-                throw new Error(errorMessage);
-
-            }
-
-
-            return responseData;
+            );
 
         }
 
 
-        /* =========================================
-           FORM SUBMIT
-        ========================================== */
+        /* =====================================================
+           إرسال النموذج
+           ===================================================== */
 
-        contactForm.addEventListener(
+        form.addEventListener(
             'submit',
-            async function (event) {
+            async function (e) {
 
-                event.preventDefault();
-
-                hideMessage();
+                e.preventDefault();
 
 
-                /* قراءة البيانات */
+                /* ==============================================
+                   جلب البيانات
+                   ============================================== */
 
-                const selectedMessageType =
-                    messageType.value.trim();
+                const messageType =
+                    document
+                        .getElementById('message-type')
+                        .value
+                        .trim();
+
 
                 const name =
-                    nameInput.value.trim();
+                    document
+                        .getElementById('name')
+                        .value
+                        .trim();
+
 
                 const email =
-                    emailInput.value.trim();
+                    document
+                        .getElementById('email')
+                        .value
+                        .trim();
+
 
                 const phone =
-                    phoneInput.value.trim();
+                    document
+                        .getElementById('phone')
+                        .value
+                        .trim();
 
-                const message =
-                    messageInput.value.trim();
+
+                const messageText =
+                    document
+                        .getElementById('message')
+                        .value
+                        .trim();
 
 
-                /* =================================
-                   VALIDATION
-                ================================== */
+                /* ==============================================
+                   التحقق من البيانات
+                   ============================================== */
 
-                if (!selectedMessageType) {
+                if (
+                    !messageType ||
+                    !name ||
+                    !email ||
+                    !phone ||
+                    !messageText
+                ) {
 
-                    showMessage(
-                        'من فضلك اختر نوع الرسالة.',
+                    showNotification(
+                        'الرجاء ملء جميع الحقول المطلوبة',
                         'error'
                     );
-
-                    messageType.focus();
 
                     return;
 
                 }
 
 
-                if (!name) {
+                /* ==============================================
+                   التحقق من البريد الإلكتروني
+                   ============================================== */
 
-                    showMessage(
-                        'من فضلك اكتب الاسم بالكامل.',
+                const emailRegex =
+                    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+                if (!emailRegex.test(email)) {
+
+                    showNotification(
+                        'الرجاء إدخال بريد إلكتروني صحيح',
                         'error'
                     );
-
-                    nameInput.focus();
 
                     return;
 
                 }
 
 
-                if (name.length < 2) {
+                /* ==============================================
+                   التحقق من رقم الهاتف المصري
+                   ============================================== */
 
-                    showMessage(
-                        'الاسم يجب أن يحتوي على حرفين على الأقل.',
+                const cleanPhone =
+                    phone.replace(/\D/g, '');
+
+
+                const phoneRegex =
+                    /^01[0-9]{9}$/;
+
+
+                if (!phoneRegex.test(cleanPhone)) {
+
+                    showNotification(
+                        'الرجاء إدخال رقم هاتف مصري صحيح (01xxxxxxxxx)',
                         'error'
                     );
-
-                    nameInput.focus();
 
                     return;
 
                 }
 
 
-                if (!email) {
-
-                    showMessage(
-                        'من فضلك اكتب البريد الإلكتروني.',
-                        'error'
-                    );
-
-                    emailInput.focus();
-
-                    return;
-
-                }
-
-
-                if (!isValidEmail(email)) {
-
-                    showMessage(
-                        'من فضلك اكتب بريدًا إلكترونيًا صحيحًا.',
-                        'error'
-                    );
-
-                    emailInput.focus();
-
-                    return;
-
-                }
-
-
-                if (!phone) {
-
-                    showMessage(
-                        'من فضلك اكتب رقم الهاتف.',
-                        'error'
-                    );
-
-                    phoneInput.focus();
-
-                    return;
-
-                }
-
-
-                if (!isValidEgyptianPhone(phone)) {
-
-                    showMessage(
-                        'من فضلك اكتب رقم هاتف مصري صحيح مكون من 11 رقمًا ويبدأ بـ 01.',
-                        'error'
-                    );
-
-                    phoneInput.focus();
-
-                    return;
-
-                }
-
-
-                if (!message) {
-
-                    showMessage(
-                        'من فضلك اكتب الرسالة.',
-                        'error'
-                    );
-
-                    messageInput.focus();
-
-                    return;
-
-                }
-
-
-                if (message.length < 5) {
-
-                    showMessage(
-                        'الرسالة قصيرة جدًا، من فضلك اكتب تفاصيل أكثر.',
-                        'error'
-                    );
-
-                    messageInput.focus();
-
-                    return;
-
-                }
-
-
-                /* =================================
-                   DATA FOR SUPABASE
-                ================================== */
-
-                const data = {
-
-                    /*
-                     * مهم جدًا:
-                     * هذا الحقل مرتبط بعمود
-                     * message_type
-                     * في جدول contact_messages
-                     */
-
-                    message_type:
-                        selectedMessageType,
-
-                    name:
-                        name,
-
-                    email:
-                        email,
-
-                    phone:
-                        phone.replace(/\D/g, ''),
-
-                    message:
-                        message,
-
-                    status:
-                        'new'
-
-                };
-
-
-                /* =================================
-                   LOADING STATE
-                ================================== */
+                /* ==============================================
+                   تجهيز زر الإرسال
+                   ============================================== */
 
                 submitBtn.disabled = true;
 
-                submitBtn.textContent =
-                    'جاري الإرسال...';
-
-                loadingText.style.display =
-                    'block';
+                submitBtn.innerHTML =
+                    '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
 
 
                 try {
 
-                    await sendToSupabase(data);
+                    /* ==========================================
+                       إرسال البيانات إلى Supabase
+                       ========================================== */
+
+                    await sendToSupabase({
+
+                        message_type: messageType,
+
+                        name: name,
+
+                        email: email,
+
+                        phone: cleanPhone,
+
+                        message: messageText,
+
+                        status: 'new'
+
+                    });
 
 
-                    /* =================================
-                       SUCCESS
-                    ================================== */
+                    console.log(
+                        '✅ تم حفظ الرسالة في Supabase'
+                    );
 
-                    showMessage(
-                        'تم إرسال رسالتك بنجاح. شكرًا لتواصلك مع MEDLAB.',
+
+                    /* ==========================================
+                       نجاح
+                       ========================================== */
+
+                    showNotification(
+                        '✅ تم إرسال رسالتك بنجاح! سيتم الرد عليك قريباً.',
                         'success'
                     );
 
 
-                    /* تنظيف النموذج */
-
-                    contactForm.reset();
+                    form.reset();
 
 
-                } catch (error) {
+                }
+
+                catch (error) {
 
                     console.error(
-                        'Supabase Error:',
+                        '❌ خطأ أثناء إرسال الرسالة:',
                         error
                     );
 
 
-                    showMessage(
-                        error.message ||
-                        'حدث خطأ أثناء إرسال الرسالة، حاول مرة أخرى.',
+                    let errorMessage =
+                        'حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة مرة أخرى.';
+
+
+                    const errorText =
+                        String(error.message || '');
+
+
+                    if (
+                        errorText.includes('404')
+                    ) {
+
+                        errorMessage =
+                            '⚠️ جدول contact_messages غير موجود في قاعدة البيانات.';
+
+                    }
+
+                    else if (
+                        errorText.includes('401') ||
+                        errorText.includes('403')
+                    ) {
+
+                        errorMessage =
+                            '⚠️ لا توجد صلاحية لإرسال الرسالة إلى قاعدة البيانات. تأكد من إعدادات Supabase وRLS.';
+
+                    }
+
+                    else if (
+                        errorText.includes('23505')
+                    ) {
+
+                        errorMessage =
+                            '⚠️ حدث تعارض أثناء حفظ الرسالة. حاول مرة أخرى.';
+
+                    }
+
+
+                    showNotification(
+                        errorMessage,
                         'error'
                     );
 
-                } finally {
+                }
 
-                    /* إعادة الزر لحالته الطبيعية */
+                finally {
 
                     submitBtn.disabled = false;
 
-                    submitBtn.textContent =
-                        'إرسال الرسالة';
-
-                    loadingText.style.display =
-                        'none';
+                    submitBtn.innerHTML =
+                        '<i class="fas fa-paper-plane"></i> إرسال الرسالة';
 
                 }
 
             }
         );
 
-    </script>
+
+        /* =====================================================
+           إشعارات الصفحة
+           ===================================================== */
+
+        function showNotification(
+            message,
+            type
+        ) {
+
+            const oldNotifications =
+                document.querySelectorAll(
+                    '.notification'
+                );
+
+
+            oldNotifications.forEach(
+                function (notification) {
+
+                    notification.remove();
+
+                }
+            );
+
+
+            const notification =
+                document.createElement('div');
+
+
+            notification.className =
+                `notification notification-${type}`;
+
+
+            notification.textContent =
+                message;
+
+
+            document.body.appendChild(
+                notification
+            );
+
+
+            setTimeout(
+                function () {
+
+                    notification.style.animation =
+                        'slideOut 0.5s ease forwards';
+
+
+                    setTimeout(
+                        function () {
+
+                            notification.remove();
+
+                        },
+                        500
+                    );
+
+                },
+                5000
+            );
+
+        }
+
+
+        /* =====================================================
+           تحسين اللمس للموبايل
+           ===================================================== */
+
+        document
+            .querySelectorAll('a, button')
+            .forEach(function (element) {
+
+                element.addEventListener(
+                    'touchstart',
+                    function () {
+
+                        this.style.transform =
+                            'scale(0.95)';
+
+                    }
+                );
+
+
+                element.addEventListener(
+                    'touchend',
+                    function () {
+
+                        this.style.transform =
+                            '';
+
+                    }
+                );
+
+            });
+
+    }
+);
+
+</script>
 
 </body>
 </html>
