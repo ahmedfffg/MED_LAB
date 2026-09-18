@@ -2,8 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>معمل ميدلاب - مصر</title>
 
   <link rel="stylesheet" href="css/style.css">
@@ -14,42 +13,53 @@
 </head>
 
 <body>
-    <nav class="mobile-nav">
-            <ul>
-                <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
-                <li><a href="index.html#services"><i class="fas fa-flask"></i> خدماتنا</a></li>
-                <li><a href="sample-receive.html"><i class="fas fa-file-medical"></i> استلام نتيجة</a></li>
-                <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> حجز فحص</a></li>
-                <li><a href="contact.html"><i class="fas fa-headset"></i> خدمة العملاء</a></li>
-           </ul>
-        </nav>      
+  <!-- Mobile Navigation -->
+  <nav class="mobile-nav" id="mobileNav">
+    <ul>
+      <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+      <li><a href="index.html#services"><i class="fas fa-flask"></i> خدماتنا</a></li>
+      <li><a href="sample-receive.html"><i class="fas fa-file-medical"></i> استلام نتيجة</a></li>
+      <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> حجز فحص</a></li>
+      <li><a href="contact.html"><i class="fas fa-headset"></i> خدمة العملاء</a></li>
+    </ul>
+  </nav>
+
   <header class="mobile-header" role="banner">
     <div class="container">
-      <button class="menu-toggle" aria-label="فتح/إغلاق القائمة">
+      <!-- Mobile menu toggle -->
+      <button class="menu-toggle" aria-label="فتح/إغلاق القائمة" id="menuToggle">
         <i class="fas fa-bars" aria-hidden="true"></i>
       </button>
+
       <h1 class="site-title">معمل ميدلاب</h1>
+
+      <!-- Desktop Navigation -->
+      <nav class="desktop-nav" aria-label="القائمة الرئيسية">
+        <ul>
+          <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+          <li><a href="index.html#services"><i class="fas fa-flask"></i> خدماتنا</a></li>
+          <li><a href="sample-receive.html"><i class="fas fa-file-medical"></i> استلام نتيجة</a></li>
+          <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> حجز فحص</a></li>
+          <li><a href="contact.html"><i class="fas fa-headset"></i> خدمة العملاء</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
+
   <section class="hero" aria-labelledby="hero-title">
     <div class="container">
       <div class="hero-content">
         <h2 id="hero-title">تحاليل دقيقة بمعايير عالمية في مصر</h2>
         <p>نقدم لك أفضل خدمات التحاليل الطبية بأحدث الأجهزة وأدق النتائج</p>
       </div>
-        <div class="hero-buttons">
-  <a href="appointment.html" class="btn call-btn">
-    احجز موعدك الآن!
-  </a>
-
-  <a href="services.html" class="btn call-btn">
-    استلم نتيجتك الآن!
-  </a>
-</div>
-
-       </div>
+      <div class="hero-buttons">
+        <a href="appointment.html" class="btn call-btn">احجز موعدك الآن!</a>
+        <a href="sample-receive.html" class="btn call-btn">استلم نتيجتك الآن!</a>
+      </div>
     </div>
   </section>
+
+  <!-- Quick Services - Mobile Only -->
   <section class="quick-services" aria-label="روابط سريعة">
     <div class="container">
       <div class="quick-service">
@@ -58,14 +68,12 @@
           <span>حجز فحص</span>
         </a>
       </div>
-
-<div class="quick-service">
+      <div class="quick-service">
         <a href="sample-receive.html">
           <i class="fas fa-file-medical"></i>
           <span>استلام نتيجة</span>
         </a>
       </div>
-
       <div class="quick-service">
         <a href="contact.html">
           <i class="fas fa-phone-volume"></i>
@@ -87,160 +95,130 @@
       </div>
     </div>
   </section>
-<br>
-<br>
-<section id="services" class="services" aria-labelledby="services-title">
+
+  <br><br>
+
+  <section id="services" class="services" aria-labelledby="services-title">
     <div class="container">
       <h2 id="services-title" class="section-title">باقات ميدلاب</h2>
     </div>
   </section>
-<div class="services-grid">
 
-        <article class="service-card feature-card" aria-labelledby="svc-packages-title">
-  <div class="feature-image feature-image--offers" aria-hidden="true">
-    <div class="feature-overlay">
-      <i class="fas fa-tags"></i>
-      <h3 class="feature-title">باقات التحاليل والعروض</h3>
-    </div>
+  <div class="services-grid">
+    <article class="service-card feature-card" aria-labelledby="svc-packages-title">
+      <div class="feature-image feature-image--offers" aria-hidden="true">
+        <div class="feature-overlay">
+          <i class="fas fa-tags"></i>
+          <h3 class="feature-title">باقات التحاليل والعروض</h3>
+        </div>
+      </div>
+      <div class="feature-content">
+        <p id="svc-packages-title">
+          اكتشف باقات التحاليل الطبية والعروض المميزة التي يوفرها معمل ميدلاب
+          بأسعار مناسبة لتساعدك على الاطمئنان على صحتك بأفضل قيمة.
+        </p>
+        <div class="feature-actions">
+          <a class="btn btn-ghost" href="offers.html">العروض الحالية</a>
+        </div>
+      </div>
+    </article>
   </div>
-
-  <div class="feature-content">
-    <p id="svc-packages-title">
-      اكتشف باقات التحاليل الطبية والعروض المميزة التي يوفرها معمل ميدلاب
-      بأسعار مناسبة لتساعدك على الاطمئنان على صحتك بأفضل قيمة.
-    </p>
-
-    <div class="feature-actions">
-      <a class="btn btn-ghost" href="offers.html">العروض الحالية</a>
-    </div>
-  </div>
-</article>
-</div>
-<br>
-  <section id="services" class="services" aria-labelledby="services-title">
-    <div class="container">
-      <h2 id="services-title" class="section-title">خدماتنا</h2>
-<br>
-      
-      <div class="services-grid">
-<article class="service-card feature-card" aria-labelledby="svc-hub-title">
-    <div class="feature-image" aria-hidden="true">
-      <div class="feature-overlay">
-        <i class="fas fa-th-large"></i>
-        <h3 class="feature-title">الخدمات السريعة</h3>
-      </div>
-    </div>
-
-    <div class="feature-content">
-      <p id="svc-hub-title">
-        احجز موعدك أو استلم نتيجة تحليلك بسهولة من مكان واحد،
-        بخطوات بسيطة وسريعة.
-      </p>
-    </div>
-<div class="feature-actions">
-        <a class="btn btn-primary" href="appointment.html">
-          احجز موعدك الآن من هنا
-        </a>
-
-        <a class="btn btn-ghost" href="sample-receive.html">
-         استلم نتيجتك من هنا
-        </a>
-      </div>
- </article>
-
- <br>
-  
-  <!-- التحاليل الشاملة -->
-  <article class="service-card feature-card" aria-labelledby="svc-comprehensive-title">
-    <div class="feature-image" aria-hidden="true">
-      <div class="feature-overlay">
-        <i class="fas fa-vial"></i>
-        <h3 class="feature-title">التحاليل الشاملة</h3>
-      </div>
-    </div>
-
-    <div class="feature-content">
-      <p id="svc-comprehensive-title">
-        مجموعة متكاملة من التحاليل الطبية الأساسية والشاملة
-        للاطمئنان على صحتك ومتابعة حالتك الصحية بدقة.
-      </p>
-
-      <div class="feature-actions">
-        <a class="btn btn-primary" href="appointment.html">
-          احجز الآن
-        </a>
-
-        <a class="btn btn-ghost" href="comprehensive-tests.html">
-          اعرف المزيد
-        </a>
-      </div>
-    </div>
-  </article>
 
   <br>
 
-  <!-- تحاليل الغدد والهرمونات -->
-  <article class="service-card feature-card" aria-labelledby="svc-hormones-title">
-    <div class="feature-image feature-image--dna" aria-hidden="true">
-      <div class="feature-overlay">
-        <i class="fas fa-dna"></i>
-        <h3 class="feature-title">تحاليل الغدد والهرمونات</h3>
-      </div>
+  <section id="services" class="services" aria-labelledby="services-title">
+    <div class="container">
+      <h2 id="services-title" class="section-title">خدماتنا</h2>
+      <br>
+
+      <div class="services-grid">
+       <article class="service-card feature-card" aria-labelledby="svc-hub-title">
+  <div class="feature-image" aria-hidden="true">
+    <div class="feature-overlay">
+      <i class="fas fa-hand-holding-medical"></i>
+      <h3 class="feature-title">الخدمات السريعة</h3>
     </div>
+  </div>
+  <div class="feature-content">
+    <p id="svc-hub-title">
+      احجز موعدك أو استلم نتيجة تحليلك بسهولة من مكان واحد،
+      بخطوات بسيطة وسريعة.
+    </p>
+  </div>
+  <div class="feature-actions">
+    <a class="btn btn-primary" href="appointment.html">احجز موعدك الآن من هنا</a>
+    <a class="btn btn-ghost" href="sample-receive.html">استلم نتيجتك من هنا</a>
+  </div>
+</article>
 
-    <div class="feature-content">
-      <p id="svc-hormones-title">
-        تحاليل متخصصة للغدد والهرمونات تساعد في تقييم وظائف
-        الغدة الدرقية والغدد المختلفة ومتابعة مستويات الهرمونات.
-      </p>
+        <br>
 
-      <div class="feature-actions">
-        <a class="btn btn-primary" href="appointment.html">
-          احجز الآن
-        </a>
+        <article class="service-card feature-card" aria-labelledby="svc-comprehensive-title">
+          <div class="feature-image" aria-hidden="true">
+            <div class="feature-overlay">
+              <i class="fas fa-vial"></i>
+              <h3 class="feature-title">التحاليل الشاملة</h3>
+            </div>
+          </div>
+          <div class="feature-content">
+            <p id="svc-comprehensive-title">
+              مجموعة متكاملة من التحاليل الطبية الأساسية والشاملة
+              للاطمئنان على صحتك ومتابعة حالتك الصحية بدقة.
+            </p>
+            <div class="feature-actions">
+              <a class="btn btn-primary" href="appointment.html">احجز الآن</a>
+              <a class="btn btn-ghost" href="comprehensive-tests.html">اعرف المزيد</a>
+            </div>
+          </div>
+        </article>
 
-        <a class="btn btn-ghost" href="hormones.html">
-          اعرف المزيد
-        </a>
+        <br>
+
+        <article class="service-card feature-card" aria-labelledby="svc-hormones-title">
+          <div class="feature-image feature-image--dna" aria-hidden="true">
+            <div class="feature-overlay">
+              <i class="fas fa-dna"></i>
+              <h3 class="feature-title">تحاليل الغدد والهرمونات</h3>
+            </div>
+          </div>
+          <div class="feature-content">
+            <p id="svc-hormones-title">
+              تحاليل متخصصة للغدد والهرمونات تساعد في تقييم وظائف
+              الغدة الدرقية والغدد المختلفة ومتابعة مستويات الهرمونات.
+            </p>
+            <div class="feature-actions">
+              <a class="btn btn-primary" href="appointment.html">احجز الآن</a>
+              <a class="btn btn-ghost" href="hormones.html">اعرف المزيد</a>
+            </div>
+          </div>
+        </article>
+
+        <br>
+
+        <article class="service-card feature-card" aria-labelledby="svc-guide-title">
+          <div class="feature-image feature-image--virus" aria-hidden="true">
+            <div class="feature-overlay">
+              <i class="fas fa-book-medical"></i>
+              <h3 class="feature-title">دليل التوعية والتحاليل</h3>
+            </div>
+          </div>
+          <div class="feature-content">
+            <p id="svc-guide-title">
+              دليل مبسط يساعدك على معرفة التحاليل الطبية المختلفة
+              والتعليمات المهمة قبل إجراء الفحوصات وكيفية الاستعداد لها.
+            </p>
+            <div class="feature-actions">
+              <a class="btn btn-primary" href="appointment.html">احجز الآن</a>
+              <a class="btn btn-ghost" href="health-guide.html">اعرف المزيد</a>
+            </div>
+          </div>
+        </article>
       </div>
-    </div>
-  </article>
-
-<br>
-
-  <!-- دليل التوعية والتحاليل -->
-  <article class="service-card feature-card" aria-labelledby="svc-guide-title">
-    <div class="feature-image feature-image--virus" aria-hidden="true">
-      <div class="feature-overlay">
-        <i class="fas fa-book-medical"></i>
-        <h3 class="feature-title">دليل التوعية والتحاليل</h3>
-      </div>
-    </div>
-
-    <div class="feature-content">
-      <p id="svc-guide-title">
-        دليل مبسط يساعدك على معرفة التحاليل الطبية المختلفة
-        والتعليمات المهمة قبل إجراء الفحوصات وكيفية الاستعداد لها.
-      </p>
-
-      <div class="feature-actions">
-        <a class="btn btn-primary" href="appointment.html">
-          احجز الآن
-        </a>
-
-        <a class="btn btn-ghost" href="health-guide.html">
-          اعرف المزيد
-        </a>
-      </div>
-    </div>
-  </article>
-
-</div>
     </div>
 
     <br>
-
   </section>
+
   <section id="contact" class="contact" aria-labelledby="contact-title">
     <div class="container">
       <h2 id="contact-title" class="section-titles">تواصل معنا</h2>
@@ -280,11 +258,13 @@
       </div>
     </div>
   </footer>
-<script src="js/main.js"></script>
+
+
+  <script src="js/main.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const menuToggle = document.querySelector('.menu-toggle');
-      const mobileNav  = document.querySelector('.mobile-nav');
+      const menuToggle = document.getElementById('menuToggle');
+      const mobileNav = document.getElementById('mobileNav');
 
       if (menuToggle && mobileNav) {
         menuToggle.addEventListener('click', function (e) {
@@ -310,9 +290,9 @@
 
       document.querySelectorAll('a, button').forEach(el => {
         el.addEventListener('touchstart', function () { this.style.transform = 'scale(0.96)'; });
-        el.addEventListener('touchend',   function () { this.style.transform = 'scale(1)';     });
+        el.addEventListener('touchend', function () { this.style.transform = 'scale(1)'; });
       });
     });
-  </script>
+  </script> 
 </body>
 </html>
