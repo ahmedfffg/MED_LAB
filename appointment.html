@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نظام حجز المواعيد - معامل ميدلاب للتحاليل الطبية</title>
     <link href="images/logo.png" type="image/x-icon" rel="icon">
+    <link rel="stylesheet" href="css/appointment.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">         
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
   
@@ -1141,24 +1143,37 @@
 </head>
 <body>
 
-    <header class="mobile-header">
-        <div class="container">
-            <button class="menu-toggle" aria-label="القائمة">
-                <i class="fas fa-bars"></i>
-            </button>
-            <h1><i class="fas fa-flask"></i> معمل ميدلاب</h1>
-        </div>
-        <nav class="mobile-nav">
-            <ul>
-                <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
-                <li><a href="index.html#services"><i class="fas fa-flask"></i> خدماتنا</a></li>
-                <li><a href="sample-receive.html"><i class="fas fa-file-medical"></i> استلام نتيجة</a></li>
-                <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> حجز فحص</a></li>
-                <li><a href="contact.html"><i class="fas fa-headset"></i> خدمة العملاء</a></li>
-                </ul>
-        </nav>
-    </header>
+ <!-- استبدل الهيدر الحالي بهذا -->
+<header class="mobile-header">
+  <div class="container">
+    <!-- Mobile menu toggle -->
+    <button class="menu-toggle" aria-label="القائمة" id="menuToggle">
+      <i class="fas fa-bars"></i>
+    </button>
 
+    <h1><i class="fas fa-flask"></i> معمل ميدلاب</h1>
+
+    <!-- Desktop Navigation -->
+    <nav class="desktop-nav" aria-label="القائمة الرئيسية">
+      <ul>
+        <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+        <li><a href="index.html#services"><i class="fas fa-flask"></i> خدماتنا</a></li>
+        <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> حجز فحص</a></li>
+        <li><a href="contact.html"><i class="fas fa-headset"></i> خدمة العملاء</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- Mobile Navigation -->
+<nav class="mobile-nav" id="mobileNav">
+  <ul>
+    <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+    <li><a href="index.html#services"><i class="fas fa-flask"></i> خدماتنا</a></li>
+    <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> حجز فحص</a></li>
+    <li><a href="contact.html"><i class="fas fa-headset"></i> خدمة العملاء</a></li>
+  </ul>
+</nav>
     <main class="main-container">
         <h1 class="page-title"><i class="fas fa-calendar-check"></i> حجز موعد طبي</h1>
         
@@ -3952,6 +3967,362 @@ document.addEventListener('DOMContentLoaded', function () {
     loadTestsFromSource();
 
 });
+// Mobile menu toggle
+const menuToggle = document.getElementById('menuToggle');
+const mobileNav = document.getElementById('mobileNav');
+
+if (menuToggle && mobileNav) {
+  menuToggle.addEventListener('click', function (e) {
+    e.stopPropagation();
+    mobileNav.classList.toggle('active');
+  });
+
+  document.querySelectorAll('.mobile-nav a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileNav.classList.remove('active');
+    });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!mobileNav.contains(e.target) && !menuToggle.contains(e.target)) {
+      mobileNav.classList.remove('active');
+    }
+  });
+}
+</script>
+<!-- Floating Home Button -->
+<a href="index.html" class="floating-home" aria-label="الرجوع للصفحة الرئيسية" title="الرجوع للرئيسية">
+  <i class="fas fa-home"></i>
+</a>
+
+<!-- =========================
+     FLOATING AI BUTTON (Appointment Page)
+========================= -->
+<button type="button" class="floating-ai-booking" id="floatingAiBookingBtn" aria-label="مساعد الحجز" title="مساعد الحجز">
+  <i class="fas fa-robot"></i>
+  <span class="floating-ai-booking-pulse"></span>
+</button>
+
+<!-- =========================
+     AI POPUP (Booking Assistant)
+========================= -->
+<div class="ai-booking-popup" id="aiBookingPopup" role="dialog" aria-labelledby="aiBookingTitle" aria-hidden="true">
+
+  <!-- Header -->
+  <div class="ai-booking-header">
+    <div class="ai-booking-brand">
+      <div class="ai-booking-avatar">
+        <i class="fas fa-headset"></i>
+      </div>
+      <div class="ai-booking-info">
+        <h3 id="aiBookingTitle">مساعد الحجز</h3>
+        <p><span class="ai-booking-dot"></span> جاهز للمساعدة</p>
+      </div>
+    </div>
+    <button type="button" class="ai-booking-close" id="aiBookingClose" aria-label="إغلاق">
+      <i class="fas fa-robot"></i>
+    </button>
+  </div>
+
+  <!-- Body -->
+  <div class="ai-booking-body" id="aiBookingBody">
+    <div class="ai-booking-message ai-booking-bot">
+      <div class="ai-booking-bubble">
+        مرحباً! 👋 أنا هنا لمساعدتك في <strong>حجز موعدك</strong>. اختر سؤالاً من الأسفل:
+      </div>
+    </div>
+
+    <!-- Quick Questions (Booking Only) -->
+    <div class="ai-booking-quick" id="aiBookingQuick">
+      <button type="button" class="ai-booking-qbtn" data-q="كيف أحجز موعد؟">
+        <i class="fas fa-calendar-plus"></i> كيف أحجز موعد؟
+      </button>
+      <button type="button" class="ai-booking-qbtn" data-q="ما البيانات المطلوبة للحجز؟">
+        <i class="fas fa-user-edit"></i> ما البيانات المطلوبة؟
+      </button>
+      <button type="button" class="ai-booking-qbtn" data-q="كيف أختار التحاليل؟">
+        <i class="fas fa-vial"></i> كيف أختار التحاليل؟
+      </button>
+      <button type="button" class="ai-booking-qbtn" data-q="ما هي الباقة وكيف أستخدمها؟">
+        <i class="fas fa-gift"></i> ما هي الباقة؟
+      </button>
+      <button type="button" class="ai-booking-qbtn" data-q="ما الفرق بين عينة المعمل والعينة المنزلية؟">
+        <i class="fas fa-house-medical"></i> عينة المعمل أم المنزلية؟
+      </button>
+      <button type="button" class="ai-booking-qbtn" data-q="كم رسوم العينة المنزلية؟">
+        <i class="fas fa-truck-medical"></i> رسوم العينة المنزلية؟
+      </button>
+      <button type="button" class="ai-booking-qbtn" data-q="كيف يتم حساب السعر الإجمالي؟">
+        <i class="fas fa-calculator"></i> كيف يُحسب السعر؟
+      </button>
+      <button type="button" class="ai-booking-qbtn" data-q="ماذا أفعل بعد تأكيد الحجز؟">
+        <i class="fas fa-check-circle"></i> ماذا بعد تأكيد الحجز؟
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="ai-booking-footer">
+    <button type="button" class="ai-booking-restart" id="aiBookingRestart">
+      <i class="fas fa-rotate-right"></i>
+      إعادة البدء
+    </button>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  document.addEventListener('DOMContentLoaded', function () {
+
+    const btn       = document.getElementById('floatingAiBookingBtn');
+    const popup     = document.getElementById('aiBookingPopup');
+    const closeBtn  = document.getElementById('aiBookingClose');
+    const body      = document.getElementById('aiBookingBody');
+    const quickBox  = document.getElementById('aiBookingQuick');
+    const restartBtn= document.getElementById('aiBookingRestart');
+
+    if (!btn || !popup) return;
+
+    /* ============================================
+       ✅ الموضع الذكي
+       - لو زر الرئيسية (.floating-home) موجود → يسار
+       - لو غير موجود → يمين
+    ============================================ */
+    function setSmartPosition() {
+      const homeBtn = document.querySelector('.floating-home');
+
+      if (homeBtn) {
+        // زر الرئيسية على اليمين → نحن على اليسار
+        btn.classList.add('position-left');
+        btn.classList.remove('position-right');
+        popup.classList.add('position-left');
+        popup.classList.remove('position-right');
+      } else {
+        // لا يوجد زر رئيسية → نحن على اليمين
+        btn.classList.add('position-right');
+        btn.classList.remove('position-left');
+        popup.classList.add('position-right');
+        popup.classList.remove('position-left');
+      }
+    }
+
+    setSmartPosition();
+
+    /* ============================================
+       الردود — كلها داخل الصفحة
+    ============================================ */
+    const responses = {
+      'كيف أحجز موعد؟':
+        'الحجز يتم مباشرة من خلال <strong>النموذج في هذه الصفحة</strong>. فقط املأ البيانات التالية:' +
+        '<ul>' +
+        '<li>الاسم بالكامل</li>' +
+        '<li>رقم الهاتف</li>' +
+        '<li>الطبيب المحول</li>' +
+        '<li>التحاليل المطلوبة</li>' +
+        '<li>التاريخ والوقت</li>' +
+        '</ul>' +
+        'ثم اضغط <strong>"تأكيد الحجز"</strong> بالأسفل.',
+
+      'ما البيانات المطلوبة للحجز؟':
+        'البيانات المطلوبة هي:' +
+        '<ul>' +
+        '<li><strong>الاسم بالكامل</strong> (إجباري)</li>' +
+        '<li><strong>رقم الهاتف</strong> (إجباري — 11 رقم يبدأ بـ 01)</li>' +
+        '<li><strong>العمر</strong> (اختياري)</li>' +
+        '<li><strong>الجنس</strong> (اختياري)</li>' +
+        '<li><strong>الطبيب المحول</strong> (إجباري)</li>' +
+        '<li><strong>عرفتنا منين؟</strong> (إجباري)</li>' +
+        '<li><strong>التحاليل</strong> (اختيار واحد على الأقل)</li>' +
+        '<li><strong>التاريخ والوقت</strong> (إجباري)</li>' +
+        '</ul>',
+
+      'كيف أختار التحاليل؟':
+        'من خلال <strong>مربع البحث</strong> في النموذج:' +
+        '<ul>' +
+        '<li>اكتب اسم التحليل بالعربي أو الإنجليزي</li>' +
+        '<li>اضغط على زر <strong>(+)</strong> بجانب التحليل لإضافته</li>' +
+        '<li>يمكنك البحث بالتصنيف (سكر، دهون، كبد...)</li>' +
+        '<li>التحاليل المختارة تظهر في قائمة "التحاليل المختارة"</li>' +
+        '</ul>',
+
+      'ما هي الباقة وكيف أستخدمها؟':
+        'الباقة هي <strong>مجموعة تحاليل بسعر مخفّض</strong>. ' +
+        'عند اختيار باقة من صفحة العروض، تظهر تلقائياً هنا في شريط أعلى النموذج، ' +
+        'وتُحتسب <strong>بسعر الباقة فقط</strong> بدلاً من سعر كل تحليل منفرد. ' +
+        'يمكنك إلغاء الباقة بضغط زر <strong>"إلغاء الباقة"</strong>.',
+
+      'ما الفرق بين عينة المعمل والعينة المنزلية؟':
+        '<strong>عينة المعمل:</strong> تأتي إلى المعمل بنفسك لأخذ العينة (بدون رسوم إضافية).<br><br>' +
+        '<strong>العينة المنزلية:</strong> مندوب يأتي إليك في المنزل لأخذ العينة، ' +
+        'ويُضاف <strong>رسم انتقال</strong> حسب المنطقة.',
+
+      'كم رسوم العينة المنزلية؟':
+        'الرسوم تُحدد حسب المنطقة:' +
+        '<ul>' +
+        '<li><strong>الحي الحادي عشر:</strong> 100 جنيه</li>' +
+        '<li><strong>خارج الحي الحادي عشر:</strong> تُحدد حسب المسافة والمكان</li>' +
+        '</ul>' +
+        'اختر منطقتك في النموذج لعرض الرسوم تلقائياً.',
+
+      'كيف يتم حساب السعر الإجمالي؟':
+        'يتم الحساب كالتالي:' +
+        '<ul>' +
+        '<li><strong>سعر الباقة</strong> (إن وُجدت)</li>' +
+        '<li>+ <strong>أسعار التحاليل الفردية</strong> (خارج الباقة)</li>' +
+        '<li>+ <strong>رسوم العينة المنزلية</strong> (إن وُجدت)</li>' +
+        '</ul>' +
+        'يمكنك رؤية تفاصيل السعر في قسم <strong>"ملخص الأسعار"</strong> أسفل النموذج.',
+
+      'ماذا أفعل بعد تأكيد الحجز؟':
+        'بعد الضغط على <strong>"تأكيد الحجز"</strong>:' +
+        '<ul>' +
+        '<li>سيظهر لك <strong>ملخص الحجز والأسعار</strong></li>' +
+        '<li>يتم حفظ الحجز في النظام تلقائياً</li>' +
+        '<li>احتفظ بـ <strong>رقم الحجز</strong> و<strong>الرقم اليومي</strong></li>' +
+        '<li>سيتواصل معك فريق المعمل للتأكيد</li>' +
+        '</ul>',
+
+      'default':
+        'للأسف، ليس لدي إجابة جاهزة لهذا السؤال. ' +
+        'يمكنك اختيار أحد الأسئلة المتاحة، أو التواصل معنا مباشرة: ' +
+        '<strong>01061730854</strong>'
+    };
+
+    /* ============================================
+       فتح / إغلاق
+    ============================================ */
+    function openPopup() {
+      popup.classList.add('active');
+      popup.setAttribute('aria-hidden', 'false');
+      btn.classList.add('active');
+      btn.innerHTML = '<i class="fas fa-times"></i>';
+      btn.title = 'إغلاق المساعد';
+      setTimeout(() => { body.scrollTop = body.scrollHeight; }, 100);
+    }
+
+    function closePopup() {
+      popup.classList.remove('active');
+      popup.setAttribute('aria-hidden', 'true');
+      btn.classList.remove('active');
+      btn.innerHTML = '<i class="fas fa-calendar-check"></i>';
+      btn.title = 'مساعد الحجز';
+    }
+
+    function togglePopup() {
+      popup.classList.contains('active') ? closePopup() : openPopup();
+    }
+
+    /* ============================================
+       إضافة رسالة
+    ============================================ */
+    function addMessage(text, isUser) {
+      const msg = document.createElement('div');
+      msg.className = 'ai-booking-message ' + (isUser ? 'ai-booking-user' : 'ai-booking-bot');
+
+      const bubble = document.createElement('div');
+      bubble.className = 'ai-booking-bubble';
+      bubble.innerHTML = text;
+
+      msg.appendChild(bubble);
+      body.appendChild(msg);
+      body.scrollTop = body.scrollHeight;
+    }
+
+    /* ============================================
+       مؤشر الكتابة
+    ============================================ */
+    function showTyping() {
+      const t = document.createElement('div');
+      t.className = 'ai-booking-message ai-booking-bot';
+      t.id = 'aiBookingTyping';
+
+      const b = document.createElement('div');
+      b.className = 'ai-booking-bubble';
+      b.innerHTML = '<div class="ai-booking-typing"><span></span><span></span><span></span></div>';
+
+      t.appendChild(b);
+      body.appendChild(t);
+      body.scrollTop = body.scrollHeight;
+    }
+
+    function hideTyping() {
+      const t = document.getElementById('aiBookingTyping');
+      if (t) t.remove();
+    }
+
+    /* ============================================
+       معالجة السؤال
+    ============================================ */
+    function handleQuestion(q) {
+      if (quickBox) quickBox.style.display = 'none';
+
+      addMessage(q, true);
+      showTyping();
+
+      setTimeout(() => {
+        hideTyping();
+        const reply = responses[q] || responses['default'];
+        addMessage(reply, false);
+      }, 900);
+    }
+
+    /* ============================================
+       إعادة البدء
+    ============================================ */
+    function restart() {
+      // امسح الرسائل السابقة
+      const messages = body.querySelectorAll('.ai-booking-message');
+      messages.forEach(m => {
+        // احتفظ برسالة الترحيب الأولى
+        if (!m.querySelector('.ai-booking-quick')) m.remove();
+      });
+
+      // احذف كل الرسائل ثم أعد بناء المحادثة
+      body.innerHTML = '';
+
+      // رسالة الترحيب
+      const welcome = document.createElement('div');
+      welcome.className = 'ai-booking-message ai-booking-bot';
+      welcome.innerHTML = '<div class="ai-booking-bubble">مرحباً! 👋 أنا هنا لمساعدتك في <strong>حجز موعدك</strong>. اختر سؤالاً من الأسفل:</div>';
+      body.appendChild(welcome);
+
+      // إعادة عرض الأزرار
+      if (quickBox) {
+        quickBox.style.display = 'grid';
+        body.appendChild(quickBox);
+      }
+
+      body.scrollTop = 0;
+    }
+
+    /* ============================================
+       ربط الأحداث
+    ============================================ */
+    btn.addEventListener('click', togglePopup);
+    closeBtn.addEventListener('click', closePopup);
+
+    document.querySelectorAll('.ai-booking-qbtn').forEach(b => {
+      b.addEventListener('click', function () {
+        const q = this.dataset.q;
+        if (q) handleQuestion(q);
+      });
+    });
+
+    if (restartBtn) restartBtn.addEventListener('click', restart);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && popup.classList.contains('active')) {
+        closePopup();
+      }
+    });
+
+    // إعادة حساب الموضع عند تغيير حجم الشاشة
+    window.addEventListener('resize', setSmartPosition);
+
+  });
+})();
 </script>
 
 </body>
