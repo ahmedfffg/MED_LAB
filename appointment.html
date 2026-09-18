@@ -1213,7 +1213,7 @@
                         </div>
                         <div class="form-group">
                             <label for="phone" class="form-label"><i class="fas fa-phone"></i> رقم الهاتف</label>
-                            <input type="tel" id="phone" class="form-control" placeholder="مثال: 01012345678" required>
+                            <input type="tel" id="phone" class="form-control" placeholder="01********* :مثال" required>
                             <div class="invalid-feedback">الرجاء إدخال رقم هاتف صحيح</div>
                         </div>
                     </div>
@@ -1396,19 +1396,61 @@
                             <div class="home-address-note"><i class="fas fa-circle-info"></i> اكتب البيانات بدقة لتسهيل وصول مندوب العينات.</div>
                         </div>
                     </div>
+<div class="form-row">
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="date" class="form-label"><i class="fas fa-calendar-day"></i> تاريخ الموعد</label>
-                            <input type="date" id="date" class="form-control" required>
-                            <div class="invalid-feedback">الرجاء اختيار تاريخ صحيح</div>
-                        </div>
-                        <div class="form-group">
-                            <label for="time" class="form-label"><i class="fas fa-clock"></i> وقت الموعد</label>
-                            <input type="time" id="time" class="form-control" required>
-                            <div class="invalid-feedback">الرجاء اختيار وقت صحيح</div>
-                        </div>
-                    </div>
+    <div class="form-group">
+        <label for="date" class="form-label">
+            <i class="fas fa-calendar-day"></i> تاريخ الموعد
+        </label>
+
+        <input
+            type="date"
+            id="date"
+            class="form-control"
+            required
+        >
+
+        <div class="invalid-feedback">
+            الرجاء اختيار تاريخ صحيح
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label for="time" class="form-label">
+            <i class="fas fa-clock"></i> وقت الموعد
+        </label>
+
+        <input
+            type="time"
+            id="time"
+            class="form-control"
+            required
+        >
+
+        <div class="invalid-feedback">
+            الرجاء اختيار وقت صحيح
+        </div>
+    </div>
+
+</div>
+
+<script>
+const dateInput = document.getElementById('date');
+const timeInput = document.getElementById('time');
+
+dateInput.addEventListener('click', function () {
+    if (typeof this.showPicker === 'function') {
+        this.showPicker();
+    }
+});
+
+timeInput.addEventListener('click', function () {
+    if (typeof this.showPicker === 'function') {
+        this.showPicker();
+    }
+});
+</script>
                     
                     <div class="form-group">
                         <label for="notes" class="form-label"><i class="fas fa-pen"></i> ملاحظات (اختياري)</label>
@@ -4012,7 +4054,7 @@ if (menuToggle && mobileNav) {
   <div class="ai-booking-header">
     <div class="ai-booking-brand">
       <div class="ai-booking-avatar">
-        <i class="fas fa-headset"></i>
+        <i class="fas fa-robot"></i>
       </div>
       <div class="ai-booking-info">
         <h3 id="aiBookingTitle">مساعد الحجز</h3>
@@ -4035,7 +4077,7 @@ if (menuToggle && mobileNav) {
     <!-- Quick Questions (Booking Only) -->
     <div class="ai-booking-quick" id="aiBookingQuick">
       <button type="button" class="ai-booking-qbtn" data-q="كيف أحجز موعد؟">
-        <i class="fas fa-calendar-plus"></i> كيف أحجز موعد؟
+        <i class="fas fa-"></i> كيف أحجز موعد؟
       </button>
       <button type="button" class="ai-booking-qbtn" data-q="ما البيانات المطلوبة للحجز؟">
         <i class="fas fa-user-edit"></i> ما البيانات المطلوبة؟
@@ -4206,7 +4248,7 @@ if (menuToggle && mobileNav) {
       popup.classList.remove('active');
       popup.setAttribute('aria-hidden', 'true');
       btn.classList.remove('active');
-      btn.innerHTML = '<i class="fas fa-robot"></i>';
+      btn.innerHTML = '<i class="fas fa-calendar-check"></i>';
       btn.title = 'مساعد الحجز';
     }
 
