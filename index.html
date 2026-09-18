@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>معمل ميدلاب - مصر</title>
-
+  <link rel="icon" type="image/png" href="images/favicon.png">
   <link rel="stylesheet" href="css/style.css">
   <link href="images/logo.png" type="image/x-icon" rel="icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,28 +24,30 @@
     </ul>
   </nav>
 
-  <header class="mobile-header" role="banner">
-    <div class="container">
-      <!-- Mobile menu toggle -->
-      <button class="menu-toggle" aria-label="فتح/إغلاق القائمة" id="menuToggle">
-        <i class="fas fa-bars" aria-hidden="true"></i>
-      </button>
+ <header class="mobile-header" role="banner">
+  <div class="container">
+    <button class="menu-toggle" aria-label="فتح/إغلاق القائمة" id="menuToggle">
+      <i class="fas fa-bars" aria-hidden="true"></i>
+    </button>
 
+    <div class="header-brand">
+      <div class="logo-wrapper">
+        <img src="images/logo.png" alt="شعار معمل ميدلاب" class="header-logo">
+      </div>
       <h1 class="site-title">معمل ميدلاب</h1>
-
-      <!-- Desktop Navigation -->
-      <nav class="desktop-nav" aria-label="القائمة الرئيسية">
-        <ul>
-          <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
-          <li><a href="index.html#services"><i class="fas fa-flask"></i> خدماتنا</a></li>
-          <li><a href="sample-receive.html"><i class="fas fa-file-medical"></i> استلام نتيجة</a></li>
-          <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> حجز فحص</a></li>
-          <li><a href="contact.html"><i class="fas fa-headset"></i> خدمة العملاء</a></li>
-        </ul>
-      </nav>
     </div>
-  </header>
 
+    <nav class="desktop-nav" aria-label="القائمة الرئيسية">
+      <ul>
+        <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+        <li><a href="index.html#services"><i class="fas fa-flask"></i> خدماتنا</a></li>
+        <li><a href="sample-receive.html"><i class="fas fa-file-medical"></i> استلام نتيجة</a></li>
+        <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> حجز فحص</a></li>
+        <li><a href="contact.html"><i class="fas fa-headset"></i> خدمة العملاء</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
   <section class="hero" aria-labelledby="hero-title">
     <div class="container">
       <div class="hero-content">
@@ -294,5 +296,239 @@
       });
     });
   </script> 
+
+<!-- =========================
+     FLOATING AI BUTTON
+========================= -->
+<button type="button" class="floating-ai" id="floatingAiBtn" aria-label="فتح المساعد الذكي" title="المساعد الذكي">
+  <i class="fas fa-robot"></i>
+  <span class="floating-ai-pulse"></span>
+</button>
+
+<!-- =========================
+     AI POPUP CHAT
+========================= -->
+<div class="ai-popup" id="aiPopup" role="dialog" aria-labelledby="aiPopupTitle" aria-hidden="true">
+  <!-- Popup Header -->
+  <div class="ai-popup-header">
+    <div class="ai-popup-brand">
+      <div class="ai-popup-avatar">
+        <i class="fas fa-robot"></i>
+      </div>
+      <div class="ai-popup-info">
+        <h3 id="aiPopupTitle">مساعد ميدلاب الذكي</h3>
+        <p><span class="ai-status-dot"></span> متاح الآن</p>
+      </div>
+    </div>
+    <button type="button" class="ai-popup-close" id="aiPopupClose" aria-label="إغلاق">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <!-- Popup Chat Body -->
+  <div class="ai-popup-body" id="aiPopupBody">
+    <div class="ai-popup-message ai-popup-bot">
+      <div class="ai-popup-bubble">
+        مرحباً! 👋 أنا مساعد ميدلاب الذكي. اختر أحد الأسئلة السريعة أو افتح المحادثة الكاملة.
+      </div>
+    </div>
+
+    <!-- Quick Questions -->
+    <div class="ai-popup-quick">
+      <button type="button" class="ai-popup-qbtn" data-q="كيف يمكنني حجز موعد؟">
+        <i class="fas fa-calendar-check"></i> كيف يمكنني حجز موعد؟
+      </button>
+      <button type="button" class="ai-popup-qbtn" data-q="ما هي ساعات العمل؟">
+        <i class="fas fa-clock"></i> ما هي ساعات العمل؟
+      </button>
+      <button type="button" class="ai-popup-qbtn" data-q="أين يقع المعمل؟">
+        <i class="fas fa-map-marker-alt"></i> أين يقع المعمل؟
+      </button>
+      <button type="button" class="ai-popup-qbtn" data-q="ما هي طرق الدفع المتاحة؟">
+        <i class="fas fa-credit-card"></i> طرق الدفع المتاحة؟
+      </button>
+    </div>
+  </div>
+
+  <!-- Popup Footer -->
+  <div class="ai-popup-footer">
+    <a href="ai-assistant.html" class="ai-popup-full-btn">
+      <i class="fas fa-expand"></i>
+      فتح المحادثة الكاملة
+    </a>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  document.addEventListener('DOMContentLoaded', function () {
+
+    const aiBtn        = document.getElementById('floatingAiBtn');
+    const aiPopup      = document.getElementById('aiPopup');
+    const aiClose      = document.getElementById('aiPopupClose');
+    const aiBody       = document.getElementById('aiPopupBody');
+    const quickBtns    = document.querySelectorAll('.ai-popup-qbtn');
+
+    if (!aiBtn || !aiPopup) return;
+
+    /* =========================
+       RESPONSES MAP
+    ========================= */
+    const responses = {
+      'كيف يمكنني حجز موعد؟':
+        'يمكنك حجز موعد بسهولة من خلال ' +
+        '<a href="appointment.html">صفحة الحجز</a> ' +
+        'أو الاتصال بنا على <strong>01061730854</strong>.',
+
+      'ما هي ساعات العمل؟':
+        'ساعات العمل من <strong>السبت إلى الخميس</strong> ' +
+        'من <strong>9 صباحاً</strong> حتى <strong>11 مساءً</strong>.',
+
+      'أين يقع المعمل؟':
+        'نحن في <strong>مدينة 6 أكتوبر، الحي الحادي عشر</strong>، ' +
+        'سنتر النخيل 2. ' +
+        '<a href="https://maps.app.goo.gl/D5hqvSsSMznigbrHA" target="_blank" rel="noopener">عرض على الخريطة</a>.',
+
+      'ما هي طرق الدفع المتاحة؟':
+        'نقبل الدفع <strong>نقداً</strong>، <strong>فودافون كاش</strong>، و<strong>إنستاباي</strong>.',
+
+      'default':
+        'يمكنك فتح المحادثة الكاملة للحصول على مساعدة أوسع. ' +
+        'اضغط على زر <strong>"فتح المحادثة الكاملة"</strong> بالأسفل.'
+    };
+
+    /* =========================
+       TOGGLE POPUP
+    ========================= */
+    function openPopup() {
+      aiPopup.classList.add('active');
+      aiPopup.setAttribute('aria-hidden', 'false');
+      aiBtn.classList.add('active');
+      aiBtn.innerHTML = '<i class="fas fa-times"></i>';
+      aiBtn.title = 'إغلاق المساعد';
+
+      // Scroll to bottom
+      setTimeout(() => {
+        aiBody.scrollTop = aiBody.scrollHeight;
+      }, 100);
+    }
+
+    function closePopup() {
+      aiPopup.classList.remove('active');
+      aiPopup.setAttribute('aria-hidden', 'true');
+      aiBtn.classList.remove('active');
+      aiBtn.innerHTML = '<i class="fas fa-robot"></i>';
+      aiBtn.title = 'المساعد الذكي';
+    }
+
+    function togglePopup() {
+      if (aiPopup.classList.contains('active')) {
+        closePopup();
+      } else {
+        openPopup();
+      }
+    }
+
+    /* =========================
+       ADD MESSAGE
+    ========================= */
+    function addMessage(text, isUser) {
+      const msg = document.createElement('div');
+      msg.className = 'ai-popup-message ' + (isUser ? 'ai-popup-user' : 'ai-popup-bot');
+
+      const bubble = document.createElement('div');
+      bubble.className = 'ai-popup-bubble';
+      bubble.innerHTML = text;
+
+      msg.appendChild(bubble);
+      aiBody.appendChild(msg);
+
+      // Scroll to bottom
+      aiBody.scrollTop = aiBody.scrollHeight;
+
+      return msg;
+    }
+
+    /* =========================
+       SHOW TYPING
+    ========================= */
+    function showTyping() {
+      const typing = document.createElement('div');
+      typing.className = 'ai-popup-message ai-popup-bot';
+      typing.id = 'aiTypingIndicator';
+
+      const bubble = document.createElement('div');
+      bubble.className = 'ai-popup-bubble';
+      bubble.innerHTML = '<div class="ai-popup-typing"><span></span><span></span><span></span></div>';
+
+      typing.appendChild(bubble);
+      aiBody.appendChild(typing);
+      aiBody.scrollTop = aiBody.scrollHeight;
+    }
+
+    function hideTyping() {
+      const t = document.getElementById('aiTypingIndicator');
+      if (t) t.remove();
+    }
+
+    /* =========================
+       HANDLE QUESTION
+    ========================= */
+    function handleQuestion(question) {
+      // Hide quick questions
+      const quick = aiBody.querySelector('.ai-popup-quick');
+      if (quick) quick.style.display = 'none';
+
+      // Add user message
+      addMessage(question, true);
+
+      // Show typing
+      showTyping();
+
+      // Bot reply after delay
+      setTimeout(() => {
+        hideTyping();
+        const reply = responses[question] || responses['default'];
+        addMessage(reply, false);
+      }, 900);
+    }
+
+    /* =========================
+       EVENT LISTENERS
+    ========================= */
+    aiBtn.addEventListener('click', togglePopup);
+    aiClose.addEventListener('click', closePopup);
+
+    quickBtns.forEach(btn => {
+      btn.addEventListener('click', function () {
+        const q = this.dataset.q;
+        if (q) handleQuestion(q);
+      });
+    });
+
+    // Close on ESC
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && aiPopup.classList.contains('active')) {
+        closePopup();
+      }
+    });
+
+    // Close on outside click (optional — only if clicking far away)
+    // document.addEventListener('click', function (e) {
+    //   if (
+    //     aiPopup.classList.contains('active') &&
+    //     !aiPopup.contains(e.target) &&
+    //     !aiBtn.contains(e.target)
+    //   ) {
+    //     closePopup();
+    //   }
+    // });
+
+  });
+})();
+</script>
+
 </body>
 </html>
