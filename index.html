@@ -4,7 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>معمل ميدلاب - مصر</title>
-  <link rel="icon" type="image/png" href="images/favicon.png">
+  <!-- Favicon -->
+<link rel="icon" type="image/png" sizes="48x48" href="/images/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+
+<!-- Apple / Mobile -->
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
   <link rel="stylesheet" href="css/style.css">
   <link href="images/logo.png" type="image/x-icon" rel="icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -513,7 +519,7 @@
       if (e.key === 'Escape' && aiPopup.classList.contains('active')) {
         closePopup();
       }
-    });
+    }); 
 
     // Close on outside click (optional — only if clicking far away)
     // document.addEventListener('click', function (e) {
