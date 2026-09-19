@@ -1444,3 +1444,146 @@ body {
     display: block;
   }
 }
+/* =========================
+   Hero Buttons - تنسيق موحد
+========================= */
+
+/* الديسكتوب: الأزرار جنب بعض */
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+}
+
+.hero-buttons .btn {
+  flex: 1;
+  max-width: 240px;
+  text-align: center;
+  padding: 14px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 30px;
+  white-space: nowrap;
+}
+
+/* =========================
+   الموبايل: الأزرار تحت بعض بعرض كامل
+========================= */
+@media (max-width: 767px) {
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+    padding: 0 10px;
+  }
+
+  .hero-buttons .btn {
+    width: 100%;
+    max-width: 100%;
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+}
+
+/* =========================
+   شاشات صغيرة جداً
+========================= */
+@media (max-width: 480px) {
+  .hero-buttons .btn {
+    padding: 13px 16px;
+    font-size: 14px;
+  }
+}
+/* =========================
+   Feature Actions - تنسيق موحد
+========================= */
+
+/* الديسكتوب: الأزرار جنب بعض */
+.feature-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  padding: 0 10px;
+}
+
+.feature-actions .btn {
+  flex: 1;
+  min-width: 180px;
+  max-width: 260px;
+  text-align: center;
+  padding: 12px 22px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 30px;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+/* =========================
+   الموبايل: الأزرار تحت بعض بعرض كامل
+========================= */
+@media (max-width: 767px) {
+  .feature-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    padding: 0 5px;
+  }
+
+  .feature-actions .btn {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    padding: 13px 18px;
+    font-size: 14.5px;
+    white-space: normal;
+    line-height: 1.4;
+  }
+}
+
+/* =========================
+   شاشات صغيرة جداً
+========================= */
+@media (max-width: 480px) {
+  .feature-actions .btn {
+    padding: 12px 15px;
+    font-size: 14px;
+  }
+}
+/* =========================
+   Header Brand - ترتيب الشعار والعنوان
+========================= */
+
+/* الديسكتوب: الشعار + العنوان جنب بعض */
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  flex-direction: row; /* الشعار يسار العنوان في RTL */
+}
+
+/* =========================
+   الموبايل: الشعار على يسار العنوان
+========================= */
+@media (max-width: 767px) {
+  .header-brand {
+    flex-direction: row; /* ترتيب عادي: الشعار الأول (يمين) ثم العنوان (يسار) */
+    gap: 8px;
+    align-items: center;
+  }
+
+  /* لو عايز الشعار على اليسار الفعلي من العنوان، اعكس الترتيب */
+  .header-brand .logo-wrapper {
+    order: 1; /* الشعار أول */
+  }
+
+  .header-brand .site-title {
+    order: 2; /* العنوان بعد الشعار */
+  }
+}
