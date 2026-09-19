@@ -1587,3 +1587,56 @@ body {
     order: 2; /* العنوان بعد الشعار */
   }
 }
+/* =========================
+   Contact Method Link - العنوان القابل للضغط
+========================= */
+.contact-method-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-method-link:hover {
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.contact-method-link:hover i {
+  transform: scale(1.15) rotate(-8deg);
+  transition: transform 0.3s ease;
+}
+
+.contact-method-link h3,
+.contact-method-link p {
+  color: white;
+  text-decoration: none;
+}
+
+/* أيقونة الرابط الخارجي */
+.contact-method-link .map-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: all 0.3s ease;
+}
+
+.contact-method-link:hover .map-hint {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.contact-method-link .map-hint i {
+  font-size: 11px;
+  color: #f1c40f;
+}
