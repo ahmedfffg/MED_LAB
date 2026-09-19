@@ -914,15 +914,6 @@ body {
     display: none;
   }
 }
-/* =========================
-   HEADER BRAND
-========================= */
-.header-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-shrink: 0;
-}
 
 /* =========================
    LOGO WRAPPER - دائرة نظيفة
@@ -954,18 +945,6 @@ body {
 }
 
 /* =========================
-   HOVER
-========================= */
-.header-brand:hover .logo-wrapper {
-  transform: scale(1.08);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-}
-
-.header-brand:hover .header-logo {
-  transform: scale(1.05);
-}
-
-/* =========================
    SITE TITLE
 ========================= */
 .site-title {
@@ -982,7 +961,6 @@ body {
    MOBILE
 ========================= */
 @media (max-width: 767px) {
-  .header-brand { gap: 10px; }
   .logo-wrapper { width: 40px; height: 40px; }
   .site-title   { font-size: 1.15rem; }
 }
@@ -1555,37 +1533,12 @@ body {
     font-size: 14px;
   }
 }
-/* =========================
-   Header Brand - ترتيب الشعار والعنوان
-========================= */
-
-/* الديسكتوب: الشعار + العنوان جنب بعض */
-.header-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-shrink: 0;
-  flex-direction: row; /* الشعار يسار العنوان في RTL */
-}
 
 /* =========================
    الموبايل: الشعار على يسار العنوان
 ========================= */
 @media (max-width: 767px) {
-  .header-brand {
-    flex-direction: row; /* ترتيب عادي: الشعار الأول (يمين) ثم العنوان (يسار) */
-    gap: 8px;
-    align-items: center;
-  }
-
-  /* لو عايز الشعار على اليسار الفعلي من العنوان، اعكس الترتيب */
-  .header-brand .logo-wrapper {
-    order: 1; /* الشعار أول */
-  }
-
-  .header-brand .site-title {
-    order: 2; /* العنوان بعد الشعار */
-  }
+  
 }
 /* =========================
    Contact Method Link - العنوان القابل للضغط
@@ -1639,4 +1592,51 @@ body {
 .contact-method-link .map-hint i {
   font-size: 11px;
   color: #f1c40f;
+}
+/* =========================
+   Header Brand - الشعار على شمال الاسم
+========================= */
+
+/* الديسكتوب */
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  flex-direction: row;
+}
+
+/* الموبايل: الشعار على شمال الاسم */
+@media (max-width: 767px) {
+  .header-brand {
+    display: flex !important;
+    flex-direction: row-reverse !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+
+  .header-brand .logo-wrapper {
+    order: 1 !important;
+    width: 40px !important;
+    height: 40px !important;
+    margin: 0 !important;
+  }
+
+  .header-brand .site-title {
+    order: 2 !important;
+    font-size: 1.15rem !important;
+    margin: 0 !important;
+  }
+}
+
+/* شاشات صغيرة جداً */
+@media (max-width: 480px) {
+  .header-brand .logo-wrapper {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  .header-brand .site-title {
+    font-size: 1.05rem !important;
+  }
 }
