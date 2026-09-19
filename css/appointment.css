@@ -851,21 +851,6 @@ textarea.form-control {
   .desktop-nav {
     display: block;
   }
-
-  .mobile-header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    gap: 20px;
-  }
-
-  .mobile-header h1 {
-    font-size: 1.3rem;
-    white-space: nowrap;
-  }
 }
 
 @media (max-width: 991px) {
@@ -875,13 +860,6 @@ textarea.form-control {
 
   .desktop-nav {
     display: none !important;
-  }
-
-  .mobile-header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 20px;
   }
 }
 /* =========================
