@@ -21,6 +21,8 @@
       --text-light: #6d8fa3;
       --danger: #c0392b;
       --success: #1a7d4a;
+      --success-soft: #e8f8ef;
+      --warning: #d97706;
       --white: #ffffff;
       --shadow: 0 8px 24px -8px rgba(10, 60, 100, 0.15);
       --radius: 14px;
@@ -165,6 +167,13 @@
       font-size: 13.5px; padding: 8px 16px;
     }
     .btn-ghost:hover { background: var(--primary); color: white; }
+    .btn-success {
+      background: var(--success-soft); color: var(--success);
+      border: 1px solid var(--success);
+      font-size: 13.5px; padding: 8px 16px;
+    }
+    .btn-success:hover { background: var(--success); color: white; }
+    .btn-sm { padding: 8px 14px; font-size: 13px; }
 
     /* Security note */
     .security-note {
@@ -259,6 +268,191 @@
     }
     .floating-home:hover { transform: translateY(-4px) scale(1.05); color: white; }
 
+    /* ============================================
+       PREVIEW MODAL (معاينة PDF للعميل)
+    ============================================ */
+    .preview-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 40, 60, 0.8);
+      z-index: 3000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(6px);
+    }
+    .preview-overlay.show { display: flex; }
+
+    .preview-modal {
+      background: white;
+      border-radius: 18px;
+      width: 100%;
+      max-width: 1000px;
+      height: 92vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+      animation: modalIn 0.25s ease;
+      overflow: hidden;
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.98); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .preview-header {
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      background: var(--blue-softer);
+    }
+    .preview-header .preview-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+    .preview-header .preview-title i {
+      color: var(--primary);
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .preview-header .preview-title .t-info { min-width: 0; }
+    .preview-header .preview-title .t-info h3 {
+      color: var(--primary-dark);
+      font-size: 1.05rem;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .preview-header .preview-title .t-info p {
+      color: var(--text-light);
+      font-size: 12.5px;
+    }
+    .preview-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .preview-body {
+      flex: 1;
+      overflow: hidden;
+      background: #f0f2f5;
+      position: relative;
+    }
+    .preview-body iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+    .preview-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 15px;
+      background: white;
+      z-index: 5;
+    }
+    .preview-loading.hidden { display: none; }
+
+    .preview-spinner {
+      width: 45px;
+      height: 45px;
+      border: 4px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .preview-info-bar {
+      padding: 10px 22px;
+      background: white;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 12.5px;
+      color: var(--text-light);
+    }
+    .preview-info-bar .info-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .preview-info-bar .info-chip i { color: var(--primary); }
+    .preview-info-bar .info-chip strong { color: var(--text-dark); }
+
+    /* Action buttons in results table */
+    .result-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .btn-preview {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      padding: 7px 12px;
+      border-radius: 7px;
+      font-size: 12.5px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .btn-preview:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px -4px rgba(10,124,184,0.5);
+    }
+    .btn-download {
+      background: var(--blue-soft);
+      color: var(--primary);
+      padding: 7px 12px;
+      border-radius: 7px;
+      font-size: 12.5px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .btn-download:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* Mobile preview */
+    @media (max-width: 700px) {
+      .preview-overlay { padding: 0; }
+      .preview-modal {
+        border-radius: 0;
+        height: 100vh;
+        max-height: 100vh;
+      }
+      .preview-header { padding: 12px 15px; }
+      .preview-header .preview-title .t-info h3 { font-size: 0.95rem; }
+      .preview-actions .btn-sm { padding: 7px 10px; font-size: 11.5px; }
+      .preview-actions .btn-sm span { display: none; }
+      .preview-actions .btn-sm i { margin: 0; }
+    }
+
     @media (max-width: 600px) {
       body { padding-top: 65px; }
       .mobile-header, .mobile-header .container { height: 65px; }
@@ -267,6 +461,8 @@
       .service-card { padding: 25px 20px; }
       .card-icon i { font-size: 44px; }
       .results-table th, .results-table td { padding: 10px; font-size: 12.5px; }
+      .results-table .btn-preview,
+      .results-table .btn-download { padding: 6px 9px; font-size: 11.5px; }
       .floating-home { width: 48px; height: 48px; font-size: 18px; bottom: 18px; left: 18px; }
     }
   </style>
@@ -400,6 +596,50 @@
     <i class="fas fa-home"></i>
   </a>
 
+  <!-- ============================================
+       PREVIEW MODAL
+  ============================================ -->
+  <div class="preview-overlay" id="previewOverlay">
+    <div class="preview-modal">
+
+      <div class="preview-header">
+        <div class="preview-title">
+          <i class="fas fa-file-pdf"></i>
+          <div class="t-info">
+            <h3 id="previewFileName">-</h3>
+            <p id="previewSubtitle">-</p>
+          </div>
+        </div>
+
+        <div class="preview-actions">
+          <button class="btn btn-success btn-sm" onclick="printPreview()">
+            <i class="fas fa-print"></i> <span>طباعة</span>
+          </button>
+          <a href="#" class="btn btn-primary btn-sm" id="previewDownloadBtn" target="_blank" rel="noopener">
+            <i class="fas fa-download"></i> <span>تحميل</span>
+          </a>
+          <button class="btn btn-ghost btn-sm" onclick="openInNewTab()">
+            <i class="fas fa-external-link-alt"></i> <span>فتح خارجي</span>
+          </button>
+          <button class="btn btn-ghost btn-sm" onclick="closePreview()">
+            <i class="fas fa-times"></i> <span>إغلاق</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="preview-body">
+        <div class="preview-loading" id="previewLoading">
+          <div class="preview-spinner"></div>
+          <p style="color: var(--text-light); font-size: 13.5px;">جاري تحميل المعاينة...</p>
+        </div>
+        <iframe id="previewFrame" src="about:blank"></iframe>
+      </div>
+
+      <div class="preview-info-bar" id="previewInfoBar"></div>
+
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
@@ -430,8 +670,32 @@
     const displayPatientCode = document.getElementById('displayPatientCode');
 
     let currentPatientCode = '';
+    let currentPreviewUrl = '';
 
-    // ===== STEP 1: التحقق من الكود =====
+    // ============================================
+    // HELPERS
+    // ============================================
+    function escapeHtml(v) {
+      return String(v ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function formatDate(d) {
+      if (!d) return '-';
+      try {
+        return new Date(d).toLocaleDateString('ar-EG');
+      } catch {
+        return d;
+      }
+    }
+
+    // ============================================
+    // STEP 1: التحقق من الكود
+    // ============================================
     codeForm.addEventListener('submit', async function (e) {
       e.preventDefault();
 
@@ -443,7 +707,6 @@
       checkBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحقق...';
 
       try {
-        // ✅ التحقق من الكود فقط (بدون اسم)
         const { data, error } = await supabaseClient
           .from('patients')
           .select('id, patient_code, full_name, phone, password')
@@ -462,12 +725,10 @@
           return;
         }
 
-        // حفظ الكود والعرض
         currentPatientCode = code;
         displayPatientName.textContent = data.full_name || 'مريض';
         displayPatientCode.textContent = 'كود: ' + data.patient_code;
 
-        // الانتقال للخطوة 2
         step1Card.classList.add('hidden');
         step2Card.classList.remove('hidden');
 
@@ -488,7 +749,9 @@
       }
     });
 
-    // ===== STEP 2: التحقق من كلمة السر + عرض النتائج =====
+    // ============================================
+    // STEP 2: التحقق من كلمة السر + عرض النتائج
+    // ============================================
     passwordForm.addEventListener('submit', async function (e) {
       e.preventDefault();
 
@@ -500,7 +763,6 @@
       checkBtn.disabled = true;
       checkBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحقق...';
 
-      // إخفاء step2 وإظهار النتائج
       step2Card.classList.add('hidden');
       resultsArea.classList.remove('hidden');
       loadingResults.classList.remove('hidden');
@@ -508,7 +770,6 @@
       patientInfo.innerHTML = '';
 
       try {
-        // ✅ التحقق من الكود + كلمة السر فقط (بدون اسم)
         const { data: patient, error: patientError } = await supabaseClient
           .from('patients')
           .select('id, patient_code, full_name, phone')
@@ -519,7 +780,6 @@
         if (patientError) throw patientError;
 
         if (!patient) {
-          // كلمة سر غلط
           loadingResults.classList.add('hidden');
           resultsArea.classList.add('hidden');
           step2Card.classList.remove('hidden');
@@ -528,13 +788,11 @@
           return;
         }
 
-        // ✅ عرض بيانات المريض
         patientInfo.innerHTML = `
-          <i class="fas fa-user"></i> <strong>${patient.full_name || '-'}</strong>
-          <i class="fas fa-id-card"></i> كود: <strong>${patient.patient_code}</strong>
+          <i class="fas fa-user"></i> <strong>${escapeHtml(patient.full_name || '-')}</strong>
+          <i class="fas fa-id-card"></i> كود: <strong>${escapeHtml(patient.patient_code)}</strong>
         `;
 
-        // ✅ جلب النتائج
         const { data: results, error: resultsError } = await supabaseClient
           .from('results')
           .select('id, file_name, file_path, result_date, test_type, notes')
@@ -555,7 +813,7 @@
           return;
         }
 
-        // ✅ بناء جدول النتائج
+        // ✅ بناء جدول النتائج مع أزرار المعاينة والتحميل
         let tableHTML = `
           <table class="results-table">
             <thead>
@@ -563,26 +821,42 @@
                 <th>التاريخ</th>
                 <th>نوع التحليل</th>
                 <th>اسم الملف</th>
-                <th>التحميل</th>
+                <th>الإجراءات</th>
               </tr>
             </thead>
             <tbody>`;
 
         results.forEach(function (r) {
-          // ✅ بناء رابط الملف العام
           const fileUrl = r.file_path
             ? `${SUPABASE_URL}/storage/v1/object/public/results/${r.file_path}`
             : '#';
 
+          // حفظ البيانات في data attributes لتجنب مشاكل الاقتباسات
+          const safeFileName = escapeHtml(r.file_name || 'نتيجة');
+          const safeTestType = escapeHtml(r.test_type || '');
+          const safeDate = escapeHtml(r.result_date || '');
+          const safeNotes = escapeHtml(r.notes || '').replace(/\n/g, ' ');
+
           tableHTML += `
             <tr>
-              <td><i class="fas fa-calendar-alt" style="color: var(--primary);"></i> ${r.result_date || '-'}</td>
-              <td>${r.test_type || '-'}</td>
-              <td>${r.file_name || '-'}</td>
+              <td><i class="fas fa-calendar-alt" style="color: var(--primary);"></i> ${formatDate(r.result_date)}</td>
+              <td>${escapeHtml(r.test_type || '-')}</td>
+              <td>${escapeHtml(r.file_name || '-')}</td>
               <td>
-                <a href="${fileUrl}" target="_blank" rel="noopener" download>
-                  <i class="fas fa-download"></i> تحميل PDF
-                </a>
+                <div class="result-actions">
+                  <button class="btn-preview" 
+                          data-file-url="${fileUrl}"
+                          data-file-name="${safeFileName}"
+                          data-test-type="${safeTestType}"
+                          data-date="${safeDate}"
+                          data-notes="${safeNotes}"
+                          onclick="handlePreviewClick(this)">
+                    <i class="fas fa-eye"></i> معاينة
+                  </button>
+                  <a href="${fileUrl}" class="btn-download" download target="_blank" rel="noopener">
+                    <i class="fas fa-download"></i> تحميل
+                  </a>
+                </div>
               </td>
             </tr>`;
         });
@@ -602,7 +876,107 @@
       }
     });
 
-    // ===== رجوع للكود =====
+    // ============================================
+    // PREVIEW
+    // ============================================
+    window.handlePreviewClick = function (btn) {
+      const fileUrl = btn.dataset.fileUrl;
+      const fileName = btn.dataset.fileName;
+      const testType = btn.dataset.testType;
+      const date = btn.dataset.date;
+      const notes = btn.dataset.notes;
+
+      previewResult(fileUrl, fileName, date, testType, notes);
+    };
+
+    function previewResult(fileUrl, fileName, date, testType, notes) {
+      currentPreviewUrl = fileUrl;
+
+      // العنوان
+      document.getElementById('previewFileName').textContent = fileName || 'نتيجة تحليل';
+      document.getElementById('previewSubtitle').textContent =
+        `${displayPatientName.textContent} • ${formatDate(date)}`;
+
+      // زر التحميل
+      document.getElementById('previewDownloadBtn').href = fileUrl;
+
+      // المعاينة
+      const frame = document.getElementById('previewFrame');
+      const loading = document.getElementById('previewLoading');
+      loading.classList.remove('hidden');
+      frame.src = 'about:blank';
+
+      setTimeout(() => {
+        frame.src = fileUrl;
+        frame.onload = () => {
+          setTimeout(() => loading.classList.add('hidden'), 400);
+        };
+      }, 100);
+
+      // شريط المعلومات
+      let infoHtml = `
+        <div class="info-chip"><i class="fas fa-user"></i> المريض: <strong>${escapeHtml(displayPatientName.textContent)}</strong></div>
+        <div class="info-chip"><i class="fas fa-calendar"></i> التاريخ: <strong>${formatDate(date)}</strong></div>
+      `;
+
+      if (testType) {
+        infoHtml += `<div class="info-chip"><i class="fas fa-flask"></i> النوع: <strong>${escapeHtml(testType)}</strong></div>`;
+      }
+
+      if (notes) {
+        infoHtml += `<div class="info-chip"><i class="fas fa-sticky-note"></i> ملاحظة: <strong>${escapeHtml(notes)}</strong></div>`;
+      }
+
+      document.getElementById('previewInfoBar').innerHTML = infoHtml;
+
+      // إظهار
+      document.getElementById('previewOverlay').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    window.closePreview = function () {
+      document.getElementById('previewOverlay').classList.remove('show');
+      document.getElementById('previewFrame').src = 'about:blank';
+      currentPreviewUrl = '';
+      document.body.style.overflow = 'auto';
+    };
+
+    window.printPreview = function () {
+      if (!currentPreviewUrl) return;
+
+      const win = window.open(currentPreviewUrl, '_blank');
+      if (win) {
+        win.onload = function () {
+          setTimeout(() => {
+            try { win.print(); } catch (e) { console.warn(e); }
+          }, 500);
+        };
+      }
+    };
+
+    window.openInNewTab = function () {
+      if (currentPreviewUrl) {
+        window.open(currentPreviewUrl, '_blank', 'noopener');
+      }
+    };
+
+    // إغلاق المعاينة بالخلفية
+    document.getElementById('previewOverlay').addEventListener('click', function (e) {
+      if (e.target === this) closePreview();
+    });
+
+    // ESC
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        if (document.getElementById('previewOverlay').classList.contains('show')) {
+          closePreview();
+        }
+      }
+    });
+
+    // ============================================
+    // NAVIGATION
+    // ============================================
     backToCodeBtn.addEventListener('click', function () {
       step2Card.classList.add('hidden');
       step1Card.classList.remove('hidden');
@@ -618,7 +992,6 @@
       codeInput.focus();
     });
 
-    // ===== بحث جديد =====
     newSearchBtn.addEventListener('click', function () {
       resultsArea.classList.add('hidden');
       step1Card.classList.remove('hidden');
@@ -636,7 +1009,7 @@
       codeInput.focus();
     });
 
-    console.log('✅ صفحة استلام النتائج جاهزة');
+    console.log('✅ صفحة استلام النتائج جاهزة مع معاينة PDF');
   </script>
 
 </body>
