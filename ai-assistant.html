@@ -3,57 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المساعد الذكي - عيادات النخيل الطبية</title>
+    <title>المساعد الذكي - معمل ميدلاب</title>
     <link rel="stylesheet" href="css/style.css">
-     <link  href="images/logo.png" type="image/x-icon" rel="icon">
+    <link href="images/logo.png" type="image/x-icon" rel="icon">
     <link rel="stylesheet" href="css/ai.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <header class="header">
-        <h2 class="section-title">المساعد الذكي</h2>           
-    </header>
-    <section class="ai-assistant section-padding">
-        <div class="container">
-            <div class="ai-container">
-                <div class="ai-header">
-                    <div class="ai-avatar">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div class="ai-info">
-                        <h3>مساعد المعمل الذكي</h3>
-                        <p>كيف يمكنني مساعدتك اليوم؟</p>
-                    </div>
-                </div>
-                
-                <div class="ai-chat-container">
-                    <div class="ai-message ai-response">
-                        <div class="message-content">
-                            <p>مرحبًا! أنا مساعد المعمل الذكي. كيف يمكنني مساعدتك اليوم؟</p>
-                        </div>
-                    </div>
-                    
-                    <div class="quick-questions">
-                        <h4>أسئلة سريعة:</h4>
-                        <div class="questions-grid">
-                            <button class="question-btn" data-question="كيف يمكنني حجز موعد؟">كيف يمكنني حجز موعد؟</button>
-                            <button class="question-btn" data-question="ما هي ساعات العمل؟">ما هي ساعات العمل؟</button>
-                            <button class="question-btn" data-question="أين يقع المعمل؟">أين يقع المعمل؟</button>
-                            <button class="question-btn" data-question="تفاصيل عن الاسعار؟">تفاصيل عن الاسعار؟</button>  
-                            <button class="question-btn" data-question="ما هي طرق الدفع المتاحة؟">ما هي طرق الدفع المتاحة؟</button>
-                        </div>
-                    </div>
-                </div>
-                
-                
-            </div>
+
+  <header class="mobile-header">
+    <div class="container">
+      <button class="menu-toggle" type="button" aria-label="فتح القائمة" id="menuToggle">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <h1>معمل ميدلاب</h1>
+
+      <nav class="desktop-nav" aria-label="القائمة الرئيسية">
+        <ul>
+          <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+          <li><a href="index.html#services"><i class="fas fa-flask"></i> خدماتنا</a></li>
+          <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> حجز فحص</a></li>
+          <li><a href="sample-receive.html"><i class="fas fa-file-medical"></i> استلام نتيجة</a></li>
+          <li><a href="contact.html"><i class="fas fa-headset"></i> خدمة العملاء</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <nav class="mobile-nav" id="mobileNav">
+    <ul>
+      <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+      <li><a href="index.html#services"><i class="fas fa-flask"></i> خدماتنا</a></li>
+      <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> حجز فحص</a></li>
+      <li><a href="sample-receive.html"><i class="fas fa-file-medical"></i> استلام نتيجة</a></li>
+      <li><a href="contact.html"><i class="fas fa-headset"></i> خدمة العملاء</a></li>
+    </ul>
+  </nav>
+
+  <section class="ai-assistant section-padding">
+    <div class="container">
+      <div class="ai-container">
+        <div class="ai-header">
+          <div class="ai-avatar">
+            <i class="fas fa-robot"></i>
+          </div>
+          <div class="ai-info">
+            <h3>مساعد المعمل الذكي</h3>
+            <p>كيف يمكنني مساعدتك اليوم؟</p>
+          </div>
         </div>
-    </section>
+        
+        <div class="ai-chat-container">
+          <div class="ai-message ai-response">
+            <div class="message-content">
+              <p>مرحبًا! أنا مساعد المعمل الذكي. كيف يمكنني مساعدتك اليوم؟</p>
+            </div>
+          </div>
+          
+          <div class="quick-questions">
+            <h4>أسئلة سريعة:</h4>
+            <div class="questions-grid">
+              <button class="question-btn" data-question="دليل استخدام الموقع">
+                <i class="fas fa-book-open"></i> دليل استخدام الموقع
+              </button>
+              <button class="question-btn" data-question="كيف يمكنني حجز موعد؟">
+                كيف يمكنني حجز موعد؟
+              </button>
+              <button class="question-btn" data-question="ما هي ساعات العمل؟">
+                ما هي ساعات العمل؟
+              </button>
+              <button class="question-btn" data-question="أين يقع المعمل؟">
+                أين يقع المعمل؟
+              </button>
+              <button class="question-btn" data-question="تفاصيل عن الاسعار؟">
+                تفاصيل عن الاسعار؟
+              </button>  
+              <button class="question-btn" data-question="ما هي طرق الدفع المتاحة؟">
+                ما هي طرق الدفع المتاحة؟
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <footer class="footer">
+  <footer class="footer"></footer>
 
-    </footer>
+  <script src="js/ai.js"></script>
 
-    <script src="js/ai.js"></script>
+  <a href="index.html" class="floating-home" aria-label="الرجوع للصفحة الرئيسية" title="الرجوع للرئيسية">
+    <i class="fas fa-home"></i>
+  </a>
 </body>
 </html>
