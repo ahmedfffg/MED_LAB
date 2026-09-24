@@ -167,13 +167,6 @@
       font-size: 13.5px; padding: 8px 16px;
     }
     .btn-ghost:hover { background: var(--primary); color: white; }
-    .btn-success {
-      background: var(--success-soft); color: var(--success);
-      border: 1px solid var(--success);
-      font-size: 13.5px; padding: 8px 16px;
-    }
-    .btn-success:hover { background: var(--success); color: white; }
-    .btn-sm { padding: 8px 14px; font-size: 13px; }
 
     /* Security note */
     .security-note {
@@ -215,6 +208,137 @@
     .patient-info strong { color: var(--text-dark); font-weight: 700; }
     .patient-info i { color: var(--primary); font-size: 13px; }
 
+    /* Date filter */
+    .date-filter-bar {
+      background: linear-gradient(135deg, var(--blue-soft), var(--blue-softer));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .date-filter-bar .filter-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .date-filter-bar .filter-label i { color: var(--primary); font-size: 15px; }
+    .date-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+    .date-chip {
+      padding: 8px 14px;
+      border-radius: 22px;
+      background: white;
+      color: var(--primary-dark);
+      border: 1.5px solid var(--border);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .date-chip:hover {
+      border-color: var(--primary);
+      background: var(--blue-soft);
+      transform: translateY(-2px);
+    }
+    .date-chip.active {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 6px 15px -4px rgba(10,124,184,0.5);
+    }
+    .date-chip .count {
+      background: rgba(255,255,255,0.3);
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      min-width: 20px;
+      text-align: center;
+    }
+    .date-chip:not(.active) .count {
+      background: var(--blue-soft);
+      color: var(--primary-dark);
+    }
+    .date-chip.all-chip {
+      background: linear-gradient(135deg, #1a7d4a, #22a05f);
+      color: white;
+      border-color: #1a7d4a;
+    }
+    .date-chip.all-chip:hover {
+      background: linear-gradient(135deg, #15663d, #1a7d4a);
+      color: white;
+    }
+    .date-chip.all-chip .count {
+      background: rgba(255,255,255,0.3);
+      color: white;
+    }
+
+    .results-stats {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: white;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      flex-shrink: 0;
+    }
+    .results-stats i { color: var(--primary); }
+
+    /* Latest result banner (جديد) */
+    .latest-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: linear-gradient(135deg, var(--success-soft), #d1f0dd);
+      border: 1px solid var(--success);
+      border-radius: 12px;
+      margin-bottom: 18px;
+      font-size: 14px;
+      color: var(--success);
+      font-weight: 700;
+      animation: slideDown 0.4s ease;
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .latest-banner i {
+      font-size: 20px;
+    }
+    .latest-banner .latest-info { flex: 1; }
+    .latest-banner .latest-info .title {
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .latest-banner .latest-info .sub {
+      font-size: 12.5px;
+      opacity: 0.85;
+      font-weight: 500;
+    }
+
+    /* Table */
     .results-table {
       width: 100%; border-collapse: collapse; margin-top: 10px;
       font-size: 14px; border-radius: 10px; overflow: hidden;
@@ -236,6 +360,9 @@
       border-radius: 7px; transition: all 0.2s ease; font-size: 13px;
     }
     .results-table a:hover { background: var(--primary); color: white; }
+    .results-table tr.latest-row td {
+      background: #f0fbf5;
+    }
 
     .no-results { text-align: center; padding: 35px 20px; color: var(--text-light); }
     .no-results i { font-size: 44px; margin-bottom: 14px; display: block; }
@@ -268,9 +395,7 @@
     }
     .floating-home:hover { transform: translateY(-4px) scale(1.05); color: white; }
 
-    /* ============================================
-       PREVIEW MODAL (معاينة PDF للعميل)
-    ============================================ */
+    /* Preview modal */
     .preview-overlay {
       position: fixed;
       inset: 0;
@@ -395,7 +520,6 @@
     .preview-info-bar .info-chip i { color: var(--primary); }
     .preview-info-bar .info-chip strong { color: var(--text-dark); }
 
-    /* Action buttons in results table */
     .result-actions {
       display: flex;
       gap: 6px;
@@ -438,19 +562,13 @@
       color: white;
     }
 
-    /* Mobile preview */
+    /* Mobile */
     @media (max-width: 700px) {
       .preview-overlay { padding: 0; }
-      .preview-modal {
-        border-radius: 0;
-        height: 100vh;
-        max-height: 100vh;
-      }
+      .preview-modal { border-radius: 0; height: 100vh; max-height: 100vh; }
       .preview-header { padding: 12px 15px; }
-      .preview-header .preview-title .t-info h3 { font-size: 0.95rem; }
       .preview-actions .btn-sm { padding: 7px 10px; font-size: 11.5px; }
       .preview-actions .btn-sm span { display: none; }
-      .preview-actions .btn-sm i { margin: 0; }
     }
 
     @media (max-width: 600px) {
@@ -464,6 +582,14 @@
       .results-table .btn-preview,
       .results-table .btn-download { padding: 6px 9px; font-size: 11.5px; }
       .floating-home { width: 48px; height: 48px; font-size: 18px; bottom: 18px; left: 18px; }
+
+      .date-filter-bar { flex-direction: column; align-items: stretch; padding: 12px; gap: 10px; }
+      .date-filter-bar .filter-label { justify-content: center; }
+      .date-chips { justify-content: center; }
+      .date-chip { padding: 7px 12px; font-size: 12px; }
+      .results-stats { align-self: center; }
+
+      .latest-banner { flex-direction: column; text-align: center; gap: 8px; }
     }
   </style>
 </head>
@@ -492,18 +618,15 @@
       </h2>
       <p class="section-subtitle">أدخل كود المريض وكلمة السر للاستعلام عن نتائجك</p>
 
-      <!-- Step indicator -->
       <div class="step-indicator">
         <div class="step-dot active" id="step1Dot">1</div>
         <div class="step-line" id="stepLine1"></div>
         <div class="step-dot" id="step2Dot">2</div>
       </div>
 
-      <!-- Step 1: Code -->
+      <!-- Step 1 -->
       <div id="step1Card" class="service-card" style="max-width: 580px; margin: 0 auto;">
-        <div class="card-icon">
-          <i class="fas fa-hashtag"></i>
-        </div>
+        <div class="card-icon"><i class="fas fa-hashtag"></i></div>
         <p class="card-description">أدخل كود المريض الخاص بك</p>
 
         <form id="codeForm" novalidate>
@@ -531,11 +654,9 @@
         </div>
       </div>
 
-      <!-- Step 2: Password -->
+      <!-- Step 2 -->
       <div id="step2Card" class="service-card hidden" style="max-width: 580px; margin: 0 auto;">
-        <div class="card-icon">
-          <i class="fas fa-lock"></i>
-        </div>
+        <div class="card-icon"><i class="fas fa-lock"></i></div>
         <p class="card-description">تم العثور على الكود بنجاح! أدخل كلمة السر</p>
 
         <div class="patient-name-display">
@@ -575,6 +696,29 @@
             </button>
           </div>
           <p id="patientInfo" class="patient-info"></p>
+
+          <!-- Latest result banner (جديد) -->
+          <div id="latestBanner" class="latest-banner hidden">
+            <i class="fas fa-check-circle"></i>
+            <div class="latest-info">
+              <div class="title">آخر نتيجة تم رفعها</div>
+              <div class="sub" id="latestSubInfo"></div>
+            </div>
+          </div>
+
+          <!-- Date filter -->
+          <div id="dateFilterBar" class="date-filter-bar hidden">
+            <div class="filter-label">
+              <i class="fas fa-calendar-alt"></i>
+              اختر تاريخ التحليل:
+            </div>
+            <div class="date-chips" id="dateChips"></div>
+            <div class="results-stats">
+              <i class="fas fa-file-medical"></i>
+              <span id="resultsStats">0</span>
+            </div>
+          </div>
+
           <div id="loadingResults" class="loading-spinner hidden">
             <i class="fas fa-spinner fa-spin"></i> جاري تحميل النتائج...
           </div>
@@ -596,12 +740,9 @@
     <i class="fas fa-home"></i>
   </a>
 
-  <!-- ============================================
-       PREVIEW MODAL
-  ============================================ -->
+  <!-- Preview Modal -->
   <div class="preview-overlay" id="previewOverlay">
     <div class="preview-modal">
-
       <div class="preview-header">
         <div class="preview-title">
           <i class="fas fa-file-pdf"></i>
@@ -612,7 +753,7 @@
         </div>
 
         <div class="preview-actions">
-          <button class="btn btn-success btn-sm" onclick="printPreview()">
+          <button class="btn btn-ghost btn-sm" onclick="printPreview()">
             <i class="fas fa-print"></i> <span>طباعة</span>
           </button>
           <a href="#" class="btn btn-primary btn-sm" id="previewDownloadBtn" target="_blank" rel="noopener">
@@ -636,7 +777,6 @@
       </div>
 
       <div class="preview-info-bar" id="previewInfoBar"></div>
-
     </div>
   </div>
 
@@ -669,8 +809,21 @@
     const displayPatientName = document.getElementById('displayPatientName');
     const displayPatientCode = document.getElementById('displayPatientCode');
 
+    const dateFilterBar = document.getElementById('dateFilterBar');
+    const dateChipsContainer = document.getElementById('dateChips');
+    const resultsStats = document.getElementById('resultsStats');
+    const latestBanner = document.getElementById('latestBanner');
+    const latestSubInfo = document.getElementById('latestSubInfo');
+
+    // State
     let currentPatientCode = '';
     let currentPreviewUrl = '';
+    let allResults = [];
+    let filteredResults = [];
+    let availableDates = [];
+    let selectedDate = 'all';
+    let latestResultId = null;
+    let autoPreviewTimer = null;
 
     // ============================================
     // HELPERS
@@ -686,19 +839,46 @@
 
     function formatDate(d) {
       if (!d) return '-';
+      try { return new Date(d).toLocaleDateString('ar-EG'); }
+      catch { return d; }
+    }
+
+    function getDateKey(d) {
+      if (!d) return '';
+      if (typeof d === 'string' && /^\d{4}-\d{2}-\d{2}/.test(d)) return d.substring(0, 10);
       try {
-        return new Date(d).toLocaleDateString('ar-EG');
-      } catch {
-        return d;
-      }
+        const dt = new Date(d);
+        const y = dt.getFullYear();
+        const m = String(dt.getMonth() + 1).padStart(2, '0');
+        const day = String(dt.getDate()).padStart(2, '0');
+        return `${y}-${m}-${day}`;
+      } catch { return ''; }
+    }
+
+    function getDayName(dateStr) {
+      try {
+        const dt = new Date(dateStr + 'T00:00:00');
+        const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+        return days[dt.getDay()];
+      } catch { return ''; }
+    }
+
+    function formatDateForChip(dateStr) {
+      try {
+        const dt = new Date(dateStr + 'T00:00:00');
+        const dayName = getDayName(dateStr);
+        const day = dt.getDate();
+        const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+                        'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+        return `${dayName} ${day} ${months[dt.getMonth()]}`;
+      } catch { return dateStr; }
     }
 
     // ============================================
-    // STEP 1: التحقق من الكود
+    // STEP 1: Check Code
     // ============================================
     codeForm.addEventListener('submit', async function (e) {
       e.preventDefault();
-
       const code = codeInput.value.trim();
       if (!code) return alert('⚠️ الرجاء إدخال كود المريض');
 
@@ -750,7 +930,7 @@
     });
 
     // ============================================
-    // STEP 2: التحقق من كلمة السر + عرض النتائج
+    // STEP 2: Check Password + Load Results
     // ============================================
     passwordForm.addEventListener('submit', async function (e) {
       e.preventDefault();
@@ -768,6 +948,8 @@
       loadingResults.classList.remove('hidden');
       resultsList.innerHTML = '';
       patientInfo.innerHTML = '';
+      dateFilterBar.classList.add('hidden');
+      latestBanner.classList.add('hidden');
 
       try {
         const { data: patient, error: patientError } = await supabaseClient
@@ -783,7 +965,6 @@
           loadingResults.classList.add('hidden');
           resultsArea.classList.add('hidden');
           step2Card.classList.remove('hidden');
-
           alert('❌ كلمة السر غير صحيحة.');
           return;
         }
@@ -813,56 +994,21 @@
           return;
         }
 
-        // ✅ بناء جدول النتائج مع أزرار المعاينة والتحميل
-        let tableHTML = `
-          <table class="results-table">
-            <thead>
-              <tr>
-                <th>التاريخ</th>
-                <th>نوع التحليل</th>
-                <th>اسم الملف</th>
-                <th>الإجراءات</th>
-              </tr>
-            </thead>
-            <tbody>`;
+        allResults = results;
 
-        results.forEach(function (r) {
-          const fileUrl = r.file_path
-            ? `${SUPABASE_URL}/storage/v1/object/public/results/${r.file_path}`
-            : '#';
+        // ✅ استخراج التواريخ
+        extractAvailableDates();
 
-          // حفظ البيانات في data attributes لتجنب مشاكل الاقتباسات
-          const safeFileName = escapeHtml(r.file_name || 'نتيجة');
-          const safeTestType = escapeHtml(r.test_type || '');
-          const safeDate = escapeHtml(r.result_date || '');
-          const safeNotes = escapeHtml(r.notes || '').replace(/\n/g, ' ');
+        // ✅ عرض الفلتر
+        selectedDate = 'all';
+        renderDateChips();
+        applyDateFilter();
 
-          tableHTML += `
-            <tr>
-              <td><i class="fas fa-calendar-alt" style="color: var(--primary);"></i> ${formatDate(r.result_date)}</td>
-              <td>${escapeHtml(r.test_type || '-')}</td>
-              <td>${escapeHtml(r.file_name || '-')}</td>
-              <td>
-                <div class="result-actions">
-                  <button class="btn-preview" 
-                          data-file-url="${fileUrl}"
-                          data-file-name="${safeFileName}"
-                          data-test-type="${safeTestType}"
-                          data-date="${safeDate}"
-                          data-notes="${safeNotes}"
-                          onclick="handlePreviewClick(this)">
-                    <i class="fas fa-eye"></i> معاينة
-                  </button>
-                  <a href="${fileUrl}" class="btn-download" download target="_blank" rel="noopener">
-                    <i class="fas fa-download"></i> تحميل
-                  </a>
-                </div>
-              </td>
-            </tr>`;
-        });
-
-        tableHTML += `</tbody></table>`;
-        resultsList.innerHTML = tableHTML;
+        // ✅ عرض آخر نتيجة تلقائياً (بعد ثانية من ظهور الصفحة)
+        if (autoPreviewTimer) clearTimeout(autoPreviewTimer);
+        autoPreviewTimer = setTimeout(() => {
+          showLatestResult();
+        }, 900);
 
       } catch (err) {
         console.error(err);
@@ -877,30 +1023,195 @@
     });
 
     // ============================================
+    // EXTRACT DATES
+    // ============================================
+    function extractAvailableDates() {
+      const dateMap = new Map();
+      allResults.forEach(r => {
+        const dateKey = getDateKey(r.result_date);
+        if (!dateKey) return;
+        if (!dateMap.has(dateKey)) dateMap.set(dateKey, 0);
+        dateMap.set(dateKey, dateMap.get(dateKey) + 1);
+      });
+
+      availableDates = Array.from(dateMap.entries())
+        .map(([date, count]) => ({ date, count }))
+        .sort((a, b) => b.date.localeCompare(a.date));
+    }
+
+    // ============================================
+    // RENDER DATE CHIPS
+    // ============================================
+    function renderDateChips() {
+      const totalCount = allResults.length;
+
+      let html = `
+        <button class="date-chip all-chip ${selectedDate === 'all' ? 'active' : ''}" 
+                onclick="selectDate('all')">
+          <i class="fas fa-layer-group"></i>
+          كل التحاليل
+          <span class="count">${totalCount}</span>
+        </button>
+      `;
+
+      html += availableDates.map(item => `
+        <button class="date-chip ${selectedDate === item.date ? 'active' : ''}" 
+                onclick="selectDate('${item.date}')">
+          <i class="fas fa-calendar-day"></i>
+          ${formatDateForChip(item.date)}
+          <span class="count">${item.count}</span>
+        </button>
+      `).join('');
+
+      dateChipsContainer.innerHTML = html;
+      dateFilterBar.classList.remove('hidden');
+    }
+
+    // ============================================
+    // SELECT DATE
+    // ============================================
+    window.selectDate = function (dateKey) {
+      selectedDate = dateKey;
+      renderDateChips();
+      applyDateFilter();
+    };
+
+    // ============================================
+    // APPLY DATE FILTER
+    // ============================================
+    function applyDateFilter() {
+      if (selectedDate === 'all') {
+        filteredResults = [...allResults];
+      } else {
+        filteredResults = allResults.filter(r => getDateKey(r.result_date) === selectedDate);
+      }
+
+      resultsStats.textContent = `${filteredResults.length} نتيجة`;
+      renderResultsTable();
+    }
+
+    // ============================================
+    // RENDER TABLE
+    // ============================================
+    function renderResultsTable() {
+      if (filteredResults.length === 0) {
+        resultsList.innerHTML = `
+          <div class="no-results">
+            <i class="fas fa-folder-open"></i>
+            <p>لا توجد نتائج في هذا التاريخ.</p>
+          </div>`;
+        return;
+      }
+
+      let tableHTML = `
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>التاريخ</th>
+              <th>نوع التحليل</th>
+              <th>اسم الملف</th>
+              <th>الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody>`;
+
+      filteredResults.forEach(r => {
+        const fileUrl = r.file_path
+          ? `${SUPABASE_URL}/storage/v1/object/public/results/${r.file_path}`
+          : '#';
+
+        const safeFileName = escapeHtml(r.file_name || 'نتيجة');
+        const safeTestType = escapeHtml(r.test_type || '');
+        const safeDate = escapeHtml(r.result_date || '');
+        const safeNotes = escapeHtml(r.notes || '').replace(/\n/g, ' ');
+
+        const isLatest = Number(r.id) === Number(latestResultId);
+
+        tableHTML += `
+          <tr class="${isLatest ? 'latest-row' : ''}">
+            <td><i class="fas fa-calendar-alt" style="color: var(--primary);"></i> ${formatDate(r.result_date)}</td>
+            <td>${escapeHtml(r.test_type || '-')}</td>
+            <td>${escapeHtml(r.file_name || '-')}</td>
+            <td>
+              <div class="result-actions">
+                <button class="btn-preview" 
+                        data-file-url="${fileUrl}"
+                        data-file-name="${safeFileName}"
+                        data-test-type="${safeTestType}"
+                        data-date="${safeDate}"
+                        data-notes="${safeNotes}"
+                        onclick="handlePreviewClick(this)">
+                  <i class="fas fa-eye"></i> معاينة
+                </button>
+                <a href="${fileUrl}" class="btn-download" download target="_blank" rel="noopener">
+                  <i class="fas fa-download"></i> تحميل
+                </a>
+              </div>
+            </td>
+          </tr>`;
+      });
+
+      tableHTML += `</tbody></table>`;
+      resultsList.innerHTML = tableHTML;
+    }
+
+    // ============================================
+    // SHOW LATEST RESULT (تلقائياً)
+    // ============================================
+    function showLatestResult() {
+      if (!allResults || allResults.length === 0) return;
+
+      // ✅ آخر نتيجة (الأحدث - لأنها مرتبة تنازلياً)
+      const latest = allResults[0];
+      latestResultId = latest.id;
+
+      // ✅ عرض شارة "آخر نتيجة"
+      latestSubInfo.innerHTML = `
+        ${escapeHtml(latest.file_name || 'تحليل')} 
+        • ${formatDate(latest.result_date)}
+        ${latest.test_type ? ` • ${escapeHtml(latest.test_type)}` : ''}
+      `;
+      latestBanner.classList.remove('hidden');
+
+      // ✅ تحديث الجدول لإبراز الصف الأخير
+      applyDateFilter();
+
+      // ✅ فتح المعاينة تلقائياً
+      const fileUrl = latest.file_path
+        ? `${SUPABASE_URL}/storage/v1/object/public/results/${latest.file_path}`
+        : '#';
+
+      previewResult(
+        fileUrl,
+        latest.file_name || 'نتيجة تحليل',
+        latest.result_date || '',
+        latest.test_type || '',
+        latest.notes || ''
+      );
+    }
+
+    // ============================================
     // PREVIEW
     // ============================================
     window.handlePreviewClick = function (btn) {
-      const fileUrl = btn.dataset.fileUrl;
-      const fileName = btn.dataset.fileName;
-      const testType = btn.dataset.testType;
-      const date = btn.dataset.date;
-      const notes = btn.dataset.notes;
-
-      previewResult(fileUrl, fileName, date, testType, notes);
+      previewResult(
+        btn.dataset.fileUrl,
+        btn.dataset.fileName,
+        btn.dataset.date,
+        btn.dataset.testType,
+        btn.dataset.notes
+      );
     };
 
     function previewResult(fileUrl, fileName, date, testType, notes) {
       currentPreviewUrl = fileUrl;
 
-      // العنوان
       document.getElementById('previewFileName').textContent = fileName || 'نتيجة تحليل';
       document.getElementById('previewSubtitle').textContent =
         `${displayPatientName.textContent} • ${formatDate(date)}`;
 
-      // زر التحميل
       document.getElementById('previewDownloadBtn').href = fileUrl;
 
-      // المعاينة
       const frame = document.getElementById('previewFrame');
       const loading = document.getElementById('previewLoading');
       loading.classList.remove('hidden');
@@ -913,7 +1224,6 @@
         };
       }, 100);
 
-      // شريط المعلومات
       let infoHtml = `
         <div class="info-chip"><i class="fas fa-user"></i> المريض: <strong>${escapeHtml(displayPatientName.textContent)}</strong></div>
         <div class="info-chip"><i class="fas fa-calendar"></i> التاريخ: <strong>${formatDate(date)}</strong></div>
@@ -929,7 +1239,6 @@
 
       document.getElementById('previewInfoBar').innerHTML = infoHtml;
 
-      // إظهار
       document.getElementById('previewOverlay').classList.add('show');
       document.body.style.overflow = 'hidden';
     }
@@ -943,7 +1252,6 @@
 
     window.printPreview = function () {
       if (!currentPreviewUrl) return;
-
       const win = window.open(currentPreviewUrl, '_blank');
       if (win) {
         win.onload = function () {
@@ -960,12 +1268,10 @@
       }
     };
 
-    // إغلاق المعاينة بالخلفية
     document.getElementById('previewOverlay').addEventListener('click', function (e) {
       if (e.target === this) closePreview();
     });
 
-    // ESC
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
         if (document.getElementById('previewOverlay').classList.contains('show')) {
@@ -978,10 +1284,18 @@
     // NAVIGATION
     // ============================================
     backToCodeBtn.addEventListener('click', function () {
+      if (autoPreviewTimer) clearTimeout(autoPreviewTimer);
+      closePreview();
+
       step2Card.classList.add('hidden');
       step1Card.classList.remove('hidden');
       passwordInput.value = '';
       currentPatientCode = '';
+      allResults = [];
+      filteredResults = [];
+      availableDates = [];
+      selectedDate = 'all';
+      latestResultId = null;
 
       step1Dot.classList.add('active');
       step1Dot.classList.remove('done');
@@ -993,12 +1307,21 @@
     });
 
     newSearchBtn.addEventListener('click', function () {
+      if (autoPreviewTimer) clearTimeout(autoPreviewTimer);
+      closePreview();
+
       resultsArea.classList.add('hidden');
       step1Card.classList.remove('hidden');
       step2Card.classList.add('hidden');
       codeForm.reset();
       passwordForm.reset();
       currentPatientCode = '';
+      allResults = [];
+      filteredResults = [];
+      availableDates = [];
+      selectedDate = 'all';
+      latestResultId = null;
+      latestBanner.classList.add('hidden');
 
       step1Dot.classList.add('active');
       step1Dot.classList.remove('done');
@@ -1009,7 +1332,7 @@
       codeInput.focus();
     });
 
-    console.log('✅ صفحة استلام النتائج جاهزة مع معاينة PDF');
+    console.log('✅ صفحة استلام النتائج جاهزة مع آخر نتيجة تلقائية');
   </script>
 
 </body>
