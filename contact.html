@@ -12,14 +12,13 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap"rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
         .contact {
             padding: 140px 0 50px;
             background: #0a4179;
             color: white;
-            margin-top: 60px;
             min-height: calc(100vh - 60px);
         }
 
@@ -35,10 +34,6 @@
             margin-bottom: 30px;
             color: white;
         }
-
-        /* =========================
-           AI Assistant
-        ========================= */
 
         .ai-assistant-card {
             background-color: rgba(255, 255, 255, 0.1);
@@ -79,10 +74,6 @@
             margin-bottom: 20px;
             line-height: 1.6;
         }
-
-        /* =========================
-           Contact Form
-        ========================= */
 
         .contact-form {
             background-color: white;
@@ -191,106 +182,6 @@
             transform: none;
         }
 
-        /* =========================
-           Header
-        ========================= */
-
-        .mobile-header {
-            background: linear-gradient(135deg, #0a4179, #499bda);
-            color: white;
-            padding: 0.5rem 0;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        .mobile-header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .mobile-header h1 {
-            color: white;
-            font-size: 1.4rem;
-            margin: 0;
-            font-weight: 700;
-        }
-
-        .menu-toggle {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: white;
-            font-size: 1.6rem;
-            padding: 0.3rem 0.8rem;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: 0.3s;
-        }
-
-        .menu-toggle:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .mobile-nav {
-            display: none;
-            background: white;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border-radius: 0 0 20px 20px;
-            overflow: hidden;
-        }
-
-        .mobile-nav.active {
-            display: block;
-        }
-
-        .mobile-nav ul {
-            list-style: none;
-            padding: 0.3rem 0;
-            margin: 0;
-        }
-
-        .mobile-nav ul li {
-            border-bottom: 1px solid #f0f2f5;
-        }
-
-        .mobile-nav ul li:last-child {
-            border-bottom: none;
-        }
-
-        .mobile-nav ul li a {
-            display: block;
-            padding: 0.8rem 1.8rem;
-            color: #1a2a3a;
-            text-decoration: none;
-            font-weight: 500;
-            transition: 0.2s;
-        }
-
-        .mobile-nav ul li a i {
-            margin-left: 0.8rem;
-            width: 24px;
-            color: #2a6a9a;
-        }
-
-        .mobile-nav ul li a:hover {
-            background: #f0f7ff;
-        }
-
-        /* =========================
-           Notifications
-        ========================= */
-
         .notification {
             position: fixed;
             top: 80px;
@@ -305,45 +196,19 @@
             max-width: 400px;
         }
 
-        .notification-success {
-            background: #10b981;
-        }
-
-        .notification-error {
-            background: #ef4444;
-        }
-
-        .notification-info {
-            background: #3b82f6;
-        }
+        .notification-success { background: #10b981; }
+        .notification-error { background: #ef4444; }
+        .notification-info { background: #3b82f6; }
 
         @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
         @keyframes slideOut {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-
-            to {
-                transform: translateX(100%);
-                opacity: 0;
-            }
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
         }
-
-        /* =========================
-           WhatsApp
-        ========================= */
 
         .floating-whatsapp {
             position: fixed;
@@ -370,798 +235,237 @@
             color: white;
         }
 
-        /* =========================
-           Mobile
-        ========================= */
-
         @media (max-width: 768px) {
-            .contact {
-                padding: 120px 0 30px;
-            }
-
-            .ai-assistant-card,
-            .contact-form {
-                padding: 20px;
-                margin: 20px auto;
-            }
-
-            .floating-whatsapp {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
-                bottom: 20px;
-                left: 20px;
-            }
-
-            .section-titles {
-                font-size: 1.8rem;
-            }
+            .contact { padding: 120px 0 30px; }
+            .ai-assistant-card, .contact-form { padding: 20px; margin: 20px auto; }
+            .floating-whatsapp { width: 50px; height: 50px; font-size: 1.5rem; bottom: 20px; left: 20px; }
+            .section-titles { font-size: 1.8rem; }
         }
 
         @media (max-width: 480px) {
-            .mobile-header h1 {
-                font-size: 1.1rem;
-            }
-
-            .contact-form {
-                padding: 15px;
-            }
+            .contact-form { padding: 15px; }
         }
     </style>
 </head>
 
 <body>
 
-<header class="mobile-header">
-
-    <div class="container">
-
-        <button class="menu-toggle" type="button" aria-label="فتح القائمة">
-            <i class="fas fa-bars"></i>
-        </button>
-
-        <h1>معمل ميدلاب</h1>
-
-    </div>
-
-    <nav class="mobile-nav">
-
-        <ul>
-
-            <li>
-                <a href="index.html">
-                    <i class="fas fa-home"></i>
-                    الرئيسية
-                </a>
-            </li>
-
-            <li>
-                <a href="index.html#services">
-                    <i class="fas fa-flask"></i>
-                    خدماتنا
-                </a>
-            </li>
-
-            <li>
-                <a href="appointment.html">
-                    <i class="fas fa-calendar-check"></i>
-                    حجز فحص
-                </a>
-            </li>
-<li>
-    <a href="sample-receive.html"><i class="fas fa-file-medical">
-
-    </i> استلام نتيجة</a>
-</li>
-      
-            <li>
-                <a href="contact.html">
-                    <i class="fas fa-headset"></i>
-                    خدمة العملاء
-                </a>
-            </li>
-
-            <li>
-                <a href="admin/login.html">
-                    <i class="fas fa-sign-in-alt"></i>
-                    تسجيل الدخول
-                </a>
-            </li>
-
-        </ul>
-
-    </nav>
-
-</header>
-
-
 <main class="contact">
-
     <div class="container">
-
-        <h1 class="section-titles">
-            اتصل بنا
-        </h1>
-
-
-        <!-- =========================
-             AI Assistant
-        ========================== -->
+        <h1 class="section-titles">اتصل بنا</h1>
 
         <div class="ai-assistant-card">
-
             <i class="fas fa-robot ai-icon"></i>
-
-            <h3 class="ai-title">
-                المساعد الطبي الذكي
-            </h3>
-
+            <h3 class="ai-title">المساعد الطبي الذكي</h3>
             <p class="ai-description">
                 مساعدنا الافتراضي متاح للإجابة على استفساراتك الطبية العامة وتقديم النصائح الأولية
             </p>
-
             <a href="ai-assistant.html" class="btn">
                 ابدأ المحادثة الآن
                 <i class="fas fa-arrow-left"></i>
             </a>
-
         </div>
-
-
-        <!-- =========================
-             Contact Form
-        ========================== -->
 
         <div class="contact-form">
-
-            <h3 class="form-title">
-                أو أرسل لنا رسالة مباشرة
-            </h3>
-
+            <h3 class="form-title">أو أرسل لنا رسالة مباشرة</h3>
 
             <form id="contactForm" novalidate>
-
-                <!-- نوع الرسالة -->
-
                 <div class="form-group">
-
-                    <label for="message-type">
-                        <i class="fas fa-tag"></i>
-                        نوع الرسالة
-                    </label>
-
-                    <select
-                        id="message-type"
-                        class="form-control"
-                        required
-                    >
-
-                        <option value="">
-                            اختر نوع الرسالة
-                        </option>
-
-                        <option value="complaint">
-                            شكوى
-                        </option>
-
-                        <option value="inquiry">
-                            استفسار
-                        </option>
-
-                        <option value="suggestion">
-                            مقترح
-                        </option>
-
-                        <option value="other">
-                            أخرى
-                        </option>
-
+                    <label for="message-type"><i class="fas fa-tag"></i> نوع الرسالة</label>
+                    <select id="message-type" class="form-control" required>
+                        <option value="">اختر نوع الرسالة</option>
+                        <option value="complaint">شكوى</option>
+                        <option value="inquiry">استفسار</option>
+                        <option value="suggestion">مقترح</option>
+                        <option value="other">أخرى</option>
                     </select>
-
                 </div>
-
-
-                <!-- الاسم -->
 
                 <div class="form-group">
-
-                    <label for="name">
-                        <i class="fas fa-user"></i>
-                        الاسم الكامل
-                    </label>
-
-                    <input
-                        type="text"
-                        id="name"
-                        class="form-control"
-                        placeholder="أدخل اسمك الكامل"
-                        autocomplete="name"
-                        maxlength="150"
-                        required
-                    >
-
+                    <label for="name"><i class="fas fa-user"></i> الاسم الكامل</label>
+                    <input type="text" id="name" class="form-control" placeholder="أدخل اسمك الكامل" autocomplete="name" maxlength="150" required>
                 </div>
-
-
-                <!-- البريد -->
 
                 <div class="form-group">
-
-                    <label for="email">
-                        <i class="fas fa-envelope"></i>
-                        البريد الإلكتروني
-                    </label>
-
-                    <input
-                        type="email"
-                        id="email"
-                        class="form-control"
-                        placeholder="example@email.com"
-                        autocomplete="email"
-                        maxlength="200"
-                        required
-                    >
-
+                    <label for="email"><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
+                    <input type="email" id="email" class="form-control" placeholder="example@email.com" autocomplete="email" maxlength="200" required>
                 </div>
-
-
-                <!-- الهاتف -->
 
                 <div class="form-group">
-
-                    <label for="phone">
-                        <i class="fas fa-phone"></i>
-                        رقم الجوال
-                    </label>
-
-                    <input
-                        type="tel"
-                        id="phone"
-                        class="form-control"
-                        placeholder="مثال: 01012345678"
-                        autocomplete="tel"
-                        maxlength="20"
-                        inputmode="numeric"
-                        required
-                    >
-
+                    <label for="phone"><i class="fas fa-phone"></i> رقم الجوال</label>
+                    <input type="tel" id="phone" class="form-control" placeholder="مثال: 01012345678" autocomplete="tel" maxlength="20" inputmode="numeric" required>
                 </div>
-
-
-                <!-- الرسالة -->
 
                 <div class="form-group">
-
-                    <label for="message">
-                        <i class="fas fa-comment"></i>
-                        نص الرسالة
-                    </label>
-
-                    <textarea
-                        id="message"
-                        rows="5"
-                        class="form-control"
-                        placeholder="اكتب رسالتك هنا..."
-                        maxlength="3000"
-                        required
-                    ></textarea>
-
+                    <label for="message"><i class="fas fa-comment"></i> نص الرسالة</label>
+                    <textarea id="message" rows="5" class="form-control" placeholder="اكتب رسالتك هنا..." maxlength="3000" required></textarea>
                 </div>
 
-
-                <!-- زر الإرسال -->
-
-                <button
-                    type="submit"
-                    class="btn"
-                    id="submitBtn"
-                >
-
+                <button type="submit" class="btn" id="submitBtn">
                     <i class="fas fa-paper-plane"></i>
                     إرسال الرسالة
-
                 </button>
-
             </form>
-
         </div>
-
     </div>
-
 </main>
 
-
-<!-- WhatsApp -->
-
-<a
-    href="https://wa.me/+20161730854"
-    class="floating-whatsapp"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="التواصل عبر واتساب"
->
-
+<a href="#" id="whatsappBtn" class="floating-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="التواصل عبر واتساب">
     <i class="fab fa-whatsapp"></i>
-
 </a>
 
-
 <script>
-
-/* ============================================================
-   إعدادات Supabase
-   ============================================================ */
-
-const SUPABASE_URL =
-    'https://rlkqifdteyccagpdtdmu.supabase.co';
-
-const SUPABASE_ANON_KEY =
-    'sb_publishable_XibO6Ri8DLKHG-rUEp4Bnw_bDzm67Xf';
-
-
-/* ============================================================
-   إرسال البيانات إلى جدول contact_messages
-   ============================================================ */
+const SUPABASE_URL = 'https://rlkqifdteyccagpdtdmu.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_XibO6Ri8DLKHG-rUEp4Bnw_bDzm67Xf';
 
 async function sendToSupabase(data) {
-
-    const url =
-        `${SUPABASE_URL}/rest/v1/contact_messages`;
-
+    const url = `${SUPABASE_URL}/rest/v1/contact_messages`;
     const response = await fetch(url, {
-
         method: 'POST',
-
         headers: {
-
             'apikey': SUPABASE_ANON_KEY,
-
-            'Authorization':
-                `Bearer ${SUPABASE_ANON_KEY}`,
-
-            'Content-Type':
-                'application/json',
-
-            'Prefer':
-                'return=minimal'
-
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
         },
-
         body: JSON.stringify(data)
-
     });
-
-
     if (!response.ok) {
-
-        const errorText =
-            await response.text();
-
-        throw new Error(
-            `HTTP ${response.status}: ${errorText}`
-        );
-
+        const errorText = await response.text();
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
     }
-
-
     return true;
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitBtn');
 
-/* ============================================================
-   تشغيل الصفحة
-   ============================================================ */
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
 
-document.addEventListener(
-    'DOMContentLoaded',
-    function () {
+        const messageType = document.getElementById('message-type').value.trim();
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const messageText = document.getElementById('message').value.trim();
 
-        const form =
-            document.getElementById('contactForm');
-
-        const submitBtn =
-            document.getElementById('submitBtn');
-
-
-        /* =====================================================
-           القائمة المتنقلة
-           ===================================================== */
-
-        const menuToggle =
-            document.querySelector('.menu-toggle');
-
-        const mobileNav =
-            document.querySelector('.mobile-nav');
-
-
-        if (menuToggle && mobileNav) {
-
-            menuToggle.addEventListener(
-                'click',
-                function (e) {
-
-                    e.stopPropagation();
-
-                    mobileNav.classList.toggle('active');
-
-                    menuToggle.classList.toggle('open');
-
-                }
-            );
-
-
-            document
-                .querySelectorAll('.mobile-nav a')
-                .forEach(function (link) {
-
-                    link.addEventListener(
-                        'click',
-                        function () {
-
-                            mobileNav.classList.remove('active');
-
-                            menuToggle.classList.remove('open');
-
-                        }
-                    );
-
-                });
-
-
-            document.addEventListener(
-                'click',
-                function (e) {
-
-                    if (
-                        !mobileNav.contains(e.target) &&
-                        !menuToggle.contains(e.target)
-                    ) {
-
-                        mobileNav.classList.remove('active');
-
-                        menuToggle.classList.remove('open');
-
-                    }
-
-                }
-            );
-
+        if (!messageType || !name || !email || !phone || !messageText) {
+            showNotification('الرجاء ملء جميع الحقول المطلوبة', 'error');
+            return;
         }
 
-
-        /* =====================================================
-           إرسال النموذج
-           ===================================================== */
-
-        form.addEventListener(
-            'submit',
-            async function (e) {
-
-                e.preventDefault();
-
-
-                /* ==============================================
-                   جلب البيانات
-                   ============================================== */
-
-                const messageType =
-                    document
-                        .getElementById('message-type')
-                        .value
-                        .trim();
-
-
-                const name =
-                    document
-                        .getElementById('name')
-                        .value
-                        .trim();
-
-
-                const email =
-                    document
-                        .getElementById('email')
-                        .value
-                        .trim();
-
-
-                const phone =
-                    document
-                        .getElementById('phone')
-                        .value
-                        .trim();
-
-
-                const messageText =
-                    document
-                        .getElementById('message')
-                        .value
-                        .trim();
-
-
-                /* ==============================================
-                   التحقق من البيانات
-                   ============================================== */
-
-                if (
-                    !messageType ||
-                    !name ||
-                    !email ||
-                    !phone ||
-                    !messageText
-                ) {
-
-                    showNotification(
-                        'الرجاء ملء جميع الحقول المطلوبة',
-                        'error'
-                    );
-
-                    return;
-
-                }
-
-
-                /* ==============================================
-                   التحقق من البريد الإلكتروني
-                   ============================================== */
-
-                const emailRegex =
-                    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-
-                if (!emailRegex.test(email)) {
-
-                    showNotification(
-                        'الرجاء إدخال بريد إلكتروني صحيح',
-                        'error'
-                    );
-
-                    return;
-
-                }
-
-
-                /* ==============================================
-                   التحقق من رقم الهاتف المصري
-                   ============================================== */
-
-                const cleanPhone =
-                    phone.replace(/\D/g, '');
-
-
-                const phoneRegex =
-                    /^01[0-9]{9}$/;
-
-
-                if (!phoneRegex.test(cleanPhone)) {
-
-                    showNotification(
-                        'الرجاء إدخال رقم هاتف مصري صحيح (01xxxxxxxxx)',
-                        'error'
-                    );
-
-                    return;
-
-                }
-
-
-                /* ==============================================
-                   تجهيز زر الإرسال
-                   ============================================== */
-
-                submitBtn.disabled = true;
-
-                submitBtn.innerHTML =
-                    '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
-
-
-                try {
-
-                    /* ==========================================
-                       إرسال البيانات إلى Supabase
-                       ========================================== */
-
-                    await sendToSupabase({
-
-                        message_type: messageType,
-
-                        name: name,
-
-                        email: email,
-
-                        phone: cleanPhone,
-
-                        message: messageText,
-
-                        status: 'new'
-
-                    });
-
-
-                    console.log(
-                        '✅ تم حفظ الرسالة في Supabase'
-                    );
-
-
-                    /* ==========================================
-                       نجاح
-                       ========================================== */
-
-                    showNotification(
-                        '✅ تم إرسال رسالتك بنجاح! سيتم الرد عليك قريباً.',
-                        'success'
-                    );
-
-
-                    form.reset();
-
-
-                }
-
-                catch (error) {
-
-                    console.error(
-                        '❌ خطأ أثناء إرسال الرسالة:',
-                        error
-                    );
-
-
-                    let errorMessage =
-                        'حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة مرة أخرى.';
-
-
-                    const errorText =
-                        String(error.message || '');
-
-
-                    if (
-                        errorText.includes('404')
-                    ) {
-
-                        errorMessage =
-                            '⚠️ جدول contact_messages غير موجود في قاعدة البيانات.';
-
-                    }
-
-                    else if (
-                        errorText.includes('401') ||
-                        errorText.includes('403')
-                    ) {
-
-                        errorMessage =
-                            '⚠️ لا توجد صلاحية لإرسال الرسالة إلى قاعدة البيانات. تأكد من إعدادات Supabase وRLS.';
-
-                    }
-
-                    else if (
-                        errorText.includes('23505')
-                    ) {
-
-                        errorMessage =
-                            '⚠️ حدث تعارض أثناء حفظ الرسالة. حاول مرة أخرى.';
-
-                    }
-
-
-                    showNotification(
-                        errorMessage,
-                        'error'
-                    );
-
-                }
-
-                finally {
-
-                    submitBtn.disabled = false;
-
-                    submitBtn.innerHTML =
-                        '<i class="fas fa-paper-plane"></i> إرسال الرسالة';
-
-                }
-
-            }
-        );
-
-
-        /* =====================================================
-           إشعارات الصفحة
-           ===================================================== */
-
-        function showNotification(
-            message,
-            type
-        ) {
-
-            const oldNotifications =
-                document.querySelectorAll(
-                    '.notification'
-                );
-
-
-            oldNotifications.forEach(
-                function (notification) {
-
-                    notification.remove();
-
-                }
-            );
-
-
-            const notification =
-                document.createElement('div');
-
-
-            notification.className =
-                `notification notification-${type}`;
-
-
-            notification.textContent =
-                message;
-
-
-            document.body.appendChild(
-                notification
-            );
-
-
-            setTimeout(
-                function () {
-
-                    notification.style.animation =
-                        'slideOut 0.5s ease forwards';
-
-
-                    setTimeout(
-                        function () {
-
-                            notification.remove();
-
-                        },
-                        500
-                    );
-
-                },
-                5000
-            );
-
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showNotification('الرجاء إدخال بريد إلكتروني صحيح', 'error');
+            return;
         }
 
+        const cleanPhone = phone.replace(/\D/g, '');
+        const phoneRegex = /^01[0-9]{9}$/;
+        if (!phoneRegex.test(cleanPhone)) {
+            showNotification('الرجاء إدخال رقم هاتف مصري صحيح (01xxxxxxxxx)', 'error');
+            return;
+        }
 
-        /* =====================================================
-           تحسين اللمس للموبايل
-           ===================================================== */
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
 
-        document
-            .querySelectorAll('a, button')
-            .forEach(function (element) {
-
-                element.addEventListener(
-                    'touchstart',
-                    function () {
-
-                        this.style.transform =
-                            'scale(0.95)';
-
-                    }
-                );
-
-
-                element.addEventListener(
-                    'touchend',
-                    function () {
-
-                        this.style.transform =
-                            '';
-
-                    }
-                );
-
+        try {
+            await sendToSupabase({
+                message_type: messageType,
+                name: name,
+                email: email,
+                phone: cleanPhone,
+                message: messageText,
+                status: 'new'
             });
 
-    }
-);
+            showNotification('✅ تم إرسال رسالتك بنجاح! سيتم الرد عليك قريباً.', 'success');
+            form.reset();
+        } catch (error) {
+            console.error('❌ خطأ أثناء إرسال الرسالة:', error);
+            let errorMessage = 'حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة مرة أخرى.';
+            const errorText = String(error.message || '');
+            if (errorText.includes('404')) {
+                errorMessage = '⚠️ جدول contact_messages غير موجود في قاعدة البيانات.';
+            } else if (errorText.includes('401') || errorText.includes('403')) {
+                errorMessage = '⚠️ لا توجد صلاحية لإرسال الرسالة إلى قاعدة البيانات.';
+            }
+            showNotification(errorMessage, 'error');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال الرسالة';
+        }
+    });
 
+    function showNotification(message, type) {
+        document.querySelectorAll('.notification').forEach(n => n.remove());
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.5s ease forwards';
+            setTimeout(() => notification.remove(), 500);
+        }, 5000);
+    }
+
+    document.querySelectorAll('a, button').forEach(function (element) {
+        element.addEventListener('touchstart', function () { this.style.transform = 'scale(0.95)'; });
+        element.addEventListener('touchend', function () { this.style.transform = ''; });
+    });
+});
 </script>
+
+<script>
+(function () {
+  'use strict';
+  const WHATSAPP_PHONE = '+201061730854';
+  const DEFAULT_MESSAGE = 'مرحباً ميدلاب، أريد الاستفسار عن ';
+
+  function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
+
+  function openWhatsApp() {
+    const encodedMessage = encodeURIComponent(DEFAULT_MESSAGE);
+    if (isMobileDevice()) {
+      window.location.href = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedMessage}`;
+      return;
+    }
+    const desktopAppUrl = `whatsapp://send?phone=${WHATSAPP_PHONE}&text=${encodedMessage}`;
+    const webUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedMessage}`;
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = desktopAppUrl;
+    document.body.appendChild(iframe);
+    setTimeout(function () {
+      document.body.removeChild(iframe);
+      window.open(webUrl, '_blank', 'noopener,noreferrer');
+    }, 800);
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const btn = document.getElementById('whatsappBtn');
+    if (!btn) return;
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      openWhatsApp();
+    });
+  });
+})();
+</script>
+<script src="js/shared-header.js"></script>
+
+<a href="index.html" class="floating-home" aria-label="الرجوع للصفحة الرئيسية" title="الرجوع للرئيسية">
+  <i class="fas fa-home"></i>
+</a>
+
+
+<!-- Dev Watermark -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<script src="js/dev-watermark.js"></script>
 
 </body>
 </html>
