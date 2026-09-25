@@ -4,51 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>معمل ميدلاب - مصر</title>
-  <link rel="icon" type="image/png" sizes="512x512" href="images/favicon.png">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="images/favicon.png">
   <link href="images/logo.png" type="image/x-icon" rel="icon">
+  <link rel="stylesheet" href="css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-
 <body>
-  <!-- Mobile Navigation -->
-  <nav class="mobile-nav" id="mobileNav">
-    <ul>
-      <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
-      <li><a href="index.html#services"><i class="fas fa-flask"></i> خدماتنا</a></li>
-      <li><a href="sample-receive.html"><i class="fas fa-file-medical"></i> استلام نتيجة</a></li>
-      <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> حجز فحص</a></li>
-      <li><a href="contact.html"><i class="fas fa-headset"></i> خدمة العملاء</a></li>
-    </ul>
-  </nav>
-
- <header class="mobile-header" role="banner">
-  <div class="container">
-    <button class="menu-toggle" aria-label="فتح/إغلاق القائمة" id="menuToggle">
-      <i class="fas fa-bars" aria-hidden="true"></i>
-    </button>
-
-    <div class="header-brand">
-      <div class="logo-wrapper">
-        <img src="images/logo.png" alt="شعار معمل ميدلاب" class="header-logo">
-      </div>
-      <h1 class="site-title">معمل ميدلاب</h1>
-    </div>
-
-    <nav class="desktop-nav" aria-label="القائمة الرئيسية">
-      <ul>
-        <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
-        <li><a href="index.html#services"><i class="fas fa-flask"></i> خدماتنا</a></li>
-        <li><a href="sample-receive.html"><i class="fas fa-file-medical"></i> استلام نتيجة</a></li>
-        <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> حجز فحص</a></li>
-        <li><a href="contact.html"><i class="fas fa-headset"></i> خدمة العملاء</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
   <section class="hero" aria-labelledby="hero-title">
     <div class="container">
       <div class="hero-content">
@@ -226,7 +190,7 @@
     <div class="container">
       <h2 id="contact-title" class="section-titles">تواصل معنا</h2>
 
-     <div class="contact-methods">
+      <div class="contact-methods">
   
   <!-- العنوان - قابل للضغط -->
   <a href="https://maps.app.goo.gl/xSUioWVZ3JRwEot29?g_st=aw"
@@ -258,6 +222,7 @@
     <h3>البريد الإلكتروني</h3>
     <p><a href="mailto:medlab1.eg@gmail.com">medlab1.eg@gmail.com</a></p>
   </div>
+
       </div>
     </div>
   </section>
@@ -273,8 +238,74 @@
     </div>
   </footer>
 
+<!-- =========================
+     FLOATING AI BUTTON
+========================= -->
+<button type="button" class="floating-ai" id="floatingAiBtn" aria-label="فتح المساعد الذكي" title="المساعد الذكي">
+  <i class="fas fa-robot"></i>
+  <span class="floating-ai-pulse"></span>
+</button>
 
-  <script src="js/main.js"></script>
+<!--AI POPUP CHAT-->
+<div class="ai-popup" id="aiPopup" role="dialog" aria-labelledby="aiPopupTitle" aria-hidden="true">
+  <!-- Popup Header -->
+  <div class="ai-popup-header">
+    <div class="ai-popup-brand">
+      <div class="ai-popup-avatar">
+        <i class="fas fa-robot"></i>
+      </div>
+      <div class="ai-popup-info">
+        <h3 id="aiPopupTitle">مساعد ميدلاب الذكي</h3>
+        <p><span class="ai-status-dot"></span> متاح الآن</p>
+      </div>
+    </div>
+    <button type="button" class="ai-popup-close" id="aiPopupClose" aria-label="إغلاق">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <!-- Popup Chat Body -->
+  <div class="ai-popup-body" id="aiPopupBody">
+    <div class="ai-popup-message ai-popup-bot">
+      <div class="ai-popup-bubble">
+        مرحباً! 👋 أنا مساعد ميدلاب الذكي. اختر أحد الأسئلة السريعة أو افتح المحادثة الكاملة.
+      </div>
+    </div>
+
+    <!-- Quick Questions -->
+    <div class="ai-popup-quick">
+       <button type="button" class="ai-popup-qbtn" data-q="دليل استخدام الموقع">
+        <i class="fas fa-book-open"></i> دليل استخدام الموقع
+      </button>
+      <button type="button" class="ai-popup-qbtn" data-q="كيف يمكنني حجز موعد؟">
+        <i class="fas fa-calendar-check"></i> كيف يمكنني حجز موعد؟
+      </button>
+      <button type="button" class="ai-popup-qbtn" data-q="ما هي ساعات العمل؟">
+        <i class="fas fa-clock"></i> ما هي ساعات العمل؟
+      </button>
+      <button type="button" class="ai-popup-qbtn" data-q="أين يقع المعمل؟">
+        <i class="fas fa-map-marker-alt"></i> أين يقع المعمل؟
+      </button>
+      <button type="button" class="ai-popup-qbtn" data-q="ما هي طرق الدفع المتاحة؟">
+        <i class="fas fa-credit-card"></i> طرق الدفع المتاحة؟
+      </button>
+    </div>
+  </div>
+
+  <!-- Popup Footer -->
+  <div class="ai-popup-footer">
+    <a href="ai-assistant.html" class="ai-popup-full-btn">
+      <i class="fas fa-expand"></i>
+      فتح المحادثة الكاملة
+    </a>
+  </div>
+</div>
+
+<!-- Dev Watermark -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<script src="js/dev-watermark.js"></script>
+
+<script src="js/shared-header.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const menuToggle = document.getElementById('menuToggle');
@@ -307,69 +338,7 @@
         el.addEventListener('touchend', function () { this.style.transform = 'scale(1)'; });
       });
     });
-  </script> 
-
-<!-- =========================
-     FLOATING AI BUTTON
-========================= -->
-<button type="button" class="floating-ai" id="floatingAiBtn" aria-label="فتح المساعد الذكي" title="المساعد الذكي">
-  <i class="fas fa-robot"></i>
-  <span class="floating-ai-pulse"></span>
-</button>
-
-<!-- =========================
-     AI POPUP CHAT
-========================= -->
-<div class="ai-popup" id="aiPopup" role="dialog" aria-labelledby="aiPopupTitle" aria-hidden="true">
-  <!-- Popup Header -->
-  <div class="ai-popup-header">
-    <div class="ai-popup-brand">
-      <div class="ai-popup-avatar">
-        <i class="fas fa-robot"></i>
-      </div>
-      <div class="ai-popup-info">
-        <h3 id="aiPopupTitle">مساعد ميدلاب الذكي</h3>
-        <p><span class="ai-status-dot"></span> متاح الآن</p>
-      </div>
-    </div>
-    <button type="button" class="ai-popup-close" id="aiPopupClose" aria-label="إغلاق">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
-
-  <!-- Popup Chat Body -->
-  <div class="ai-popup-body" id="aiPopupBody">
-    <div class="ai-popup-message ai-popup-bot">
-      <div class="ai-popup-bubble">
-        مرحباً! 👋 أنا مساعد ميدلاب الذكي. اختر أحد الأسئلة السريعة أو افتح المحادثة الكاملة.
-      </div>
-    </div>
-
-    <!-- Quick Questions -->
-    <div class="ai-popup-quick">
-      <button type="button" class="ai-popup-qbtn" data-q="كيف يمكنني حجز موعد؟">
-        <i class="fas fa-calendar-check"></i> كيف يمكنني حجز موعد؟
-      </button>
-      <button type="button" class="ai-popup-qbtn" data-q="ما هي ساعات العمل؟">
-        <i class="fas fa-clock"></i> ما هي ساعات العمل؟
-      </button>
-      <button type="button" class="ai-popup-qbtn" data-q="أين يقع المعمل؟">
-        <i class="fas fa-map-marker-alt"></i> أين يقع المعمل؟
-      </button>
-      <button type="button" class="ai-popup-qbtn" data-q="ما هي طرق الدفع المتاحة؟">
-        <i class="fas fa-credit-card"></i> طرق الدفع المتاحة؟
-      </button>
-    </div>
-  </div>
-
-  <!-- Popup Footer -->
-  <div class="ai-popup-footer">
-    <a href="ai-assistant.html" class="ai-popup-full-btn">
-      <i class="fas fa-expand"></i>
-      فتح المحادثة الكاملة
-    </a>
-  </div>
-</div>
+  </script>
 
 <script>
 (function () {
@@ -525,7 +494,7 @@
       if (e.key === 'Escape' && aiPopup.classList.contains('active')) {
         closePopup();
       }
-    }); 
+    });
 
     // Close on outside click (optional — only if clicking far away)
     // document.addEventListener('click', function (e) {
