@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>استلام النتائج - معمل ميدلاب</title>
   <link href="images/logo.png" type="image/x-icon" rel="icon">
+  <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -30,197 +31,17 @@
     * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Tajawal', sans-serif;
-      background: #f4f9fc;
-      color: var(--text-dark);
-      line-height: 1.7;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      padding-top: 70px;
-    }
+  font-family: 'Tajawal', sans-serif;
+  background: #f4f9fc;
+  color: var(--text-dark);
+  line-height: 1.7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 70px; /* ✅ أبقِ هذا */
+}
     .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
-    /* ============================================
-       HEADER + MOBILE MENU
-    ============================================ */
-    .mobile-header {
-      position: fixed; top:0; left:0; right:0;
-      background: var(--white);
-      box-shadow: 0 2px 8px rgba(10,60,100,0.06);
-      z-index: 1500; height: 70px;
-      border-bottom: 1px solid var(--border);
-    }
-    .mobile-header .container {
-      display: flex; align-items: center; justify-content: space-between; height: 70px;
-    }
-    .site-title {
-      font-size: 1.4rem; font-weight: 700; color: var(--primary-dark); margin: 0;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .site-title i { color: var(--primary); font-size: 1.2rem; }
-
-    /* Desktop nav */
-    .desktop-nav ul { display: flex; list-style: none; gap: 5px; }
-    .desktop-nav ul li a {
-      display: flex; align-items: center; gap: 6px;
-      padding: 8px 14px; color: var(--primary-dark); text-decoration: none;
-      font-weight: 500; font-size: 14px; border-radius: 8px;
-      transition: all 0.3s ease;
-    }
-    .desktop-nav ul li a:hover { background: var(--blue-soft); color: var(--primary); }
-
-    /* Hamburger button */
-    .menu-toggle {
-      display: none;
-      width: 44px; height: 44px;
-      border: 1px solid var(--border);
-      background: var(--blue-soft);
-      color: var(--primary);
-      border-radius: 12px;
-      font-size: 20px;
-      cursor: pointer;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-      flex-shrink: 0;
-    }
-    .menu-toggle:active { transform: scale(0.95); }
-    .menu-toggle i { pointer-events: none; }
-
-    /* Sidebar overlay */
-    .sidebar-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(10, 40, 60, 0.5);
-      z-index: 1800;
-      backdrop-filter: blur(3px);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .sidebar-overlay.active {
-      display: block;
-      opacity: 1;
-    }
-
-    /* Sidebar menu */
-    .sidebar-menu {
-      position: fixed;
-      top: 0;
-      right: -300px;
-      width: 280px;
-      max-width: 85vw;
-      height: 100vh;
-      background: white;
-      z-index: 1900;
-      transition: right 0.3s ease;
-      box-shadow: -10px 0 40px rgba(0,0,0,0.2);
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-    }
-    .sidebar-menu.active { right: 0; }
-
-    .sidebar-header {
-      padding: 20px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-shrink: 0;
-    }
-    .sidebar-header .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      font-size: 1.05rem;
-    }
-    .sidebar-header .brand i {
-      background: rgba(255,255,255,0.2);
-      width: 36px; height: 36px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-    }
-    .sidebar-close {
-      width: 34px; height: 34px;
-      border: none;
-      background: rgba(255,255,255,0.15);
-      color: white;
-      border-radius: 9px;
-      font-size: 16px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: 0.2s;
-    }
-    .sidebar-close:active { transform: scale(0.92); }
-
-    .sidebar-nav {
-      padding: 12px 0;
-      flex: 1;
-    }
-    .sidebar-nav a {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 22px;
-      color: var(--text-dark);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 15px;
-      border-right: 3px solid transparent;
-      transition: all 0.2s;
-    }
-    .sidebar-nav a i {
-      width: 24px;
-      text-align: center;
-      color: var(--primary);
-      font-size: 17px;
-    }
-    .sidebar-nav a:active,
-    .sidebar-nav a:hover {
-      background: var(--blue-soft);
-      border-right-color: var(--primary);
-      color: var(--primary-dark);
-    }
-    .sidebar-nav a.active {
-      background: var(--blue-soft);
-      border-right-color: var(--primary);
-      color: var(--primary-dark);
-      font-weight: 700;
-    }
-
-    .sidebar-footer {
-      padding: 16px 20px;
-      border-top: 1px solid var(--border);
-      font-size: 12px;
-      color: var(--text-light);
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    /* Responsive */
-    @media (max-width: 991px) {
-      .desktop-nav { display: none; }
-      .menu-toggle { display: flex; }
-    }
-    @media (min-width: 992px) {
-      .mobile-header { height: auto; }
-      .mobile-header .container { height: auto; padding: 10px 20px; }
-      .menu-toggle { display: none !important; }
-      .sidebar-menu, .sidebar-overlay { display: none !important; }
-    }
-
-    /* ============================================
-       MAIN
-    ============================================ */
     .results-section { padding: 40px 0 60px; flex: 1; }
     .section-title {
       text-align: center; font-size: 1.8rem; font-weight: 700;
@@ -803,12 +624,12 @@
       .preview-actions .btn-sm span { display: none; }
     }
 
-    @media (max-width: 600px) {
-      body { padding-top: 65px; }
-      .mobile-header, .mobile-header .container { height: 65px; }
-      .site-title { font-size: 1.15rem; }
-      .site-title i { font-size: 1rem; }
-      .menu-toggle { width: 40px; height: 40px; font-size: 18px; }
+   /* في @media (max-width: 600px) احذف: */
+body { padding-top: 65px; }
+.mobile-header, .mobile-header .container { height: 65px; }
+.site-title { font-size: 1.15rem; }
+.site-title i { font-size: 1rem; }
+.menu-toggle { width: 40px; height: 40px; font-size: 18px; }
 
       .results-section { padding: 25px 0 50px; }
       .section-title { font-size: 1.4rem; gap: 8px; }
@@ -872,7 +693,7 @@
 
       /* Floating home */
       .floating-home { width: 48px; height: 48px; font-size: 18px; bottom: 18px; left: 18px; }
-    }
+    
 
     @media (max-width: 400px) {
       .site-title { font-size: 1rem; }
@@ -883,83 +704,6 @@
   </style>
 </head>
 <body>
-
-  <!-- ============================================
-       MOBILE MENU OVERLAY
-  ============================================ -->
-  <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-  <!-- ============================================
-       SIDEBAR MENU (MOBILE)
-  ============================================ -->
-  <aside class="sidebar-menu" id="sidebarMenu">
-    <div class="sidebar-header">
-      <div class="brand">
-        <i class="fas fa-flask"></i>
-        <span>معمل ميدلاب</span>
-      </div>
-      <button class="sidebar-close" id="sidebarCloseBtn" aria-label="إغلاق">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-
-    <nav class="sidebar-nav">
-      <a href="index.html">
-        <i class="fas fa-home"></i>
-        <span>الرئيسية</span>
-      </a>
-      <a href="sample-receive.html" class="active">
-        <i class="fas fa-file-medical"></i>
-        <span>استلام نتيجة</span>
-      </a>
-      <a href="appointment.html">
-        <i class="fas fa-calendar-check"></i>
-        <span>حجز فحص</span>
-      </a>
-      <a href="contact.html">
-        <i class="fas fa-headset"></i>
-        <span>خدمة العملاء</span>
-      </a>
-      <a href="product.html">
-        <i class="fas fa-question-circle"></i>
-        <span>إرشادات</span>
-      </a>
-      <a href="https://maps.app.goo.gl/EFUvDou3wkPWrwm87?g_st=ac" target="_blank" rel="noopener">
-        <i class="fas fa-map-marker-alt"></i>
-        <span>الموقع</span>
-      </a>
-    </nav>
-
-    <div class="sidebar-footer">
-      © 2026 معمل ميدلاب
-    </div>
-  </aside>
-
-  <!-- ============================================
-       HEADER
-  ============================================ -->
-  <header class="mobile-header">
-    <div class="container">
-      <h1 class="site-title">
-        <i class="fas fa-flask"></i>
-        معمل ميدلاب
-      </h1>
-
-      <nav class="desktop-nav">
-        <ul>
-          <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
-          <li><a href="sample-receive.html"><i class="fas fa-file-medical"></i> استلام نتيجة</a></li>
-          <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> حجز فحص</a></li>
-          <li><a href="contact.html"><i class="fas fa-headset"></i> خدمة العملاء</a></li>
-        </ul>
-      </nav>
-
-      <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة">
-        <i class="fas fa-bars"></i>
-      </button>
-    </div>
-  </header>
-
   <section class="results-section">
     <div class="container">
 
@@ -1137,42 +881,13 @@
       <div class="preview-info-bar" id="previewInfoBar"></div>
     </div>
   </div>
-
+<script src="js/shared-header.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
     const SUPABASE_URL = 'https://rlkqifdteyccagpdtdmu.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_XibO6Ri8DLKHG-rUEp4Bnw_bDzm67Xf';
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    // ============================================
-    // MOBILE SIDEBAR MENU
-    // ============================================
-    const menuToggle = document.getElementById('menuToggle');
-    const sidebarMenu = document.getElementById('sidebarMenu');
-    const sidebarOverlay = document.getElementById('sidebarOverlay');
-    const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
-
-    function openSidebar() {
-      sidebarMenu.classList.add('active');
-      sidebarOverlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeSidebar() {
-      sidebarMenu.classList.remove('active');
-      sidebarOverlay.classList.remove('active');
-      document.body.style.overflow = 'auto';
-    }
-
-    if (menuToggle) menuToggle.addEventListener('click', openSidebar);
-    if (sidebarCloseBtn) sidebarCloseBtn.addEventListener('click', closeSidebar);
-    if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
-
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && sidebarMenu.classList.contains('active')) {
-        closeSidebar();
-      }
-    });
 
     // ============================================
     // ELEMENTS
@@ -1353,13 +1068,13 @@
       latestBanner.classList.add('hidden');
 
       try {
-        const { data: patient, error: patientError } = await supabaseClient
-          .from('patients')
-          .select('id, patient_code, full_name, phone')
-          .eq('patient_code', currentPatientCode)
-          .eq('password', password)
-          .maybeSingle();
-
+       // ✅ الحل الآمن: استخدام دالة RPC
+const { data: patient, error: patientError } = await supabaseClient
+  .rpc('verify_patient_password', {
+    p_code: currentPatientCode,
+    p_password: password
+  });
+  
         if (patientError) throw patientError;
 
         if (!patient) {
@@ -1785,6 +1500,10 @@
 
     console.log('✅ صفحة استلام النتائج جاهزة - نسخة محسّنة للموبايل');
   </script>
+
+<!-- Dev Watermark -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<script src="js/dev-watermark.js"></script>
 
 </body>
 </html>
