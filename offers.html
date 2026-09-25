@@ -3,25 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>باقات وعروض ميدلاب | تحاليل طبية</title>
-
+  <link rel="icon" type="image/png" href="images/favicon.png">
   <link href="images/logo.png" type="image/x-icon" rel="icon">
-
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/special.css">
-
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  >
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap"
-    rel="stylesheet"
-  >
-
-  <!-- Supabase -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -33,20 +21,13 @@
       --offer-border: #d8eaf4;
       --offer-text: #183b56;
       --offer-muted: #667085;
-      --offer-success: #16a34a;
-      --offer-danger: #dc2626;
       --offer-bg-soft: #f6fbfe;
       --offer-shadow: 0 8px 25px rgba(23, 105, 170, 0.08);
       --offer-shadow-hover: 0 18px 40px rgba(23, 105, 170, 0.15);
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: "Tajawal", sans-serif;
@@ -54,11 +35,8 @@
       color: var(--offer-text);
       margin: 0;
       padding: 0;
+      padding-top: 70px;
     }
-
-    /* =========================================================
-       HERO
-    ========================================================== */
 
     .hero-offer {
       position: relative;
@@ -77,8 +55,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background-image:
-        radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+      background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
       background-size: 22px 22px;
       opacity: 0.6;
       pointer-events: none;
@@ -97,15 +74,11 @@
       font-size: 2.4rem;
       font-weight: 800;
       margin: 0 0 16px;
-      letter-spacing: -0.5px;
       line-height: 1.4;
       text-shadow: 0 4px 20px rgba(0,0,0,0.15);
     }
 
-    .hero-offer h2 i {
-      margin-left: 10px;
-      opacity: 0.9;
-    }
+    .hero-offer h2 i { margin-left: 10px; opacity: 0.9; }
 
     .hero-offer p {
       font-size: 1.12rem;
@@ -115,103 +88,7 @@
       color: rgba(255,255,255,0.92);
     }
 
-    /* =========================================================
-       MENU TOGGLE
-    ========================================================== */
-
-    .menu-toggle {
-      position: absolute;
-      top: 22px;
-      right: 22px;
-      z-index: 100;
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.28);
-      background: rgba(255,255,255,0.14);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      color: #fff;
-      font-size: 1.2rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: 0.25s ease;
-    }
-
-    .menu-toggle:hover {
-      background: rgba(255,255,255,0.26);
-      transform: scale(1.05);
-    }
-
-    .mobile-nav {
-      position: fixed;
-      top: 0;
-      right: -320px;
-      width: 290px;
-      height: 100vh;
-      background: #fff;
-      z-index: 9999;
-      box-shadow: -10px 0 40px rgba(11, 79, 138, 0.18);
-      transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-      padding: 80px 0 30px;
-      overflow-y: auto;
-    }
-
-    .mobile-nav.active {
-      right: 0;
-    }
-
-    .mobile-nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 0 18px;
-    }
-
-    .mobile-nav li {
-      margin-bottom: 6px;
-    }
-
-    .mobile-nav a {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 16px;
-      color: var(--offer-text);
-      text-decoration: none;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: 0.2s ease;
-    }
-
-    .mobile-nav a i {
-      color: var(--offer-primary);
-      width: 22px;
-      text-align: center;
-      font-size: 1.05rem;
-    }
-
-    .mobile-nav a:hover {
-      background: var(--offer-light);
-      color: var(--offer-primary-dark);
-      transform: translateX(-4px);
-    }
-
-    /* =========================================================
-       CONTAINER
-    ========================================================== */
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* =========================================================
-       SECTION TITLE
-    ========================================================== */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
     .section-title {
       font-size: 1.75rem;
@@ -248,13 +125,7 @@
       border-radius: 14px;
     }
 
-    section {
-      margin-bottom: 70px;
-    }
-
-    /* =========================================================
-       PACKAGES GRID
-    ========================================================== */
+    section { margin-bottom: 70px; }
 
     .packages-grid {
       display: grid;
@@ -263,10 +134,6 @@
       margin-bottom: 40px;
     }
 
-    /* =========================================================
-       PACKAGE CARD
-    ========================================================== */
-
     .package-card {
       position: relative;
       background: #fff;
@@ -274,22 +141,10 @@
       overflow: hidden;
       border: 1px solid var(--offer-border);
       box-shadow: var(--offer-shadow);
-      transition:
-        transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-        box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-        border-color 0.35s ease;
+      transition: transform 0.35s, box-shadow 0.35s, border-color 0.35s;
       display: flex;
       flex-direction: column;
       height: 100%;
-    }
-
-    .package-card::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 22px;
-      pointer-events: none;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.6);
     }
 
     .package-card:hover {
@@ -297,10 +152,6 @@
       box-shadow: var(--offer-shadow-hover);
       border-color: #b8dced;
     }
-
-    /* =========================================================
-       PACKAGE HEADER
-    ========================================================== */
 
     .package-header {
       position: relative;
@@ -312,30 +163,6 @@
       overflow: hidden;
     }
 
-    .package-header::before {
-      content: "";
-      position: absolute;
-      top: -30px;
-      left: -30px;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.08);
-      pointer-events: none;
-    }
-
-    .package-header::after {
-      content: "";
-      position: absolute;
-      bottom: -40px;
-      right: -20px;
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.06);
-      pointer-events: none;
-    }
-
     .package-header h3 {
       position: relative;
       z-index: 2;
@@ -343,27 +170,7 @@
       font-size: 1.28rem;
       font-weight: 800;
       line-height: 1.55;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.12);
     }
-
-    .package-header .tag {
-      position: relative;
-      z-index: 2;
-      display: inline-block;
-      margin-top: 12px;
-      background: rgba(255,255,255,0.2);
-      border: 1px solid rgba(255,255,255,0.35);
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-    }
-
-    /* =========================================================
-       PACKAGE BODY
-    ========================================================== */
 
     .package-body {
       padding: 22px 20px 20px;
@@ -380,10 +187,6 @@
       font-size: 0.96rem;
     }
 
-    /* =========================================================
-       TESTS COUNT
-    ========================================================== */
-
     .tests-count {
       display: flex;
       align-items: center;
@@ -398,27 +201,10 @@
       margin-bottom: 16px;
     }
 
-    .tests-count i {
-      color: var(--offer-primary);
-      font-size: 0.95rem;
-    }
+    .tests-count i { color: var(--offer-primary); font-size: 0.95rem; }
+    .tests-count strong { color: var(--offer-primary-dark); font-weight: 800; font-size: 1rem; }
 
-    .tests-count strong {
-      color: var(--offer-primary-dark);
-      font-weight: 800;
-      font-size: 1rem;
-      margin-right: 2px;
-    }
-
-    /* =========================================================
-       TEST LIST
-    ========================================================== */
-
-    .test-list {
-      list-style: none;
-      margin: 0 0 20px;
-      padding: 0;
-    }
+    .test-list { list-style: none; margin: 0 0 20px; padding: 0; }
 
     .test-list li {
       display: flex;
@@ -444,17 +230,7 @@
       text-align: center;
       margin-top: 3px;
       font-size: 0.95rem;
-      transition: 0.2s ease;
     }
-
-    .test-list li:hover i {
-      color: var(--offer-primary-light);
-      transform: scale(1.12);
-    }
-
-    /* =========================================================
-       PACKAGE PRICE BOX
-    ========================================================== */
 
     .package-price-box {
       position: relative;
@@ -468,26 +244,12 @@
       overflow: hidden;
     }
 
-    .package-price-box::before {
-      content: "";
-      position: absolute;
-      top: -30px;
-      right: -30px;
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: rgba(23, 105, 170, 0.06);
-      pointer-events: none;
-    }
-
     .package-price-label {
       display: block;
       color: #667085;
       font-size: 0.88rem;
       margin-bottom: 4px;
       font-weight: 600;
-      position: relative;
-      z-index: 2;
     }
 
     .package-price {
@@ -508,10 +270,6 @@
       color: #475467;
     }
 
-    /* =========================================================
-       BUTTON
-    ========================================================== */
-
     .btn-offer {
       position: relative;
       display: flex;
@@ -525,7 +283,7 @@
       background: linear-gradient(135deg, #1769aa, #2586c7);
       color: #fff;
       font-weight: 800;
-      transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: 0.3s;
       border: none;
       cursor: pointer;
       font-family: inherit;
@@ -534,41 +292,14 @@
       box-shadow: 0 6px 18px rgba(23, 105, 170, 0.18);
     }
 
-    .btn-offer::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.18), transparent 55%);
-      opacity: 0;
-      transition: 0.3s ease;
-    }
-
     .btn-offer:hover {
       transform: translateY(-3px);
       box-shadow: 0 12px 26px rgba(23, 105, 170, 0.28);
     }
 
-    .btn-offer:hover::before {
-      opacity: 1;
-    }
+    .btn-offer:disabled { opacity: 0.75; cursor: wait; transform: none; }
 
-    .btn-offer:active {
-      transform: translateY(-1px);
-    }
-
-    .btn-offer:disabled {
-      opacity: 0.75;
-      cursor: wait;
-      transform: none;
-      box-shadow: none;
-    }
-
-    /* =========================================================
-       EMPTY / LOADING / ERROR
-    ========================================================== */
-
-    .empty-packages,
-    .loading-packages {
+    .empty-packages, .loading-packages {
       grid-column: 1 / -1;
       text-align: center;
       padding: 60px 20px;
@@ -578,22 +309,8 @@
       color: #667085;
     }
 
-    .empty-packages i {
-      font-size: 48px;
-      color: #8bbbd2;
-      margin-bottom: 16px;
-    }
-
-    .empty-packages h3 {
-      margin: 0 0 10px;
-      color: #344054;
-      font-size: 1.2rem;
-    }
-
-    .empty-packages p {
-      margin: 0;
-      line-height: 1.8;
-    }
+    .empty-packages i { font-size: 48px; color: #8bbbd2; margin-bottom: 16px; }
+    .empty-packages h3 { margin: 0 0 10px; color: #344054; font-size: 1.2rem; }
 
     .loading-packages .loader {
       width: 48px;
@@ -605,23 +322,7 @@
       animation: packageSpin 0.8s linear infinite;
     }
 
-    .loading-packages strong {
-      display: block;
-      color: #344054;
-      font-size: 1.05rem;
-      margin-bottom: 6px;
-    }
-
-    .loading-packages p {
-      margin: 0;
-      font-size: 0.92rem;
-    }
-
-    @keyframes packageSpin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
+    @keyframes packageSpin { to { transform: rotate(360deg); } }
 
     .supabase-error-box {
       grid-column: 1 / -1;
@@ -631,26 +332,10 @@
       border-radius: 20px;
       padding: 28px 22px;
       text-align: center;
-      box-shadow: 0 8px 25px rgba(220, 38, 38, 0.08);
     }
 
-    .supabase-error-box i {
-      font-size: 40px;
-      margin-bottom: 12px;
-      color: #ef4444;
-    }
-
-    .supabase-error-box h3 {
-      margin: 0 0 8px;
-      color: #991b1b;
-      font-size: 1.15rem;
-    }
-
-    .supabase-error-box p {
-      margin: 6px 0;
-      line-height: 1.8;
-      font-size: 0.94rem;
-    }
+    .supabase-error-box i { font-size: 40px; margin-bottom: 12px; color: #ef4444; }
+    .supabase-error-box h3 { margin: 0 0 8px; color: #991b1b; font-size: 1.15rem; }
 
     .retry-btn {
       margin-top: 16px;
@@ -663,22 +348,7 @@
       font-family: inherit;
       font-weight: 700;
       font-size: 0.94rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: 0.25s ease;
-      box-shadow: 0 6px 16px rgba(23, 105, 170, 0.2);
     }
-
-    .retry-btn:hover {
-      background: linear-gradient(135deg, #0b4f8a, #1769aa);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 22px rgba(23, 105, 170, 0.28);
-    }
-
-    /* =========================================================
-       NOTIFICATION
-    ========================================================== */
 
     .package-notification {
       position: fixed;
@@ -691,53 +361,28 @@
       font-family: "Tajawal", sans-serif;
       z-index: 99999;
       box-shadow: 0 12px 30px rgba(0,0,0,0.2);
-      direction: rtl;
       line-height: 1.6;
       font-weight: 600;
       font-size: 0.95rem;
       display: flex;
       align-items: center;
       gap: 10px;
-      animation: slideInRight 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: slideInRight 0.35s;
     }
 
-    .package-notification.success {
-      background: linear-gradient(135deg, #16a34a, #15803d);
-    }
-
-    .package-notification.error {
-      background: linear-gradient(135deg, #dc2626, #b91c1c);
-    }
-
-    .package-notification.info {
-      background: linear-gradient(135deg, #1769aa, #0b4f8a);
-    }
+    .package-notification.success { background: linear-gradient(135deg, #16a34a, #15803d); }
+    .package-notification.error { background: linear-gradient(135deg, #dc2626, #b91c1c); }
+    .package-notification.info { background: linear-gradient(135deg, #1769aa, #0b4f8a); }
 
     @keyframes slideInRight {
-      from {
-        transform: translateX(120%);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
+      from { transform: translateX(120%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
     }
 
     @keyframes slideOutRight {
-      from {
-        transform: translateX(0);
-        opacity: 1;
-      }
-      to {
-        transform: translateX(120%);
-        opacity: 0;
-      }
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(120%); opacity: 0; }
     }
-
-    /* =========================================================
-       FAQ
-    ========================================================== */
 
     .faq-item {
       cursor: pointer;
@@ -747,19 +392,9 @@
       margin-bottom: 14px;
       overflow: hidden;
       transition: 0.3s ease;
-      box-shadow: 0 4px 14px rgba(23, 105, 170, 0.05);
     }
 
-    .faq-item:hover {
-      border-color: #b8dced;
-      box-shadow: 0 8px 22px rgba(23, 105, 170, 0.1);
-    }
-
-    .faq-item.active {
-      border-color: var(--offer-primary);
-      box-shadow: 0 10px 26px rgba(23, 105, 170, 0.13);
-    }
-
+    .faq-item.active { border-color: var(--offer-primary); }
     .faq-question {
       display: flex;
       align-items: center;
@@ -768,23 +403,11 @@
       font-weight: 700;
       color: var(--offer-text);
       font-size: 1.02rem;
-      transition: 0.2s ease;
     }
 
-    .faq-item.active .faq-question {
-      color: var(--offer-primary-dark);
-      background: linear-gradient(135deg, #f6fbfe, #eef8fd);
-    }
-
-    .faq-question i {
-      color: var(--offer-primary);
-      transition: transform 0.3s ease;
-      font-size: 0.9rem;
-    }
-
-    .faq-item.active .faq-question i {
-      transform: rotate(180deg);
-    }
+    .faq-item.active .faq-question { color: var(--offer-primary-dark); background: linear-gradient(135deg, #f6fbfe, #eef8fd); }
+    .faq-question i { color: var(--offer-primary); transition: transform 0.3s ease; font-size: 0.9rem; }
+    .faq-item.active .faq-question i { transform: rotate(180deg); }
 
     .faq-answer {
       max-height: 0;
@@ -796,14 +419,7 @@
       transition: max-height 0.4s ease, padding 0.3s ease;
     }
 
-    .faq-item.active .faq-answer {
-      max-height: 300px;
-      padding: 0 20px 20px;
-    }
-
-    /* =========================================================
-       MEDICAL NOTICE
-    ========================================================== */
+    .faq-item.active .faq-answer { max-height: 300px; padding: 0 20px 20px; }
 
     .medical-notice {
       display: flex;
@@ -820,18 +436,9 @@
       color: #355468;
       font-weight: 500;
       font-size: 0.98rem;
-      box-shadow: 0 6px 20px rgba(23, 105, 170, 0.06);
     }
 
-    .medical-notice i {
-      color: var(--offer-primary);
-      font-size: 1.4rem;
-      flex-shrink: 0;
-    }
-
-    /* =========================================================
-       FOOTER
-    ========================================================== */
+    .medical-notice i { color: var(--offer-primary); font-size: 1.4rem; flex-shrink: 0; }
 
     footer {
       background: linear-gradient(135deg, #0b4f8a, #1769aa);
@@ -840,1994 +447,1114 @@
       padding: 36px 20px 30px;
       margin-top: 60px;
       border-radius: 32px 32px 0 0;
+    }
+
+    footer p { margin: 6px 0; line-height: 1.8; }
+    footer p:first-child { font-size: 1.08rem; font-weight: 700; }
+    footer p:last-child { font-size: 0.88rem; opacity: 0.85; margin-top: 10px; }
+
+    @media (max-width: 1000px) {
+      .packages-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .hero-offer h2 { font-size: 2rem; }
+    }
+
+    @media (max-width: 650px) {
+      body { padding-top: 65px; }
+      .hero-offer { padding: 60px 0 70px; border-radius: 0 0 24px 24px; }
+      .hero-offer h2 { font-size: 1.6rem; }
+      .packages-grid { grid-template-columns: 1fr; gap: 20px; }
+      .section-title { font-size: 1.4rem; }
+      .package-notification { top: 12px; right: 12px; left: 12px; max-width: none; }
+    }
+
+    /* =========================
+       FLOATING AI BUTTON (Offers)
+    ========================= */
+    .floating-ai-offers {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border: none;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0b4f8a, #2586c7);
+      color: white;
+      font-size: 26px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 20px rgba(11, 79, 138, 0.35);
+      z-index: 998;
+      transition: all 0.3s ease;
+      animation: offersAiPulse 2.5s infinite;
+    }
+
+    .floating-ai-offers.position-left { right: auto; left: 90px; }
+    .floating-ai-offers.position-right { right: 20px; left: auto; }
+
+    .floating-ai-offers:hover {
+      transform: scale(1.1) rotate(-8deg);
+      box-shadow: 0 10px 28px rgba(11, 79, 138, 0.5);
+      background: linear-gradient(135deg, #083b66, #0b4f8a);
+    }
+
+    .floating-ai-offers:active { transform: scale(0.95); }
+
+    .floating-ai-offers.active {
+      background: linear-gradient(135deg, #dc3545, #b02a37);
+      animation: none;
+    }
+
+    .floating-ai-offers-pulse {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 2px solid rgba(37, 134, 199, 0.6);
+      animation: offersRingPulse 2.5s ease-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes offersRingPulse {
+      0%   { transform: scale(1);   opacity: 0.8; }
+      100% { transform: scale(1.7); opacity: 0; }
+    }
+
+    @keyframes offersAiPulse {
+      0%, 100% { box-shadow: 0 6px 20px rgba(11, 79, 138, 0.35); }
+      50%      { box-shadow: 0 6px 24px rgba(37, 134, 199, 0.55); }
+    }
+
+    /* =========================
+       AI OFFERS POPUP
+    ========================= */
+    .ai-offers-popup {
+      position: fixed;
+      bottom: 95px;
+      right: 20px;
+      width: 380px;
+      max-width: calc(100vw - 40px);
+      max-height: calc(100vh - 130px);
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(11, 79, 138, 0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 1001;
+      transform: translateY(20px) scale(0.95);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: 1px solid rgba(11, 79, 138, 0.1);
+    }
+
+    .ai-offers-popup.position-left { right: auto; left: 20px; }
+    .ai-offers-popup.position-right { right: 20px; left: auto; }
+
+    .ai-offers-popup.active {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .ai-offers-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 14px 16px;
+      background: linear-gradient(135deg, #083b66, #0b4f8a, #2586c7);
+      color: white;
       position: relative;
       overflow: hidden;
     }
 
-    footer::before {
-      content: "";
+    .ai-offers-header::before {
+      content: '';
       position: absolute;
-      inset: 0;
-      background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
-      background-size: 20px 20px;
+      width: 200px;
+      height: 200px;
+      top: -110px;
+      left: -60px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent 70%);
       pointer-events: none;
     }
 
-    footer p {
+    .ai-offers-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       position: relative;
-      z-index: 2;
-      margin: 6px 0;
-      line-height: 1.8;
+      z-index: 1;
     }
 
-    footer p:first-child {
-      font-size: 1.08rem;
+    .ai-offers-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .ai-offers-info h3 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 800;
+      color: white;
+    }
+
+    .ai-offers-info p {
+      margin: 2px 0 0;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.85);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .ai-offers-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+      display: inline-block;
+      animation: offersDotPulse 2s infinite;
+    }
+
+    @keyframes offersDotPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
+      70%  { box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+    }
+
+    .ai-offers-close {
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: all 0.25s ease;
+      position: relative;
+      z-index: 1;
+      flex-shrink: 0;
+    }
+
+    .ai-offers-close:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(90deg);
+    }
+
+    .ai-offers-body {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      background: linear-gradient(180deg, #f7fbfe, #f2f8fc);
+      min-height: 220px;
+      max-height: 380px;
+    }
+
+    .ai-offers-body::-webkit-scrollbar { width: 6px; }
+    .ai-offers-body::-webkit-scrollbar-track { background: #eaf2f7; border-radius: 10px; }
+    .ai-offers-body::-webkit-scrollbar-thumb { background: #a9c9dd; border-radius: 10px; }
+    .ai-offers-body::-webkit-scrollbar-thumb:hover { background: #0b4f8a; }
+
+    .ai-offers-message {
+      display: flex;
+      margin-bottom: 12px;
+      animation: offersMsgSlide 0.35s ease;
+    }
+
+    @keyframes offersMsgSlide {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .ai-offers-bubble {
+      max-width: 88%;
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 13.5px;
+      line-height: 1.7;
+      font-family: 'Tajawal', sans-serif;
+    }
+
+    .ai-offers-bot .ai-offers-bubble {
+      background: linear-gradient(135deg, #0b4f8a, #2586c7);
+      color: white;
+      border-radius: 14px 14px 14px 4px;
+      box-shadow: 0 3px 10px rgba(11, 79, 138, 0.2);
+    }
+
+    .ai-offers-user { justify-content: flex-start; }
+
+    .ai-offers-user .ai-offers-bubble {
+      background: white;
+      color: #263746;
+      border: 1px solid #d8e5ef;
+      border-radius: 14px 14px 4px 14px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .ai-offers-bubble strong { color: #b8e0ff; }
+    .ai-offers-user .ai-offers-bubble strong { color: #0b4f8a; }
+
+    .ai-offers-bubble ul { margin: 6px 0 0; padding-right: 18px; }
+    .ai-offers-bubble li { margin-bottom: 3px; font-size: 13px; }
+
+    .ai-offers-quick {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .ai-offers-qbtn {
+      background: white;
+      border: 1.5px solid #d5e5f0;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-family: 'Tajawal', sans-serif;
+      font-weight: 600;
+      color: #0b4f8a;
+      cursor: pointer;
+      text-align: right;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s ease;
+    }
+
+    .ai-offers-qbtn i { color: #2586c7; font-size: 13px; width: 16px; text-align: center; }
+
+    .ai-offers-qbtn:hover {
+      background: #eaf4fb;
+      border-color: #2586c7;
+      transform: translateX(-3px);
+      box-shadow: 0 3px 10px rgba(11, 79, 138, 0.1);
+    }
+
+    .ai-offers-typing { display: flex; gap: 4px; padding: 12px 16px; }
+
+    .ai-offers-typing span {
+      width: 8px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      animation: offersTyping 1.4s infinite;
+    }
+
+    .ai-offers-typing span:nth-child(2) { animation-delay: 0.2s; }
+    .ai-offers-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes offersTyping {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+      30%           { transform: translateY(-6px); opacity: 1; }
+    }
+
+    .ai-offers-footer {
+      padding: 10px 16px;
+      background: white;
+      border-top: 1px solid #e8ecf0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .ai-offers-restart {
+      background: #eaf4fb;
+      border: 1px solid #d5e5f0;
+      color: #0b4f8a;
+      padding: 9px 20px;
+      border-radius: 10px;
+      font-size: 13px;
       font-weight: 700;
+      font-family: 'Tajawal', sans-serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s ease;
     }
 
-    footer p:first-child i {
-      margin-left: 8px;
-      opacity: 0.9;
+    .ai-offers-restart:hover {
+      background: #0b4f8a;
+      color: white;
+      border-color: #0b4f8a;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(11, 79, 138, 0.25);
     }
 
-    footer p:last-child {
-      font-size: 0.88rem;
-      opacity: 0.85;
-      margin-top: 10px;
-    }
-
-    /* =========================================================
-       RESPONSIVE
-    ========================================================== */
-
-    @media (max-width: 1000px) {
-      .packages-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    @media (max-width: 767px) {
+      .floating-ai-offers {
+        width: 54px;
+        height: 54px;
+        font-size: 22px;
+        bottom: 16px;
       }
+      .floating-ai-offers.position-left { left: 80px; right: auto; }
+      .floating-ai-offers.position-right { right: 16px; left: auto; }
 
-      .hero-offer h2 {
-        font-size: 2rem;
-      }
-    }
-
-    @media (max-width: 650px) {
-      .hero-offer {
-        padding: 60px 0 70px;
-        border-radius: 0 0 24px 24px;
-      }
-
-      .hero-offer h2 {
-        font-size: 1.6rem;
-      }
-
-      .hero-offer p {
-        font-size: 1rem;
-      }
-
-      .packages-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-
-      .package-header {
-        padding: 22px 18px;
-      }
-
-      .package-body {
-        padding: 18px;
-      }
-
-      .package-price {
-        font-size: 1.55rem;
-      }
-
-      .package-notification {
-        top: 12px;
+      .ai-offers-popup {
+        bottom: 82px;
         right: 12px;
         left: 12px;
+        width: auto;
         max-width: none;
+        max-height: calc(100vh - 110px);
+        border-radius: 18px;
       }
+      .ai-offers-popup.position-left,
+      .ai-offers-popup.position-right { right: 12px; left: 12px; }
 
-      .section-title {
-        font-size: 1.4rem;
-      }
+      .ai-offers-body { max-height: 45vh; }
+      .ai-offers-info h3 { font-size: 14px; }
+      .ai-offers-bubble { font-size: 13px; }
+    }
 
-      .section-title i {
-        width: 40px;
-        height: 40px;
-        font-size: 1.2rem;
-      }
-
-      .medical-notice {
-        flex-direction: column;
-        gap: 8px;
-        padding: 18px;
-      }
-
-      footer {
-        border-radius: 24px 24px 0 0;
-        padding: 28px 16px 24px;
-      }
+    @media (max-width: 480px) {
+      .floating-ai-offers { width: 50px; height: 50px; font-size: 20px; }
+      .floating-ai-offers.position-left { left: 74px; }
+      .ai-offers-header { padding: 12px 14px; }
+      .ai-offers-avatar { width: 38px; height: 38px; font-size: 16px; }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- =========================================================
-       HERO
-  ========================================================== -->
+<section class="hero-offer">
+  <div class="container">
+    <h2><i class="fas fa-flask"></i> عروض وباقات ميدلاب</h2>
+    <p>
+      باقات مصممة حسب الهدف الصحي، تجمع التحاليل المرتبطة ببعضها
+      لتسهيل المتابعة وتقديم قيمة أفضل من إجراء كل تحليل منفردًا.
+    </p>
+  </div>
+</section>
 
-  <section class="hero-offer">
-    <button
-      class="menu-toggle"
-      type="button"
-      aria-label="فتح القائمة"
-      aria-expanded="false"
-    >
-      <i class="fas fa-bars"></i>
-    </button>
+<main class="container">
 
-    <nav class="mobile-nav" aria-label="القائمة الرئيسية">
-      <ul>
-        <li>
-          <a href="index.html">
-            <i class="fas fa-home"></i>
-            الرئيسية
-          </a>
-        </li>
+  <section id="packages">
+    <h2 class="section-title">
+      <i class="fas fa-boxes"></i>
+      باقات ميدلاب المختارة
+    </h2>
 
-        <li>
-          <a href="index.html#services">
-            <i class="fas fa-flask"></i>
-            خدماتنا
-          </a>
-        </li>
-
-        <li>
-          <a href="appointment.html">
-            <i class="fas fa-calendar-check"></i>
-            حجز فحص
-          </a>
-        </li>
-
-        <li>
-          <a href="contact.html">
-            <i class="fas fa-headset"></i>
-            خدمة العملاء
-          </a>
-        </li>
-
-        <li>
-          <a href="#packages">
-            <i class="fas fa-gift"></i>
-            باقات وعروض
-          </a>
-        </li>
-
-        <li>
-          <a href="#faq">
-            <i class="fas fa-question-circle"></i>
-            أسئلة شائعة
-          </a>
-        </li>
-      </ul>
-    </nav>
-
-    <div class="container">
-      <h2>
-        <i class="fas fa-flask"></i>
-        عروض وباقات ميدلاب
-      </h2>
-
-      <p>
-        باقات مصممة حسب الهدف الصحي، تجمع التحاليل المرتبطة ببعضها
-        لتسهيل المتابعة وتقديم قيمة أفضل من إجراء كل تحليل منفردًا.
-      </p>
+    <div class="packages-grid" id="packages-grid" aria-live="polite">
+      <div class="loading-packages">
+        <div class="loader"></div>
+        <strong>جاري تحميل الباقات...</strong>
+        <p>يتم جلب أحدث الباقات والعروض من قاعدة البيانات.</p>
+      </div>
     </div>
   </section>
 
-  <!-- =========================================================
-       MAIN
-  ========================================================== -->
+  <section id="faq">
+    <h2 class="section-title">
+      <i class="fas fa-question-circle"></i>
+      أسئلة شائعة عن الباقات
+    </h2>
 
-  <main class="container">
-
-    <!-- =======================================================
-         PACKAGES
-    ======================================================== -->
-    <section id="packages">
-
-      <h2 class="section-title">
-        <i class="fas fa-boxes"></i>
-        باقات ميدلاب المختارة
-      </h2>
-
-      <p
-        style="
-          text-align:center;
-          max-width:780px;
-          margin:-1rem auto 2rem;
-          color:#667085;
-          line-height:1.8;
-          font-size:1.02rem;
-        "
-      >
-        باقات مصممة حول احتياجات صحية واضحة، لتجمع التحاليل المرتبطة
-        معًا في فحص واحد وبقيمة أفضل.
-      </p>
-
-      <div
-        class="packages-grid"
-        id="packages-grid"
-        aria-live="polite"
-      >
-
-        <div class="loading-packages">
-          <div class="loader"></div>
-
-          <strong>
-            جاري تحميل الباقات...
-          </strong>
-
-          <p>
-            يتم جلب أحدث الباقات والعروض من قاعدة البيانات.
-          </p>
-        </div>
-
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>هل يمكن إضافة تحاليل أخرى إلى الباقة؟</span>
+        <i class="fas fa-chevron-down"></i>
       </div>
-
-    </section>
-
-
-    <!-- =======================================================
-         FAQ
-    ======================================================== -->
-    <section id="faq">
-
-      <h2 class="section-title">
-        <i class="fas fa-question-circle"></i>
-        أسئلة شائعة عن الباقات
-      </h2>
-
-      <div class="faq-item">
-
-        <div class="faq-question">
-          <span>
-            هل يمكن إضافة تحاليل أخرى إلى الباقة؟
-          </span>
-
-          <i class="fas fa-chevron-down"></i>
-        </div>
-
-        <div class="faq-answer">
-          نعم، يمكن إضافة بعض التحاليل حسب احتياجك وبحسب سياسة المعمل.
-          اسأل خدمة العملاء عن أفضل إضافة مرتبطة بالباقة التي اخترتها.
-        </div>
-
+      <div class="faq-answer">
+        نعم، يمكن إضافة بعض التحاليل حسب احتياجك وبحسب سياسة المعمل.
       </div>
-
-
-      <div class="faq-item">
-
-        <div class="faq-question">
-          <span>
-            ما الباقة المناسبة للفحص الدوري؟
-          </span>
-
-          <i class="fas fa-chevron-down"></i>
-        </div>
-
-        <div class="faq-answer">
-          باقة الاطمئنان الشامل هي الخيار الأوسع للفحص المبدئي العام،
-          بينما يمكن اختيار باقة أكثر تخصصًا إذا كان هدفك متابعة السكر
-          والدهون أو الغدة أو الكبد والكلى.
-        </div>
-
-      </div>
-
-
-      <div class="faq-item">
-
-        <div class="faq-question">
-          <span>
-            هل الباقات تغني عن استشارة الطبيب؟
-          </span>
-
-          <i class="fas fa-chevron-down"></i>
-        </div>
-
-        <div class="faq-answer">
-          لا. الباقات أدوات للفحص والمتابعة، ويُفضل اختيار التحاليل
-          بناءً على العمر والأعراض والتاريخ الصحي وتوصية الطبيب،
-          خاصة عند وجود مرض مزمن أو علاج مستمر.
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =======================================================
-         MEDICAL NOTICE
-    ======================================================== -->
-    <div class="medical-notice">
-      <i class="fas fa-stethoscope"></i>
-
-      <span>
-        استشر طبيبك قبل اختيار الباقة المناسبة لحالتك الصحية.
-        فريق ميدلاب يسعد بتقديم الاستشارة المبدئية مجاناً.
-      </span>
     </div>
 
-  </main>
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>ما الباقة المناسبة للفحص الدوري؟</span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="faq-answer">
+        باقة الاطمئنان الشامل هي الخيار الأوسع للفحص المبدئي العام.
+      </div>
+    </div>
 
-  <!-- =========================================================
-       FOOTER
-  ========================================================== -->
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>هل الباقات تغني عن استشارة الطبيب؟</span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="faq-answer">
+        لا. الباقات أدوات للفحص والمتابعة، ويُفضل اختيار التحاليل بناءً على توصية الطبيب.
+      </div>
+    </div>
+  </section>
 
-  <footer>
+  <div class="medical-notice">
+    <i class="fas fa-stethoscope"></i>
+    <span>
+      استشر طبيبك قبل اختيار الباقة المناسبة لحالتك الصحية.
+      فريق ميدلاب يسعد بتقديم الاستشارة المبدئية مجاناً.
+    </span>
+  </div>
 
-    <p>
-      <i class="fas fa-dna"></i>
-      معمل ميدلاب للتحاليل الطبية – دقة وثقة مع عروض حصرية
-    </p>
+</main>
 
-    <p style="font-size:0.8rem;margin-top:5px;">
-      العروض قابلة للتعديل حسب سياسة المعمل وتوافر الاختبارات |
-      الباقات مصممة لتجميع التحاليل ذات العلاقة نفسها وتقديم قيمة أفضل
-    </p>
+<footer>
+  <p><i class="fas fa-dna"></i> معمل ميدلاب للتحاليل الطبية – دقة وثقة مع عروض حصرية</p>
+  <p>© 2026 جميع الحقوق محفوظة</p>
+</footer>
 
-    <p>
-      © 2026 جميع الحقوق محفوظة
-    </p>
+<script>
+  "use strict";
 
-  </footer>
+  const SUPABASE_URL = "https://rlkqifdteyccagpdtdmu.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_XibO6Ri8DLKHG-rUEp4Bnw_bDzm67Xf";
 
-  <script>
-    "use strict";
+  let supabaseClient = null;
+  let packagesStore = new Map();
 
-    const SUPABASE_URL =
-      "https://rlkqifdteyccagpdtdmu.supabase.co";
-
-    const SUPABASE_ANON_KEY =
-      "sb_publishable_XibO6Ri8DLKHG-rUEp4Bnw_bDzm67Xf";
-
-    let supabaseClient = null;
-
-    let packagesStore = new Map();
-
-    /* =========================================================
-       2. INITIALIZE SUPABASE
-    ========================================================== */
-
-    function initializeSupabase() {
-
-      try {
-
-        if (!window.supabase) {
-          throw new Error(
-            "مكتبة Supabase لم يتم تحميلها."
-          );
-        }
-
-        if (
-          typeof window.supabase.createClient !== "function"
-        ) {
-          throw new Error(
-            "دالة createClient غير موجودة في مكتبة Supabase."
-          );
-        }
-
-        supabaseClient =
-          window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_ANON_KEY
-          );
-
-        console.log(
-          "✅ تم إنشاء اتصال Supabase بنجاح."
-        );
-
-        return true;
-
-      } catch (error) {
-
-        console.error(
-          "❌ فشل إنشاء اتصال Supabase:",
-          error
-        );
-
-        showDatabaseError(
-          "تعذر تشغيل اتصال قاعدة البيانات.",
-          error
-        );
-
-        return false;
+  function initializeSupabase() {
+    try {
+      if (!window.supabase || typeof window.supabase.createClient !== "function") {
+        throw new Error("مكتبة Supabase غير محمّلة.");
       }
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      return true;
+    } catch (error) {
+      console.error(error);
+      showDatabaseError("تعذر تشغيل اتصال قاعدة البيانات.", error);
+      return false;
     }
-
-
-    /* =========================================================
-       3. ERROR DETAILS
-    ========================================================== */
-
-    function getErrorMessage(error) {
-
-      if (!error) {
-        return "خطأ غير معروف.";
-      }
-
-      const status =
-        error.status ||
-        error.statusCode ||
-        "";
-
-      const code =
-        error.code ||
-        "";
-
-      const message =
-        error.message ||
-        error.details ||
-        error.hint ||
-        "تعذر تنفيذ العملية.";
-
-      return [
-        status ? `Status: ${status}` : "",
-        code ? `Code: ${code}` : "",
-        message
-      ]
-      .filter(Boolean)
-      .join(" | ");
-    }
-
-
-    /* =========================================================
-       4. SHOW DATABASE ERROR
-    ========================================================== */
-
-    function showDatabaseError(title, error) {
-
-      const grid =
-        document.getElementById("packages-grid");
-
-      if (!grid) {
-        return;
-      }
-
-      const details =
-        getErrorMessage(error);
-
-      grid.innerHTML = `
-
-        <div class="supabase-error-box">
-
-          <i class="fas fa-triangle-exclamation"></i>
-
-          <h3>
-            ${escapeHtml(title)}
-          </h3>
-
-          <p>
-            حدثت مشكلة أثناء تحميل الباقات من قاعدة البيانات.
-          </p>
-
-          <p style="font-size:.88rem;opacity:.85;">
-            ${escapeHtml(details)}
-          </p>
-
-          <button
-            type="button"
-            class="retry-btn"
-            id="retry-packages-btn"
-          >
-            <i class="fas fa-rotate-right"></i>
-            إعادة المحاولة
-          </button>
-
-        </div>
-      `;
-
-
-      const retryButton =
-        document.getElementById(
-          "retry-packages-btn"
-        );
-
-      if (retryButton) {
-
-        retryButton.addEventListener(
-          "click",
-          loadPackages
-        );
-
-      }
-    }
-
-
-    /* =========================================================
-       5. HTML ESCAPE
-    ========================================================== */
-
-    function escapeHtml(value) {
-
-      if (
-        value === null ||
-        value === undefined
-      ) {
-        return "";
-      }
-
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-
-    /* =========================================================
-       6. FORMAT PRICE
-    ========================================================== */
-
-    function formatPrice(price) {
-
-      const numericPrice =
-        Number(price);
-
-      if (
-        !Number.isFinite(numericPrice)
-      ) {
-        return "0";
-      }
-
-      return numericPrice.toLocaleString(
-        "ar-EG",
-        {
-          maximumFractionDigits: 2
-        }
-      );
-    }
-
-
-    /* =========================================================
-       7. LOAD PACKAGES
-    ========================================================== */
-
-    async function loadPackages() {
-
-      const grid =
-        document.getElementById(
-          "packages-grid"
-        );
-
-      if (!grid) {
-        return;
-      }
-
-
-      grid.innerHTML = `
-
-        <div class="loading-packages">
-
-          <div class="loader"></div>
-
-          <strong>
-            جاري تحميل الباقات...
-          </strong>
-
-          <p>
-            يتم جلب أحدث الباقات والعروض من قاعدة البيانات.
-          </p>
-
-        </div>
-
-      `;
-
-
-      try {
-
-        if (!supabaseClient) {
-
-          const initialized =
-            initializeSupabase();
-
-          if (!initialized) {
-            return;
-          }
-        }
-
-
-        console.log(
-          "🔄 جاري تحميل الباقات من Supabase..."
-        );
-
-
-        /*
-          ------------------------------------------------------
-          أولاً:
-          جلب الباقات النشطة فقط.
-          ------------------------------------------------------
-        */
-
-        const {
-          data: packages,
-          error: packagesError
-        } =
-          await supabaseClient
-            .from("packages")
-            .select(
-              `
-                id,
-                name,
-                description,
-                price,
-                image_url,
-                is_active,
-                created_at
-              `
-            )
-            .eq(
-              "is_active",
-              true
-            )
-            .order(
-              "created_at",
-              {
-                ascending: false
-              }
-            );
-
-
-        if (packagesError) {
-
-          console.error(
-            "❌ خطأ في جلب الباقات:",
-            packagesError
-          );
-
-          throw packagesError;
-        }
-
-
-        console.log(
-          "✅ تم تحميل الباقات:",
-          packages
-        );
-
-
-        if (
-          !packages ||
-          packages.length === 0
-        ) {
-
-          renderEmptyPackages();
-
-          return;
-        }
-
-
-        /*
-          ------------------------------------------------------
-          حفظ الباقات في Map
-          ------------------------------------------------------
-        */
-
-        packagesStore.clear();
-
-
-        packages.forEach(
-          packageItem => {
-
-            packagesStore.set(
-              String(packageItem.id),
-              {
-                ...packageItem,
-                tests: []
-              }
-            );
-
-          }
-        );
-
-
-        const packageIds =
-          packages.map(
-            packageItem =>
-              packageItem.id
-          );
-
-
-        /*
-          ------------------------------------------------------
-          ثانياً:
-          جلب تحاليل الباقات.
-          ------------------------------------------------------
-        */
-
-        const {
-          data: packageTests,
-          error: packageTestsError
-        } =
-          await supabaseClient
-            .from("package_tests")
-            .select(
-              `
-                id,
-                package_id,
-                test_id,
-                sort_order,
-                tests (
-                  id,
-                  name,
-                  price,
-                  is_active
-                )
-              `
-            )
-            .in(
-              "package_id",
-              packageIds
-            )
-            .order(
-              "sort_order",
-              {
-                ascending: true
-              }
-            );
-
-
-        if (packageTestsError) {
-
-          console.error(
-            "❌ خطأ في جلب تحاليل الباقات:",
-            packageTestsError
-          );
-
-          throw packageTestsError;
-        }
-
-
-        console.log(
-          "✅ تم تحميل تحاليل الباقات:",
-          packageTests
-        );
-
-
-        /*
-          ------------------------------------------------------
-          ثالثاً:
-          تجميع التحاليل داخل كل باقة.
-          ------------------------------------------------------
-        */
-
-        if (
-          Array.isArray(packageTests)
-        ) {
-
-          packageTests.forEach(
-            row => {
-
-              const packageId =
-                String(
-                  row.package_id
-                );
-
-              const packageItem =
-                packagesStore.get(
-                  packageId
-                );
-
-
-              if (!packageItem) {
-                return;
-              }
-
-
-              let test =
-                row.tests;
-
-
-              /*
-                أحياناً Supabase قد يرجع
-                العلاقة كـ Array.
-              */
-
-              if (
-                Array.isArray(test)
-              ) {
-                test =
-                  test[0] ||
-                  null;
-              }
-
-
-              if (
-                !test ||
-                test.is_active === false
-              ) {
-                return;
-              }
-
-
-              packageItem.tests.push({
-                id: test.id,
-                name: test.name,
-                price: test.price,
-                sort_order:
-                  row.sort_order ??
-                  999999
-              });
-
-            }
-          );
-
-        }
-
-
-        /*
-          ------------------------------------------------------
-          رابعاً:
-          تحويل Map إلى Array.
-          ------------------------------------------------------
-        */
-
-        const finalPackages =
-          packages.map(
-            packageItem =>
-              packagesStore.get(
-                String(packageItem.id)
-              )
-          );
-
-
-        renderPackages(
-          finalPackages
-        );
-
-
-      } catch (error) {
-
-        console.error(
-          "❌ خطأ أثناء تحميل الباقات:",
-          error
-        );
-
-        showDatabaseError(
-          "تعذر تحميل الباقات من قاعدة البيانات.",
-          error
-        );
-
-      }
-
-    }
-
-
-    /* =========================================================
-       8. RENDER EMPTY
-    ========================================================== */
-
-    function renderEmptyPackages() {
-
-      const grid =
-        document.getElementById(
-          "packages-grid"
-        );
-
-      if (!grid) {
-        return;
-      }
-
-
-      grid.innerHTML = `
-
-        <div class="empty-packages">
-
-          <i class="fas fa-box-open"></i>
-
-          <h3>
-            لا توجد باقات متاحة حالياً
-          </h3>
-
-          <p>
-            سيتم عرض الباقات والعروض هنا فور إضافتها وتفعيلها من لوحة الإدارة.
-          </p>
-
-        </div>
-
-      `;
-    }
-
-
-    /* =========================================================
-       9. RENDER PACKAGES
-    ========================================================== */
-
-    function renderPackages(packages) {
-
-      const grid =
-        document.getElementById(
-          "packages-grid"
-        );
-
-      if (!grid) {
-        return;
-      }
-
-
-      if (
-        !Array.isArray(packages) ||
-        packages.length === 0
-      ) {
-
+  }
+
+  function getErrorMessage(error) {
+    if (!error) return "خطأ غير معروف.";
+    return [
+      error.status ? `Status: ${error.status}` : "",
+      error.code ? `Code: ${error.code}` : "",
+      error.message || error.details || error.hint || "تعذر تنفيذ العملية."
+    ].filter(Boolean).join(" | ");
+  }
+
+  function showDatabaseError(title, error) {
+    const grid = document.getElementById("packages-grid");
+    if (!grid) return;
+
+    grid.innerHTML = `
+      <div class="supabase-error-box">
+        <i class="fas fa-triangle-exclamation"></i>
+        <h3>${escapeHtml(title)}</h3>
+        <p>${escapeHtml(getErrorMessage(error))}</p>
+        <button type="button" class="retry-btn" id="retry-packages-btn">
+          <i class="fas fa-rotate-right"></i> إعادة المحاولة
+        </button>
+      </div>
+    `;
+
+    document.getElementById("retry-packages-btn")
+      .addEventListener("click", loadPackages);
+  }
+
+  function escapeHtml(value) {
+    if (value === null || value === undefined) return "";
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function formatPrice(price) {
+    const n = Number(price);
+    if (!Number.isFinite(n)) return "0";
+    return n.toLocaleString("ar-EG", { maximumFractionDigits: 2 });
+  }
+
+  async function loadPackages() {
+    const grid = document.getElementById("packages-grid");
+    if (!grid) return;
+
+    grid.innerHTML = `
+      <div class="loading-packages">
+        <div class="loader"></div>
+        <strong>جاري تحميل الباقات...</strong>
+      </div>
+    `;
+
+    try {
+      if (!supabaseClient && !initializeSupabase()) return;
+
+      const { data: packages, error: packagesError } = await supabaseClient
+        .from("packages")
+        .select("id,name,description,price,image_url,is_active,created_at")
+        .eq("is_active", true)
+        .order("created_at", { ascending: false });
+
+      if (packagesError) throw packagesError;
+
+      if (!packages || packages.length === 0) {
         renderEmptyPackages();
-
         return;
       }
 
+      packagesStore.clear();
+      packages.forEach(p => packagesStore.set(String(p.id), { ...p, tests: [] }));
 
-      grid.innerHTML = "";
+      const packageIds = packages.map(p => p.id);
 
+      const { data: packageTests, error: packageTestsError } = await supabaseClient
+        .from("package_tests")
+        .select(`
+          id, package_id, test_id, sort_order,
+          tests ( id, name, price, is_active )
+        `)
+        .in("package_id", packageIds)
+        .order("sort_order", { ascending: true });
 
-      packages.forEach(
-        packageItem => {
+      if (packageTestsError) throw packageTestsError;
 
-          const card =
-            createPackageCard(
-              packageItem
-            );
+      if (Array.isArray(packageTests)) {
+        packageTests.forEach(row => {
+          const item = packagesStore.get(String(row.package_id));
+          if (!item) return;
 
-          grid.appendChild(
-            card
-          );
+          let test = row.tests;
+          if (Array.isArray(test)) test = test[0] || null;
+          if (!test || test.is_active === false) return;
 
-        }
-      );
-
-    }
-
-
-    /* =========================================================
-       10. CREATE PACKAGE CARD
-    ========================================================== */
-
-    function createPackageCard(packageItem) {
-
-      const card =
-        document.createElement(
-          "article"
-        );
-
-      card.className =
-        "package-card";
-
-
-      card.dataset.packageId =
-        String(
-          packageItem.id
-        );
-
-
-      /*
-        ------------------------------------------------------
-        Header
-        ------------------------------------------------------
-      */
-
-      const header =
-        document.createElement(
-          "div"
-        );
-
-      header.className =
-        "package-header";
-
-
-      const title =
-        document.createElement(
-          "h3"
-        );
-
-      title.textContent =
-        packageItem.name ||
-        "باقة بدون اسم";
-
-
-      header.appendChild(
-        title
-      );
-
-
-      /*
-        Tag اختياري:
-        إذا كان لديك tag مستقبلاً
-        في جدول packages سيظهر تلقائياً.
-      */
-
-      if (
-        packageItem.tag
-      ) {
-
-        const tag =
-          document.createElement(
-            "div"
-          );
-
-        tag.className =
-          "tag";
-
-        tag.textContent =
-          packageItem.tag;
-
-        header.appendChild(
-          tag
-        );
-
+          item.tests.push({
+            id: test.id,
+            name: test.name,
+            price: test.price,
+            sort_order: row.sort_order ?? 999999
+          });
+        });
       }
 
-
-      /*
-        ------------------------------------------------------
-        Body
-        ------------------------------------------------------
-      */
-
-      const body =
-        document.createElement(
-          "div"
-        );
-
-      body.className =
-        "package-body";
-
-
-      /*
-        Description
-        ------------------------------------------------------
-      */
-
-      if (
-        packageItem.description
-      ) {
-
-        const description =
-          document.createElement(
-            "p"
-          );
-
-        description.className =
-          "package-description";
-
-        description.textContent =
-          packageItem.description;
-
-        body.appendChild(
-          description
-        );
-
-      }
-
-
-      /*
-        ------------------------------------------------------
-        Tests
-        ------------------------------------------------------
-      */
-
-      const tests =
-        Array.isArray(
-          packageItem.tests
-        )
-          ? packageItem.tests
-          : [];
-
-
-      const testsCount =
-        document.createElement(
-          "div"
-        );
-
-      testsCount.className =
-        "tests-count";
-
-
-      testsCount.innerHTML = `
-
-        <i class="fas fa-vial"></i>
-
-        عدد التحاليل داخل الباقة:
-        <strong>
-          ${tests.length}
-        </strong>
-
-      `;
-
-
-      body.appendChild(
-        testsCount
-      );
-
-
-      const testList =
-        document.createElement(
-          "ul"
-        );
-
-      testList.className =
-        "test-list";
-
-
-      if (
-        tests.length > 0
-      ) {
-
-        tests.forEach(
-          test => {
-
-            const li =
-              document.createElement(
-                "li"
-              );
-
-
-            li.innerHTML = `
-              <i class="fas fa-check-circle"></i>
-            `;
-
-
-            const testName =
-              document.createElement(
-                "span"
-              );
-
-            testName.textContent =
-              test.name ||
-              "تحليل";
-
-
-            li.appendChild(
-              testName
-            );
-
-
-            /*
-              مهم جداً:
-              لا نعرض سعر التحليل هنا.
-              السعر الوحيد الظاهر هو سعر الباقة.
-            */
-
-
-            testList.appendChild(
-              li
-            );
-
-          }
-        );
-
-      } else {
-
-        const li =
-          document.createElement(
-            "li"
-          );
-
-        li.innerHTML = `
-          <i class="fas fa-circle-info"></i>
-          <span>
-            لم تتم إضافة تحاليل لهذه الباقة بعد.
-          </span>
-        `;
-
-        testList.appendChild(
-          li
-        );
-
-      }
-
-
-      body.appendChild(
-        testList
-      );
-
-
-      /*
-        ------------------------------------------------------
-        Package Price
-        ------------------------------------------------------
-      */
-
-      const priceBox =
-        document.createElement(
-          "div"
-        );
-
-      priceBox.className =
-        "package-price-box";
-
-
-      const priceLabel =
-        document.createElement(
-          "span"
-        );
-
-      priceLabel.className =
-        "package-price-label";
-
-      priceLabel.textContent =
-        "سعر الباقة";
-
-
-      const price =
-        document.createElement(
-          "span"
-        );
-
-      price.className =
-        "package-price";
-
-      price.textContent =
-        formatPrice(
-          packageItem.price
-        );
-
-
-      const currency =
-        document.createElement(
-          "span"
-        );
-
-      currency.className =
-        "package-price-currency";
-
-      currency.textContent =
-        "جنيه";
-
-
-      price.appendChild(
-        currency
-      );
-
-
-      priceBox.appendChild(
-        priceLabel
-      );
-
-      priceBox.appendChild(
-        price
-      );
-
-
-      body.appendChild(
-        priceBox
-      );
-
-
-      /*
-        ------------------------------------------------------
-        Booking Button
-        ------------------------------------------------------
-      */
-
-      const button =
-        document.createElement(
-          "button"
-        );
-
-      button.type =
-        "button";
-
-      button.className =
-        "btn-offer";
-
-      button.dataset.packageId =
-        String(
-          packageItem.id
-        );
-
-
-      button.innerHTML = `
-        <i class="fas fa-calendar-check"></i>
-        احجز هذه الباقة الآن
-      `;
-
-
-      button.addEventListener(
-        "click",
-        function () {
-
-          selectPackage(
-            packageItem,
-            button
-          );
-
-        }
-      );
-
-
-      body.appendChild(
-        button
-      );
-
-
-      /*
-        ------------------------------------------------------
-        Finish
-        ------------------------------------------------------
-      */
-
-      card.appendChild(
-        header
-      );
-
-      card.appendChild(
-        body
-      );
-
-
-      return card;
+      const finalPackages = packages.map(p => packagesStore.get(String(p.id)));
+      renderPackages(finalPackages);
+
+    } catch (error) {
+      console.error(error);
+      showDatabaseError("تعذر تحميل الباقات من قاعدة البيانات.", error);
+    }
+  }
+
+  function renderEmptyPackages() {
+    const grid = document.getElementById("packages-grid");
+    if (!grid) return;
+    grid.innerHTML = `
+      <div class="empty-packages">
+        <i class="fas fa-box-open"></i>
+        <h3>لا توجد باقات متاحة حالياً</h3>
+        <p>سيتم عرض الباقات والعروض هنا فور إضافتها وتفعيلها من لوحة الإدارة.</p>
+      </div>
+    `;
+  }
+
+  function renderPackages(packages) {
+    const grid = document.getElementById("packages-grid");
+    if (!grid) return;
+
+    if (!Array.isArray(packages) || packages.length === 0) {
+      renderEmptyPackages();
+      return;
     }
 
-
-    /* =========================================================
-       11. SELECT PACKAGE
-    ========================================================== */
-
-    function selectPackage(
-      packageItem,
-      button
-    ) {
-
-      if (!packageItem) {
-
-        showNotification(
-          "تعذر تحديد الباقة.",
-          "error"
-        );
-
-        return;
-      }
-
-
-      try {
-
-        if (button) {
-
-          button.disabled =
-            true;
-
-          button.innerHTML = `
-            <i class="fas fa-spinner fa-spin"></i>
-            جاري تجهيز الحجز...
-          `;
-
-        }
-
-
-        /*
-          ------------------------------------------------------
-          إنشاء بيانات الباقة
-          ------------------------------------------------------
-        */
-
-        const packageData = {
-
-          id:
-            packageItem.id,
-
-          package_id:
-            packageItem.id,
-
-          name:
-            packageItem.name ||
-            "",
-
-          package_name:
-            packageItem.name ||
-            "",
-
-          description:
-            packageItem.description ||
-            "",
-
-          price:
-            Number(
-              packageItem.price
-            ) || 0,
-
-          package_price:
-            Number(
-              packageItem.price
-            ) || 0,
-
-          image_url:
-            packageItem.image_url ||
-            "",
-
-          is_active:
-            packageItem.is_active !== false,
-
-          tests:
-            Array.isArray(
-              packageItem.tests
-            )
-              ? packageItem.tests.map(
-                  test => ({
-
-                    id:
-                      test.id,
-
-                    test_id:
-                      test.id,
-
-                    name:
-                      test.name ||
-                      "",
-
-                    /*
-                      نخزن السعر للتوافق مع
-                      appointment.html،
-                      لكن صفحة العروض لا تعرضه.
-                    */
-
-                    price:
-                      Number(
-                        test.price
-                      ) || 0
-
-                  })
-                )
-              : [],
-
-          selected_from:
-            "offers.html",
-
-          selected_at:
-            new Date().toISOString()
-
-        };
-
-
-        /*
-          ------------------------------------------------------
-          تخزين الباقة
-          ------------------------------------------------------
-        */
-
-        const serializedPackage =
-          JSON.stringify(
-            packageData
-          );
-
-
-        localStorage.setItem(
-          "selected_package",
-          serializedPackage
-        );
-
-
-        /*
-          أسماء إضافية للتوافق مع أكواد
-          الحجز القديمة.
-        */
-
-        localStorage.setItem(
-          "selectedPackage",
-          serializedPackage
-        );
-
-        localStorage.setItem(
-          "package_selected",
-          "true"
-        );
-
-
-        /*
-          تخزين ID منفصل أيضاً.
-        */
-
-        localStorage.setItem(
-          "selected_package_id",
-          String(
-            packageItem.id
-          )
-        );
-
-
-        console.log(
-          "✅ تم اختيار الباقة:",
-          packageData
-        );
-
-
-        showNotification(
-          `تم اختيار "${packageData.name}" - جاري التوجيه للحجز`,
-          "success"
-        );
-
-
-        /*
-          ------------------------------------------------------
-          الانتقال إلى صفحة الحجز
-          ------------------------------------------------------
-        */
-
-        setTimeout(
-          function () {
-
-            window.location.href =
-              "appointment.html";
-
-          },
-          700
-        );
-
-
-      } catch (error) {
-
-        console.error(
-          "❌ خطأ أثناء حفظ الباقة:",
-          error
-        );
-
-
-        if (button) {
-
-          button.disabled =
-            false;
-
-          button.innerHTML = `
-            <i class="fas fa-calendar-check"></i>
-            احجز هذه الباقة الآن
-          `;
-
-        }
-
-
-        showNotification(
-          "حدث خطأ أثناء تجهيز الباقة للحجز.",
-          "error"
-        );
-
-      }
-
+    grid.innerHTML = "";
+    packages.forEach(p => grid.appendChild(createPackageCard(p)));
+  }
+
+  function createPackageCard(packageItem) {
+    const card = document.createElement("article");
+    card.className = "package-card";
+    card.dataset.packageId = String(packageItem.id);
+
+    const header = document.createElement("div");
+    header.className = "package-header";
+    const title = document.createElement("h3");
+    title.textContent = packageItem.name || "باقة بدون اسم";
+    header.appendChild(title);
+
+    const body = document.createElement("div");
+    body.className = "package-body";
+
+    if (packageItem.description) {
+      const desc = document.createElement("p");
+      desc.className = "package-description";
+      desc.textContent = packageItem.description;
+      body.appendChild(desc);
     }
 
-
-    /* =========================================================
-       12. NOTIFICATION
-    ========================================================== */
-
-    function showNotification(
-      message,
-      type = "info"
-    ) {
-
-      document
-        .querySelectorAll(
-          ".package-notification"
-        )
-        .forEach(
-          notification =>
-            notification.remove()
-        );
-
-
-      const notification =
-        document.createElement(
-          "div"
-        );
-
-
-      notification.className =
-        `package-notification ${type}`;
-
-
-      notification.innerHTML = `
-        <i class="fas ${
-          type === "success"
-            ? "fa-circle-check"
-            : type === "error"
-              ? "fa-circle-exclamation"
-              : "fa-circle-info"
-        }"></i>
-
-        <span>
-          ${escapeHtml(message)}
-        </span>
-      `;
-
-
-      document.body.appendChild(
-        notification
-      );
-
-
-      setTimeout(
-        function () {
-
-          if (
-            !notification.isConnected
-          ) {
-            return;
-          }
-
-
-          notification.style.animation =
-            "slideOutRight 0.3s ease";
-
-
-          setTimeout(
-            function () {
-
-              if (
-                notification.isConnected
-              ) {
-                notification.remove();
-              }
-
-            },
-            300
-          );
-
-        },
-        2300
-      );
-
-    }
-
-
-    /* =========================================================
-       13. SUPABASE CONNECTION TEST
-    ========================================================== */
-
-    async function testSupabaseConnection() {
-
-      try {
-
-        if (!supabaseClient) {
-
-          const initialized =
-            initializeSupabase();
-
-          if (!initialized) {
-            return;
-          }
-
-        }
-
-
-        console.log(
-          "🔎 اختبار اتصال Supabase..."
-        );
-
-
-        const {
-          data,
-          error
-        } =
-          await supabaseClient
-            .from("packages")
-            .select(
-              "id,name"
-            )
-            .limit(1);
-
-
-        if (error) {
-
-          console.error(
-            "❌ اختبار Supabase فشل:",
-            error
-          );
-
-          console.error(
-            "تفاصيل الخطأ:",
-            getErrorMessage(error)
-          );
-
-          return false;
-        }
-
-
-        console.log(
-          "✅ اختبار Supabase ناجح:",
-          data
-        );
-
-
-        return true;
-
-
-      } catch (error) {
-
-        console.error(
-          "❌ خطأ في اختبار Supabase:",
-          error
-        );
-
-        return false;
-      }
-
-    }
-
-
-    /* =========================================================
-       14. MOBILE MENU
-    ========================================================== */
-
-    function setupMobileMenu() {
-
-      const toggleBtn =
-        document.querySelector(
-          ".menu-toggle"
-        );
-
-      const navMenu =
-        document.querySelector(
-          ".mobile-nav"
-        );
-
-
-      if (
-        !toggleBtn ||
-        !navMenu
-      ) {
-        return;
-      }
-
-
-      toggleBtn.addEventListener(
-        "click",
-        function (event) {
-
-          event.stopPropagation();
-
-          const isActive =
-            navMenu.classList.toggle(
-              "active"
-            );
-
-
-          toggleBtn.setAttribute(
-            "aria-expanded",
-            isActive
-              ? "true"
-              : "false"
-          );
-
-        }
-      );
-
-
-      document.addEventListener(
-        "click",
-        function (event) {
-
-          if (
-            !navMenu.contains(
-              event.target
-            ) &&
-            !toggleBtn.contains(
-              event.target
-            )
-          ) {
-
-            navMenu.classList.remove(
-              "active"
-            );
-
-            toggleBtn.setAttribute(
-              "aria-expanded",
-              "false"
-            );
-
-          }
-
-        }
-      );
-
-
-      navMenu
-        .querySelectorAll("a")
-        .forEach(
-          link => {
-
-            link.addEventListener(
-              "click",
-              function () {
-
-                navMenu.classList.remove(
-                  "active"
-                );
-
-                toggleBtn.setAttribute(
-                  "aria-expanded",
-                  "false"
-                );
-
-              }
-            );
-
-          }
-        );
-
-    }
-
-
-    /* =========================================================
-       15. FAQ
-    ========================================================== */
-
-    function setupFAQ() {
-
-      const faqs =
-        document.querySelectorAll(
-          ".faq-item"
-        );
-
-
-      if (!faqs.length) {
-        return;
-      }
-
-
-      faqs.forEach(
-        faq => {
-
-          const question =
-            faq.querySelector(
-              ".faq-question"
-            );
-
-
-          if (!question) {
-            return;
-          }
-
-
-          question.addEventListener(
-            "click",
-            function () {
-
-              const isActive =
-                faq.classList.contains(
-                  "active"
-                );
-
-
-              faqs.forEach(
-                item =>
-                  item.classList.remove(
-                    "active"
-                  )
-              );
-
-
-              if (!isActive) {
-
-                faq.classList.add(
-                  "active"
-                );
-
-              }
-
-            }
-          );
-
-        }
-      );
-
-
-      /*
-        فتح أول سؤال تلقائياً
-      */
-
-      faqs[0].classList.add(
-        "active"
-      );
-
-    }
-
-
-    /* =========================================================
-       16. CLEAN OLD PACKAGE DATA
-    ========================================================== */
-
-    function preparePackageStorage() {
-
-      /*
-        لا نحذف الباقة المختارة تلقائياً،
-        لأن appointment.html قد يعتمد عليها
-        إذا عاد المستخدم من صفحة الحجز.
-
-        لكننا لا نكتب أي بيانات جديدة
-        إلا عند اختيار باقة.
-      */
-
-      console.log(
-        "ℹ️ نظام اختيار الباقات جاهز."
-      );
-
-    }
-
-
-    /* =========================================================
-       17. PAGE INITIALIZATION
-    ========================================================== */
-
-    async function initializePage() {
-
-      console.log(
-        "🚀 تشغيل صفحة باقات وعروض ميدلاب..."
-      );
-
-
-      setupMobileMenu();
-
-      setupFAQ();
-
-      preparePackageStorage();
-
-
-      /*
-        إنشاء Supabase
-      */
-
-      const initialized =
-        initializeSupabase();
-
-
-      if (!initialized) {
-        return;
-      }
-
-
-      /*
-        اختبار الاتصال.
-        لا نوقف الصفحة إذا فشل الاختبار،
-        لأن loadPackages سيعرض الخطأ بالتفصيل.
-      */
-
-      await testSupabaseConnection();
-
-
-      /*
-        تحميل الباقات
-      */
-
-      await loadPackages();
-
-
-      console.log(
-        "🏁 انتهى تشغيل صفحة الباقات."
-      );
-
-    }
-
-
-    /* =========================================================
-       18. START
-    ========================================================== */
-
-    if (
-      document.readyState ===
-      "loading"
-    ) {
-
-      document.addEventListener(
-        "DOMContentLoaded",
-        initializePage
-      );
-
+    const tests = Array.isArray(packageItem.tests) ? packageItem.tests : [];
+
+    const testsCount = document.createElement("div");
+    testsCount.className = "tests-count";
+    testsCount.innerHTML = `
+      <i class="fas fa-vial"></i>
+      عدد التحاليل داخل الباقة: <strong>${tests.length}</strong>
+    `;
+    body.appendChild(testsCount);
+
+    const testList = document.createElement("ul");
+    testList.className = "test-list";
+
+    if (tests.length > 0) {
+      tests.forEach(test => {
+        const li = document.createElement("li");
+        li.innerHTML = `<i class="fas fa-check-circle"></i>`;
+        const span = document.createElement("span");
+        span.textContent = test.name || "تحليل";
+        li.appendChild(span);
+        testList.appendChild(li);
+      });
     } else {
-
-      initializePage();
-
+      const li = document.createElement("li");
+      li.innerHTML = `<i class="fas fa-circle-info"></i><span>لم تتم إضافة تحاليل لهذه الباقة بعد.</span>`;
+      testList.appendChild(li);
     }
 
-  </script>
+    body.appendChild(testList);
+
+    const priceBox = document.createElement("div");
+    priceBox.className = "package-price-box";
+
+    const priceLabel = document.createElement("span");
+    priceLabel.className = "package-price-label";
+    priceLabel.textContent = "سعر الباقة";
+
+    const price = document.createElement("span");
+    price.className = "package-price";
+    price.textContent = formatPrice(packageItem.price);
+
+    const currency = document.createElement("span");
+    currency.className = "package-price-currency";
+    currency.textContent = "جنيه";
+    price.appendChild(currency);
+
+    priceBox.appendChild(priceLabel);
+    priceBox.appendChild(price);
+    body.appendChild(priceBox);
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "btn-offer";
+    button.innerHTML = `<i class="fas fa-calendar-check"></i> احجز هذه الباقة الآن`;
+    button.addEventListener("click", () => selectPackage(packageItem, button));
+    body.appendChild(button);
+
+    card.appendChild(header);
+    card.appendChild(body);
+
+    return card;
+  }
+
+  function selectPackage(packageItem, button) {
+    if (!packageItem) return;
+
+    try {
+      if (button) {
+        button.disabled = true;
+        button.innerHTML = `<i class="fas fa-spinner fa-spin"></i> جاري تجهيز الحجز...`;
+      }
+
+      const packageData = {
+        id: packageItem.id,
+        package_id: packageItem.id,
+        name: packageItem.name || "",
+        package_name: packageItem.name || "",
+        description: packageItem.description || "",
+        price: Number(packageItem.price) || 0,
+        package_price: Number(packageItem.price) || 0,
+        image_url: packageItem.image_url || "",
+        is_active: packageItem.is_active !== false,
+        tests: Array.isArray(packageItem.tests)
+          ? packageItem.tests.map(t => ({
+              id: t.id,
+              test_id: t.id,
+              name: t.name || "",
+              price: Number(t.price) || 0
+            }))
+          : [],
+        selected_from: "offers.html",
+        selected_at: new Date().toISOString()
+      };
+
+      const serialized = JSON.stringify(packageData);
+      localStorage.setItem("selected_package", serialized);
+      localStorage.setItem("selectedPackage", serialized);
+      localStorage.setItem("package_selected", "true");
+      localStorage.setItem("selected_package_id", String(packageItem.id));
+
+      showNotification(`تم اختيار "${packageData.name}" - جاري التوجيه للحجز`, "success");
+
+      setTimeout(() => { window.location.href = "appointment.html"; }, 700);
+
+    } catch (error) {
+      console.error(error);
+      if (button) {
+        button.disabled = false;
+        button.innerHTML = `<i class="fas fa-calendar-check"></i> احجز هذه الباقة الآن`;
+      }
+      showNotification("حدث خطأ أثناء تجهيز الباقة للحجز.", "error");
+    }
+  }
+
+  function showNotification(message, type = "info") {
+    document.querySelectorAll(".package-notification").forEach(n => n.remove());
+
+    const n = document.createElement("div");
+    n.className = `package-notification ${type}`;
+    n.innerHTML = `
+      <i class="fas ${
+        type === "success" ? "fa-circle-check" :
+        type === "error" ? "fa-circle-exclamation" : "fa-circle-info"
+      }"></i>
+      <span>${escapeHtml(message)}</span>
+    `;
+    document.body.appendChild(n);
+
+    setTimeout(() => {
+      if (!n.isConnected) return;
+      n.style.animation = "slideOutRight 0.3s ease";
+      setTimeout(() => n.isConnected && n.remove(), 300);
+    }, 2300);
+  }
+
+  function setupFAQ() {
+    const faqs = document.querySelectorAll(".faq-item");
+    if (!faqs.length) return;
+
+    faqs.forEach(faq => {
+      const q = faq.querySelector(".faq-question");
+      if (!q) return;
+      q.addEventListener("click", () => {
+        const active = faq.classList.contains("active");
+        faqs.forEach(i => i.classList.remove("active"));
+        if (!active) faq.classList.add("active");
+      });
+    });
+
+    faqs[0].classList.add("active");
+  }
+
+  async function initializePage() {
+    setupFAQ();
+    if (!initializeSupabase()) return;
+    await loadPackages();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializePage);
+  } else {
+    initializePage();
+  }
+</script>
+
+<a href="index.html" class="floating-home" aria-label="الرجوع للصفحة الرئيسية" title="الرجوع للرئيسية">
+  <i class="fas fa-home"></i>
+</a>
+
+<button type="button" class="floating-ai-offers" id="floatingAiOffersBtn" aria-label="مساعد الباقات" title="مساعد الباقات">
+  <i class="fas fa-gift"></i>
+  <span class="floating-ai-offers-pulse"></span>
+</button>
+
+<div class="ai-offers-popup" id="aiOffersPopup" role="dialog" aria-labelledby="aiOffersTitle" aria-hidden="true">
+
+  <div class="ai-offers-header">
+    <div class="ai-offers-brand">
+      <div class="ai-offers-avatar">
+        <i class="fas fa-tags"></i>
+      </div>
+      <div class="ai-offers-info">
+        <h3 id="aiOffersTitle">مساعد الباقات</h3>
+        <p><span class="ai-offers-dot"></span> جاهز للمساعدة</p>
+      </div>
+    </div>
+    <button type="button" class="ai-offers-close" id="aiOffersClose" aria-label="إغلاق">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <div class="ai-offers-body" id="aiOffersBody">
+    <div class="ai-offers-message ai-offers-bot">
+      <div class="ai-offers-bubble">
+        مرحباً! 🎁 أنا هنا لمساعدتك في اختيار <strong>الباقة المناسبة</strong>. اختر سؤالاً من الأسفل:
+      </div>
+    </div>
+
+    <div class="ai-offers-quick" id="aiOffersQuick">
+      <button type="button" class="ai-offers-qbtn" data-q="ما هي الباقات المتاحة؟">
+        <i class="fas fa-boxes"></i> ما هي الباقات المتاحة؟
+      </button>
+      <button type="button" class="ai-offers-qbtn" data-q="كيف أختار الباقة المناسبة؟">
+        <i class="fas fa-hand-pointer"></i> كيف أختار الباقة المناسبة؟
+      </button>
+      <button type="button" class="ai-offers-qbtn" data-q="كيف أحجز باقة؟">
+        <i class="fas fa-calendar-check"></i> كيف أحجز باقة؟
+      </button>
+      <button type="button" class="ai-offers-qbtn" data-q="هل يمكن إضافة تحاليل للباقة؟">
+        <i class="fas fa-plus-circle"></i> هل أضيف تحاليل للباقة؟
+      </button>
+      <button type="button" class="ai-offers-qbtn" data-q="هل الباقة توفر فلوس؟">
+        <i class="fas fa-piggy-bank"></i> هل الباقة توفّر فلوس؟
+      </button>
+      <button type="button" class="ai-offers-qbtn" data-q="هل يمكن إلغاء الباقة بعد اختيارها؟">
+        <i class="fas fa-times-circle"></i> هل يمكن إلغاء الباقة؟
+      </button>
+      <button type="button" class="ai-offers-qbtn" data-q="هل الباقة تغني عن زيارة الطبيب؟">
+        <i class="fas fa-user-doctor"></i> هل الباقة تغني عن الطبيب؟
+      </button>
+      <button type="button" class="ai-offers-qbtn" data-q="ما الفرق بين الباقة والعروض؟">
+        <i class="fas fa-tags"></i> الفرق بين الباقة والعروض؟
+      </button>
+    </div>
+  </div>
+
+  <div class="ai-offers-footer">
+    <button type="button" class="ai-offers-restart" id="aiOffersRestart">
+      <i class="fas fa-rotate-right"></i>
+      إعادة البدء
+    </button>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  document.addEventListener('DOMContentLoaded', function () {
+
+    const btn        = document.getElementById('floatingAiOffersBtn');
+    const popup      = document.getElementById('aiOffersPopup');
+    const closeBtn   = document.getElementById('aiOffersClose');
+    const body       = document.getElementById('aiOffersBody');
+    const quickBox   = document.getElementById('aiOffersQuick');
+    const restartBtn = document.getElementById('aiOffersRestart');
+
+    if (!btn || !popup) return;
+
+    function setSmartPosition() {
+      const homeBtn = document.querySelector('.floating-home');
+
+      if (homeBtn) {
+        btn.classList.add('position-left');
+        btn.classList.remove('position-right');
+        popup.classList.add('position-left');
+        popup.classList.remove('position-right');
+      } else {
+        btn.classList.add('position-right');
+        btn.classList.remove('position-left');
+        popup.classList.add('position-right');
+        popup.classList.remove('position-left');
+      }
+    }
+
+    setSmartPosition();
+
+    const responses = {
+      'ما هي الباقات المتاحة؟':
+        'الباقات المعروضة في هذه الصفحة هي <strong>أحدث الباقات المفعّلة</strong> من إدارة المعمل. ' +
+        'كل بطاقة تعرض:' +
+        '<ul>' +
+        '<li><strong>اسم الباقة</strong></li>' +
+        '<li><strong>وصف مختصر</strong> عن هدفها</li>' +
+        '<li><strong>عدد التحاليل</strong> داخلها</li>' +
+        '<li><strong>قائمة التحاليل</strong> بالتفصيل</li>' +
+        '<li><strong>السعر النهائي</strong> بالجنيه</li>' +
+        '</ul>',
+
+      'كيف أختار الباقة المناسبة؟':
+        'اختيار الباقة يعتمد على هدفك الصحي:' +
+        '<ul>' +
+        '<li><strong>فحص دوري شامل:</strong> اختر باقة "الاطمئنان الشامل"</li>' +
+        '<li><strong>متابعة السكر:</strong> باقة تحتوي على FBS و HbA1c</li>' +
+        '<li><strong>متابعة الدهون:</strong> باقة Lipid Profile كاملة</li>' +
+        '<li><strong>وظائف الكبد/الكلى:</strong> باقات متخصصة</li>' +
+        '</ul>' +
+        'استشر طبيبك دائماً قبل اختيار الباقة.',
+
+      'كيف أحجز باقة؟':
+        'الحجز خطوة بخطوة:' +
+        '<ul>' +
+        '<li>اضغط على زر <strong>"احجز هذه الباقة الآن"</strong> في البطاقة</li>' +
+        '<li>سيتم توجيهك إلى <strong>صفحة الحجز</strong></li>' +
+        '<li>الباقة تظهر تلقائياً في <strong>شريط أعلى النموذج</strong></li>' +
+        '<li>أكمل باقي البيانات واضغط <strong>"تأكيد الحجز"</strong></li>' +
+        '</ul>',
+
+      'هل يمكن إضافة تحاليل للباقة؟':
+        'نعم! يمكنك:' +
+        '<ul>' +
+        '<li>اختيار الباقة أولاً</li>' +
+        '<li>ثم إضافة <strong>تحاليل إضافية</strong> من مربع البحث في صفحة الحجز</li>' +
+        '<li>السعر النهائي = <strong>سعر الباقة + سعر التحاليل الإضافية</strong></li>' +
+        '</ul>' +
+        '<strong>ملاحظة:</strong> تحاليل الباقة لا تُحسب مرة أخرى بسعرها الفردي.',
+
+      'هل الباقة توفر فلوس؟':
+        'نعم، الباقة عادةً <strong>أوفر من شراء التحاليل فرادى</strong>، لأنها:' +
+        '<ul>' +
+        '<li>تجمع تحاليل مرتبطة ببعضها بخصم</li>' +
+        '<li>توفر عناء الحجز المتعدد</li>' +
+        '<li>تُحتسب بسعر واحد نهائي</li>' +
+        '</ul>' +
+        'الفرق يظهر بوضوح عند مقارنة مجموع أسعار التحاليل الفردية بسعر الباقة.',
+
+      'هل يمكن إلغاء الباقة بعد اختيارها؟':
+        'نعم، يمكنك إلغاء الباقة في أي وقت:' +
+        '<ul>' +
+        '<li>في <strong>صفحة الحجز</strong>، يظهر شريط الباقة أعلى النموذج</li>' +
+        '<li>اضغط على زر <strong>"إلغاء الباقة"</strong></li>' +
+        '<li>سيتم حذف تحاليل الباقة تلقائياً</li>' +
+        '<li>يمكنك الاختيار من جديد</li>' +
+        '</ul>',
+
+      'هل الباقة تغني عن زيارة الطبيب؟':
+        'لا. الباقة أداة للفحص والمتابعة فقط، ولا تغني عن:' +
+        '<ul>' +
+        '<li><strong>استشارة الطبيب</strong></li>' +
+        '<li><strong>الفحص السريري</strong></li>' +
+        '<li><strong>تفسير النتائج</strong> في ضوء حالتك</li>' +
+        '</ul>' +
+        'ننصح دائماً بمتابعة الطبيب المختص.',
+
+      'ما الفرق بين الباقة والعروض؟':
+        '<strong>الباقة:</strong> مجموعة تحاليل ثابتة بسعر مخفّض.<br><br>' +
+        '<strong>العرض:</strong> تخفيض مؤقت على تحليل أو مجموعة تحاليل لفترة محددة.<br><br>' +
+        'كلاهما يوفّر لك المال، لكن الباقة <strong>دائمة ومتكررة</strong>، والعرض <strong>مؤقت</strong>.',
+
+      'default':
+        'للأسف، ليس لدي إجابة جاهزة لهذا السؤال. ' +
+        'يمكنك اختيار أحد الأسئلة المتاحة، أو التواصل معنا: ' +
+        '<strong>01061730854</strong>'
+    };
+
+    function openPopup() {
+      popup.classList.add('active');
+      popup.setAttribute('aria-hidden', 'false');
+      btn.classList.add('active');
+      btn.innerHTML = '<i class="fas fa-times"></i>';
+      btn.title = 'إغلاق المساعد';
+      setTimeout(() => { body.scrollTop = body.scrollHeight; }, 100);
+    }
+
+    function closePopup() {
+      popup.classList.remove('active');
+      popup.setAttribute('aria-hidden', 'true');
+      btn.classList.remove('active');
+      btn.innerHTML = '<i class="fas fa-gift"></i>';
+      btn.title = 'مساعد الباقات';
+    }
+
+    function togglePopup() {
+      popup.classList.contains('active') ? closePopup() : openPopup();
+    }
+
+    function addMessage(text, isUser) {
+      const msg = document.createElement('div');
+      msg.className = 'ai-offers-message ' + (isUser ? 'ai-offers-user' : 'ai-offers-bot');
+
+      const bubble = document.createElement('div');
+      bubble.className = 'ai-offers-bubble';
+      bubble.innerHTML = text;
+
+      msg.appendChild(bubble);
+      body.appendChild(msg);
+      body.scrollTop = body.scrollHeight;
+    }
+
+    function showTyping() {
+      const t = document.createElement('div');
+      t.className = 'ai-offers-message ai-offers-bot';
+      t.id = 'aiOffersTyping';
+
+      const b = document.createElement('div');
+      b.className = 'ai-offers-bubble';
+      b.innerHTML = '<div class="ai-offers-typing"><span></span><span></span><span></span></div>';
+
+      t.appendChild(b);
+      body.appendChild(t);
+      body.scrollTop = body.scrollHeight;
+    }
+
+    function hideTyping() {
+      const t = document.getElementById('aiOffersTyping');
+      if (t) t.remove();
+    }
+
+    function handleQuestion(q) {
+      if (quickBox) quickBox.style.display = 'none';
+
+      addMessage(q, true);
+      showTyping();
+
+      setTimeout(() => {
+        hideTyping();
+        const reply = responses[q] || responses['default'];
+        addMessage(reply, false);
+      }, 900);
+    }
+
+    function restart() {
+      body.innerHTML = '';
+
+      const welcome = document.createElement('div');
+      welcome.className = 'ai-offers-message ai-offers-bot';
+      welcome.innerHTML = '<div class="ai-offers-bubble">مرحباً! 🎁 أنا هنا لمساعدتك في اختيار <strong>الباقة المناسبة</strong>. اختر سؤالاً من الأسفل:</div>';
+      body.appendChild(welcome);
+
+      if (quickBox) {
+        quickBox.style.display = 'grid';
+        body.appendChild(quickBox);
+      }
+
+      body.scrollTop = 0;
+    }
+
+    btn.addEventListener('click', togglePopup);
+    closeBtn.addEventListener('click', closePopup);
+
+    document.querySelectorAll('.ai-offers-qbtn').forEach(b => {
+      b.addEventListener('click', function () {
+        const q = this.dataset.q;
+        if (q) handleQuestion(q);
+      });
+    });
+
+    if (restartBtn) restartBtn.addEventListener('click', restart);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && popup.classList.contains('active')) {
+        closePopup();
+      }
+    });
+
+    window.addEventListener('resize', setSmartPosition);
+
+  });
+})();
+</script>
+
+<script src="js/shared-header.js"></script>
+
+
+<!-- Dev Watermark -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<script src="js/dev-watermark.js"></script>
 
 </body>
 </html>
