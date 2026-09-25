@@ -1,0 +1,429 @@
+/* ============================================================
+   UNIFIED HEADER & SIDEBAR - MEDLAB
+   ملف موحد للهيدر والقائمة الجانبية لجميع الصفحات
+   ============================================================ */
+
+/* ============================================================
+   1. RESET & VARIABLES
+   ============================================================ */
+:root {
+  --primary-color: #1769AA;
+  --primary-dark: #0B4F8A;
+  --primary-deep: #083B66;
+  --primary-light: #EAF4FB;
+  --primary-soft: #F3F9FD;
+
+  --accent-color: #f8b400;
+  --accent-dark: #e6a200;
+
+  --text-color: #263746;
+  --text-dark: #1E293B;
+  --text-light: #64748B;
+
+  --white: #FFFFFF;
+  --border-color: #D8E5EF;
+
+  --shadow-sm: 0 4px 14px rgba(8, 59, 102, 0.07);
+  --shadow-md: 0 8px 24px rgba(8, 59, 102, 0.10);
+  --shadow-lg: 0 14px 35px rgba(8, 59, 102, 0.14);
+}
+
+/* ============================================================
+   2. HEADER
+   ============================================================ */
+.mobile-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, var(--primary-deep), var(--primary-dark));
+  color: white;
+  z-index: 1500;
+  box-shadow: 0 4px 20px rgba(8, 59, 102, 0.18);
+  height: 70px;
+}
+
+.mobile-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  gap: 15px;
+}
+
+/* Logo Wrapper */
+.logo-wrapper {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+}
+
+.header-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-radius: 50%;
+}
+
+/* Site Title */
+.site-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: white;
+  margin: 0;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+
+/* Header Brand */
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  flex-direction: row;
+}
+
+/* Menu Toggle */
+.menu-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 12px;
+  font-size: 20px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.menu-toggle:active {
+  transform: scale(0.94);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Desktop Nav */
+.desktop-nav {
+  display: block;
+  flex: 1;
+}
+
+.desktop-nav ul {
+  display: flex;
+  justify-content: flex-end;
+  list-style: none;
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+}
+
+.desktop-nav ul li a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.desktop-nav ul li a:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ============================================================
+   3. SIDEBAR OVERLAY
+   ============================================================ */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 40, 60, 0.55);
+  z-index: 1800;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.active {
+  display: block;
+  opacity: 1;
+}
+
+/* ============================================================
+   4. SIDEBAR MENU
+   ============================================================ */
+.sidebar-menu {
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 300px;
+  max-width: 85vw;
+  height: 100vh;
+  background: white;
+  z-index: 1900;
+  transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.sidebar-menu.active {
+  right: 0;
+}
+
+.sidebar-header {
+  padding: 20px;
+  background: linear-gradient(135deg, var(--primary-deep), var(--primary-dark));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.sidebar-header .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.sidebar-header .brand i {
+  background: rgba(255, 255, 255, 0.2);
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.sidebar-close {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border-radius: 9px;
+  font-size: 17px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.sidebar-close:active {
+  transform: scale(0.92);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.sidebar-nav {
+  padding: 12px 0;
+  flex: 1;
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 22px;
+  color: var(--text-dark);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  border-right: 3px solid transparent;
+  transition: all 0.2s;
+}
+
+.sidebar-nav a i {
+  width: 26px;
+  text-align: center;
+  color: var(--primary-color);
+  font-size: 17px;
+}
+
+.sidebar-nav a:active,
+.sidebar-nav a:hover {
+  background: var(--primary-light);
+  border-right-color: var(--primary-color);
+  color: var(--primary-dark);
+}
+
+.sidebar-nav a.active {
+  background: var(--primary-light);
+  border-right-color: var(--primary-color);
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+.sidebar-footer {
+  padding: 16px 20px;
+  border-top: 1px solid #e8ecf0;
+  font-size: 12.5px;
+  color: #8a9aa8;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   5. RESPONSIVE
+   ============================================================ */
+
+/* TABLET AND BELOW → Sidebar */
+@media (max-width: 991px) {
+  .desktop-nav {
+    display: none !important;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  .mobile-header h1 {
+    flex: 1;
+  }
+}
+
+/* DESKTOP → Nav links */
+@media (min-width: 992px) {
+  .menu-toggle {
+    display: none !important;
+  }
+
+  .sidebar-menu,
+  .sidebar-overlay {
+    display: none !important;
+  }
+
+  .mobile-header {
+    height: auto;
+  }
+
+  .mobile-header .container {
+    height: auto;
+    padding: 12px 20px;
+  }
+
+  .mobile-header h1 {
+    font-size: 1.35rem;
+  }
+}
+
+/* ============================================================
+   6. MOBILE ADJUSTMENTS
+   ============================================================ */
+@media (max-width: 767px) {
+  .mobile-header {
+    height: 65px;
+  }
+
+  .mobile-header .container {
+    height: 65px;
+    padding: 0 15px;
+  }
+
+  .header-brand {
+    display: flex !important;
+    flex-direction: row-reverse !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+
+  .header-brand .logo-wrapper {
+    order: 1 !important;
+    width: 40px !important;
+    height: 40px !important;
+    margin: 0 !important;
+  }
+
+  .header-brand .site-title {
+    order: 2 !important;
+    font-size: 1.15rem !important;
+    margin: 0 !important;
+  }
+
+  .menu-toggle {
+    width: 40px;
+    height: 40px;
+    font-size: 17px;
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobile-header {
+    height: 60px;
+  }
+
+  .mobile-header .container {
+    height: 60px;
+    padding: 0 12px;
+  }
+
+  .header-brand .logo-wrapper {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  .header-brand .site-title {
+    font-size: 1.05rem !important;
+  }
+
+  .menu-toggle {
+    width: 38px;
+    height: 38px;
+    font-size: 16px;
+    border-radius: 9px;
+  }
+}
+
+/* ============================================================
+   7. BODY PADDING (تعويض ارتفاع الهيدر الثابت)
+   ============================================================ */
+body {
+  padding-top: 70px;
+}
+
+@media (max-width: 991px) {
+  body {
+    padding-top: 65px;
+  }
+}
+
+@media (max-width: 767px) {
+  body {
+    padding-top: 60px;
+  }
+}
+    
+@media (max-width: 480px) {
+  body {
+    padding-top: 58px;
+  }
+}
