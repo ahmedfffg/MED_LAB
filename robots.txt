@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# منع الصفحات الحساسة
+Disallow: /sample-receive.html
+Disallow: /*?*
+
+# Sitemap
+Sitemap: https://med-lab-beta.vercel.app//sitemap.xml
