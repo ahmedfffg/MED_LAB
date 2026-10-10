@@ -1004,25 +1004,25 @@ body { padding-top: 65px; }
       try {
         // ✅ استخدام دالة RPC الآمنة بدل قراءة الجدول مباشرة
         const { data, error } = await supabaseClient
-          .rpc('verify_patient_code', { p_code: code });
+  .rpc('verify_booking_code', { p_booking_code: code });
 
-        if (error) throw error;
+if (error) throw error;
 
-        if (!data || data.length === 0) {
-          alert('❌ لا يوجد مريض بهذا الكود.');
-          return;
-        }
+if (!data || data.length === 0) {
+  alert('❌ لا يوجد حجز بهذا الكود.');
+  return;
+}
 
-        const patient = data[0];
+const booking = data[0];
 
-        if (!patient.has_password) {
-          alert('⚠️ هذا المريض ليس لديه كلمة سر. يرجى التواصل مع المعمل.');
-          return;
-        }
+if (!booking.has_password) {
+  alert('⚠️ هذا الحجز ليس لديه كلمة سر. يرجى التواصل مع المعمل.');
+  return;
+}
 
-        currentPatientCode = code;
-        displayPatientName.textContent = patient.full_name || 'مريض';
-        displayPatientCode.textContent = 'كود: ' + patient.patient_code;
+currentPatientCode = code;
+displayPatientName.textContent = booking.patient_name || 'مريض';
+displayPatientCode.textContent = 'كود الحجز: ' + booking.booking_code;
 
         step1Card.classList.add('hidden');
         step2Card.classList.remove('hidden');
@@ -1070,11 +1070,10 @@ body { padding-top: 65px; }
       try {
         // ✅ دالة واحدة بترجع بيانات المريض + النتائج معاً
         const { data: results, error: resultsError } = await supabaseClient
-          .rpc('get_patient_results', {
-            p_patient_code: currentPatientCode,
-            p_password: password
-          });
-
+  .rpc('get_booking_results', {
+    p_booking_code: currentPatientCode,
+    p_password: password
+  });
         if (resultsError) {
           // لو كلمة السر غلط، الدالة بترجع خطأ
           if (resultsError.message && resultsError.message.includes('بيانات الدخول غير صحيحة')) {
@@ -1100,16 +1099,16 @@ body { padding-top: 65px; }
         }
 
         // بيانات المريض من أول نتيجة
-        const patient = {
-          id: results[0].patient_id,
-          full_name: results[0].patient_name,
-          patient_code: results[0].patient_code
-        };
+const patient = {
+  id: results[0].booking_id,
+  full_name: results[0].patient_name,
+  patient_code: results[0].booking_code
+};
 
-        patientInfo.innerHTML = `
-          <i class="fas fa-user"></i> <strong>${escapeHtml(patient.full_name || '-')}</strong>
-          <i class="fas fa-id-card"></i> كود: <strong>${escapeHtml(patient.patient_code)}</strong>
-        `;
+patientInfo.innerHTML = `
+  <i class="fas fa-user"></i> <strong>${escapeHtml(patient.full_name || '-')}</strong>
+  <i class="fas fa-id-card"></i> كود الحجز: <strong>${escapeHtml(patient.patient_code)}</strong>
+`;
 
         loadingResults.classList.add('hidden');
 
