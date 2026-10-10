@@ -989,8 +989,8 @@ body { padding-top: 65px; }
       } catch { return dateStr; }
     }
 
-    // ============================================
-    // STEP 1: Check Code
+        // ============================================
+    // STEP 1: Check Code (آمن - باستخدام RPC)
     // ============================================
     codeForm.addEventListener('submit', async function (e) {
       e.preventDefault();
@@ -1002,27 +1002,27 @@ body { padding-top: 65px; }
       checkBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحقق...';
 
       try {
+        // ✅ استخدام دالة RPC الآمنة بدل قراءة الجدول مباشرة
         const { data, error } = await supabaseClient
-          .from('patients')
-          .select('id, patient_code, full_name, phone, password')
-          .eq('patient_code', code)
-          .maybeSingle();
+          .rpc('verify_patient_code', { p_code: code });
 
         if (error) throw error;
 
-        if (!data) {
+        if (!data || data.length === 0) {
           alert('❌ لا يوجد مريض بهذا الكود.');
           return;
         }
 
-        if (!data.password) {
+        const patient = data[0];
+
+        if (!patient.has_password) {
           alert('⚠️ هذا المريض ليس لديه كلمة سر. يرجى التواصل مع المعمل.');
           return;
         }
 
         currentPatientCode = code;
-        displayPatientName.textContent = data.full_name || 'مريض';
-        displayPatientCode.textContent = 'كود: ' + data.patient_code;
+        displayPatientName.textContent = patient.full_name || 'مريض';
+        displayPatientCode.textContent = 'كود: ' + patient.patient_code;
 
         step1Card.classList.add('hidden');
         step2Card.classList.remove('hidden');
@@ -1043,7 +1043,7 @@ body { padding-top: 65px; }
         checkBtn.innerHTML = '<i class="fas fa-search"></i> التحقق من الكود';
       }
     });
-
+    
     // ============================================
     // STEP 2: Check Password
     // ============================================
@@ -1068,39 +1068,27 @@ body { padding-top: 65px; }
       latestBanner.classList.add('hidden');
 
       try {
-       // ✅ الحل الآمن: استخدام دالة RPC
-const { data: patient, error: patientError } = await supabaseClient
-  .rpc('verify_patient_password', {
-    p_code: currentPatientCode,
-    p_password: password
-  });
-  
-        if (patientError) throw patientError;
+        // ✅ دالة واحدة بترجع بيانات المريض + النتائج معاً
+        const { data: results, error: resultsError } = await supabaseClient
+          .rpc('get_patient_results', {
+            p_patient_code: currentPatientCode,
+            p_password: password
+          });
 
-        if (!patient) {
-          loadingResults.classList.add('hidden');
-          resultsArea.classList.add('hidden');
-          step2Card.classList.remove('hidden');
-          alert('❌ كلمة السر غير صحيحة.');
-          return;
+        if (resultsError) {
+          // لو كلمة السر غلط، الدالة بترجع خطأ
+          if (resultsError.message && resultsError.message.includes('بيانات الدخول غير صحيحة')) {
+            loadingResults.classList.add('hidden');
+            resultsArea.classList.add('hidden');
+            step2Card.classList.remove('hidden');
+            alert('❌ كلمة السر غير صحيحة.');
+            return;
+          }
+          throw resultsError;
         }
 
-        patientInfo.innerHTML = `
-          <i class="fas fa-user"></i> <strong>${escapeHtml(patient.full_name || '-')}</strong>
-          <i class="fas fa-id-card"></i> كود: <strong>${escapeHtml(patient.patient_code)}</strong>
-        `;
-
-        const { data: results, error: resultsError } = await supabaseClient
-          .from('results')
-          .select('id, file_name, file_path, result_date, test_type, notes')
-          .eq('patient_id', patient.id)
-          .order('result_date', { ascending: false });
-
-        if (resultsError) throw resultsError;
-
-        loadingResults.classList.add('hidden');
-
         if (!results || results.length === 0) {
+          loadingResults.classList.add('hidden');
           resultsList.innerHTML = `
             <div class="no-results">
               <i class="fas fa-folder-open"></i>
@@ -1111,7 +1099,29 @@ const { data: patient, error: patientError } = await supabaseClient
           return;
         }
 
-        allResults = results;
+        // بيانات المريض من أول نتيجة
+        const patient = {
+          id: results[0].patient_id,
+          full_name: results[0].patient_name,
+          patient_code: results[0].patient_code
+        };
+
+        patientInfo.innerHTML = `
+          <i class="fas fa-user"></i> <strong>${escapeHtml(patient.full_name || '-')}</strong>
+          <i class="fas fa-id-card"></i> كود: <strong>${escapeHtml(patient.patient_code)}</strong>
+        `;
+
+        loadingResults.classList.add('hidden');
+
+        // حوّل النتائج للشكل اللي الكود بتاعك متوقعه
+        allResults = results.map(r => ({
+          id: r.result_id,
+          file_name: r.file_name,
+          file_path: r.file_path,
+          result_date: r.result_date,
+          test_type: r.test_type,
+          notes: r.notes
+        }));
 
         extractAvailableDates();
         selectedDate = 'all';
