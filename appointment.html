@@ -11,6 +11,427 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ============================================
+           STYLES FOR BOOKING MODE SELECTOR
+        ============================================ */
+        .booking-mode-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .booking-mode-btn {
+            flex: 1;
+            min-width: 200px;
+            padding: 1.2rem 1.5rem;
+            border: 2px solid #e0e7ef;
+            border-radius: 16px;
+            background: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-align: right;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1rem;
+            color: #2a3a4a;
+        }
+
+        .booking-mode-btn:hover {
+            border-color: #2a6a9a;
+            background: #f0f7ff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(42, 106, 154, 0.12);
+        }
+
+        .booking-mode-btn.active {
+            border-color: #2a6a9a;
+            background: linear-gradient(135deg, #e8f4fd 0%, #d4ecfa 100%);
+            box-shadow: 0 8px 24px rgba(42, 106, 154, 0.18);
+        }
+
+        .booking-mode-btn .mode-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .booking-mode-btn .mode-icon.new-patient {
+            background: linear-gradient(135deg, #d4f5e9 0%, #a8ebd4 100%);
+            color: #1a8a5a;
+        }
+
+        .booking-mode-btn .mode-icon.returning-patient {
+            background: linear-gradient(135deg, #d4ecfa 0%, #a8d8f5 100%);
+            color: #2a6a9a;
+        }
+
+        .booking-mode-btn.active .mode-icon.new-patient {
+            background: linear-gradient(135deg, #1a8a5a 0%, #22a86e 100%);
+            color: #ffffff;
+        }
+
+        .booking-mode-btn.active .mode-icon.returning-patient {
+            background: linear-gradient(135deg, #2a6a9a 0%, #3a8aba 100%);
+            color: #ffffff;
+        }
+
+        .booking-mode-btn .mode-text {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .booking-mode-btn .mode-text strong {
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+
+        .booking-mode-btn .mode-text small {
+            font-size: 0.82rem;
+            color: #7a8a9a;
+            font-weight: 400;
+        }
+
+        .booking-mode-btn.active .mode-text small {
+            color: #4a6a8a;
+        }
+
+        /* ============================================
+           RETURNING PATIENT SECTION
+        ============================================ */
+        .returning-patient-section {
+            display: none;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .returning-patient-section.visible {
+            display: block;
+        }
+
+        .new-patient-section {
+            display: block;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .new-patient-section.hidden {
+            display: none;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .patient-code-search-box {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
+            border: 2px dashed #a8d8f5;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .patient-code-search-box .search-icon-large {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2a6a9a 0%, #3a8aba 100%);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 1rem;
+            box-shadow: 0 8px 20px rgba(42, 106, 154, 0.25);
+        }
+
+        .patient-code-search-box h3 {
+            color: #2a3a4a;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .patient-code-search-box p {
+            color: #7a8a9a;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .patient-code-input-group {
+            display: flex;
+            gap: 0.8rem;
+            max-width: 500px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .patient-code-input-group input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.9rem 1.2rem;
+            border: 2px solid #d0dce8;
+            border-radius: 12px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1rem;
+            text-align: center;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            direction: ltr;
+        }
+
+        .patient-code-input-group input:focus {
+            outline: none;
+            border-color: #2a6a9a;
+            box-shadow: 0 0 0 4px rgba(42, 106, 154, 0.1);
+        }
+
+        .patient-code-input-group button {
+            padding: 0.9rem 1.8rem;
+            background: linear-gradient(135deg, #2a6a9a 0%, #3a8aba 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .patient-code-input-group button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(42, 106, 154, 0.3);
+        }
+
+        .patient-code-input-group button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ============================================
+           PATIENT FOUND CARD
+        ============================================ */
+        .patient-found-card {
+            display: none;
+            background: linear-gradient(135deg, #d4f5e9 0%, #a8ebd4 100%);
+            border: 2px solid #22a86e;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .patient-found-card.visible {
+            display: block;
+        }
+
+        .patient-found-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .patient-found-header .check-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #22a86e;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .patient-found-header h3 {
+            color: #1a5a3a;
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .patient-found-header p {
+            color: #2a7a4a;
+            margin: 0.2rem 0 0;
+            font-size: 0.85rem;
+        }
+
+        .patient-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
+        .patient-info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .patient-info-item span {
+            font-size: 0.8rem;
+            color: #5a7a6a;
+            font-weight: 500;
+        }
+
+        .patient-info-item strong {
+            font-size: 0.95rem;
+            color: #1a3a2a;
+            font-weight: 700;
+        }
+
+        .patient-found-actions {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .patient-found-actions button {
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            border: none;
+        }
+
+        .patient-found-actions .btn-use-patient {
+            background: #22a86e;
+            color: #ffffff;
+        }
+
+        .patient-found-actions .btn-use-patient:hover {
+            background: #1a8a5a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(34, 168, 110, 0.3);
+        }
+
+        .patient-found-actions .btn-change-patient {
+            background: #ffffff;
+            color: #5a7a6a;
+            border: 1px solid #c0d8c8;
+        }
+
+        .patient-found-actions .btn-change-patient:hover {
+            background: #f0f7f2;
+        }
+
+        /* ============================================
+           RETURNING PATIENT FORM (بعد اختيار المريض)
+        ============================================ */
+        .returning-patient-form {
+            display: none;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .returning-patient-form.visible {
+            display: block;
+        }
+
+        .returning-patient-banner {
+            background: linear-gradient(135deg, #e8f4fd 0%, #d4ecfa 100%);
+            border-right: 4px solid #2a6a9a;
+            border-radius: 12px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .returning-patient-banner .patient-summary {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .returning-patient-banner .patient-summary i {
+            font-size: 1.5rem;
+            color: #2a6a9a;
+        }
+
+        .returning-patient-banner .patient-summary strong {
+            color: #1a3a5a;
+            font-size: 1rem;
+        }
+
+        .returning-patient-banner .patient-summary small {
+            color: #5a7a9a;
+            font-size: 0.82rem;
+            display: block;
+        }
+
+        .returning-patient-banner button {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #a8d8f5;
+            background: #ffffff;
+            color: #2a6a9a;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .returning-patient-banner button:hover {
+            background: #f0f7ff;
+        }
+
+        @media (max-width: 600px) {
+            .booking-mode-selector {
+                flex-direction: column;
+            }
+
+            .booking-mode-btn {
+                min-width: auto;
+            }
+
+            .patient-code-input-group {
+                flex-direction: column;
+            }
+
+            .patient-code-input-group button {
+                justify-content: center;
+            }
+
+            .patient-info-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -19,275 +440,597 @@
         
         <div id="notification-area"></div>
 
-        <div id="selected-package-banner" class="selected-package-banner">
-            <div class="package-info">
-                <i class="fas fa-gift"></i>
-                <span class="package-name" id="package-name-display">باقة مختارة</span>
-                <span class="package-price" id="package-price-display">0 جنيه</span>
-                <span style="background:rgba(255,255,255,0.1);padding:0.2rem 0.8rem;border-radius:12px;font-size:0.85rem;">
-                    <i class="fas fa-flask"></i> <span id="package-tests-count">0</span> تحليل
+        <!-- ============================================
+             BOOKING MODE SELECTOR (جديد / حجز سابق)
+        ============================================ -->
+        <div class="booking-mode-selector" id="booking-mode-selector">
+            <button type="button" class="booking-mode-btn active" id="mode-new-patient" data-mode="new">
+                <span class="mode-icon new-patient"><i class="fas fa-user-plus"></i></span>
+                <span class="mode-text">
+                    <strong>حجز أول مرة</strong>
+                    <small>مريض جديد لأول مرة في المعمل</small>
                 </span>
+            </button>
+            <button type="button" class="booking-mode-btn" id="mode-returning-patient" data-mode="returning">
+                <span class="mode-icon returning-patient"><i class="fas fa-user-check"></i></span>
+                <span class="mode-text">
+                    <strong>حجزت قبل كدا</strong>
+                    <small>عندي كود مريض من زيارة سابقة</small>
+                </span>
+            </button>
+        </div>
+
+        <!-- ============================================
+             RETURNING PATIENT SECTION (بحث بالكود)
+        ============================================ -->
+        <div class="returning-patient-section" id="returning-patient-section">
+            <!-- صندوق البحث بالكود -->
+            <div class="patient-code-search-box" id="patient-code-search-box">
+                <div class="search-icon-large">
+                    <i class="fas fa-id-card"></i>
+                </div>
+                <h3>اكتب كود المريض بتاعك</h3>
+                <p>الكود بيكون في صورة <strong>PAT-YYYYMMDD-XXXXXX</strong> ووصلك في رسالة التأكيد</p>
+                <div class="patient-code-input-group">
+                    <input type="text" id="patient-code-input" placeholder="PAT-20250101-000001" autocomplete="off">
+                    <button type="button" id="search-patient-btn">
+                        <i class="fas fa-search"></i> بحث
+                    </button>
+                </div>
+                <div style="margin-top: 1rem;">
+                    <small style="color: #8a9aaa;">
+                        <i class="fas fa-info-circle"></i> 
+                        لو مش عندك الكود، تواصل معنا أو احجز كأنك مريض جديد.
+                    </small>
+                </div>
             </div>
-            <div class="package-actions">
-                <button class="btn-clear-package" id="clear-package-btn">
-                    <i class="fas fa-times"></i> إلغاء الباقة
-                </button>
+
+            <!-- كارت المريض بعد العثور عليه -->
+            <div class="patient-found-card" id="patient-found-card">
+                <div class="patient-found-header">
+                    <div class="check-icon"><i class="fas fa-check"></i></div>
+                    <div>
+                        <h3>تم العثور على بياناتك</h3>
+                        <p>تأكد من البيانات وسنعمل لك زيارة جديدة بنفس الكود</p>
+                    </div>
+                </div>
+                <div class="patient-info-grid" id="patient-info-grid">
+                    <!-- يتم ملؤها ديناميكياً -->
+                </div>
+                <div class="patient-found-actions">
+                    <button type="button" class="btn-use-patient" id="use-patient-btn">
+                        <i class="fas fa-arrow-left"></i> متابعة الحجز بنفس البيانات
+                    </button>
+                    <button type="button" class="btn-change-patient" id="change-patient-btn">
+                        <i class="fas fa-redo"></i> تغيير الكود
+                    </button>
+                </div>
             </div>
         </div>
-        
-        <div class="appointment-card">
-            <div class="form-header">
-                <h2 class="form-title">
-                    <i class="fas fa-calendar-alt"></i>
-                    نموذج حجز الموعد
-                </h2>
+
+        <!-- ============================================
+             NEW PATIENT SECTION (الفورم الأصلي)
+        ============================================ -->
+        <div class="new-patient-section" id="new-patient-section">
+            <div id="selected-package-banner" class="selected-package-banner">
+                <div class="package-info">
+                    <i class="fas fa-gift"></i>
+                    <span class="package-name" id="package-name-display">باقة مختارة</span>
+                    <span class="package-price" id="package-price-display">0 جنيه</span>
+                    <span style="background:rgba(255,255,255,0.1);padding:0.2rem 0.8rem;border-radius:12px;font-size:0.85rem;">
+                        <i class="fas fa-flask"></i> <span id="package-tests-count">0</span> تحليل
+                    </span>
+                </div>
+                <div class="package-actions">
+                    <button class="btn-clear-package" id="clear-package-btn">
+                        <i class="fas fa-times"></i> إلغاء الباقة
+                    </button>
+                </div>
             </div>
             
-            <div class="form-body">
-                <form id="appointment-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="fullname" class="form-label"><i class="fas fa-user"></i> الاسم بالكامل</label>
-                            <input type="text" id="fullname" class="form-control" placeholder="أدخل الاسم بالكامل" required>
-                            <div class="invalid-feedback">الرجاء إدخال الاسم بالكامل</div>
+            <div class="appointment-card">
+                <div class="form-header">
+                    <h2 class="form-title">
+                        <i class="fas fa-calendar-alt"></i>
+                        نموذج حجز الموعد
+                    </h2>
+                </div>
+                
+                <div class="form-body">
+                    <form id="appointment-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fullname" class="form-label"><i class="fas fa-user"></i> الاسم بالكامل</label>
+                                <input type="text" id="fullname" class="form-control" placeholder="أدخل الاسم بالكامل" required>
+                                <div class="invalid-feedback">الرجاء إدخال الاسم بالكامل</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone" class="form-label"><i class="fas fa-phone"></i> رقم الهاتف</label>
+                                <input type="tel" id="phone" class="form-control" placeholder="01********* :مثال" required>
+                                <div class="invalid-feedback">الرجاء إدخال رقم هاتف صحيح</div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="phone" class="form-label"><i class="fas fa-phone"></i> رقم الهاتف</label>
-                            <input type="tel" id="phone" class="form-control" placeholder="01********* :مثال" required>
-                            <div class="invalid-feedback">الرجاء إدخال رقم هاتف صحيح</div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="age" class="form-label"><i class="fas fa-calendar"></i> العمر</label>
+                                <input type="number" id="age" class="form-control" min="1" max="120" placeholder="أدخل العمر">
+                                <div class="invalid-feedback">الرجاء إدخال عمر صحيح</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="gender" class="form-label"><i class="fas fa-venus-mars"></i> الجنس</label>
+                                <select id="gender" class="form-control">
+                                    <option value="">اختر الجنس</option>
+                                    <option value="male">ذكر</option>
+                                    <option value="female">أنثى</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="form-row">
+
                         <div class="form-group">
-                            <label for="age" class="form-label"><i class="fas fa-calendar"></i> العمر</label>
-                            <input type="number" id="age" class="form-control" min="1" max="120" placeholder="أدخل العمر">
-                            <div class="invalid-feedback">الرجاء إدخال عمر صحيح</div>
+                            <label for="referringDoctor" class="form-label"><i class="fas fa-user-md"></i> الطبيب المحول</label>
+                            <input type="text" id="referringDoctor" class="form-control" placeholder="أدخل اسم الطبيب المحول" required>
+                            <div class="invalid-feedback">الرجاء إدخال اسم الطبيب المحول</div>
                         </div>
+
                         <div class="form-group">
-                            <label for="gender" class="form-label"><i class="fas fa-venus-mars"></i> الجنس</label>
-                            <select id="gender" class="form-control">
-                                <option value="">اختر الجنس</option>
-                                <option value="male">ذكر</option>
-                                <option value="female">أنثى</option>
+                            <label for="referral-source" class="form-label"><i class="fas fa-bullhorn"></i> عرفتنا منين؟</label>
+                            <select id="referral-source" class="form-control" required>
+                                <option value="">اختر مصدر معرفتك بالمعمل</option>
+                                <option value="الطبيب الخاص بي">الطبيب الخاص بي</option>
+                                <option value="زملائي">زملائي</option>
+                                <option value="وسائل التواصل الاجتماعي">وسائل التواصل الاجتماعي</option>
+                                <option value="من المكان">من المكان</option>
+                                <option value="من العائلة">من العائلة</option>
+                                <option value="أخرى">أخرى</option>
                             </select>
+                            <div class="invalid-feedback">الرجاء اختيار عرفتنا منين</div>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="referringDoctor" class="form-label"><i class="fas fa-user-md"></i> الطبيب المحول</label>
-                        <input type="text" id="referringDoctor" class="form-control" placeholder="أدخل اسم الطبيب المحول" required>
-                        <div class="invalid-feedback">الرجاء إدخال اسم الطبيب المحول</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="referral-source" class="form-label"><i class="fas fa-bullhorn"></i> عرفتنا منين؟</label>
-                        <select id="referral-source" class="form-control" required>
-                            <option value="">اختر مصدر معرفتك بالمعمل</option>
-                            <option value="الطبيب الخاص بي">الطبيب الخاص بي</option>
-                            <option value="زملائي">زملائي</option>
-                            <option value="وسائل التواصل الاجتماعي">وسائل التواصل الاجتماعي</option>
-                            <option value="من المكان">من المكان</option>
-                            <option value="من العائلة">من العائلة</option>
-                            <option value="أخرى">أخرى</option>
-                        </select>
-                        <div class="invalid-feedback">الرجاء اختيار عرفتنا منين</div>
-                    </div>
-                    
-                    <div class="search-section">
-                        <div class="form-group" style="margin-bottom:0.5rem;">
-                            <label class="form-label"><i class="fas fa-search"></i> اختيار التحاليل</label>
-                            <div class="search-container">
-                                <div class="search-input-wrapper">
-                                    <i class="fas fa-search search-icon"></i>
-                                    <input type="text" id="search-input" class="form-control" 
-                                           placeholder="ابحث عن تحليل بالعربية أو الإنجليزية أو حسب التصنيف..."
-                                           autocomplete="off">
-                                    <button type="button" id="clear-search" class="clear-search" title="مسح البحث">
-                                        <i class="fas fa-times"></i>
-                                    </button>
+                        
+                        <div class="search-section">
+                            <div class="form-group" style="margin-bottom:0.5rem;">
+                                <label class="form-label"><i class="fas fa-search"></i> اختيار التحاليل</label>
+                                <div class="search-container">
+                                    <div class="search-input-wrapper">
+                                        <i class="fas fa-search search-icon"></i>
+                                        <input type="text" id="search-input" class="form-control" 
+                                               placeholder="ابحث عن تحليل بالعربية أو الإنجليزية أو حسب التصنيف..."
+                                               autocomplete="off">
+                                        <button type="button" id="clear-search" class="clear-search" title="مسح البحث">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <span class="search-hint"><i class="fas fa-info-circle"></i> ابدأ الكتابة للبحث عن التحاليل المتاحة</span>
                                 </div>
-                                <span class="search-hint"><i class="fas fa-info-circle"></i> ابدأ الكتابة للبحث عن التحاليل المتاحة</span>
+                            </div>
+
+                            <div id="search-results" class="search-results">
+                                <div class="no-results">
+                                    <i class="fas fa-flask"></i>
+                                    <p>ابحث عن التحليل المطلوب</p>
+                                </div>
                             </div>
                         </div>
 
-                        <div id="search-results" class="search-results">
-                            <div class="no-results">
-                                <i class="fas fa-flask"></i>
-                                <p>ابحث عن التحليل المطلوب</p>
+                        <div class="selected-tests-container">
+                            <div class="selected-tests-header">
+                                <span class="selected-tests-title"><i class="fas fa-list"></i> التحاليل المختارة</span>
+                                <button type="button" id="clear-all-tests" class="btn btn-soft" style="padding: 0.3rem 1rem; font-size: 0.85rem;">
+                                    <i class="fas fa-trash"></i> حذف الكل
+                                </button>
+                            </div>
+                            <div id="selected-tests-list" class="selected-tests-list">
+                                <div class="selected-empty">
+                                    <i class="fas fa-plus-circle"></i>
+                                    لم يتم اختيار أي تحاليل بعد
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="selected-tests-container">
-                        <div class="selected-tests-header">
-                            <span class="selected-tests-title"><i class="fas fa-list"></i> التحاليل المختارة</span>
-                            <button type="button" id="clear-all-tests" class="btn btn-soft" style="padding: 0.3rem 1rem; font-size: 0.85rem;">
-                                <i class="fas fa-trash"></i> حذف الكل
+                        <div id="tests-price-summary" class="tests-price-summary">
+                            <div class="price-summary-row">
+                                <span><i class="fas fa-vials"></i> عدد التحاليل</span>
+                                <strong id="tests-count">0</strong>
+                            </div>
+                            <div id="package-price-row" class="price-summary-row package-price-summary" style="display:none;">
+                                <span><i class="fas fa-gift"></i> سعر الباقة المختارة</span>
+                                <strong id="package-price-summary">0 جنيه</strong>
+                            </div>
+                            <div class="price-summary-row">
+                                <span><i class="fas fa-flask"></i> إجمالي التحاليل المختارة بشكل فردي</span>
+                                <strong id="individual-tests-total">0 جنيه</strong>
+                            </div>
+                            <div class="price-summary-row total-row">
+                                <span><i class="fas fa-receipt"></i> الإجمالي قبل رسوم العينة المنزلية</span>
+                                <strong><span id="tests-total">0</span> جنيه</strong>
+                            </div>
+                            <div id="price-warning" class="price-warning" style="display:none;">
+                                <i class="fas fa-circle-info"></i>
+                                <span>يوجد تحليل فردي أو أكثر بدون سعر مسجل، لذلك لم يدخل ضمن الإجمالي.</span>
+                            </div>
+                            <div class="price-note">
+                                <i class="fas fa-tag"></i>
+                                عند اختيار باقة، يتم احتساب <strong>سعر الباقة فقط</strong> ولا يتم احتساب أسعار التحاليل الموجودة داخلها مرة أخرى.
+                                أما التحاليل التي تضيفها بنفسك من البحث فتُحسب بسعرها المسجل على الموقع.
+                            </div>
+                        </div>
+
+                        <div class="form-group sample-location-group">
+                            <label class="form-label">
+                                <i class="fas fa-vial"></i> مكان أخذ العينة
+                            </label>
+                            <div class="sample-location-options">
+                                <label class="sample-location-option">
+                                    <input type="radio" name="sample-location" value="في المعمل" required checked>
+                                    <span class="sample-location-card">
+                                        <i class="fas fa-flask"></i>
+                                        <span>
+                                            <strong>في المعمل</strong>
+                                            <small>سأقوم بعمل التحاليل داخل المعمل</small>
+                                        </span>
+                                    </span>
+                                </label>
+                                <label class="sample-location-option">
+                                    <input type="radio" name="sample-location" value="عينة منزلية" required>
+                                    <span class="sample-location-card">
+                                        <i class="fas fa-house-chimney"></i>
+                                        <span>
+                                            <strong>عينة منزلية</strong>
+                                            <small>أرغب في أخذ العينة من المنزل</small>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="invalid-feedback">
+                                الرجاء اختيار مكان أخذ العينة
+                            </div>
+
+                            <div id="home-visit-details" class="home-visit-details" style="display:none;">
+                                <h3 class="home-address-title"><i class="fas fa-location-dot"></i> اكتب العنوان بالتفصيل</h3>
+                                <div class="home-address-grid">
+                                    <div class="form-group">
+                                        <label for="home-governorate" class="form-label">المحافظة <span class="home-address-required">*</span></label>
+                                        <select id="home-governorate" class="form-control">
+                                            <option value="">اختر المحافظة</option>
+                                            <option>القاهرة</option><option>الجيزة</option><option>القليوبية</option>
+                                            <option>الإسكندرية</option><option>الدقهلية</option><option>الشرقية</option>
+                                            <option>الغربية</option><option>المنوفية</option><option>البحيرة</option>
+                                            <option>كفر الشيخ</option><option>دمياط</option><option>بورسعيد</option>
+                                            <option>الإسماعيلية</option><option>السويس</option><option>الفيوم</option>
+                                            <option>بني سويف</option><option>المنيا</option><option>أسيوط</option>
+                                            <option>سوهاج</option><option>قنا</option><option>الأقصر</option><option>أسوان</option>
+                                            <option>مطروح</option><option>الوادي الجديد</option><option>شمال سيناء</option>
+                                            <option>جنوب سيناء</option><option>البحر الأحمر</option>
+                                        </select>
+                                        <div class="invalid-feedback">الرجاء اختيار المحافظة</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="home-district" class="form-label">الحي / المركز <span class="home-address-required">*</span></label>
+                                        <input type="text" id="home-district" class="form-control" placeholder="مثال: الحي الحداشر">
+                                        <div class="invalid-feedback">الرجاء كتابة الحي أو المركز</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="home-area" class="form-label">المنطقة <span class="home-address-required">*</span></label>
+                                        <input type="text" id="home-area" class="form-control" placeholder="اكتب اسم المنطقة">
+                                        <div class="invalid-feedback">الرجاء كتابة المنطقة</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="home-building-number" class="form-label">رقم العقار <span class="home-address-required">*</span></label>
+                                        <input type="text" id="home-building-number" class="form-control" placeholder="رقم العمارة / العقار">
+                                        <div class="invalid-feedback">الرجاء كتابة رقم العقار</div>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="home-landmark" class="form-label">علامة مميزة <span class="home-address-required">*</span></label>
+                                        <input type="text" id="home-landmark" class="form-control" placeholder="مثال: بجوار مسجد كذا">
+                                        <div class="invalid-feedback">الرجاء كتابة علامة مميزة</div>
+                                    </div>
+                                </div>
+                                <div id="home-visit-fee" class="home-visit-fee" style="display:none;"></div>
+                                <div class="home-address-note"><i class="fas fa-circle-info"></i> اكتب البيانات بدقة لتسهيل وصول مندوب العينات.</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+
+                            <div class="form-group">
+                                <label for="date" class="form-label">
+                                    <i class="fas fa-calendar-day"></i> تاريخ الموعد
+                                </label>
+
+                                <input
+                                    type="date"
+                                    id="date"
+                                    class="form-control"
+                                    required
+                                >
+
+                                <div class="invalid-feedback">
+                                    الرجاء اختيار تاريخ صحيح
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="time" class="form-label">
+                                    <i class="fas fa-clock"></i> وقت الموعد
+                                </label>
+
+                                <input
+                                    type="time"
+                                    id="time"
+                                    class="form-control"
+                                    required
+                                >
+
+                                <div class="invalid-feedback">
+                                    الرجاء اختيار وقت صحيح
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="notes" class="form-label"><i class="fas fa-pen"></i> ملاحظات (اختياري)</label>
+                            <textarea id="notes" class="form-control" placeholder="أي معلومات إضافية تريد إضافتها" rows="2"></textarea>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="submit-btn">
+                                <i class="fas fa-calendar-check"></i>
+                                <span id="btn-text">تأكيد الحجز</span>
+                                <span id="btn-spinner" class="spinner" style="display: none;"></span>
                             </button>
                         </div>
-                        <div id="selected-tests-list" class="selected-tests-list">
-                            <div class="selected-empty">
-                                <i class="fas fa-plus-circle"></i>
-                                لم يتم اختيار أي تحاليل بعد
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================
+             RETURNING PATIENT FORM (بعد اختيار المريض)
+             نفس الفورم الأصلي لكن مخفي حقول البيانات الشخصية
+        ============================================ -->
+        <div class="returning-patient-form" id="returning-patient-form">
+            <div class="returning-patient-banner">
+                <div class="patient-summary">
+                    <i class="fas fa-user-check"></i>
+                    <div>
+                        <strong id="returning-patient-name">اسم المريض</strong>
+                        <small id="returning-patient-code">PAT-XXXXXX-XXXXXX</small>
+                    </div>
+                </div>
+                <button type="button" id="back-to-search-btn">
+                    <i class="fas fa-arrow-right"></i> رجوع للبحث
+                </button>
+            </div>
+
+            <div id="selected-package-banner-returning" class="selected-package-banner">
+                <div class="package-info">
+                    <i class="fas fa-gift"></i>
+                    <span class="package-name" id="package-name-display-returning">باقة مختارة</span>
+                    <span class="package-price" id="package-price-display-returning">0 جنيه</span>
+                    <span style="background:rgba(255,255,255,0.1);padding:0.2rem 0.8rem;border-radius:12px;font-size:0.85rem;">
+                        <i class="fas fa-flask"></i> <span id="package-tests-count-returning">0</span> تحليل
+                    </span>
+                </div>
+                <div class="package-actions">
+                    <button class="btn-clear-package" id="clear-package-btn-returning">
+                        <i class="fas fa-times"></i> إلغاء الباقة
+                    </button>
+                </div>
+            </div>
+
+            <div class="appointment-card">
+                <div class="form-header">
+                    <h2 class="form-title">
+                        <i class="fas fa-calendar-alt"></i>
+                        نموذج حجز الموعد (زيارة جديدة)
+                    </h2>
+                </div>
+                
+                <div class="form-body">
+                    <form id="appointment-form-returning">
+                        <!-- بيانات المريض ثابتة (مخفية) -->
+                        <input type="hidden" id="returning-patient-id">
+                        <input type="hidden" id="returning-fullname">
+                        <input type="hidden" id="returning-phone">
+                        <input type="hidden" id="returning-age">
+                        <input type="hidden" id="returning-gender">
+
+                        <div class="form-group">
+                            <label for="returningDoctor" class="form-label"><i class="fas fa-user-md"></i> الطبيب المحول</label>
+                            <input type="text" id="returningDoctor" class="form-control" placeholder="أدخل اسم الطبيب المحول" required>
+                            <div class="invalid-feedback">الرجاء إدخال اسم الطبيب المحول</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="returning-referral-source" class="form-label"><i class="fas fa-bullhorn"></i> عرفتنا منين؟</label>
+                            <select id="returning-referral-source" class="form-control" required>
+                                <option value="">اختر مصدر معرفتك بالمعمل</option>
+                                <option value="الطبيب الخاص بي">الطبيب الخاص بي</option>
+                                <option value="زملائي">زملائي</option>
+                                <option value="وسائل التواصل الاجتماعي">وسائل التواصل الاجتماعي</option>
+                                <option value="من المكان">من المكان</option>
+                                <option value="من العائلة">من العائلة</option>
+                                <option value="أخرى">أخرى</option>
+                            </select>
+                            <div class="invalid-feedback">الرجاء اختيار عرفتنا منين</div>
+                        </div>
+
+                        <div class="search-section">
+                            <div class="form-group" style="margin-bottom:0.5rem;">
+                                <label class="form-label"><i class="fas fa-search"></i> اختيار التحاليل</label>
+                                <div class="search-container">
+                                    <div class="search-input-wrapper">
+                                        <i class="fas fa-search search-icon"></i>
+                                        <input type="text" id="search-input-returning" class="form-control" 
+                                               placeholder="ابحث عن تحليل بالعربية أو الإنجليزية أو حسب التصنيف..."
+                                               autocomplete="off">
+                                        <button type="button" id="clear-search-returning" class="clear-search" title="مسح البحث">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <span class="search-hint"><i class="fas fa-info-circle"></i> ابدأ الكتابة للبحث عن التحاليل المتاحة</span>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div id="tests-price-summary" class="tests-price-summary">
-                        <div class="price-summary-row">
-                            <span><i class="fas fa-vials"></i> عدد التحاليل</span>
-                            <strong id="tests-count">0</strong>
-                        </div>
-                        <div id="package-price-row" class="price-summary-row package-price-summary" style="display:none;">
-                            <span><i class="fas fa-gift"></i> سعر الباقة المختارة</span>
-                            <strong id="package-price-summary">0 جنيه</strong>
-                        </div>
-                        <div class="price-summary-row">
-                            <span><i class="fas fa-flask"></i> إجمالي التحاليل المختارة بشكل فردي</span>
-                            <strong id="individual-tests-total">0 جنيه</strong>
-                        </div>
-                        <div class="price-summary-row total-row">
-                            <span><i class="fas fa-receipt"></i> الإجمالي قبل رسوم العينة المنزلية</span>
-                            <strong><span id="tests-total">0</span> جنيه</strong>
-                        </div>
-                        <div id="price-warning" class="price-warning" style="display:none;">
-                            <i class="fas fa-circle-info"></i>
-                            <span>يوجد تحليل فردي أو أكثر بدون سعر مسجل، لذلك لم يدخل ضمن الإجمالي.</span>
-                        </div>
-                        <div class="price-note">
-                            <i class="fas fa-tag"></i>
-                            عند اختيار باقة، يتم احتساب <strong>سعر الباقة فقط</strong> ولا يتم احتساب أسعار التحاليل الموجودة داخلها مرة أخرى.
-                            أما التحاليل التي تضيفها بنفسك من البحث فتُحسب بسعرها المسجل على الموقع.
-                        </div>
-                    </div>
-
-                    <div class="form-group sample-location-group">
-                        <label class="form-label">
-                            <i class="fas fa-vial"></i> مكان أخذ العينة
-                        </label>
-                        <div class="sample-location-options">
-                            <label class="sample-location-option">
-                                <input type="radio" name="sample-location" value="في المعمل" required checked>
-                                <span class="sample-location-card">
+                            <div id="search-results-returning" class="search-results">
+                                <div class="no-results">
                                     <i class="fas fa-flask"></i>
-                                    <span>
-                                        <strong>في المعمل</strong>
-                                        <small>سأقوم بعمل التحاليل داخل المعمل</small>
-                                    </span>
-                                </span>
-                            </label>
-                            <label class="sample-location-option">
-                                <input type="radio" name="sample-location" value="عينة منزلية" required>
-                                <span class="sample-location-card">
-                                    <i class="fas fa-house-chimney"></i>
-                                    <span>
-                                        <strong>عينة منزلية</strong>
-                                        <small>أرغب في أخذ العينة من المنزل</small>
-                                    </span>
-                                </span>
-                            </label>
-                        </div>
-                        <div class="invalid-feedback">
-                            الرجاء اختيار مكان أخذ العينة
-                        </div>
-
-                        <div id="home-visit-details" class="home-visit-details" style="display:none;">
-                            <h3 class="home-address-title"><i class="fas fa-location-dot"></i> اكتب العنوان بالتفصيل</h3>
-                            <div class="home-address-grid">
-                                <div class="form-group">
-                                    <label for="home-governorate" class="form-label">المحافظة <span class="home-address-required">*</span></label>
-                                    <select id="home-governorate" class="form-control">
-                                        <option value="">اختر المحافظة</option>
-                                        <option>القاهرة</option><option>الجيزة</option><option>القليوبية</option>
-                                        <option>الإسكندرية</option><option>الدقهلية</option><option>الشرقية</option>
-                                        <option>الغربية</option><option>المنوفية</option><option>البحيرة</option>
-                                        <option>كفر الشيخ</option><option>دمياط</option><option>بورسعيد</option>
-                                        <option>الإسماعيلية</option><option>السويس</option><option>الفيوم</option>
-                                        <option>بني سويف</option><option>المنيا</option><option>أسيوط</option>
-                                        <option>سوهاج</option><option>قنا</option><option>الأقصر</option><option>أسوان</option>
-                                        <option>مطروح</option><option>الوادي الجديد</option><option>شمال سيناء</option>
-                                        <option>جنوب سيناء</option><option>البحر الأحمر</option>
-                                    </select>
-                                    <div class="invalid-feedback">الرجاء اختيار المحافظة</div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="home-district" class="form-label">الحي / المركز <span class="home-address-required">*</span></label>
-                                    <input type="text" id="home-district" class="form-control" placeholder="مثال: الحي الحداشر">
-                                    <div class="invalid-feedback">الرجاء كتابة الحي أو المركز</div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="home-area" class="form-label">المنطقة <span class="home-address-required">*</span></label>
-                                    <input type="text" id="home-area" class="form-control" placeholder="اكتب اسم المنطقة">
-                                    <div class="invalid-feedback">الرجاء كتابة المنطقة</div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="home-building-number" class="form-label">رقم العقار <span class="home-address-required">*</span></label>
-                                    <input type="text" id="home-building-number" class="form-control" placeholder="رقم العمارة / العقار">
-                                    <div class="invalid-feedback">الرجاء كتابة رقم العقار</div>
-                                </div>
-                                <div class="form-group full-width">
-                                    <label for="home-landmark" class="form-label">علامة مميزة <span class="home-address-required">*</span></label>
-                                    <input type="text" id="home-landmark" class="form-control" placeholder="مثال: بجوار مسجد كذا">
-                                    <div class="invalid-feedback">الرجاء كتابة علامة مميزة</div>
+                                    <p>ابحث عن التحليل المطلوب</p>
                                 </div>
                             </div>
-                            <div id="home-visit-fee" class="home-visit-fee" style="display:none;"></div>
-                            <div class="home-address-note"><i class="fas fa-circle-info"></i> اكتب البيانات بدقة لتسهيل وصول مندوب العينات.</div>
                         </div>
-                    </div>
-                    <div class="form-row">
+
+                        <div class="selected-tests-container">
+                            <div class="selected-tests-header">
+                                <span class="selected-tests-title"><i class="fas fa-list"></i> التحاليل المختارة</span>
+                                <button type="button" id="clear-all-tests-returning" class="btn btn-soft" style="padding: 0.3rem 1rem; font-size: 0.85rem;">
+                                    <i class="fas fa-trash"></i> حذف الكل
+                                </button>
+                            </div>
+                            <div id="selected-tests-list-returning" class="selected-tests-list">
+                                <div class="selected-empty">
+                                    <i class="fas fa-plus-circle"></i>
+                                    لم يتم اختيار أي تحاليل بعد
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="tests-price-summary-returning" class="tests-price-summary">
+                            <div class="price-summary-row">
+                                <span><i class="fas fa-vials"></i> عدد التحاليل</span>
+                                <strong id="tests-count-returning">0</strong>
+                            </div>
+                            <div id="package-price-row-returning" class="price-summary-row package-price-summary" style="display:none;">
+                                <span><i class="fas fa-gift"></i> سعر الباقة المختارة</span>
+                                <strong id="package-price-summary-returning">0 جنيه</strong>
+                            </div>
+                            <div class="price-summary-row">
+                                <span><i class="fas fa-flask"></i> إجمالي التحاليل المختارة بشكل فردي</span>
+                                <strong id="individual-tests-total-returning">0 جنيه</strong>
+                            </div>
+                            <div class="price-summary-row total-row">
+                                <span><i class="fas fa-receipt"></i> الإجمالي قبل رسوم العينة المنزلية</span>
+                                <strong><span id="tests-total-returning">0</span> جنيه</strong>
+                            </div>
+                            <div id="price-warning-returning" class="price-warning" style="display:none;">
+                                <i class="fas fa-circle-info"></i>
+                                <span>يوجد تحليل فردي أو أكثر بدون سعر مسجل، لذلك لم يدخل ضمن الإجمالي.</span>
+                            </div>
+                            <div class="price-note">
+                                <i class="fas fa-tag"></i>
+                                عند اختيار باقة، يتم احتساب <strong>سعر الباقة فقط</strong> ولا يتم احتساب أسعار التحاليل الموجودة داخلها مرة أخرى.
+                                أما التحاليل التي تضيفها بنفسك من البحث فتُحسب بسعرها المسجل على الموقع.
+                            </div>
+                        </div>
+
+                        <div class="form-group sample-location-group-returning">
+                            <label class="form-label">
+                                <i class="fas fa-vial"></i> مكان أخذ العينة
+                            </label>
+                            <div class="sample-location-options">
+                                <label class="sample-location-option">
+                                    <input type="radio" name="sample-location-returning" value="في المعمل" required checked>
+                                    <span class="sample-location-card">
+                                        <i class="fas fa-flask"></i>
+                                        <span>
+                                            <strong>في المعمل</strong>
+                                            <small>سأقوم بعمل التحاليل داخل المعمل</small>
+                                        </span>
+                                    </span>
+                                </label>
+                                <label class="sample-location-option">
+                                    <input type="radio" name="sample-location-returning" value="عينة منزلية" required>
+                                    <span class="sample-location-card">
+                                        <i class="fas fa-house-chimney"></i>
+                                        <span>
+                                            <strong>عينة منزلية</strong>
+                                            <small>أرغب في أخذ العينة من المنزل</small>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="invalid-feedback">
+                                الرجاء اختيار مكان أخذ العينة
+                            </div>
+
+                            <div id="home-visit-details-returning" class="home-visit-details" style="display:none;">
+                                <h3 class="home-address-title"><i class="fas fa-location-dot"></i> اكتب العنوان بالتفصيل</h3>
+                                <div class="home-address-grid">
+                                    <div class="form-group">
+                                        <label for="home-governorate-returning" class="form-label">المحافظة <span class="home-address-required">*</span></label>
+                                        <select id="home-governorate-returning" class="form-control">
+                                            <option value="">اختر المحافظة</option>
+                                            <option>القاهرة</option><option>الجيزة</option><option>القليوبية</option>
+                                            <option>الإسكندرية</option><option>الدقهلية</option><option>الشرقية</option>
+                                            <option>الغربية</option><option>المنوفية</option><option>البحيرة</option>
+                                            <option>كفر الشيخ</option><option>دمياط</option><option>بورسعيد</option>
+                                            <option>الإسماعيلية</option><option>السويس</option><option>الفيوم</option>
+                                            <option>بني سويف</option><option>المنيا</option><option>أسيوط</option>
+                                            <option>سوهاج</option><option>قنا</option><option>الأقصر</option><option>أسوان</option>
+                                            <option>مطروح</option><option>الوادي الجديد</option><option>شمال سيناء</option>
+                                            <option>جنوب سيناء</option><option>البحر الأحمر</option>
+                                        </select>
+                                        <div class="invalid-feedback">الرجاء اختيار المحافظة</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="home-district-returning" class="form-label">الحي / المركز <span class="home-address-required">*</span></label>
+                                        <input type="text" id="home-district-returning" class="form-control" placeholder="مثال: الحي الحداشر">
+                                        <div class="invalid-feedback">الرجاء كتابة الحي أو المركز</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="home-area-returning" class="form-label">المنطقة <span class="home-address-required">*</span></label>
+                                        <input type="text" id="home-area-returning" class="form-control" placeholder="اكتب اسم المنطقة">
+                                        <div class="invalid-feedback">الرجاء كتابة المنطقة</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="home-building-number-returning" class="form-label">رقم العقار <span class="home-address-required">*</span></label>
+                                        <input type="text" id="home-building-number-returning" class="form-control" placeholder="رقم العمارة / العقار">
+                                        <div class="invalid-feedback">الرجاء كتابة رقم العقار</div>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="home-landmark-returning" class="form-label">علامة مميزة <span class="home-address-required">*</span></label>
+                                        <input type="text" id="home-landmark-returning" class="form-control" placeholder="مثال: بجوار مسجد كذا">
+                                        <div class="invalid-feedback">الرجاء كتابة علامة مميزة</div>
+                                    </div>
+                                </div>
+                                <div id="home-visit-fee-returning" class="home-visit-fee" style="display:none;"></div>
+                                <div class="home-address-note"><i class="fas fa-circle-info"></i> اكتب البيانات بدقة لتسهيل وصول مندوب العينات.</div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="date-returning" class="form-label">
+                                    <i class="fas fa-calendar-day"></i> تاريخ الموعد
+                                </label>
+                                <input type="date" id="date-returning" class="form-control" required>
+                                <div class="invalid-feedback">الرجاء اختيار تاريخ صحيح</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="time-returning" class="form-label">
+                                    <i class="fas fa-clock"></i> وقت الموعد
+                                </label>
+                                <input type="time" id="time-returning" class="form-control" required>
+                                <div class="invalid-feedback">الرجاء اختيار وقت صحيح</div>
+                            </div>
+                        </div>
 
                         <div class="form-group">
-                            <label for="date" class="form-label">
-                                <i class="fas fa-calendar-day"></i> تاريخ الموعد
-                            </label>
-
-                            <input
-                                type="date"
-                                id="date"
-                                class="form-control"
-                                required
-                            >
-
-                            <div class="invalid-feedback">
-                                الرجاء اختيار تاريخ صحيح
-                            </div>
+                            <label for="notes-returning" class="form-label"><i class="fas fa-pen"></i> ملاحظات (اختياري)</label>
+                            <textarea id="notes-returning" class="form-control" placeholder="أي معلومات إضافية تريد إضافتها" rows="2"></textarea>
                         </div>
-
-
-                        <div class="form-group">
-                            <label for="time" class="form-label">
-                                <i class="fas fa-clock"></i> وقت الموعد
-                            </label>
-
-                            <input
-                                type="time"
-                                id="time"
-                                class="form-control"
-                                required
-                            >
-
-                            <div class="invalid-feedback">
-                                الرجاء اختيار وقت صحيح
-                            </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="submit-btn-returning">
+                                <i class="fas fa-calendar-check"></i>
+                                <span id="btn-text-returning">تأكيد الحجز</span>
+                                <span id="btn-spinner-returning" class="spinner" style="display: none;"></span>
+                            </button>
                         </div>
-
-                    </div>
-
-                    <div class="form-group">
-                        <label for="notes" class="form-label"><i class="fas fa-pen"></i> ملاحظات (اختياري)</label>
-                        <textarea id="notes" class="form-control" placeholder="أي معلومات إضافية تريد إضافتها" rows="2"></textarea>
-                    </div>
-                    
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary" id="submit-btn">
-                            <i class="fas fa-calendar-check"></i>
-                            <span id="btn-text">تأكيد الحجز</span>
-                            <span id="btn-spinner" class="spinner" style="display: none;"></span>
-                        </button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </main>
@@ -331,6 +1074,8 @@
         document.addEventListener('DOMContentLoaded', function () {
             const dateInput = document.getElementById('date');
             const timeInput = document.getElementById('time');
+            const dateReturning = document.getElementById('date-returning');
+            const timeReturning = document.getElementById('time-returning');
 
             if (dateInput) {
                 dateInput.addEventListener('click', function () {
@@ -342,6 +1087,22 @@
 
             if (timeInput) {
                 timeInput.addEventListener('click', function () {
+                    if (typeof this.showPicker === 'function') {
+                        this.showPicker();
+                    }
+                });
+            }
+
+            if (dateReturning) {
+                dateReturning.addEventListener('click', function () {
+                    if (typeof this.showPicker === 'function') {
+                        this.showPicker();
+                    }
+                });
+            }
+
+            if (timeReturning) {
+                timeReturning.addEventListener('click', function () {
                     if (typeof this.showPicker === 'function') {
                         this.showPicker();
                     }
