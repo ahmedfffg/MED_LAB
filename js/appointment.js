@@ -190,17 +190,11 @@
             }, 4500);
         }
 
-        /* ============================================
+               /* ============================================
            GENERATE CODES
+           (كود واحد فقط للمريض والحجز معاً)
         ============================================ */
-        function generatePatientCode() {
-            const now = new Date();
-            const datePart = now.toISOString().slice(0, 10).replace(/-/g, '');
-            const random = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
-            return 'PAT-' + datePart + '-' + random;
-        }
-
-        function generateBookingCode() {
+        function generateUnifiedCode() {
             const now = new Date();
             const datePart = now.toISOString().slice(0, 10).replace(/-/g, '');
             const random = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
