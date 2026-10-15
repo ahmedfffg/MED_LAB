@@ -16,7 +16,6 @@
 
     /* ============================================
        INIT FUNCTION
-       بنستنى window.load عشان shared-header.js يخلص حقن HTML
     ============================================ */
     function initAppointmentSystem() {
         console.log('🚀 Initializing appointment system...');
@@ -299,6 +298,8 @@
         async function searchPatientByCode(code) {
             const cleanCode = String(code || '').trim().toUpperCase();
 
+            console.log('🔍 Searching for patient code:', cleanCode);
+
             if (!cleanCode) {
                 showNotification('الرجاء إدخال كود المريض', 'warning');
                 return;
@@ -310,28 +311,50 @@
             }
 
             try {
+                // البحث بدون حساسية لحالة الأحرف
                 const { data, error } = await supabaseClient
                     .from('patients')
                     .select('id, patient_code, full_name, phone, birth_date, gender, created_at')
-                    .eq('patient_code', cleanCode)
+                    .ilike('patient_code', cleanCode)
                     .maybeSingle();
 
-                if (error) throw error;
+                console.log('📥 Search result:', { data, error });
+
+                if (error) {
+                    console.error('❌ Supabase error:', error);
+                    throw error;
+                }
 
                 if (!data) {
-                    showNotification('لم يتم العثور على مريض بهذا الكود. تأكد من الكود وحاول مرة أخرى.', 'error');
+                    // جلب عدد المرضى للتشخيص
+                    const { count } = await supabaseClient
+                        .from('patients')
+                        .select('*', { count: 'exact', head: true });
+
+                    console.log('📊 Total patients in DB:', count);
+
+                    showNotification(
+                        'لم يتم العثور على مريض بهذا الكود: ' + cleanCode +
+                        (count !== null ? ' (عدد المرضى المسجلين: ' + count + ')' : ''),
+                        'error'
+                    );
                     if (patientFoundCard) patientFoundCard.classList.remove('visible');
                     foundPatient = null;
                     return;
                 }
 
+                console.log('✅ Patient found:', data);
                 foundPatient = data;
                 displayFoundPatient(data);
                 showNotification('تم العثور على بياناتك بنجاح!', 'success');
 
             } catch (error) {
                 console.error('❌ خطأ في البحث عن المريض:', error);
-                showNotification('حدث خطأ أثناء البحث. حاول مرة أخرى.', 'error');
+                let msg = 'حدث خطأ أثناء البحث.';
+                if (error && error.message) {
+                    msg += ' ' + error.message;
+                }
+                showNotification(msg, 'error');
                 foundPatient = null;
             } finally {
                 if (searchPatientBtn) {
@@ -418,15 +441,18 @@
                 e.preventDefault();
                 if (!foundPatient) return;
 
+                // ملء الحقول المخفية ببيانات المريض
                 if (returningPatientId) returningPatientId.value = foundPatient.id || '';
                 if (returningFullname) returningFullname.value = foundPatient.full_name || '';
                 if (returningPhone) returningPhone.value = foundPatient.phone || '';
                 if (returningAge) returningAge.value = foundPatient.birth_date || '';
                 if (returningGender) returningGender.value = foundPatient.gender || '';
 
+                // عرض اسم المريض في البانر
                 if (returningPatientName) returningPatientName.textContent = foundPatient.full_name;
                 if (returningPatientCode) returningPatientCode.textContent = foundPatient.patient_code;
 
+                // إخفاء البحث وإظهار الفورم
                 if (patientFoundCard) patientFoundCard.classList.remove('visible');
                 if (patientCodeSearchBox) patientCodeSearchBox.style.display = 'none';
                 if (returningPatientSection) {
@@ -1717,6 +1743,7 @@
 
         /* ============================================
            SAVE BOOKING - RETURNING PATIENT
+           (بدون إضافة مريض جديد - بيستخدم patient_id القديم)
         ============================================ */
         async function saveBookingReturning(booking) {
             let bookingId = null;
