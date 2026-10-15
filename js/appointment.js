@@ -190,9 +190,9 @@
             }, 4500);
         }
 
-               /* ============================================
+        /* ============================================
            GENERATE CODES
-           (كود واحد فقط للمريض والحجز معاً)
+           (كود موحّد: هو كود المريض وكود الحجز معاً)
         ============================================ */
         function generateUnifiedCode() {
             const now = new Date();
@@ -295,7 +295,7 @@
             console.log('🔍 Searching for patient code:', cleanCode);
 
             if (!cleanCode) {
-                showNotification('الرجاء إدخال كود المريض', 'warning');
+                showNotification('الرجاء إدخال كود الحجز', 'warning');
                 return;
             }
 
@@ -305,7 +305,7 @@
             }
 
             try {
-                // البحث بدون حساسية لحالة الأحرف
+                // البحث بكود المريض (اللي هو نفسه كود أول حجز)
                 const { data, error } = await supabaseClient
                     .from('patients')
                     .select('id, patient_code, full_name, phone, birth_date, gender, created_at')
@@ -319,7 +319,7 @@
                     throw error;
                 }
 
-                                    if (!data) {
+                if (!data) {
                     showNotification(
                         'لم يتم العثور على مريض بهذا الكود. تأكد من الكود وحاول مرة أخرى.',
                         'error'
@@ -374,7 +374,7 @@
 
             patientInfoGrid.innerHTML =
                 '<div class="patient-info-item">' +
-                    '<span><i class="fas fa-id-card"></i> كود المريض</span>' +
+                    '<span><i class="fas fa-id-card"></i> كود الحجز</span>' +
                     '<strong>' + escapeHtml(patient.patient_code) + '</strong>' +
                 '</div>' +
                 '<div class="patient-info-item">' +
@@ -427,18 +427,15 @@
                 e.preventDefault();
                 if (!foundPatient) return;
 
-                // ملء الحقول المخفية ببيانات المريض
                 if (returningPatientId) returningPatientId.value = foundPatient.id || '';
                 if (returningFullname) returningFullname.value = foundPatient.full_name || '';
                 if (returningPhone) returningPhone.value = foundPatient.phone || '';
                 if (returningAge) returningAge.value = foundPatient.birth_date || '';
                 if (returningGender) returningGender.value = foundPatient.gender || '';
 
-                // عرض اسم المريض في البانر
                 if (returningPatientName) returningPatientName.textContent = foundPatient.full_name;
                 if (returningPatientCode) returningPatientCode.textContent = foundPatient.patient_code;
 
-                // إخفاء البحث وإظهار الفورم
                 if (patientFoundCard) patientFoundCard.classList.remove('visible');
                 if (patientCodeSearchBox) patientCodeSearchBox.style.display = 'none';
                 if (returningPatientSection) {
@@ -1611,8 +1608,9 @@
 
         /* ============================================
            SAVE BOOKING - NEW PATIENT
+           (كود موحّد: هو كود المريض وكود الحجز معاً)
         ============================================ */
-                async function saveBooking(booking) {
+        async function saveBooking(booking) {
             let patientId = null;
             let bookingId = null;
 
@@ -1732,7 +1730,7 @@
 
         /* ============================================
            SAVE BOOKING - RETURNING PATIENT
-           (بدون إضافة مريض جديد - بيستخدم patient_id القديم)
+           (كود حجز جديد لكل زيارة - مربوط بنفس المريض)
         ============================================ */
         async function saveBookingReturning(booking) {
             let bookingId = null;
@@ -1742,7 +1740,8 @@
                     throw new Error('لم يتم تحديد المريض. الرجاء البحث بالكود مرة أخرى.');
                 }
 
-                const bookingCode = generateBookingCode();
+                // المريض العائد: كود حجز جديد لكل زيارة
+                const bookingCode = generateUnifiedCode();
 
                 const subtotal = booking.testsTotal + booking.homeVisitFee;
                 const total = booking.total;
@@ -1873,18 +1872,19 @@
                 booking.homeBuildingNumber ? 'رقم العقار: ' + booking.homeBuildingNumber : ''
             ].filter(Boolean).join(' - ');
 
-            const patientCodeInfo = savedAppointment && savedAppointment.patient_code
+            // عرض كود الحجز (الموحّد) في شاشة التأكيد
+            const codeInfo = savedAppointment && savedAppointment.booking_number
                 ? '<div style="background:#d4f5e9;padding:0.6rem 1rem;border-radius:10px;margin-bottom:0.8rem;">' +
                   '<i class="fas fa-id-card" style="color:#22a86e;"></i> ' +
-                  '<strong>كود المريض:</strong> ' +
+                  '<strong>كود الحجز:</strong> ' +
                   '<span style="background:#22a86e;color:white;padding:0.1rem 0.8rem;border-radius:12px;font-size:0.85rem;font-family:monospace;">' +
-                  escapeHtml(savedAppointment.patient_code) + '</span>' +
+                  escapeHtml(savedAppointment.booking_number) + '</span>' +
                   '<br><small style="color:#1a5a3a;">احتفظ بالكود ده للمرة الجاية عشان تحجز أسرع</small>' +
                   '</div>'
                 : '';
 
             confirmationDetailsEl.innerHTML =
-                patientCodeInfo +
+                codeInfo +
                 packageInfo +
                 '<div class="confirmation-meta">' +
                 '<div><span>رقم الحجز</span><strong>' +
