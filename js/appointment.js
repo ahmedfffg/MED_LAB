@@ -1737,13 +1737,43 @@
 
                 console.log('💾 Saving new patient with code:', unifiedCode);
 
+                               // تجهيز بيانات المريض كاملة
+                const patientInsertData = {
+                    patient_code: unifiedCode,
+                    full_name: booking.name,
+                    phone: booking.phone,
+                };
+
+                // إضافة العمر (لو موجود)
+                if (booking.age !== null && booking.age !== undefined) {
+                    patientInsertData.age = booking.age;
+                }
+
+                // إضافة الجنس (لو موجود)
+                if (booking.gender) {
+                    patientInsertData.gender = booking.gender;
+                }
+
+                // إضافة مصدر المعرفة في notes (لأن مفيش عمود مخصص)
+                if (booking.referral) {
+                    patientInsertData.notes = 'عرفتنا منين: ' + booking.referral;
+                }
+
+                // إضافة العنوان (لو موجود)
+                if (booking.homeGovernorate || booking.homeDistrict || booking.homeDetailedArea) {
+                    patientInsertData.address = [
+                        booking.homeGovernorate,
+                        booking.homeDistrict,
+                        booking.homeDetailedArea,
+                        booking.homeBuildingNumber
+                    ].filter(Boolean).join(' - ');
+                }
+
+                console.log('💾 Inserting patient with data:', patientInsertData);
+
                 const { data: patient, error: patientError } = await supabaseClient
                     .from('patients')
-                    .insert({
-                        patient_code: unifiedCode,
-                        full_name: booking.name,
-                        phone: booking.phone,
-                    })
+                    .insert(patientInsertData)
                     .select('id, patient_code')
                     .single();
 
