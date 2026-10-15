@@ -317,7 +317,7 @@
                 console.log('🔎 [Attempt 1] ilike on patients.patient_code');
                 const attempt1 = await supabaseClient
                     .from('patients')
-                    .select('id, patient_code, full_name, phone, birth_date, gender, created_at')
+                    .select('id, patient_code, full_name, phone, age, gender, birth_date, referral_source, created_at')
                     .ilike('patient_code', cleanCode)
                     .maybeSingle();
 
@@ -354,7 +354,7 @@
                         console.log('   ✅ Found booking, fetching patient with id:', attempt2.data.patient_id);
                         const patientAttempt = await supabaseClient
                             .from('patients')
-                            .select('id, patient_code, full_name, phone, birth_date, gender, created_at')
+                            .select('id, patient_code, full_name, phone, age, gender, birth_date, referral_source, created_at')
                             .eq('id', attempt2.data.patient_id)
                             .maybeSingle();
 
@@ -374,7 +374,7 @@
                     console.log('🔎 [Attempt 3] partial search (LIKE %code%) on patients');
                     const attempt3 = await supabaseClient
                         .from('patients')
-                        .select('id, patient_code, full_name, phone, birth_date, gender, created_at')
+                        .select('id, patient_code, full_name, phone, age, gender, birth_date, referral_source, created_at')
                         .like('patient_code', '%' + cleanCode + '%')
                         .limit(1)
                         .maybeSingle();
@@ -403,7 +403,7 @@
                     if (attempt4.data && attempt4.data.patient_id) {
                         const patientAttempt4 = await supabaseClient
                             .from('patients')
-                            .select('id, patient_code, full_name, phone, birth_date, gender, created_at')
+                            .select('id, patient_code, full_name, phone, age, gender, birth_date, referral_source, created_at')
                             .eq('id', attempt4.data.patient_id)
                             .maybeSingle();
 
@@ -419,7 +419,7 @@
                     console.log('🔎 [Attempt 5] Looks like a phone number, searching by phone');
                     const attempt5 = await supabaseClient
                         .from('patients')
-                        .select('id, patient_code, full_name, phone, birth_date, gender, created_at')
+                        .select('id, patient_code, full_name, phone, age, gender, birth_date, referral_source, created_at')
                         .eq('phone', cleanCode)
                         .limit(1)
                         .maybeSingle();
@@ -483,11 +483,20 @@
             }
         }
 
-        function displayFoundPatient(patient) {
+               function displayFoundPatient(patient) {
             if (!patientInfoGrid || !patientFoundCard) return;
 
-            const genderText = patient.gender === 'male' ? 'ذكر' : (patient.gender === 'female' ? 'أنثى' : 'غير محدد');
-            const ageText = calculateAgeFromBirthDate(patient.birth_date);
+            const genderText = patient.gender === 'male' ? 'ذكر'
+                             : (patient.gender === 'female' ? 'أنثى'
+                             : (patient.gender === 'other' ? 'آخر' : 'غير محدد'));
+
+            // العمر: نجرب age الأول، وبعدين birth_date
+            let ageText = 'غير محدد';
+            if (patient.age !== null && patient.age !== undefined && patient.age !== '') {
+                ageText = patient.age + ' سنة';
+            } else if (patient.birth_date) {
+                ageText = calculateAgeFromBirthDate(patient.birth_date);
+            }
 
             patientInfoGrid.innerHTML =
                 '<div class="patient-info-item">' +
@@ -509,7 +518,13 @@
                 '<div class="patient-info-item">' +
                     '<span><i class="fas fa-venus-mars"></i> الجنس</span>' +
                     '<strong>' + escapeHtml(genderText) + '</strong>' +
-                '</div>';
+                '</div>' +
+                (patient.referral_source
+                    ? '<div class="patient-info-item">' +
+                      '<span><i class="fas fa-bullhorn"></i> عرفتنا منين</span>' +
+                      '<strong>' + escapeHtml(patient.referral_source) + '</strong>' +
+                      '</div>'
+                    : '');
 
             patientFoundCard.classList.add('visible');
             if (patientCodeSearchBox) patientCodeSearchBox.style.display = 'none';
@@ -1727,7 +1742,7 @@
            SAVE BOOKING - NEW PATIENT
            (كود موحّد: هو كود المريض وكود الحجز معاً)
         ============================================ */
-        async function saveBooking(booking) {
+                async function saveBooking(booking) {
             let patientId = null;
             let bookingId = null;
 
@@ -1737,7 +1752,7 @@
 
                 console.log('💾 Saving new patient with code:', unifiedCode);
 
-                               // تجهيز بيانات المريض كاملة
+                // تجهيز بيانات المريض كاملة
                 const patientInsertData = {
                     patient_code: unifiedCode,
                     full_name: booking.name,
@@ -1754,9 +1769,11 @@
                     patientInsertData.gender = booking.gender;
                 }
 
-                // إضافة مصدر المعرفة في notes (لأن مفيش عمود مخصص)
+                // إضافة مصدر المعرفة (referral_source لو العمود موجود، وإلا notes)
                 if (booking.referral) {
-                    patientInsertData.notes = 'عرفتنا منين: ' + booking.referral;
+                    patientInsertData.referral_source = booking.referral;
+                    // احتياطي: نحطه في notes كمان لو حبيت
+                    // patientInsertData.notes = 'عرفتنا منين: ' + booking.referral;
                 }
 
                 // إضافة العنوان (لو موجود)
