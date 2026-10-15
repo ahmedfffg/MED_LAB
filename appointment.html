@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* ============================================
-           STYLES FOR BOOKING MODE SELECTOR
+           BOOKING MODE SELECTOR STYLES
         ============================================ */
         .booking-mode-selector {
             display: flex;
@@ -24,7 +24,7 @@
 
         .booking-mode-btn {
             flex: 1;
-            min-width: 200px;
+            min-width: 220px;
             padding: 1.2rem 1.5rem;
             border: 2px solid #e0e7ef;
             border-radius: 16px;
@@ -107,7 +107,7 @@
         }
 
         /* ============================================
-           RETURNING PATIENT SECTION
+           SECTIONS VISIBILITY
         ============================================ */
         .returning-patient-section {
             display: none;
@@ -115,7 +115,7 @@
         }
 
         .returning-patient-section.visible {
-            display: block;
+            display: block !important;
         }
 
         .new-patient-section {
@@ -124,7 +124,7 @@
         }
 
         .new-patient-section.hidden {
-            display: none;
+            display: none !important;
         }
 
         @keyframes fadeInUp {
@@ -138,6 +138,9 @@
             }
         }
 
+        /* ============================================
+           PATIENT CODE SEARCH BOX
+        ============================================ */
         .patient-code-search-box {
             background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
             border: 2px dashed #a8d8f5;
@@ -242,7 +245,7 @@
         }
 
         .patient-found-card.visible {
-            display: block;
+            display: block !important;
         }
 
         .patient-found-header {
@@ -347,7 +350,7 @@
         }
 
         /* ============================================
-           RETURNING PATIENT FORM (بعد اختيار المريض)
+           RETURNING PATIENT FORM
         ============================================ */
         .returning-patient-form {
             display: none;
@@ -355,7 +358,7 @@
         }
 
         .returning-patient-form.visible {
-            display: block;
+            display: block !important;
         }
 
         .returning-patient-banner {
@@ -441,7 +444,7 @@
         <div id="notification-area"></div>
 
         <!-- ============================================
-             BOOKING MODE SELECTOR (جديد / حجز سابق)
+             BOOKING MODE SELECTOR
         ============================================ -->
         <div class="booking-mode-selector" id="booking-mode-selector">
             <button type="button" class="booking-mode-btn active" id="mode-new-patient" data-mode="new">
@@ -461,10 +464,9 @@
         </div>
 
         <!-- ============================================
-             RETURNING PATIENT SECTION (بحث بالكود)
+             RETURNING PATIENT SECTION
         ============================================ -->
         <div class="returning-patient-section" id="returning-patient-section">
-            <!-- صندوق البحث بالكود -->
             <div class="patient-code-search-box" id="patient-code-search-box">
                 <div class="search-icon-large">
                     <i class="fas fa-id-card"></i>
@@ -485,7 +487,6 @@
                 </div>
             </div>
 
-            <!-- كارت المريض بعد العثور عليه -->
             <div class="patient-found-card" id="patient-found-card">
                 <div class="patient-found-header">
                     <div class="check-icon"><i class="fas fa-check"></i></div>
@@ -509,7 +510,7 @@
         </div>
 
         <!-- ============================================
-             NEW PATIENT SECTION (الفورم الأصلي)
+             NEW PATIENT SECTION
         ============================================ -->
         <div class="new-patient-section" id="new-patient-section">
             <div id="selected-package-banner" class="selected-package-banner">
@@ -786,8 +787,7 @@
         </div>
 
         <!-- ============================================
-             RETURNING PATIENT FORM (بعد اختيار المريض)
-             نفس الفورم الأصلي لكن مخفي حقول البيانات الشخصية
+             RETURNING PATIENT FORM
         ============================================ -->
         <div class="returning-patient-form" id="returning-patient-form">
             <div class="returning-patient-banner">
@@ -829,7 +829,6 @@
                 
                 <div class="form-body">
                     <form id="appointment-form-returning">
-                        <!-- بيانات المريض ثابتة (مخفية) -->
                         <input type="hidden" id="returning-patient-id">
                         <input type="hidden" id="returning-fullname">
                         <input type="hidden" id="returning-phone">
@@ -1057,16 +1056,10 @@
          SCRIPTS
     ============================================ -->
     
-    <!-- 1. Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
-    <!-- 2. Shared Header (يحقن الهيدر والسايدبار) -->
     <script src="js/shared-header.js"></script>
-    
-    <!-- 3. Appointment Logic -->
     <script src="js/appointment.js"></script>
     
-    <!-- 4. Date/Time Picker Enhancement -->
     <script>
     (function () {
         'use strict';
@@ -1116,7 +1109,6 @@
     <i class="fas fa-home"></i>
   </a>
 
-<!-- Dev Watermark -->
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 <script src="js/dev-watermark.js"></script>
 
