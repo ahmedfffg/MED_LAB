@@ -325,17 +325,9 @@
                     throw error;
                 }
 
-                if (!data) {
-                    // جلب عدد المرضى للتشخيص
-                    const { count } = await supabaseClient
-                        .from('patients')
-                        .select('*', { count: 'exact', head: true });
-
-                    console.log('📊 Total patients in DB:', count);
-
+                                    if (!data) {
                     showNotification(
-                        'لم يتم العثور على مريض بهذا الكود: ' + cleanCode +
-                        (count !== null ? ' (عدد المرضى المسجلين: ' + count + ')' : ''),
+                        'لم يتم العثور على مريض بهذا الكود. تأكد من الكود وحاول مرة أخرى.',
                         'error'
                     );
                     if (patientFoundCard) patientFoundCard.classList.remove('visible');
