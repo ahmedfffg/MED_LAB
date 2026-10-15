@@ -313,7 +313,7 @@
                 let data = null;
                 let lastError = null;
 
-                /* ---------- محاولة 1: بحث مباشر بـ ilike ---------- */
+                /* ---------- محاولة 1: بحث مباشر في patients.patient_code ---------- */
                 console.log('🔎 [Attempt 1] ilike on patients.patient_code');
                 const attempt1 = await supabaseClient
                     .from('patients')
@@ -329,34 +329,13 @@
                 }
                 if (attempt1.data) {
                     data = attempt1.data;
-                    console.log('   ✅ Found via attempt 1');
+                    console.log('   ✅ Found via attempt 1 (direct patient_code)');
                 }
 
-                /* ---------- محاولة 2: بحث بـ eq ---------- */
+                /* ---------- محاولة 2: بحث في bookings.booking_code ---------- */
                 if (!data) {
-                    console.log('🔎 [Attempt 2] eq on patients.patient_code');
+                    console.log('🔎 [Attempt 2] ilike on bookings.booking_code');
                     const attempt2 = await supabaseClient
-                        .from('patients')
-                        .select('id, patient_code, full_name, phone, birth_date, gender, created_at')
-                        .eq('patient_code', cleanCode)
-                        .maybeSingle();
-
-                    console.log('   Result 2:', JSON.stringify(attempt2, null, 2));
-
-                    if (attempt2.error) {
-                        lastError = attempt2.error;
-                        console.warn('   ⚠️ Attempt 2 error:', attempt2.error);
-                    }
-                    if (attempt2.data) {
-                        data = attempt2.data;
-                        console.log('   ✅ Found via attempt 2');
-                    }
-                }
-
-                /* ---------- محاولة 3: بحث في bookings ---------- */
-                if (!data) {
-                    console.log('🔎 [Attempt 3] search in bookings by booking_code');
-                    const attempt3 = await supabaseClient
                         .from('bookings')
                         .select('id, booking_code, patient_id, patient_name, patient_phone, created_at')
                         .ilike('booking_code', cleanCode)
@@ -364,65 +343,92 @@
                         .limit(1)
                         .maybeSingle();
 
-                    console.log('   Result 3 (booking):', JSON.stringify(attempt3, null, 2));
+                    console.log('   Result 2 (booking):', JSON.stringify(attempt2, null, 2));
 
-                    if (attempt3.data && attempt3.data.patient_id) {
-                        console.log('   ✅ Found booking, fetching patient with id:', attempt3.data.patient_id);
+                    if (attempt2.error) {
+                        lastError = attempt2.error;
+                        console.warn('   ⚠️ Attempt 2 error:', attempt2.error);
+                    }
+
+                    if (attempt2.data && attempt2.data.patient_id) {
+                        console.log('   ✅ Found booking, fetching patient with id:', attempt2.data.patient_id);
                         const patientAttempt = await supabaseClient
                             .from('patients')
                             .select('id, patient_code, full_name, phone, birth_date, gender, created_at')
-                            .eq('id', attempt3.data.patient_id)
+                            .eq('id', attempt2.data.patient_id)
                             .maybeSingle();
 
                         console.log('   Patient from booking:', JSON.stringify(patientAttempt, null, 2));
 
                         if (patientAttempt.data) {
                             data = patientAttempt.data;
-                            console.log('   ✅ Found via attempt 3 (booking → patient)');
+                            console.log('   ✅ Found via attempt 2 (booking → patient)');
                         } else if (patientAttempt.error) {
                             lastError = patientAttempt.error;
                         }
                     }
                 }
 
-                /* ---------- محاولة 4: بحث جزئي ---------- */
+                /* ---------- محاولة 3: بحث جزئي على patient_code ---------- */
                 if (!data) {
-                    console.log('🔎 [Attempt 4] partial search (LIKE %code%)');
-                    const attempt4 = await supabaseClient
+                    console.log('🔎 [Attempt 3] partial search (LIKE %code%) on patients');
+                    const attempt3 = await supabaseClient
                         .from('patients')
                         .select('id, patient_code, full_name, phone, birth_date, gender, created_at')
                         .like('patient_code', '%' + cleanCode + '%')
                         .limit(1)
                         .maybeSingle();
 
-                    console.log('   Result 4 (partial):', JSON.stringify(attempt4, null, 2));
+                    console.log('   Result 3 (partial):', JSON.stringify(attempt3, null, 2));
 
-                    if (attempt4.data) {
-                        data = attempt4.data;
-                        console.log('   ✅ Found via attempt 4 (partial match)');
+                    if (attempt3.data) {
+                        data = attempt3.data;
+                        console.log('   ✅ Found via attempt 3 (partial match)');
                     }
                 }
 
-                /* ---------- محاولة 5: عرض تشخيصي - جلب أول 5 مرضى ---------- */
+                /* ---------- محاولة 4: بحث جزئي على bookings ---------- */
                 if (!data) {
-                    console.log('🔎 [Diagnostic] Fetching last 5 patients to check DB');
-                    const diagnostic = await supabaseClient
-                        .from('patients')
-                        .select('id, patient_code, full_name, created_at')
-                        .order('created_at', { ascending: false })
-                        .limit(5);
+                    console.log('🔎 [Attempt 4] partial search (LIKE %code%) on bookings');
+                    const attempt4 = await supabaseClient
+                        .from('bookings')
+                        .select('id, booking_code, patient_id, patient_name, patient_phone, created_at')
+                        .like('booking_code', '%' + cleanCode + '%')
+                        .order('created_at', { ascending: true })
+                        .limit(1)
+                        .maybeSingle();
 
-                    console.log('   📊 Last 5 patients in DB:', JSON.stringify(diagnostic.data, null, 2));
-                    if (diagnostic.error) {
-                        console.error('   ❌ Diagnostic error:', diagnostic.error);
+                    console.log('   Result 4 (partial booking):', JSON.stringify(attempt4, null, 2));
+
+                    if (attempt4.data && attempt4.data.patient_id) {
+                        const patientAttempt4 = await supabaseClient
+                            .from('patients')
+                            .select('id, patient_code, full_name, phone, birth_date, gender, created_at')
+                            .eq('id', attempt4.data.patient_id)
+                            .maybeSingle();
+
+                        if (patientAttempt4.data) {
+                            data = patientAttempt4.data;
+                            console.log('   ✅ Found via attempt 4 (partial booking → patient)');
+                        }
                     }
+                }
 
-                    // نطبع أول 5 أكواد عشان المستخدم يشوفها
-                    if (diagnostic.data && diagnostic.data.length) {
-                        console.log('   📋 Available codes in DB:');
-                        diagnostic.data.forEach(p => {
-                            console.log('      - ' + p.patient_code + ' (' + p.full_name + ')');
-                        });
+                /* ---------- محاولة 5: بحث برقم الهاتف (لو المستخدم كتب رقم مش كود) ---------- */
+                if (!data && /^\d{10,}$/.test(cleanCode.replace(/\D/g, ''))) {
+                    console.log('🔎 [Attempt 5] Looks like a phone number, searching by phone');
+                    const attempt5 = await supabaseClient
+                        .from('patients')
+                        .select('id, patient_code, full_name, phone, birth_date, gender, created_at')
+                        .eq('phone', cleanCode)
+                        .limit(1)
+                        .maybeSingle();
+
+                    console.log('   Result 5 (phone):', JSON.stringify(attempt5, null, 2));
+
+                    if (attempt5.data) {
+                        data = attempt5.data;
+                        console.log('   ✅ Found via attempt 5 (phone)');
                     }
                 }
 
@@ -431,7 +437,7 @@
                     console.log('❌ Patient NOT FOUND after all attempts');
                     console.log('   Last error:', lastError);
                     showNotification(
-                        'لم يتم العثور على مريض بهذا الكود. تأكد من الكود وحاول مرة أخرى.',
+                        'لم يتم العثور على حجز بهذا الكود. تأكد من الكود وحاول مرة أخرى.',
                         'error'
                     );
                     if (patientFoundCard) patientFoundCard.classList.remove('visible');
