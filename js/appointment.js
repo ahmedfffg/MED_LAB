@@ -1612,15 +1612,18 @@
         /* ============================================
            SAVE BOOKING - NEW PATIENT
         ============================================ */
-        async function saveBooking(booking) {
+                async function saveBooking(booking) {
             let patientId = null;
             let bookingId = null;
 
             try {
+                // كود موحّد: هيبقى كود المريض وكود أول حجز ليه
+                const unifiedCode = generateUnifiedCode();
+
                 const { data: patient, error: patientError } = await supabaseClient
                     .from('patients')
                     .insert({
-                        patient_code: generatePatientCode(),
+                        patient_code: unifiedCode,
                         full_name: booking.name,
                         phone: booking.phone,
                     })
@@ -1630,7 +1633,7 @@
                 if (patientError) throw patientError;
                 patientId = patient.id;
 
-                const bookingCode = generateBookingCode();
+                const bookingCode = unifiedCode;
 
                 const subtotal = booking.testsTotal + booking.homeVisitFee;
                 const total = booking.total;
