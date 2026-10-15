@@ -14,12 +14,32 @@
 
     console.log('✅ Supabase client created:', typeof supabaseClient.from === 'function');
 
-    document.addEventListener('DOMContentLoaded', function () {
+    /* ============================================
+       INIT FUNCTION
+       بنستنى window.load عشان shared-header.js يخلص حقن HTML
+    ============================================ */
+    function initAppointmentSystem() {
+        console.log('🚀 Initializing appointment system...');
 
         const $ = id => document.getElementById(id);
 
         /* ============================================
-           ELEMENTS - NEW PATIENT (الأصلي)
+           ELEMENTS - MODE SELECTOR
+        ============================================ */
+        const modeNewPatientBtn = $('mode-new-patient');
+        const modeReturningPatientBtn = $('mode-returning-patient');
+        const newPatientSection = $('new-patient-section');
+        const returningPatientSection = $('returning-patient-section');
+
+        console.log('🔍 Mode buttons found:', {
+            newBtn: !!modeNewPatientBtn,
+            returningBtn: !!modeReturningPatientBtn,
+            newSection: !!newPatientSection,
+            returningSection: !!returningPatientSection
+        });
+
+        /* ============================================
+           ELEMENTS - NEW PATIENT
         ============================================ */
         const searchInput = $('search-input');
         const searchResults = $('search-results');
@@ -55,12 +75,8 @@
         const clearPackageBtn = $('clear-package-btn');
 
         /* ============================================
-           ELEMENTS - RETURNING PATIENT (الجديد)
+           ELEMENTS - RETURNING PATIENT
         ============================================ */
-        const modeNewPatientBtn = $('mode-new-patient');
-        const modeReturningPatientBtn = $('mode-returning-patient');
-        const newPatientSection = $('new-patient-section');
-        const returningPatientSection = $('returning-patient-section');
         const patientCodeSearchBox = $('patient-code-search-box');
         const patientCodeInput = $('patient-code-input');
         const searchPatientBtn = $('search-patient-btn');
@@ -79,7 +95,6 @@
         const returningAge = $('returning-age');
         const returningGender = $('returning-gender');
 
-        // عناصر فورم المريض العائد
         const returningDoctor = $('returningDoctor');
         const returningReferralSource = $('returning-referral-source');
         const searchInputReturning = $('search-input-returning');
@@ -122,7 +137,7 @@
         let searchTimeout;
         let searchTimeoutReturning;
         let foundPatient = null;
-        let currentMode = 'new'; // 'new' or 'returning'
+        let currentMode = 'new';
 
         /* ============================================
            HELPERS
@@ -147,7 +162,11 @@
         }
 
         function showNotification(message, type) {
-            if (!notificationArea) return;
+            if (!notificationArea) {
+                console.warn('⚠️ notificationArea not found');
+                alert(message);
+                return;
+            }
             const oldNotifications = notificationArea.querySelectorAll('.notification');
             oldNotifications.forEach(n => n.remove());
 
@@ -173,7 +192,7 @@
         }
 
         /* ============================================
-           ✅ توليد أكواد تلقائية
+           GENERATE CODES
         ============================================ */
         function generatePatientCode() {
             const now = new Date();
@@ -190,49 +209,90 @@
         }
 
         /* ============================================
-           ✅ BOOKING MODE SWITCHER
+           BOOKING MODE SWITCHER
         ============================================ */
         function switchMode(mode) {
+            console.log('🔄 Switching mode to:', mode);
             currentMode = mode;
 
-            // تحديث الأزرار
-            if (modeNewPatientBtn) modeNewPatientBtn.classList.toggle('active', mode === 'new');
-            if (modeReturningPatientBtn) modeReturningPatientBtn.classList.toggle('active', mode === 'returning');
+            if (modeNewPatientBtn) {
+                if (mode === 'new') {
+                    modeNewPatientBtn.classList.add('active');
+                } else {
+                    modeNewPatientBtn.classList.remove('active');
+                }
+            }
+            if (modeReturningPatientBtn) {
+                if (mode === 'returning') {
+                    modeReturningPatientBtn.classList.add('active');
+                } else {
+                    modeReturningPatientBtn.classList.remove('active');
+                }
+            }
 
-            // إظهار/إخفاء الأقسام
             if (newPatientSection) {
-                newPatientSection.classList.toggle('hidden', mode !== 'new');
+                if (mode === 'new') {
+                    newPatientSection.classList.remove('hidden');
+                    newPatientSection.style.display = 'block';
+                } else {
+                    newPatientSection.classList.add('hidden');
+                    newPatientSection.style.display = 'none';
+                }
             }
 
             if (returningPatientSection) {
-                returningPatientSection.classList.toggle('visible', mode === 'returning');
+                if (mode === 'returning') {
+                    returningPatientSection.classList.add('visible');
+                    returningPatientSection.style.display = 'block';
+                } else {
+                    returningPatientSection.classList.remove('visible');
+                    returningPatientSection.style.display = 'none';
+                }
             }
 
-            // إعادة تعيين فورم المريض العائد
             if (mode === 'returning') {
                 resetReturningPatientSearch();
             }
 
-            // تمرير لأعلى
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        /* ============================================
+           EVENT LISTENERS - MODE BUTTONS
+        ============================================ */
         if (modeNewPatientBtn) {
-            modeNewPatientBtn.addEventListener('click', () => switchMode('new'));
+            modeNewPatientBtn.onclick = function (e) {
+                e.preventDefault();
+                console.log('🖱️ New patient button clicked');
+                switchMode('new');
+            };
+            console.log('✅ New patient button listener attached');
+        } else {
+            console.error('❌ mode-new-patient button NOT FOUND!');
         }
 
         if (modeReturningPatientBtn) {
-            modeReturningPatientBtn.addEventListener('click', () => switchMode('returning'));
+            modeReturningPatientBtn.onclick = function (e) {
+                e.preventDefault();
+                console.log('🖱️ Returning patient button clicked');
+                switchMode('returning');
+            };
+            console.log('✅ Returning patient button listener attached');
+        } else {
+            console.error('❌ mode-returning-patient button NOT FOUND!');
         }
 
         /* ============================================
-           ✅ RETURNING PATIENT - SEARCH BY CODE
+           RETURNING PATIENT - SEARCH BY CODE
         ============================================ */
         function resetReturningPatientSearch() {
             if (patientCodeInput) patientCodeInput.value = '';
             if (patientFoundCard) patientFoundCard.classList.remove('visible');
             if (patientCodeSearchBox) patientCodeSearchBox.style.display = 'block';
-            if (returningPatientForm) returningPatientForm.classList.remove('visible');
+            if (returningPatientForm) {
+                returningPatientForm.classList.remove('visible');
+                returningPatientForm.style.display = 'none';
+            }
             foundPatient = null;
         }
 
@@ -244,7 +304,6 @@
                 return;
             }
 
-            // إظهار مؤشر التحميل
             if (searchPatientBtn) {
                 searchPatientBtn.disabled = true;
                 searchPatientBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري البحث...';
@@ -266,7 +325,6 @@
                     return;
                 }
 
-                // تم العثور على المريض
                 foundPatient = data;
                 displayFoundPatient(data);
                 showNotification('تم العثور على بياناتك بنجاح!', 'success');
@@ -316,7 +374,7 @@
                 '</div>' +
                 '<div class="patient-info-item">' +
                     '<span><i class="fas fa-phone"></i> رقم الهاتف</span>' +
-                    '<strong>' + escapeHtml(patient.phone) + '</strong>' +
+                    '<strong>' + escapeHtml(patient.phone || 'غير محدد') + '</strong>' +
                 '</div>' +
                 '<div class="patient-info-item">' +
                     '<span><i class="fas fa-calendar"></i> العمر</span>' +
@@ -332,61 +390,74 @@
         }
 
         if (searchPatientBtn) {
-            searchPatientBtn.addEventListener('click', () => {
+            searchPatientBtn.onclick = function (e) {
+                e.preventDefault();
                 if (patientCodeInput) searchPatientByCode(patientCodeInput.value);
-            });
+            };
         }
 
         if (patientCodeInput) {
-            patientCodeInput.addEventListener('keypress', (e) => {
+            patientCodeInput.onkeypress = function (e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     searchPatientByCode(patientCodeInput.value);
                 }
-            });
+            };
         }
 
         if (changePatientBtn) {
-            changePatientBtn.addEventListener('click', () => {
+            changePatientBtn.onclick = function (e) {
+                e.preventDefault();
                 resetReturningPatientSearch();
                 if (patientCodeInput) patientCodeInput.focus();
-            });
+            };
         }
 
         if (usePatientBtn) {
-            usePatientBtn.addEventListener('click', () => {
+            usePatientBtn.onclick = function (e) {
+                e.preventDefault();
                 if (!foundPatient) return;
 
-                // ملء البيانات المخفية
                 if (returningPatientId) returningPatientId.value = foundPatient.id || '';
                 if (returningFullname) returningFullname.value = foundPatient.full_name || '';
                 if (returningPhone) returningPhone.value = foundPatient.phone || '';
                 if (returningAge) returningAge.value = foundPatient.birth_date || '';
                 if (returningGender) returningGender.value = foundPatient.gender || '';
 
-                // عرض اسم المريض في البانر
                 if (returningPatientName) returningPatientName.textContent = foundPatient.full_name;
                 if (returningPatientCode) returningPatientCode.textContent = foundPatient.patient_code;
 
-                // إخفاء البحث وإظهار الفورم
-                if (returningPatientSection) returningPatientSection.classList.remove('visible');
-                if (returningPatientForm) returningPatientForm.classList.add('visible');
+                if (patientFoundCard) patientFoundCard.classList.remove('visible');
+                if (patientCodeSearchBox) patientCodeSearchBox.style.display = 'none';
+                if (returningPatientSection) {
+                    returningPatientSection.classList.remove('visible');
+                    returningPatientSection.style.display = 'none';
+                }
+                if (returningPatientForm) {
+                    returningPatientForm.classList.add('visible');
+                    returningPatientForm.style.display = 'block';
+                }
 
-                // تحميل الباقة لو موجودة
                 loadSelectedPackageForReturning();
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
+            };
         }
 
         if (backToSearchBtn) {
-            backToSearchBtn.addEventListener('click', () => {
-                if (returningPatientForm) returningPatientForm.classList.remove('visible');
-                if (returningPatientSection) returningPatientSection.classList.add('visible');
-                if (patientFoundCard) patientFoundCard.classList.add('visible');
-                if (patientCodeSearchBox) patientCodeSearchBox.style.display = 'none';
+            backToSearchBtn.onclick = function (e) {
+                e.preventDefault();
+                if (returningPatientForm) {
+                    returningPatientForm.classList.remove('visible');
+                    returningPatientForm.style.display = 'none';
+                }
+                if (returningPatientSection) {
+                    returningPatientSection.classList.add('visible');
+                    returningPatientSection.style.display = 'block';
+                }
+                resetReturningPatientSearch();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
+            };
         }
 
         /* ============================================
@@ -709,8 +780,8 @@
             showNotification('تم إلغاء الباقة المختارة', 'info');
         }
 
-        if (clearPackageBtn) clearPackageBtn.addEventListener('click', clearPackage);
-        if (clearPackageBtnReturning) clearPackageBtnReturning.addEventListener('click', clearPackageReturning);
+        if (clearPackageBtn) clearPackageBtn.onclick = clearPackage;
+        if (clearPackageBtnReturning) clearPackageBtnReturning.onclick = clearPackageReturning;
 
         /* ============================================
            SEARCH
@@ -798,12 +869,12 @@
                     ? '<i class="fas fa-check"></i>'
                     : '<i class="fas fa-plus"></i>';
                 addBtn.title = isAdded ? 'تم الإضافة' : 'إضافة التحليل';
-                addBtn.addEventListener('click', e => {
+                addBtn.onclick = function (e) {
                     e.stopPropagation();
                     toggleTest(test);
-                });
+                };
 
-                item.addEventListener('click', () => toggleTest(test));
+                item.onclick = function () { toggleTest(test); };
                 item.append(info, priceEl, addBtn);
                 searchResults.appendChild(item);
             });
@@ -850,12 +921,12 @@
                     ? '<i class="fas fa-check"></i>'
                     : '<i class="fas fa-plus"></i>';
                 addBtn.title = isAdded ? 'تم الإضافة' : 'إضافة التحليل';
-                addBtn.addEventListener('click', e => {
+                addBtn.onclick = function (e) {
                     e.stopPropagation();
                     toggleTestReturning(test);
-                });
+                };
 
-                item.addEventListener('click', () => toggleTestReturning(test));
+                item.onclick = function () { toggleTestReturning(test); };
                 item.append(info, priceEl, addBtn);
                 searchResultsReturning.appendChild(item);
             });
@@ -948,14 +1019,14 @@
                 } else {
                     remove.innerHTML = '<i class="fas fa-times"></i>';
                     remove.title = 'حذف التحليل';
-                    remove.addEventListener('click', e => {
+                    remove.onclick = function (e) {
                         e.stopPropagation();
                         selectedTests = selectedTests.filter(t => t.id !== test.id);
                         renderSelectedTests();
                         updatePriceSummary();
                         applyCurrentSearch();
                         showNotification('تم إزالة "' + test.name + '"', 'info');
-                    });
+                    };
                 }
 
                 row.append(info, remove);
@@ -1014,14 +1085,14 @@
                 } else {
                     remove.innerHTML = '<i class="fas fa-times"></i>';
                     remove.title = 'حذف التحليل';
-                    remove.addEventListener('click', e => {
+                    remove.onclick = function (e) {
                         e.stopPropagation();
                         selectedTestsReturning = selectedTestsReturning.filter(t => t.id !== test.id);
                         renderSelectedTestsReturning();
                         updatePriceSummaryReturning();
                         applyCurrentSearchReturning();
                         showNotification('تم إزالة "' + test.name + '"', 'info');
-                    });
+                    };
                 }
 
                 row.append(info, remove);
@@ -1139,23 +1210,23 @@
         });
 
         if (clearSearchBtn) {
-            clearSearchBtn.addEventListener('click', function () {
+            clearSearchBtn.onclick = function () {
                 if (searchInput) { searchInput.value = ''; searchInput.focus(); }
                 if (searchResults) searchResults.classList.remove('active');
                 this.classList.remove('visible');
-            });
+            };
         }
 
         if (clearSearchReturning) {
-            clearSearchReturning.addEventListener('click', function () {
+            clearSearchReturning.onclick = function () {
                 if (searchInputReturning) { searchInputReturning.value = ''; searchInputReturning.focus(); }
                 if (searchResultsReturning) searchResultsReturning.classList.remove('active');
                 this.classList.remove('visible');
-            });
+            };
         }
 
         if (clearAllBtn) {
-            clearAllBtn.addEventListener('click', function () {
+            clearAllBtn.onclick = function () {
                 if (!selectedTests.length) {
                     showNotification('لا توجد تحاليل لحذفها', 'warning');
                     return;
@@ -1169,11 +1240,11 @@
                 updatePriceSummary();
                 applyCurrentSearch();
                 showNotification('تم حذف كل التحاليل المختارة', 'info');
-            });
+            };
         }
 
         if (clearAllBtnReturning) {
-            clearAllBtnReturning.addEventListener('click', function () {
+            clearAllBtnReturning.onclick = function () {
                 if (!selectedTestsReturning.length) {
                     showNotification('لا توجد تحاليل لحذفها', 'warning');
                     return;
@@ -1187,7 +1258,7 @@
                 updatePriceSummaryReturning();
                 applyCurrentSearchReturning();
                 showNotification('تم حذف كل التحاليل المختارة', 'info');
-            });
+            };
         }
 
         /* ============================================
@@ -1534,7 +1605,6 @@
             let bookingId = null;
 
             try {
-                /* ---------- 1) إضافة المريض ---------- */
                 const { data: patient, error: patientError } = await supabaseClient
                     .from('patients')
                     .insert({
@@ -1548,7 +1618,6 @@
                 if (patientError) throw patientError;
                 patientId = patient.id;
 
-                /* ---------- 2) إضافة الحجز ---------- */
                 const bookingCode = generateBookingCode();
 
                 const subtotal = booking.testsTotal + booking.homeVisitFee;
@@ -1588,7 +1657,6 @@
                 if (bookingError) throw bookingError;
                 bookingId = bookingRow.id;
 
-                /* ---------- 3) إضافة تفاصيل الحجز ---------- */
                 const itemsData = [];
 
                 booking.tests.filter(t => !t.isPackageTest).forEach(test => {
@@ -1658,7 +1726,6 @@
                     throw new Error('لم يتم تحديد المريض. الرجاء البحث بالكود مرة أخرى.');
                 }
 
-                /* ---------- 1) إضافة الحجز (بدون إضافة مريض جديد) ---------- */
                 const bookingCode = generateBookingCode();
 
                 const subtotal = booking.testsTotal + booking.homeVisitFee;
@@ -1698,7 +1765,6 @@
                 if (bookingError) throw bookingError;
                 bookingId = bookingRow.id;
 
-                /* ---------- 2) إضافة تفاصيل الحجز ---------- */
                 const itemsData = [];
 
                 booking.tests.filter(t => !t.isPackageTest).forEach(test => {
@@ -1861,7 +1927,7 @@
            FORM SUBMIT - NEW PATIENT
         ============================================ */
         if (appointmentForm) {
-            appointmentForm.addEventListener('submit', async function (e) {
+            appointmentForm.onsubmit = async function (e) {
                 e.preventDefault();
                 if (!validateForm()) return;
 
@@ -1911,14 +1977,14 @@
                     if (btnText) btnText.textContent = 'تأكيد الحجز';
                     if (spinner) spinner.style.display = 'none';
                 }
-            });
+            };
         }
 
         /* ============================================
            FORM SUBMIT - RETURNING PATIENT
         ============================================ */
         if (appointmentFormReturning) {
-            appointmentFormReturning.addEventListener('submit', async function (e) {
+            appointmentFormReturning.onsubmit = async function (e) {
                 e.preventDefault();
                 if (!validateFormReturning()) return;
 
@@ -1942,7 +2008,6 @@
                         confirmationEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
 
-                    // إعادة تعيين
                     appointmentFormReturning.reset();
                     if (sampleLocationGroupReturning) sampleLocationGroupReturning.classList.remove('is-invalid');
                     [homeGovernorateReturning, homeDistrictReturning, homeAreaReturning, homeBuildingNumberReturning, homeLandmarkReturning].forEach(field => {
@@ -1959,10 +2024,15 @@
                     if (searchInputReturning) searchInputReturning.value = '';
                     if (clearSearchReturning) clearSearchReturning.classList.remove('visible');
 
-                    // الرجوع لوضع البحث
                     setTimeout(() => {
-                        if (returningPatientForm) returningPatientForm.classList.remove('visible');
-                        if (returningPatientSection) returningPatientSection.classList.add('visible');
+                        if (returningPatientForm) {
+                            returningPatientForm.classList.remove('visible');
+                            returningPatientForm.style.display = 'none';
+                        }
+                        if (returningPatientSection) {
+                            returningPatientSection.classList.add('visible');
+                            returningPatientSection.style.display = 'block';
+                        }
                         resetReturningPatientSearch();
                     }, 500);
 
@@ -1976,7 +2046,7 @@
                     if (btnText) btnText.textContent = 'تأكيد الحجز';
                     if (spinner) spinner.style.display = 'none';
                 }
-            });
+            };
         }
 
         /* ============================================
@@ -2014,5 +2084,19 @@
         loadTestsFromSource();
 
         console.log('✅ Appointment system initialized. Mode:', currentMode);
-    });
+    }
+
+    /* ============================================
+       WAIT FOR EVERYTHING TO LOAD
+    ============================================ */
+    if (document.readyState === 'complete') {
+        console.log('📄 Document already loaded, initializing immediately');
+        initAppointmentSystem();
+    } else {
+        console.log('⏳ Waiting for window load event...');
+        window.addEventListener('load', function () {
+            console.log('✅ Window load event fired');
+            initAppointmentSystem();
+        });
+    }
 })();
