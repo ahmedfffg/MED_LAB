@@ -194,13 +194,25 @@
            GENERATE CODES
            (كود موحّد: هو كود المريض وكود الحجز معاً)
         ============================================ */
-        function generateUnifiedCode() {
+               function generateUnifiedCode() {
             const now = new Date();
             const datePart = now.toISOString().slice(0, 10).replace(/-/g, '');
             const random = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
             return 'WEB-' + datePart + '-' + random;
         }
 
+        /* ============================================
+           GENERATE BOOKING PASSWORD
+           كلمة مرور عشوائية 8 حروف + أرقام
+        ============================================ */
+        function generateBookingPassword() {
+            const chars = 'ABCDEFGHJKLMNPQRTUVWXY346789';
+            let pwd = '';
+            for (let i = 0; i < 8; i++) {
+                pwd += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return pwd;
+        }
         /* ============================================
            BOOKING MODE SWITCHER
         ============================================ */
@@ -1868,7 +1880,7 @@
                     });
                 }
 
-                if (itemsData.length) {
+                                if (itemsData.length) {
                     const { error: itemsError } = await supabaseClient
                         .from('booking_items')
                         .insert(itemsData);
@@ -1877,10 +1889,27 @@
                     console.log('✅ Booking items created:', itemsData.length);
                 }
 
+                // ✅ تعيين كلمة مرور للحجز
+                const bookingPassword = generateBookingPassword();
+                console.log('🔐 Generated booking password:', bookingPassword);
+
+                const { data: pwResult, error: pwError } = await supabaseClient
+                    .rpc('set_booking_password_secure', {
+                        p_booking_code: bookingCode,
+                        p_password: bookingPassword
+                    });
+
+                if (pwError) {
+                    console.warn('⚠️ فشل تعيين كلمة المرور:', pwError);
+                } else {
+                    console.log('✅ Password set:', pwResult);
+                }
+
                 return {
                     id: bookingRow.id,
                     booking_number: bookingRow.booking_code,
                     patient_code: patient.patient_code,
+                    booking_password: bookingPassword,
                     daily_number: null
                 };
 
@@ -1984,7 +2013,7 @@
                     });
                 }
 
-                if (itemsData.length) {
+                                if (itemsData.length) {
                     const { error: itemsError } = await supabaseClient
                         .from('booking_items')
                         .insert(itemsData);
@@ -1993,9 +2022,27 @@
                     console.log('✅ Booking items created:', itemsData.length);
                 }
 
+                // ✅ تعيين كلمة مرور للحجز
+                const bookingPassword = generateBookingPassword();
+                console.log('🔐 Generated booking password:', bookingPassword);
+
+                const { data: pwResult, error: pwError } = await supabaseClient
+                    .rpc('set_booking_password_secure', {
+                        p_booking_code: bookingCode,
+                        p_password: bookingPassword
+                    });
+
+                if (pwError) {
+                    console.warn('⚠️ فشل تعيين كلمة المرور:', pwError);
+                } else {
+                    console.log('✅ Password set:', pwResult);
+                }
+
                 return {
                     id: bookingRow.id,
                     booking_number: bookingRow.booking_code,
+                    patient_code: patient.patient_code,
+                    booking_password: bookingPassword,
                     daily_number: null
                 };
 
@@ -2050,13 +2097,22 @@
             ].filter(Boolean).join(' - ');
 
             // عرض كود الحجز (الموحّد) في شاشة التأكيد
-            const codeInfo = savedAppointment && savedAppointment.booking_number
-                ? '<div style="background:#d4f5e9;padding:0.6rem 1rem;border-radius:10px;margin-bottom:0.8rem;">' +
+                       const codeInfo = savedAppointment && savedAppointment.booking_number
+                ? '<div style="background:#d4f5e9;padding:0.8rem 1rem;border-radius:10px;margin-bottom:0.8rem;">' +
                   '<i class="fas fa-id-card" style="color:#22a86e;"></i> ' +
                   '<strong>كود الحجز:</strong> ' +
-                  '<span style="background:#22a86e;color:white;padding:0.1rem 0.8rem;border-radius:12px;font-size:0.85rem;font-family:monospace;">' +
+                  '<span style="background:#22a86e;color:white;padding:0.2rem 0.8rem;border-radius:12px;font-size:0.9rem;font-family:monospace;font-weight:700;letter-spacing:1px;">' +
                   escapeHtml(savedAppointment.booking_number) + '</span>' +
-                  '<br><small style="color:#1a5a3a;">احتفظ بالكود ده للمرة الجاية عشان تحجز أسرع</small>' +
+                  (savedAppointment.booking_password
+                    ? '<br><br>' +
+                      '<i class="fas fa-lock" style="color:#e89b1f;"></i> ' +
+                      '<strong>كلمة المرور:</strong> ' +
+                      '<span style="background:#e89b1f;color:white;padding:0.2rem 0.8rem;border-radius:12px;font-size:0.9rem;font-family:monospace;font-weight:700;letter-spacing:2px;">' +
+                      escapeHtml(savedAppointment.booking_password) + '</span>' +
+                      '<br><small style="color:#8a5a1a;display:block;margin-top:0.4rem;">' +
+                      '⚠️ <b>احتفظ بالكود وكلمة المرور</b> — هتحتاجهم لاستلام النتائج من الموقع' +
+                      '</small>'
+                    : '') +
                   '</div>'
                 : '';
 
