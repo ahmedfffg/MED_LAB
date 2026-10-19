@@ -986,15 +986,15 @@
     .copyright p { color: var(--text-light) !important; font-size: 13px !important; }
 
     /* ============================================================
-       Floating home — مثبّت على الشمال إجبارياً
+       Floating home — مثبّت على اليمين إجبارياً
        ============================================================ */
     .floating-home {
       position: fixed !important;
       bottom: 25px !important;
       right: 25px !important;
-      right: auto !important;
+      left: auto !important;
       top: auto !important;
-      inset: auto auto 25px 25px !important;
+      inset: auto 25px 25px auto !important;
       width: 55px !important;
       height: 55px !important;
       background: linear-gradient(135deg, var(--primary), var(--primary-light)) !important;
@@ -1024,7 +1024,7 @@
       transform: none !important;
       box-shadow: 0 8px 20px -6px rgba(10,124,184,0.55) !important;
       right: 25px !important;
-      right: auto !important;
+      left: auto !important;
     }
 
     /* ============================================
@@ -1295,20 +1295,20 @@
       .results-section .results-table { display: none !important; }
       .results-section .results-cards { display: block !important; }
 
-      /* Floating home — موبايل على الشمال إجبارياً */
+      /* Floating home — موبايل على اليمين إجبارياً */
       .floating-home {
         width: 48px !important;
         height: 48px !important;
         bottom: 18px !important;
-        left: 18px !important;
-        right: auto !important;
+        right: 18px !important;
+        left: auto !important;
         top: auto !important;
-        inset: auto auto 18px 18px !important;
+        inset: auto 18px 18px auto !important;
       }
       .floating-home i { font-size: 15px !important; }
       .floating-home:hover {
-        left: 18px !important;
-        right: auto !important;
+        right: 18px !important;
+        left: auto !important;
       }
     }
 
@@ -2180,7 +2180,7 @@
       codeInput.focus();
     });
 
-    console.log('✅ صفحة استلام النتائج جاهزة - نسخة محصّنة ضد css/style.css');
+    console.log('✅ صفحة استلام النتائج جاهزة - زر الرئيسية على اليمين');
   </script>
 
 <!-- Dev Watermark -->
