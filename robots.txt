@@ -6,4 +6,4 @@ Disallow: /sample-receive.html
 Disallow: /*?*
 
 # Sitemap
-Sitemap: https://med-lab-beta.vercel.app//sitemap.xml
+Sitemap: https://medlabeg.vercel.app//sitemap.xml
