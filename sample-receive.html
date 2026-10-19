@@ -5,10 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>استلام النتائج - معمل ميدلاب</title>
   <link href="images/logo.png" type="image/x-icon" rel="icon">
+
+  <!-- ✅ ملف الستايل الأساسي (هيدر + لوجو + مينيو) - لا تحذفه -->
+  <link rel="stylesheet" href="css/style.css">
+
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
+    /* ============================================================
+       SCOPED OVERRIDES — نتغلب على أي قواعد خارجية في css/style.css
+       الخاصة بأيقونات صفحة النتائج فقط، دون المساس بالهيدر/اللوجو/المينيو
+       ============================================================ */
     :root {
       --primary: #0a7cb8;
       --primary-dark: #085a87;
@@ -47,7 +55,8 @@
       color: var(--primary-dark); margin-bottom: 8px;
       display: flex; align-items: center; justify-content: center; gap: 8px;
     }
-    .section-title i { color: var(--primary); font-size: 1.15rem; }
+    /* ✅ أيقونة العنوان - إجباري 1.15rem */
+    .results-section .section-title i { color: var(--primary); font-size: 1.15rem !important; }
     .section-subtitle { text-align: center; color: var(--text-light); margin-bottom: 35px; }
 
     /* Steps */
@@ -61,17 +70,18 @@
       font-size: 14px; font-weight: 700;
       background: var(--blue-soft); color: var(--text-light);
       border: 2px solid var(--border);
-      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease !important;
     }
     .step-dot.active {
       background: var(--primary); color: white;
       border-color: var(--primary);
+      box-shadow: none !important;
     }
     .step-dot.done {
       background: var(--success); color: white;
       border-color: var(--success);
     }
-    .step-line { width: 40px; height: 2px; background: var(--border); transition: background 0.15s ease; }
+    .step-line { width: 40px; height: 2px; background: var(--border); transition: background 0.15s ease !important; }
     .step-line.active { background: var(--primary); }
 
     /* Card */
@@ -86,7 +96,8 @@
       background: linear-gradient(90deg, var(--primary), var(--primary-light));
     }
     .card-icon { text-align: center; margin-bottom: 8px; }
-    .card-icon i { font-size: 32px; color: var(--primary); }
+    /* ✅ أيقونة الكارت - إجباري 32px */
+    .results-section .card-icon i { font-size: 32px !important; color: var(--primary); }
     .card-description { text-align: center; color: var(--text-light); margin-bottom: 24px; }
 
     /* Form */
@@ -95,14 +106,15 @@
       display: flex; align-items: center; gap: 6px;
       margin-bottom: 8px; font-weight: 700; font-size: 14.5px;
     }
-    .form-label i { color: var(--primary); font-size: 12.5px; width: 18px; }
+    /* ✅ أيقونة الليبل - إجباري 12.5px */
+    .results-section .form-label i { color: var(--primary); font-size: 12.5px !important; width: 18px; }
     .form-input {
       width: 100%; padding: 13px 16px;
       font-family: 'Tajawal', sans-serif; font-size: 15px;
       background: var(--blue-softer);
       border: 1.5px solid var(--border);
       border-radius: 10px; outline: none;
-      transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+      transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease !important;
     }
     .form-input:focus {
       border-color: var(--primary); background: var(--white);
@@ -140,12 +152,13 @@
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      font-size: 12px;
       line-height: 1;
-      transition: color 0.15s ease, background 0.15s ease;
+      transition: color 0.15s ease, background 0.15s ease !important;
       padding: 0;
       user-select: none;
     }
+    /* ✅ أيقونة العين - إجباري 12px */
+    .results-section .toggle-password i { font-size: 12px !important; }
     .toggle-password:hover { color: var(--primary); background: rgba(10,124,184,0.08); }
     .toggle-password:focus { outline: none; color: var(--primary); }
 
@@ -153,7 +166,8 @@
       display: flex; align-items: center; gap: 6px;
       margin-top: 6px; font-size: 12.5px; color: var(--text-light);
     }
-    .field-hint i { color: var(--primary); font-size: 11px; }
+    /* ✅ أيقونة الهينت - إجباري 11px */
+    .results-section .field-hint i { color: var(--primary); font-size: 11px !important; }
 
     /* Buttons */
     .btn {
@@ -161,22 +175,26 @@
       gap: 8px; padding: 14px 28px;
       font-family: 'Tajawal', sans-serif; font-size: 16px; font-weight: 700;
       border: none; border-radius: 10px; cursor: pointer;
-      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease !important;
       text-decoration: none;
     }
+    /* ✅ أيقونات الأزرار - إجباري 12px */
+    .results-section .btn i { font-size: 12px !important; }
     .btn-primary {
       background: linear-gradient(135deg, var(--primary), var(--primary-light));
       color: var(--white);
       width: 100%; padding: 15px 28px; font-size: 16.5px;
+      box-shadow: none !important;
     }
-    .btn-primary:hover { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); }
-    .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
+    .btn-primary:hover { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); box-shadow: none !important; transform: none !important; }
+    .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; box-shadow: none !important; }
     .btn-ghost {
       background: var(--blue-soft); color: var(--primary);
       border: 1px solid var(--border);
       font-size: 13.5px; padding: 8px 16px;
+      box-shadow: none !important;
     }
-    .btn-ghost:hover { background: var(--primary); color: white; border-color: var(--primary); }
+    .btn-ghost:hover { background: var(--primary); color: white; border-color: var(--primary); transform: none !important; }
 
     /* Password form action row */
     .password-actions {
@@ -204,7 +222,8 @@
       border-right: 3px solid var(--primary);
       font-size: 12.5px; color: var(--text-medium);
     }
-    .security-note i { color: var(--primary); font-size: 12px; margin-top: 3px; }
+    /* ✅ أيقونة الأمان - إجباري 12px */
+    .results-section .security-note i { color: var(--primary); font-size: 12px !important; margin-top: 3px; }
 
     /* Patient display */
     .patient-name-display {
@@ -220,7 +239,7 @@
     /* ============================================
        RESULTS
     ============================================ */
-    .results-area { max-width: 850px; margin: 30px auto 0; animation: fadeIn 0.25s ease; }
+    .results-area { max-width: 850px; margin: 30px auto 0; animation: fadeIn 0.25s ease !important; }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(5px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -232,7 +251,8 @@
       flex-wrap: wrap; gap: 10px;
     }
     .results-header h3 { color: var(--primary-dark); font-size: 1.15rem; display: flex; align-items: center; gap: 7px; }
-    .results-header h3 i { font-size: 0.9rem; color: var(--primary); }
+    /* ✅ أيقونة عنوان النتائج - إجباري 0.9rem */
+    .results-section .results-header h3 i { font-size: 0.9rem !important; color: var(--primary); }
     .patient-info {
       color: var(--text-light); margin-bottom: 15px; font-size: 14px;
       display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
@@ -240,7 +260,8 @@
       border-radius: 10px; border: 1px solid var(--border);
     }
     .patient-info strong { color: var(--text-dark); font-weight: 700; }
-    .patient-info i { color: var(--primary); font-size: 12px; }
+    /* ✅ أيقونة معلومات المريض - إجباري 12px */
+    .results-section .patient-info i { color: var(--primary); font-size: 12px !important; }
 
     /* Latest banner */
     .latest-banner {
@@ -255,13 +276,14 @@
       font-size: 14px;
       color: var(--success);
       font-weight: 700;
-      animation: slideDown 0.25s ease;
+      animation: slideDown 0.25s ease !important;
     }
     @keyframes slideDown {
       from { opacity: 0; transform: translateY(-4px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    .latest-banner i { font-size: 15px; }
+    /* ✅ أيقونة البانر - إجباري 15px */
+    .results-section .latest-banner i { font-size: 15px !important; }
     .latest-banner .latest-info { flex: 1; }
     .latest-banner .latest-info .title { font-weight: 700; margin-bottom: 2px; }
     .latest-banner .latest-info .sub { font-size: 12.5px; opacity: 0.85; font-weight: 500; }
@@ -292,7 +314,8 @@
       color: var(--primary-dark);
       font-size: 14px;
     }
-    .date-filter-header .filter-label i { color: var(--primary); font-size: 12.5px; }
+    /* ✅ أيقونة فلتر التاريخ - إجباري 12.5px */
+    .results-section .date-filter-header .filter-label i { color: var(--primary); font-size: 12.5px !important; }
     .date-filter-header .results-stats {
       display: flex;
       align-items: center;
@@ -305,7 +328,8 @@
       font-weight: 700;
       color: var(--primary-dark);
     }
-    .date-filter-header .results-stats i { color: var(--primary); font-size: 11px; }
+    /* ✅ أيقونة الإحصائيات - إجباري 11px */
+    .results-section .date-filter-header .results-stats i { color: var(--primary); font-size: 11px !important; }
 
     .date-chips {
       display: flex;
@@ -322,21 +346,25 @@
       font-size: 13px;
       font-weight: 700;
       cursor: pointer;
-      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease !important;
       display: inline-flex;
       align-items: center;
       gap: 6px;
       white-space: nowrap;
+      box-shadow: none !important;
     }
-    .date-chip i { font-size: 11px; }
+    /* ✅ أيقونة الشيب - إجباري 11px */
+    .results-section .date-chip i { font-size: 11px !important; }
     .date-chip:hover {
       border-color: var(--primary);
       background: var(--blue-soft);
+      transform: none !important;
     }
     .date-chip.active {
       background: linear-gradient(135deg, var(--primary), var(--primary-light));
       color: white;
       border-color: var(--primary);
+      box-shadow: none !important;
     }
     .date-chip .count {
       padding: 1px 7px;
@@ -360,6 +388,8 @@
     .date-chip.all-chip:hover {
       background: linear-gradient(135deg, #15663d, #1a7d4a);
       color: white;
+      box-shadow: none !important;
+      transform: none !important;
     }
     .date-chip.all-chip .count {
       background: rgba(255,255,255,0.3);
@@ -383,7 +413,8 @@
       font-weight: 700; font-size: 13.5px;
     }
     .results-table td { color: var(--text-medium); background: var(--white); }
-    .results-table td i { font-size: 12px; }
+    /* ✅ أيقونات الجدول - إجباري 12px */
+    .results-section .results-table td i { font-size: 12px !important; }
     .results-table tr:last-child td { border-bottom: none; }
     .results-table tr.latest-row td { background: #f0fbf5; }
 
@@ -405,12 +436,14 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      transition: background 0.15s ease, opacity 0.15s ease;
+      transition: background 0.15s ease, opacity 0.15s ease !important;
       font-family: inherit;
       line-height: 1.4;
+      box-shadow: none !important;
     }
-    .btn-preview i { font-size: 11px; }
-    .btn-preview:hover { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); }
+    /* ✅ أيقونة زر المعاينة - إجباري 11px */
+    .results-section .btn-preview i { font-size: 11px !important; }
+    .btn-preview:hover { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); box-shadow: none !important; transform: none !important; }
     .btn-download {
       background: var(--blue-soft);
       color: var(--primary);
@@ -423,11 +456,13 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease !important;
       line-height: 1.4;
+      box-shadow: none !important;
     }
-    .btn-download i { font-size: 11px; }
-    .btn-download:hover { background: var(--primary); color: white; border-color: var(--primary); }
+    /* ✅ أيقونة زر التحميل - إجباري 11px */
+    .results-section .btn-download i { font-size: 11px !important; }
+    .btn-download:hover { background: var(--primary); color: white; border-color: var(--primary); transform: none !important; }
 
     /* Mobile card view for results */
     .results-cards {
@@ -439,7 +474,7 @@
       border-radius: 12px;
       padding: 14px;
       margin-bottom: 10px;
-      transition: border-color 0.15s ease, background 0.15s ease;
+      transition: border-color 0.15s ease, background 0.15s ease !important;
     }
     .result-card-item.latest-card {
       background: #f0fbf5;
@@ -462,7 +497,8 @@
       font-weight: 700;
       font-size: 13px;
     }
-    .result-card-item .rc-date i { color: var(--primary); font-size: 11px; }
+    /* ✅ أيقونة التاريخ في الكارت - إجباري 11px */
+    .results-section .result-card-item .rc-date i { color: var(--primary); font-size: 11px !important; }
     .result-card-item .rc-type {
       background: var(--blue-soft);
       color: var(--primary);
@@ -480,7 +516,8 @@
       align-items: center;
       gap: 8px;
     }
-    .result-card-item .rc-name i { color: var(--primary); font-size: 12px; }
+    /* ✅ أيقونة اسم الملف في الكارت - إجباري 12px */
+    .results-section .result-card-item .rc-name i { color: var(--primary); font-size: 12px !important; }
     .result-card-item .rc-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -492,16 +529,19 @@
       padding: 10px;
       font-size: 13px;
     }
-    .result-card-item .rc-actions .btn-preview i,
-    .result-card-item .rc-actions .btn-download i { font-size: 12px; }
+    /* ✅ أيقونات أزرار الكارت - إجباري 12px */
+    .results-section .result-card-item .rc-actions .btn-preview i,
+    .results-section .result-card-item .rc-actions .btn-download i { font-size: 12px !important; }
 
     .no-results { text-align: center; padding: 35px 20px; color: var(--text-light); }
-    .no-results i { font-size: 34px; margin-bottom: 14px; display: block; }
+    /* ✅ أيقونة لا توجد نتائج - إجباري 34px */
+    .results-section .no-results i { font-size: 34px !important; margin-bottom: 14px; display: block; }
     .no-results p { font-weight: 600; margin-bottom: 6px; }
     .no-results .sub-text { font-weight: 400; font-size: 13px; opacity: 0.85; }
 
     .loading-spinner { text-align: center; padding: 30px; color: var(--primary); font-weight: 500; }
-    .loading-spinner i { margin-left: 8px; font-size: 16px; }
+    /* ✅ أيقونة اللودينج - إجباري 16px */
+    .results-section .loading-spinner i { margin-left: 8px; font-size: 16px !important; }
 
     .hidden { display: none !important; }
 
@@ -520,12 +560,14 @@
       background: linear-gradient(135deg, var(--primary), var(--primary-light));
       color: white; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 16px; text-decoration: none;
+      text-decoration: none;
       box-shadow: 0 8px 20px -6px rgba(10,124,184,0.55);
       z-index: 1000;
-      transition: background 0.15s ease;
+      transition: background 0.15s ease !important;
     }
-    .floating-home:hover { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: white; }
+    /* ✅ أيقونة زر الرئيسية - إجباري 16px */
+    .floating-home i { font-size: 16px !important; }
+    .floating-home:hover { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: white; transform: none !important; box-shadow: 0 8px 20px -6px rgba(10,124,184,0.55) !important; }
 
     /* ============================================
        PREVIEW MODAL
@@ -552,7 +594,7 @@
       display: flex;
       flex-direction: column;
       box-shadow: 0 30px 80px rgba(0,0,0,0.4);
-      animation: modalIn 0.18s ease;
+      animation: modalIn 0.18s ease !important;
       overflow: hidden;
     }
     @keyframes modalIn {
@@ -577,9 +619,10 @@
       flex: 1;
       min-width: 0;
     }
-    .preview-header .preview-title i {
+    /* ✅ أيقونة عنوان المودال - إجباري 17px */
+    .preview-overlay .preview-header .preview-title i {
       color: var(--primary);
-      font-size: 17px;
+      font-size: 17px !important;
       flex-shrink: 0;
     }
     .preview-header .preview-title .t-info { min-width: 0; }
@@ -602,7 +645,10 @@
       justify-content: flex-end;
       align-items: center;
     }
-    .preview-actions .btn-sm i { font-size: 12px; }
+    /* ✅ أيقونات أزرار المودال - إجباري 12px */
+    .preview-overlay .preview-actions .btn-sm i { font-size: 12px !important; }
+    .preview-overlay .preview-actions .btn-sm { box-shadow: none !important; }
+    .preview-overlay .preview-actions .btn-sm:hover { transform: none !important; }
 
     .preview-body {
       flex: 1;
@@ -654,7 +700,8 @@
       align-items: center;
       gap: 6px;
     }
-    .preview-info-bar .info-chip i { color: var(--primary); font-size: 11px; }
+    /* ✅ أيقونات شريط المعلومات - إجباري 11px */
+    .preview-overlay .preview-info-bar .info-chip i { color: var(--primary); font-size: 11px !important; }
     .preview-info-bar .info-chip strong { color: var(--text-dark); }
 
     /* ============================================
@@ -679,11 +726,13 @@
 
       .results-section { padding: 25px 0 50px; }
       .section-title { font-size: 1.4rem; gap: 7px; }
-      .section-title i { font-size: 1rem; }
+      /* ✅ أيقونة العنوان موبايل - إجباري 1rem */
+      .results-section .section-title i { font-size: 1rem !important; }
       .section-subtitle { font-size: 13.5px; margin-bottom: 25px; }
 
       .service-card { padding: 25px 18px; border-radius: 12px; }
-      .card-icon i { font-size: 28px; }
+      /* ✅ أيقونة الكارت موبايل - إجباري 28px */
+      .results-section .card-icon i { font-size: 28px !important; }
       .card-description { font-size: 14px; margin-bottom: 20px; }
 
       /* Form on mobile */
@@ -700,7 +749,8 @@
       /* Results on mobile */
       .results-area { margin-top: 20px; }
       .results-header h3 { font-size: 1.05rem; }
-      .results-header h3 i { font-size: 0.85rem; }
+      /* ✅ أيقونة عنوان النتائج موبايل - إجباري 0.85rem */
+      .results-section .results-header h3 i { font-size: 0.85rem !important; }
       .results-header { margin-bottom: 14px; padding-bottom: 12px; }
       .patient-info { font-size: 13px; padding: 10px 12px; gap: 10px; }
       .patient-info strong { font-size: 13px; }
@@ -712,7 +762,8 @@
         padding: 12px;
         font-size: 13px;
       }
-      .latest-banner i { font-size: 15px; }
+      /* ✅ أيقونة البانر موبايل - إجباري 15px */
+      .results-section .latest-banner i { font-size: 15px !important; }
       .latest-banner .latest-info .sub { font-size: 12px; }
 
       /* Date filter mobile */
@@ -742,14 +793,17 @@
       .results-cards { display: block; }
 
       /* Floating home */
-      .floating-home { width: 48px; height: 48px; font-size: 15px; bottom: 18px; left: 18px; }
+      .floating-home { width: 48px; height: 48px; bottom: 18px; left: 18px; }
+      /* ✅ أيقونة الرئيسية موبايل - إجباري 15px */
+      .floating-home i { font-size: 15px !important; }
     }
 
     @media (max-width: 400px) {
       .section-title { font-size: 1.25rem; }
       .service-card { padding: 20px 15px; }
       .date-chip { padding: 6px 10px; font-size: 11.5px; }
-      .card-icon i { font-size: 26px; }
+      /* ✅ أيقونة الكارت موبايل صغير - إجباري 26px */
+      .results-section .card-icon i { font-size: 26px !important; }
     }
   </style>
 </head>
