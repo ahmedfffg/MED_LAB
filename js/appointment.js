@@ -1,3 +1,4 @@
+// js/appointment.js
 (function () {
     'use strict';
 
@@ -63,12 +64,10 @@
         const packageTestsCount = $('package-tests-count');
         const clearPackageBtn = $('clear-package-btn');
 
-        // Map elements
+        // Map elements (new patient)
         const locationLatInput = $('location-lat');
         const locationLngInput = $('location-lng');
         const locationUrlInput = $('location-url');
-        const mapCoordsEl = $('map-coords');
-        const copyLocationUrlBtn = $('copy-location-url');
 
         /* ============================================
            ELEMENTS - RETURNING PATIENT
@@ -121,12 +120,10 @@
         const homeBuildingNumberReturning = $('home-building-number-returning');
         const homeLandmarkReturning = $('home-landmark-returning');
 
-        // Map elements returning
+        // Map elements (returning patient)
         const locationLatInputReturning = $('location-lat-returning');
         const locationLngInputReturning = $('location-lng-returning');
         const locationUrlInputReturning = $('location-url-returning');
-        const mapCoordsElReturning = $('map-coords-returning');
-        const copyLocationUrlBtnReturning = $('copy-location-url-returning');
 
         /* ============================================
            STATE
@@ -142,11 +139,9 @@
         let foundPatient = null;
         let currentMode = 'new';
 
-        // Map state
+        // Map state (uber-style)
         let mapInstance = null;
-        let mapMarker = null;
         let mapInstanceReturning = null;
-        let mapMarkerReturning = null;
 
         /* ============================================
            HELPERS
@@ -197,85 +192,279 @@
         }
 
         /* ============================================
-           MAP INITIALIZATION (Leaflet)
+           UBER-STYLE MAP PICKER
+           - الخريطة تفتح على موقع المستخدم (بعد إذنه)
+           - الدبوس ثابت في المنتصف
+           - المستخدم يحرك الخريطة
+           - يظهر العنوان والرابط
+           - زر تأكيد الموقع
         ============================================ */
-        const DEFAULT_CENTER = [30.0444, 31.2357]; // Cairo
+        const DEFAULT_CENTER = [30.0444, 31.2357]; // Cairo fallback
 
-        function initMap(mapId, latInput, lngInput, urlInput, coordsEl, onSelect) {
-            const el = document.getElementById(mapId);
-            if (!el || typeof L === 'undefined') return null;
+        function initUberMap(opts) {
+            const {
+                mapId, pinId, statusBarId, myLocationBtnId,
+                addressTextId, urlInputId, confirmBtnId,
+                latInputId, lngInputId, copyBtnId
+            } = opts;
 
-            const map = L.map(mapId).setView(DEFAULT_CENTER, 12);
+            const mapEl = document.getElementById(mapId);
+            if (!mapEl || typeof L === 'undefined') {
+                console.warn('⚠️ Map element or Leaflet not found:', mapId);
+                return null;
+            }
+
+            // ============ Map init ============
+            const map = L.map(mapEl, {
+                zoomControl: true,
+                attributionControl: true
+            }).setView(DEFAULT_CENTER, 13);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap',
                 maxZoom: 19
             }).addTo(map);
 
-            let marker = null;
+            // ============ Elements ============
+            const pinEl = document.getElementById(pinId);
+            const statusBar = document.getElementById(statusBarId);
+            const myLocationBtn = document.getElementById(myLocationBtnId);
+            const addressTextEl = document.getElementById(addressTextId);
+            const urlInput = document.getElementById(urlInputId);
+            const confirmBtn = document.getElementById(confirmBtnId);
+            const latInput = document.getElementById(latInputId);
+            const lngInput = document.getElementById(lngInputId);
+            const copyBtn = document.getElementById(copyBtnId);
 
-            map.on('click', function (e) {
-                const lat = e.latlng.lat;
-                const lng = e.latlng.lng;
+            // ============ State ============
+            let currentCenter = { lat: DEFAULT_CENTER[0], lng: DEFAULT_CENTER[1] };
+            let userLocation = null;
+            let isConfirmed = false;
+            let reverseTimer = null;
+            let initialized = false;
 
-                if (marker) {
-                    marker.setLatLng(e.latlng);
-                } else {
-                    marker = L.marker(e.latlng, { draggable: true }).addTo(map);
-                    marker.on('dragend', function () {
-                        const pos = marker.getLatLng();
-                        updateMarker(pos.lat, pos.lng);
-                    });
-                }
+            // ============ Helpers ============
+            function setStatus(text, type) {
+                if (!statusBar) return;
+                statusBar.className = 'map-status-bar' + (type ? ' ' + type : '');
+                const icon = type === 'loading' ? 'fa-spinner fa-spin'
+                            : type === 'success' ? 'fa-check-circle'
+                            : type === 'error' ? 'fa-exclamation-triangle'
+                            : 'fa-info-circle';
+                statusBar.innerHTML = '<i class="fas ' + icon + '"></i><span class="status-text">' + escapeHtml(text) + '</span>';
+            }
 
-                updateMarker(lat, lng);
+            function showPinLifted() {
+                if (pinEl) pinEl.classList.add('lifted');
+            }
+            function hidePinLifted() {
+                if (pinEl) pinEl.classList.remove('lifted');
+            }
 
-                function updateMarker(la, ln) {
-                    const url = 'https://www.google.com/maps?q=' + la.toFixed(6) + ',' + ln.toFixed(6);
-                    if (latInput) latInput.value = la.toFixed(6);
-                    if (lngInput) lngInput.value = ln.toFixed(6);
-                    if (urlInput) urlInput.value = url;
-                    if (coordsEl) {
-                        coordsEl.textContent = 'الإحداثيات: ' + la.toFixed(6) + ' , ' + ln.toFixed(6);
+            function reverseGeocode(lat, lng) {
+                // Nominatim (OpenStreetMap) - مجاني
+                const url = 'https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng + '&accept-language=ar&zoom=18';
+
+                fetch(url, { headers: { 'Accept': 'application/json' } })
+                .then(r => r.json())
+                .then(data => {
+                    if (data && data.display_name) {
+                        if (addressTextEl) {
+                            addressTextEl.textContent = data.display_name;
+                            addressTextEl.classList.remove('empty');
+                        }
+                    } else {
+                        if (addressTextEl) {
+                            addressTextEl.textContent = 'الإحداثيات: ' + lat.toFixed(6) + ', ' + lng.toFixed(6);
+                            addressTextEl.classList.remove('empty');
+                        }
                     }
-                    if (onSelect) onSelect(la, ln, url);
+                })
+                .catch(() => {
+                    if (addressTextEl) {
+                        addressTextEl.textContent = 'الإحداثيات: ' + lat.toFixed(6) + ', ' + lng.toFixed(6);
+                        addressTextEl.classList.remove('empty');
+                    }
+                });
+            }
+
+            function updateMapCenter() {
+                const center = map.getCenter();
+                currentCenter = { lat: center.lat, lng: center.lng };
+
+                // نلغي التأكيد السابق لو المستخدم حرّك الخريطة
+                if (isConfirmed) {
+                    isConfirmed = false;
+                    if (confirmBtn) {
+                        confirmBtn.classList.remove('confirmed');
+                        confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> تأكيد الموقع';
+                    }
                 }
+
+                if (confirmBtn) confirmBtn.disabled = false;
+
+                // نطلب عنوان المكان (بعد توقف بسيط)
+                if (reverseTimer) clearTimeout(reverseTimer);
+                reverseTimer = setTimeout(() => {
+                    reverseGeocode(currentCenter.lat, currentCenter.lng);
+                }, 500);
+            }
+
+            // ============ Map events ============
+            map.on('movestart', () => {
+                showPinLifted();
+                setStatus('حرّك الخريطة لتحديد المكان', 'loading');
             });
 
-            // محاولة تحديد موقع المستخدم
-            if (navigator.geolocation) {
+            map.on('moveend', () => {
+                hidePinLifted();
+                updateMapCenter();
+            });
+
+            map.on('move', () => {
+                const center = map.getCenter();
+                currentCenter = { lat: center.lat, lng: center.lng };
+            });
+
+            // ============ My Location button ============
+            if (myLocationBtn) {
+                myLocationBtn.addEventListener('click', () => {
+                    if (!navigator.geolocation) {
+                        setStatus('متصفحك لا يدعم تحديد الموقع', 'error');
+                        return;
+                    }
+
+                    myLocationBtn.classList.add('locating');
+                    setStatus('جاري تحديد موقعك...', 'loading');
+
+                    navigator.geolocation.getCurrentPosition(
+                        (pos) => {
+                            const lat = pos.coords.latitude;
+                            const lng = pos.coords.longitude;
+                            userLocation = { lat, lng };
+                            map.flyTo([lat, lng], 16, { duration: 1.2 });
+                            myLocationBtn.classList.remove('locating');
+                            setStatus('تم تحديد موقعك، اضغط تأكيد الموقع', 'success');
+                        },
+                        (err) => {
+                            myLocationBtn.classList.remove('locating');
+                            let msg = 'فشل تحديد موقعك';
+                            if (err.code === 1) msg = 'الرجاء السماح بالوصول لموقعك من إعدادات المتصفح';
+                            else if (err.code === 2) msg = 'تعذر تحديد الموقع، حاول مرة أخرى';
+                            else if (err.code === 3) msg = 'انتهت مهلة تحديد الموقع';
+                            setStatus(msg, 'error');
+                        },
+                        { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+                    );
+                });
+            }
+
+            // ============ Confirm button ============
+            if (confirmBtn) {
+                confirmBtn.addEventListener('click', () => {
+                    const lat = currentCenter.lat;
+                    const lng = currentCenter.lng;
+                    const url = 'https://www.google.com/maps?q=' + lat.toFixed(6) + ',' + lng.toFixed(6);
+
+                    if (latInput) latInput.value = lat.toFixed(6);
+                    if (lngInput) lngInput.value = lng.toFixed(6);
+                    if (urlInput) urlInput.value = url;
+
+                    isConfirmed = true;
+                    confirmBtn.classList.add('confirmed');
+                    confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> ✓ تم تأكيد الموقع';
+                    setStatus('تم تأكيد الموقع بنجاح', 'success');
+
+                    if (addressTextEl && addressTextEl.classList.contains('empty')) {
+                        addressTextEl.textContent = 'الإحداثيات: ' + lat.toFixed(6) + ', ' + lng.toFixed(6);
+                        addressTextEl.classList.remove('empty');
+                    }
+                });
+            }
+
+            // ============ Copy button ============
+            if (copyBtn) {
+                copyBtn.addEventListener('click', () => {
+                    const val = urlInput ? urlInput.value.trim() : '';
+                    if (!val) {
+                        setStatus('اضغط "تأكيد الموقع" الأول', 'error');
+                        return;
+                    }
+                    navigator.clipboard.writeText(val).then(() => {
+                        const original = copyBtn.innerHTML;
+                        copyBtn.innerHTML = '<i class="fas fa-check"></i> تم';
+                        setTimeout(() => { copyBtn.innerHTML = original; }, 1500);
+                    }).catch(() => setStatus('فشل نسخ الرابط', 'error'));
+                });
+            }
+
+            // ============ Auto-locate on init ============
+            function autoLocate() {
+                if (!navigator.geolocation) {
+                    setStatus('متصفحك لا يدعم تحديد الموقع، حرّك الخريطة يدوياً', 'error');
+                    if (confirmBtn) confirmBtn.disabled = false;
+                    return;
+                }
+
+                setStatus('جاري تحديد موقعك...', 'loading');
+
                 navigator.geolocation.getCurrentPosition(
-                    function (pos) {
-                        const userLat = pos.coords.latitude;
-                        const userLng = pos.coords.longitude;
-                        map.setView([userLat, userLng], 15);
+                    (pos) => {
+                        const lat = pos.coords.latitude;
+                        const lng = pos.coords.longitude;
+                        userLocation = { lat, lng };
+
+                        map.setView([lat, lng], 16);
+                        setStatus('تم تحديد موقعك، حرّك الدبوس لو محتاج', 'success');
+
+                        // نطلب عنوان المكان
+                        updateMapCenter();
                     },
-                    function () { /* تجاهل الأخطاء */ },
-                    { timeout: 5000 }
+                    (err) => {
+                        let msg = 'حرّك الخريطة يدوياً لتحديد مكان العينة';
+                        if (err.code === 1) msg = 'الرجاء السماح بالوصول لموقعك من المتصفح، أو حرّك الخريطة يدوياً';
+                        setStatus(msg, 'error');
+                        if (confirmBtn) confirmBtn.disabled = false;
+                    },
+                    { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
                 );
             }
 
-            return { map, getMarker: () => marker };
-        }
+            // نأجل الـ autoLocate لحد ما الـ container يظهر
+            setTimeout(() => {
+                map.invalidateSize();
+                if (!initialized) {
+                    initialized = true;
+                    autoLocate();
+                }
+            }, 400);
 
-        // Copy buttons
-        if (copyLocationUrlBtn) {
-            copyLocationUrlBtn.onclick = function () {
-                const val = locationUrlInput ? locationUrlInput.value.trim() : '';
-                if (!val) { showNotification('لم يتم تحديد الموقع بعد', 'warning'); return; }
-                navigator.clipboard.writeText(val).then(() => {
-                    showNotification('✓ تم نسخ رابط الموقع', 'success');
-                }).catch(() => showNotification('فشل النسخ', 'error'));
-            };
-        }
-
-        if (copyLocationUrlBtnReturning) {
-            copyLocationUrlBtnReturning.onclick = function () {
-                const val = locationUrlInputReturning ? locationUrlInputReturning.value.trim() : '';
-                if (!val) { showNotification('لم يتم تحديد الموقع بعد', 'warning'); return; }
-                navigator.clipboard.writeText(val).then(() => {
-                    showNotification('✓ تم نسخ رابط الموقع', 'success');
-                }).catch(() => showNotification('فشل النسخ', 'error'));
+            // ============ Return API ============
+            return {
+                map,
+                reset: function () {
+                    isConfirmed = false;
+                    if (confirmBtn) {
+                        confirmBtn.classList.remove('confirmed');
+                        confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> تأكيد الموقع';
+                        confirmBtn.disabled = true;
+                    }
+                    if (latInput) latInput.value = '';
+                    if (lngInput) lngInput.value = '';
+                    if (urlInput) urlInput.value = '';
+                    if (addressTextEl) {
+                        addressTextEl.textContent = 'حرّك الخريطة حتى يقع الدبوس على مكان العينة';
+                        addressTextEl.classList.add('empty');
+                    }
+                    map.setView(DEFAULT_CENTER, 13);
+                    setStatus('جاري تحديد موقعك...', 'loading');
+                    setTimeout(autoLocate, 300);
+                },
+                invalidate: function () {
+                    setTimeout(() => map.invalidateSize(), 200);
+                },
+                getUserLocation: () => userLocation,
+                isConfirmed: () => isConfirmed
             };
         }
 
@@ -386,7 +575,7 @@
                     }
                 }
 
-                // محاولة 3: partial match
+                // محاولة 3: partial match on patients
                 if (!data) {
                     const a3 = await supabaseClient
                         .from('patients')
@@ -521,14 +710,6 @@
                 }
 
                 loadSelectedPackageForReturning();
-
-                // initialize map for returning if not yet
-                setTimeout(() => {
-                    if (!mapInstanceReturning) {
-                        const res = initMap('map-returning', locationLatInputReturning, locationLngInputReturning, locationUrlInputReturning, mapCoordsElReturning);
-                        if (res) { mapInstanceReturning = res.map; mapMarkerReturning = res.getMarker; }
-                    }
-                }, 300);
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             };
@@ -1234,14 +1415,26 @@
 
             if (homeVisitDetails) homeVisitDetails.style.display = isHome ? 'block' : 'none';
 
-            if (isHome && !mapInstance) {
-                setTimeout(() => {
-                    const res = initMap('map', locationLatInput, locationLngInput, locationUrlInput, mapCoordsEl);
-                    if (res) { mapInstance = res.map; mapMarker = res.getMarker; }
-                    if (mapInstance) mapInstance.invalidateSize();
-                }, 200);
-            } else if (isHome && mapInstance) {
-                setTimeout(() => mapInstance.invalidateSize(), 200);
+            if (isHome) {
+                if (!mapInstance) {
+                    setTimeout(() => {
+                        const api = initUberMap({
+                            mapId: 'map',
+                            pinId: 'map-center-pin',
+                            statusBarId: 'map-status-bar',
+                            myLocationBtnId: 'map-my-location-btn',
+                            addressTextId: 'map-address-text',
+                            urlInputId: 'location-url',
+                            confirmBtnId: 'btn-confirm-location',
+                            latInputId: 'location-lat',
+                            lngInputId: 'location-lng',
+                            copyBtnId: 'copy-location-url'
+                        });
+                        if (api) mapInstance = api;
+                    }, 250);
+                } else {
+                    mapInstance.invalidate();
+                }
             }
 
             if (!isHome) {
@@ -1285,14 +1478,26 @@
 
             if (homeVisitDetailsReturning) homeVisitDetailsReturning.style.display = isHome ? 'block' : 'none';
 
-            if (isHome && !mapInstanceReturning) {
-                setTimeout(() => {
-                    const res = initMap('map-returning', locationLatInputReturning, locationLngInputReturning, locationUrlInputReturning, mapCoordsElReturning);
-                    if (res) { mapInstanceReturning = res.map; mapMarkerReturning = res.getMarker; }
-                    if (mapInstanceReturning) mapInstanceReturning.invalidateSize();
-                }, 200);
-            } else if (isHome && mapInstanceReturning) {
-                setTimeout(() => mapInstanceReturning.invalidateSize(), 200);
+            if (isHome) {
+                if (!mapInstanceReturning) {
+                    setTimeout(() => {
+                        const api = initUberMap({
+                            mapId: 'map-returning',
+                            pinId: 'map-center-pin-returning',
+                            statusBarId: 'map-status-bar-returning',
+                            myLocationBtnId: 'map-my-location-btn-returning',
+                            addressTextId: 'map-address-text-returning',
+                            urlInputId: 'location-url-returning',
+                            confirmBtnId: 'btn-confirm-location-returning',
+                            latInputId: 'location-lat-returning',
+                            lngInputId: 'location-lng-returning',
+                            copyBtnId: 'copy-location-url-returning'
+                        });
+                        if (api) mapInstanceReturning = api;
+                    }, 250);
+                } else {
+                    mapInstanceReturning.invalidate();
+                }
             }
 
             if (!isHome) {
@@ -1530,7 +1735,7 @@
         }
 
         /* ============================================
-           SAVE BOOKING - NEW PATIENT (كل البيانات في bookings)
+           SAVE BOOKING - NEW PATIENT
         ============================================ */
         async function saveBooking(booking) {
             let patientId = null;
@@ -1933,14 +2138,13 @@
                     });
 
                     // إعادة تعيين الخريطة
-                    if (mapMarker && mapMarker()) {
-                        mapInstance.removeLayer(mapMarker());
+                    if (mapInstance && mapInstance.reset) {
+                        mapInstance.reset();
+                    } else {
+                        if (locationLatInput) locationLatInput.value = '';
+                        if (locationLngInput) locationLngInput.value = '';
+                        if (locationUrlInput) locationUrlInput.value = '';
                     }
-                    if (locationLatInput) locationLatInput.value = '';
-                    if (locationLngInput) locationLngInput.value = '';
-                    if (locationUrlInput) locationUrlInput.value = '';
-                    if (mapCoordsEl) mapCoordsEl.textContent = 'لم يتم تحديد الموقع بعد';
-                    if (mapInstance) mapInstance.setView(DEFAULT_CENTER, 12);
 
                     updateHomeVisitUI();
 
@@ -1999,14 +2203,13 @@
                         if (field) field.classList.remove('is-invalid');
                     });
 
-                    if (mapMarkerReturning && mapMarkerReturning()) {
-                        mapInstanceReturning.removeLayer(mapMarkerReturning());
+                    if (mapInstanceReturning && mapInstanceReturning.reset) {
+                        mapInstanceReturning.reset();
+                    } else {
+                        if (locationLatInputReturning) locationLatInputReturning.value = '';
+                        if (locationLngInputReturning) locationLngInputReturning.value = '';
+                        if (locationUrlInputReturning) locationUrlInputReturning.value = '';
                     }
-                    if (locationLatInputReturning) locationLatInputReturning.value = '';
-                    if (locationLngInputReturning) locationLngInputReturning.value = '';
-                    if (locationUrlInputReturning) locationUrlInputReturning.value = '';
-                    if (mapCoordsElReturning) mapCoordsElReturning.textContent = 'لم يتم تحديد الموقع بعد';
-                    if (mapInstanceReturning) mapInstanceReturning.setView(DEFAULT_CENTER, 12);
 
                     updateHomeVisitUIReturning();
 
