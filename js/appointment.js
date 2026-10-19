@@ -7,10 +7,7 @@
     const SUPABASE_URL = 'https://rlkqifdteyccagpdtdmu.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_XibO6Ri8DLKHG-rUEp4Bnw_bDzm67Xf';
 
-    const supabaseClient = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY
-    );
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     console.log('✅ Supabase client created:', typeof supabaseClient.from === 'function');
 
@@ -29,13 +26,6 @@
         const modeReturningPatientBtn = $('mode-returning-patient');
         const newPatientSection = $('new-patient-section');
         const returningPatientSection = $('returning-patient-section');
-
-        console.log('🔍 Mode buttons found:', {
-            newBtn: !!modeNewPatientBtn,
-            returningBtn: !!modeReturningPatientBtn,
-            newSection: !!newPatientSection,
-            returningSection: !!returningPatientSection
-        });
 
         /* ============================================
            ELEMENTS - NEW PATIENT
@@ -72,6 +62,13 @@
         const packagePriceDisplay = $('package-price-display');
         const packageTestsCount = $('package-tests-count');
         const clearPackageBtn = $('clear-package-btn');
+
+        // Map elements
+        const locationLatInput = $('location-lat');
+        const locationLngInput = $('location-lng');
+        const locationUrlInput = $('location-url');
+        const mapCoordsEl = $('map-coords');
+        const copyLocationUrlBtn = $('copy-location-url');
 
         /* ============================================
            ELEMENTS - RETURNING PATIENT
@@ -124,6 +121,13 @@
         const homeBuildingNumberReturning = $('home-building-number-returning');
         const homeLandmarkReturning = $('home-landmark-returning');
 
+        // Map elements returning
+        const locationLatInputReturning = $('location-lat-returning');
+        const locationLngInputReturning = $('location-lng-returning');
+        const locationUrlInputReturning = $('location-url-returning');
+        const mapCoordsElReturning = $('map-coords-returning');
+        const copyLocationUrlBtnReturning = $('copy-location-url-returning');
+
         /* ============================================
            STATE
         ============================================ */
@@ -137,6 +141,12 @@
         let searchTimeoutReturning;
         let foundPatient = null;
         let currentMode = 'new';
+
+        // Map state
+        let mapInstance = null;
+        let mapMarker = null;
+        let mapInstanceReturning = null;
+        let mapMarkerReturning = null;
 
         /* ============================================
            HELPERS
@@ -161,13 +171,9 @@
         }
 
         function showNotification(message, type) {
-            if (!notificationArea) {
-                console.warn('⚠️ notificationArea not found');
-                alert(message);
-                return;
-            }
-            const oldNotifications = notificationArea.querySelectorAll('.notification');
-            oldNotifications.forEach(n => n.remove());
+            if (!notificationArea) { alert(message); return; }
+            const old = notificationArea.querySelectorAll('.notification');
+            old.forEach(n => n.remove());
 
             const notification = document.createElement('div');
             notification.className = 'notification notification-' + (type || 'info');
@@ -191,20 +197,98 @@
         }
 
         /* ============================================
-           GENERATE CODES
-           (كود موحّد: هو كود المريض وكود الحجز معاً)
+           MAP INITIALIZATION (Leaflet)
         ============================================ */
-               function generateUnifiedCode() {
+        const DEFAULT_CENTER = [30.0444, 31.2357]; // Cairo
+
+        function initMap(mapId, latInput, lngInput, urlInput, coordsEl, onSelect) {
+            const el = document.getElementById(mapId);
+            if (!el || typeof L === 'undefined') return null;
+
+            const map = L.map(mapId).setView(DEFAULT_CENTER, 12);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap',
+                maxZoom: 19
+            }).addTo(map);
+
+            let marker = null;
+
+            map.on('click', function (e) {
+                const lat = e.latlng.lat;
+                const lng = e.latlng.lng;
+
+                if (marker) {
+                    marker.setLatLng(e.latlng);
+                } else {
+                    marker = L.marker(e.latlng, { draggable: true }).addTo(map);
+                    marker.on('dragend', function () {
+                        const pos = marker.getLatLng();
+                        updateMarker(pos.lat, pos.lng);
+                    });
+                }
+
+                updateMarker(lat, lng);
+
+                function updateMarker(la, ln) {
+                    const url = 'https://www.google.com/maps?q=' + la.toFixed(6) + ',' + ln.toFixed(6);
+                    if (latInput) latInput.value = la.toFixed(6);
+                    if (lngInput) lngInput.value = ln.toFixed(6);
+                    if (urlInput) urlInput.value = url;
+                    if (coordsEl) {
+                        coordsEl.textContent = 'الإحداثيات: ' + la.toFixed(6) + ' , ' + ln.toFixed(6);
+                    }
+                    if (onSelect) onSelect(la, ln, url);
+                }
+            });
+
+            // محاولة تحديد موقع المستخدم
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function (pos) {
+                        const userLat = pos.coords.latitude;
+                        const userLng = pos.coords.longitude;
+                        map.setView([userLat, userLng], 15);
+                    },
+                    function () { /* تجاهل الأخطاء */ },
+                    { timeout: 5000 }
+                );
+            }
+
+            return { map, getMarker: () => marker };
+        }
+
+        // Copy buttons
+        if (copyLocationUrlBtn) {
+            copyLocationUrlBtn.onclick = function () {
+                const val = locationUrlInput ? locationUrlInput.value.trim() : '';
+                if (!val) { showNotification('لم يتم تحديد الموقع بعد', 'warning'); return; }
+                navigator.clipboard.writeText(val).then(() => {
+                    showNotification('✓ تم نسخ رابط الموقع', 'success');
+                }).catch(() => showNotification('فشل النسخ', 'error'));
+            };
+        }
+
+        if (copyLocationUrlBtnReturning) {
+            copyLocationUrlBtnReturning.onclick = function () {
+                const val = locationUrlInputReturning ? locationUrlInputReturning.value.trim() : '';
+                if (!val) { showNotification('لم يتم تحديد الموقع بعد', 'warning'); return; }
+                navigator.clipboard.writeText(val).then(() => {
+                    showNotification('✓ تم نسخ رابط الموقع', 'success');
+                }).catch(() => showNotification('فشل النسخ', 'error'));
+            };
+        }
+
+        /* ============================================
+           GENERATE CODES
+        ============================================ */
+        function generateUnifiedCode() {
             const now = new Date();
             const datePart = now.toISOString().slice(0, 10).replace(/-/g, '');
             const random = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
             return 'WEB-' + datePart + '-' + random;
         }
 
-        /* ============================================
-           GENERATE BOOKING PASSWORD
-           كلمة مرور عشوائية 8 حروف + أرقام
-        ============================================ */
         function generateBookingPassword() {
             const chars = 'ABCDEFGHJKLMNPQRTUVWXY346789';
             let pwd = '';
@@ -213,78 +297,36 @@
             }
             return pwd;
         }
+
         /* ============================================
            BOOKING MODE SWITCHER
         ============================================ */
         function switchMode(mode) {
-            console.log('🔄 Switching mode to:', mode);
             currentMode = mode;
 
-            if (modeNewPatientBtn) {
-                if (mode === 'new') {
-                    modeNewPatientBtn.classList.add('active');
-                } else {
-                    modeNewPatientBtn.classList.remove('active');
-                }
-            }
-            if (modeReturningPatientBtn) {
-                if (mode === 'returning') {
-                    modeReturningPatientBtn.classList.add('active');
-                } else {
-                    modeReturningPatientBtn.classList.remove('active');
-                }
-            }
+            if (modeNewPatientBtn) modeNewPatientBtn.classList.toggle('active', mode === 'new');
+            if (modeReturningPatientBtn) modeReturningPatientBtn.classList.toggle('active', mode === 'returning');
 
             if (newPatientSection) {
-                if (mode === 'new') {
-                    newPatientSection.classList.remove('hidden');
-                    newPatientSection.style.display = 'block';
-                } else {
-                    newPatientSection.classList.add('hidden');
-                    newPatientSection.style.display = 'none';
-                }
+                newPatientSection.classList.toggle('hidden', mode !== 'new');
+                newPatientSection.style.display = mode === 'new' ? 'block' : 'none';
             }
 
             if (returningPatientSection) {
-                if (mode === 'returning') {
-                    returningPatientSection.classList.add('visible');
-                    returningPatientSection.style.display = 'block';
-                } else {
-                    returningPatientSection.classList.remove('visible');
-                    returningPatientSection.style.display = 'none';
-                }
+                returningPatientSection.classList.toggle('visible', mode === 'returning');
+                returningPatientSection.style.display = mode === 'returning' ? 'block' : 'none';
             }
 
-            if (mode === 'returning') {
-                resetReturningPatientSearch();
-            }
+            if (mode === 'returning') resetReturningPatientSearch();
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        /* ============================================
-           EVENT LISTENERS - MODE BUTTONS
-        ============================================ */
         if (modeNewPatientBtn) {
-            modeNewPatientBtn.onclick = function (e) {
-                e.preventDefault();
-                console.log('🖱️ New patient button clicked');
-                switchMode('new');
-            };
-            console.log('✅ New patient button listener attached');
-        } else {
-            console.error('❌ mode-new-patient button NOT FOUND!');
+            modeNewPatientBtn.onclick = function (e) { e.preventDefault(); switchMode('new'); };
         }
-
         if (modeReturningPatientBtn) {
-            modeReturningPatientBtn.onclick = function (e) {
-                e.preventDefault();
-                console.log('🖱️ Returning patient button clicked');
-                switchMode('returning');
-            };
-            console.log('✅ Returning patient button listener attached');
-        } else {
-            console.error('❌ mode-returning-patient button NOT FOUND!');
+            modeReturningPatientBtn.onclick = function (e) { e.preventDefault(); switchMode('returning'); };
         }
 
         /* ============================================
@@ -303,14 +345,6 @@
 
         async function searchPatientByCode(code) {
             const cleanCode = String(code || '').trim().toUpperCase();
-
-            console.log('═══════════════════════════════════════════════');
-            console.log('🔍 SEARCH PATIENT START');
-            console.log('📝 Raw input:', JSON.stringify(code));
-            console.log('📝 Cleaned code:', JSON.stringify(cleanCode));
-            console.log('📝 Code length:', cleanCode.length);
-            console.log('═══════════════════════════════════════════════');
-
             if (!cleanCode) {
                 showNotification('الرجاء إدخال كود الحجز', 'warning');
                 return;
@@ -323,31 +357,18 @@
 
             try {
                 let data = null;
-                let lastError = null;
 
-                /* ---------- محاولة 1: بحث مباشر في patients.patient_code ---------- */
-                console.log('🔎 [Attempt 1] ilike on patients.patient_code');
-                const attempt1 = await supabaseClient
+                // محاولة 1: patients.patient_code
+                const a1 = await supabaseClient
                     .from('patients')
                     .select('id, patient_code, full_name, phone, age, gender, birth_date, referral_source, created_at')
                     .ilike('patient_code', cleanCode)
                     .maybeSingle();
+                if (a1.data) data = a1.data;
 
-                console.log('   Result 1:', JSON.stringify(attempt1, null, 2));
-
-                if (attempt1.error) {
-                    lastError = attempt1.error;
-                    console.warn('   ⚠️ Attempt 1 error:', attempt1.error);
-                }
-                if (attempt1.data) {
-                    data = attempt1.data;
-                    console.log('   ✅ Found via attempt 1 (direct patient_code)');
-                }
-
-                /* ---------- محاولة 2: بحث في bookings.booking_code ---------- */
+                // محاولة 2: bookings.booking_code → patient
                 if (!data) {
-                    console.log('🔎 [Attempt 2] ilike on bookings.booking_code');
-                    const attempt2 = await supabaseClient
+                    const a2 = await supabaseClient
                         .from('bookings')
                         .select('id, booking_code, patient_id, patient_name, patient_phone, created_at')
                         .ilike('booking_code', cleanCode)
@@ -355,127 +376,47 @@
                         .limit(1)
                         .maybeSingle();
 
-                    console.log('   Result 2 (booking):', JSON.stringify(attempt2, null, 2));
-
-                    if (attempt2.error) {
-                        lastError = attempt2.error;
-                        console.warn('   ⚠️ Attempt 2 error:', attempt2.error);
-                    }
-
-                    if (attempt2.data && attempt2.data.patient_id) {
-                        console.log('   ✅ Found booking, fetching patient with id:', attempt2.data.patient_id);
-                        const patientAttempt = await supabaseClient
+                    if (a2.data && a2.data.patient_id) {
+                        const p = await supabaseClient
                             .from('patients')
                             .select('id, patient_code, full_name, phone, age, gender, birth_date, referral_source, created_at')
-                            .eq('id', attempt2.data.patient_id)
+                            .eq('id', a2.data.patient_id)
                             .maybeSingle();
-
-                        console.log('   Patient from booking:', JSON.stringify(patientAttempt, null, 2));
-
-                        if (patientAttempt.data) {
-                            data = patientAttempt.data;
-                            console.log('   ✅ Found via attempt 2 (booking → patient)');
-                        } else if (patientAttempt.error) {
-                            lastError = patientAttempt.error;
-                        }
+                        if (p.data) data = p.data;
                     }
                 }
 
-                /* ---------- محاولة 3: بحث جزئي على patient_code ---------- */
+                // محاولة 3: partial match
                 if (!data) {
-                    console.log('🔎 [Attempt 3] partial search (LIKE %code%) on patients');
-                    const attempt3 = await supabaseClient
+                    const a3 = await supabaseClient
                         .from('patients')
                         .select('id, patient_code, full_name, phone, age, gender, birth_date, referral_source, created_at')
                         .like('patient_code', '%' + cleanCode + '%')
                         .limit(1)
                         .maybeSingle();
-
-                    console.log('   Result 3 (partial):', JSON.stringify(attempt3, null, 2));
-
-                    if (attempt3.data) {
-                        data = attempt3.data;
-                        console.log('   ✅ Found via attempt 3 (partial match)');
-                    }
+                    if (a3.data) data = a3.data;
                 }
 
-                /* ---------- محاولة 4: بحث جزئي على bookings ---------- */
                 if (!data) {
-                    console.log('🔎 [Attempt 4] partial search (LIKE %code%) on bookings');
-                    const attempt4 = await supabaseClient
-                        .from('bookings')
-                        .select('id, booking_code, patient_id, patient_name, patient_phone, created_at')
-                        .like('booking_code', '%' + cleanCode + '%')
-                        .order('created_at', { ascending: true })
-                        .limit(1)
-                        .maybeSingle();
-
-                    console.log('   Result 4 (partial booking):', JSON.stringify(attempt4, null, 2));
-
-                    if (attempt4.data && attempt4.data.patient_id) {
-                        const patientAttempt4 = await supabaseClient
-                            .from('patients')
-                            .select('id, patient_code, full_name, phone, age, gender, birth_date, referral_source, created_at')
-                            .eq('id', attempt4.data.patient_id)
-                            .maybeSingle();
-
-                        if (patientAttempt4.data) {
-                            data = patientAttempt4.data;
-                            console.log('   ✅ Found via attempt 4 (partial booking → patient)');
-                        }
-                    }
-                }
-
-                /* ---------- محاولة 5: بحث برقم الهاتف (لو المستخدم كتب رقم مش كود) ---------- */
-                if (!data && /^\d{10,}$/.test(cleanCode.replace(/\D/g, ''))) {
-                    console.log('🔎 [Attempt 5] Looks like a phone number, searching by phone');
-                    const attempt5 = await supabaseClient
-                        .from('patients')
-                        .select('id, patient_code, full_name, phone, age, gender, birth_date, referral_source, created_at')
-                        .eq('phone', cleanCode)
-                        .limit(1)
-                        .maybeSingle();
-
-                    console.log('   Result 5 (phone):', JSON.stringify(attempt5, null, 2));
-
-                    if (attempt5.data) {
-                        data = attempt5.data;
-                        console.log('   ✅ Found via attempt 5 (phone)');
-                    }
-                }
-
-                /* ---------- النتيجة النهائية ---------- */
-                if (!data) {
-                    console.log('❌ Patient NOT FOUND after all attempts');
-                    console.log('   Last error:', lastError);
-                    showNotification(
-                        'لم يتم العثور على حجز بهذا الكود. تأكد من الكود وحاول مرة أخرى.',
-                        'error'
-                    );
+                    showNotification('لم يتم العثور على حجز بهذا الكود. تأكد من الكود وحاول مرة أخرى.', 'error');
                     if (patientFoundCard) patientFoundCard.classList.remove('visible');
                     foundPatient = null;
                     return;
                 }
 
-                console.log('✅ ✅ ✅ PATIENT FOUND:', data);
                 foundPatient = data;
                 displayFoundPatient(data);
                 showNotification('تم العثور على بياناتك بنجاح!', 'success');
 
             } catch (error) {
-                console.error('❌ خطأ في البحث عن المريض:', error);
-                let msg = 'حدث خطأ أثناء البحث.';
-                if (error && error.message) {
-                    msg += ' ' + error.message;
-                }
-                showNotification(msg, 'error');
+                console.error('❌ خطأ في البحث:', error);
+                showNotification('حدث خطأ أثناء البحث.', 'error');
                 foundPatient = null;
             } finally {
                 if (searchPatientBtn) {
                     searchPatientBtn.disabled = false;
                     searchPatientBtn.innerHTML = '<i class="fas fa-search"></i> بحث';
                 }
-                console.log('═══════════════════════════════════════════════');
             }
         }
 
@@ -485,24 +426,18 @@
                 const birth = new Date(birthDate);
                 const today = new Date();
                 let age = today.getFullYear() - birth.getFullYear();
-                const monthDiff = today.getMonth() - birth.getMonth();
-                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-                    age--;
-                }
+                const m = today.getMonth() - birth.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
                 return age + ' سنة';
-            } catch (e) {
-                return 'غير محدد';
-            }
+            } catch (e) { return 'غير محدد'; }
         }
 
-               function displayFoundPatient(patient) {
+        function displayFoundPatient(patient) {
             if (!patientInfoGrid || !patientFoundCard) return;
 
             const genderText = patient.gender === 'male' ? 'ذكر'
-                             : (patient.gender === 'female' ? 'أنثى'
-                             : (patient.gender === 'other' ? 'آخر' : 'غير محدد'));
+                             : (patient.gender === 'female' ? 'أنثى' : 'غير محدد');
 
-            // العمر: نجرب age الأول، وبعدين birth_date
             let ageText = 'غير محدد';
             if (patient.age !== null && patient.age !== undefined && patient.age !== '') {
                 ageText = patient.age + ' سنة';
@@ -530,13 +465,7 @@
                 '<div class="patient-info-item">' +
                     '<span><i class="fas fa-venus-mars"></i> الجنس</span>' +
                     '<strong>' + escapeHtml(genderText) + '</strong>' +
-                '</div>' +
-                (patient.referral_source
-                    ? '<div class="patient-info-item">' +
-                      '<span><i class="fas fa-bullhorn"></i> عرفتنا منين</span>' +
-                      '<strong>' + escapeHtml(patient.referral_source) + '</strong>' +
-                      '</div>'
-                    : '');
+                '</div>';
 
             patientFoundCard.classList.add('visible');
             if (patientCodeSearchBox) patientCodeSearchBox.style.display = 'none';
@@ -574,7 +503,7 @@
                 if (returningPatientId) returningPatientId.value = foundPatient.id || '';
                 if (returningFullname) returningFullname.value = foundPatient.full_name || '';
                 if (returningPhone) returningPhone.value = foundPatient.phone || '';
-                if (returningAge) returningAge.value = foundPatient.birth_date || '';
+                if (returningAge) returningAge.value = foundPatient.age || '';
                 if (returningGender) returningGender.value = foundPatient.gender || '';
 
                 if (returningPatientName) returningPatientName.textContent = foundPatient.full_name;
@@ -592,6 +521,14 @@
                 }
 
                 loadSelectedPackageForReturning();
+
+                // initialize map for returning if not yet
+                setTimeout(() => {
+                    if (!mapInstanceReturning) {
+                        const res = initMap('map-returning', locationLatInputReturning, locationLngInputReturning, locationUrlInputReturning, mapCoordsElReturning);
+                        if (res) { mapInstanceReturning = res.map; mapMarkerReturning = res.getMarker; }
+                    }
+                }, 300);
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             };
@@ -620,14 +557,7 @@
             try {
                 const { data, error } = await supabaseClient
                     .from('tests')
-                    .select(`
-                        id,
-                        name,
-                        price,
-                        is_active,
-                        category_id,
-                        test_categories ( id, name )
-                    `)
+                    .select('id, name, price, is_active, category_id, test_categories ( id, name )')
                     .eq('is_active', true)
                     .order('name');
 
@@ -641,8 +571,6 @@
                     category_id: test.category_id,
                     category: test.test_categories ? test.test_categories.name : 'تحاليل'
                 }));
-
-                console.log('✅ تم تحميل ' + availableTests.length + ' تحليل من Supabase');
 
                 if (!availableTests.length) {
                     renderSearchResults([]);
@@ -660,7 +588,7 @@
                 availableTests = [];
                 renderSearchResults([]);
                 renderSearchResultsReturning([]);
-                showNotification('فشل تحميل قائمة التحاليل من Supabase', 'error');
+                showNotification('فشل تحميل قائمة التحاليل', 'error');
                 return false;
             }
         }
@@ -673,13 +601,7 @@
             try {
                 const { data, error } = await supabaseClient
                     .from('packages')
-                    .select(`
-                        id, name, price, is_active,
-                        package_tests (
-                            test_id, sort_order,
-                            tests ( id, name, price, is_active )
-                        )
-                    `)
+                    .select(`id, name, price, is_active, package_tests ( test_id, sort_order, tests ( id, name, price, is_active ) )`)
                     .eq('id', packageId)
                     .eq('is_active', true)
                     .single();
@@ -708,17 +630,11 @@
             try {
                 const stored = localStorage.getItem('selected_package');
                 if (!stored) return false;
-
                 const parsed = JSON.parse(stored);
-                if (!parsed || !parsed.name) {
-                    localStorage.removeItem('selected_package');
-                    return false;
-                }
+                if (!parsed || !parsed.name) { localStorage.removeItem('selected_package'); return false; }
 
                 let packageData = null;
-                if (parsed.id) {
-                    packageData = await loadPackageFromSupabase(parsed.id);
-                }
+                if (parsed.id) packageData = await loadPackageFromSupabase(parsed.id);
 
                 if (!packageData) {
                     packageData = {
@@ -744,17 +660,11 @@
             try {
                 const stored = localStorage.getItem('selected_package');
                 if (!stored) return false;
-
                 const parsed = JSON.parse(stored);
-                if (!parsed || !parsed.name) {
-                    localStorage.removeItem('selected_package');
-                    return false;
-                }
+                if (!parsed || !parsed.name) { localStorage.removeItem('selected_package'); return false; }
 
                 let packageData = null;
-                if (parsed.id) {
-                    packageData = await loadPackageFromSupabase(parsed.id);
-                }
+                if (parsed.id) packageData = await loadPackageFromSupabase(parsed.id);
 
                 if (!packageData) {
                     packageData = {
@@ -812,7 +722,6 @@
         function packageTestMatches(test, requestedName) {
             const a = normalize(test.name);
             const b = normalize(requestedName);
-
             if (a === b || a.includes(b) || b.includes(a)) return true;
 
             const aliases = {
@@ -860,28 +769,19 @@
                 const found = availableTests.find(test => packageTestMatches(test, testName));
                 if (found) {
                     if (!selectedTests.some(t => t.id === found.id)) {
-                        matchedTests.push({
-                            ...found,
-                            isPackageTest: true,
-                            packageName: currentPackage.name
-                        });
+                        matchedTests.push({ ...found, isPackageTest: true, packageName: currentPackage.name });
                     } else {
                         const existing = selectedTests.find(t => t.id === found.id);
                         existing.isPackageTest = true;
                         existing.packageName = currentPackage.name;
                     }
-                } else {
-                    notFound.push(testName);
-                }
+                } else notFound.push(testName);
             });
 
             matchedTests.forEach(test => selectedTests.push(test));
             renderSelectedTests();
             updatePriceSummary();
-
-            if (notFound.length) {
-                showNotification('بعض تحاليل الباقة غير موجودة: ' + notFound.join(', '), 'warning');
-            }
+            if (notFound.length) showNotification('بعض تحاليل الباقة غير موجودة: ' + notFound.join(', '), 'warning');
         }
 
         function addPackageTestsReturning(testNames) {
@@ -893,28 +793,19 @@
                 const found = availableTests.find(test => packageTestMatches(test, testName));
                 if (found) {
                     if (!selectedTestsReturning.some(t => t.id === found.id)) {
-                        matchedTests.push({
-                            ...found,
-                            isPackageTest: true,
-                            packageName: currentPackageReturning.name
-                        });
+                        matchedTests.push({ ...found, isPackageTest: true, packageName: currentPackageReturning.name });
                     } else {
                         const existing = selectedTestsReturning.find(t => t.id === found.id);
                         existing.isPackageTest = true;
                         existing.packageName = currentPackageReturning.name;
                     }
-                } else {
-                    notFound.push(testName);
-                }
+                } else notFound.push(testName);
             });
 
             matchedTests.forEach(test => selectedTestsReturning.push(test));
             renderSelectedTestsReturning();
             updatePriceSummaryReturning();
-
-            if (notFound.length) {
-                showNotification('بعض تحاليل الباقة غير موجودة: ' + notFound.join(', '), 'warning');
-            }
+            if (notFound.length) showNotification('بعض تحاليل الباقة غير موجودة: ' + notFound.join(', '), 'warning');
         }
 
         function clearPackage() {
@@ -971,10 +862,7 @@
             if (q) {
                 results = results.filter(test => {
                     const haystack = normalize([test.name, test.category].filter(Boolean).join(' '));
-                    return (
-                        haystack.includes(q) ||
-                        categoryTerms(query).some(term => haystack.includes(normalize(term)))
-                    );
+                    return haystack.includes(q) || categoryTerms(query).some(term => haystack.includes(normalize(term)));
                 });
             }
 
@@ -987,12 +875,7 @@
             searchResults.classList.add('active');
 
             if (!results || !results.length) {
-                searchResults.innerHTML =
-                    '<div class="no-results">' +
-                    '<i class="fas fa-search"></i>' +
-                    '<p>لا توجد نتائج مطابقة للبحث</p>' +
-                    '<small style="color:#a0aab5;">جرب كلمة بحث مختلفة</small>' +
-                    '</div>';
+                searchResults.innerHTML = '<div class="no-results"><i class="fas fa-search"></i><p>لا توجد نتائج مطابقة للبحث</p></div>';
                 return;
             }
 
@@ -1003,29 +886,18 @@
                 const isAdded = selectedTests.some(t => t.id === test.id);
                 const info = document.createElement('div');
                 info.className = 'test-info';
-                info.innerHTML =
-                    '<span class="test-name">' + escapeHtml(test.name) + '</span>' +
-                    '<span class="test-category">' +
-                    '<i class="fas fa-folder"></i> ' + escapeHtml(test.category || 'تحاليل') +
-                    '</span>';
+                info.innerHTML = '<span class="test-name">' + escapeHtml(test.name) + '</span>' +
+                    '<span class="test-category"><i class="fas fa-folder"></i> ' + escapeHtml(test.category || 'تحاليل') + '</span>';
 
                 const priceEl = document.createElement('span');
                 priceEl.className = 'test-price';
-                priceEl.textContent = Number.isFinite(test.price)
-                    ? formatMoney(test.price) + ' جنيه'
-                    : 'السعر غير مسجل';
+                priceEl.textContent = Number.isFinite(test.price) ? formatMoney(test.price) + ' جنيه' : 'السعر غير مسجل';
 
                 const addBtn = document.createElement('button');
                 addBtn.type = 'button';
                 addBtn.className = 'add-btn' + (isAdded ? ' added' : '');
-                addBtn.innerHTML = isAdded
-                    ? '<i class="fas fa-check"></i>'
-                    : '<i class="fas fa-plus"></i>';
-                addBtn.title = isAdded ? 'تم الإضافة' : 'إضافة التحليل';
-                addBtn.onclick = function (e) {
-                    e.stopPropagation();
-                    toggleTest(test);
-                };
+                addBtn.innerHTML = isAdded ? '<i class="fas fa-check"></i>' : '<i class="fas fa-plus"></i>';
+                addBtn.onclick = function (e) { e.stopPropagation(); toggleTest(test); };
 
                 item.onclick = function () { toggleTest(test); };
                 item.append(info, priceEl, addBtn);
@@ -1039,45 +911,29 @@
             searchResultsReturning.classList.add('active');
 
             if (!results || !results.length) {
-                searchResultsReturning.innerHTML =
-                    '<div class="no-results">' +
-                    '<i class="fas fa-search"></i>' +
-                    '<p>لا توجد نتائج مطابقة للبحث</p>' +
-                    '<small style="color:#a0aab5;">جرب كلمة بحث مختلفة</small>' +
-                    '</div>';
+                searchResultsReturning.innerHTML = '<div class="no-results"><i class="fas fa-search"></i><p>لا توجد نتائج مطابقة للبحث</p></div>';
                 return;
             }
 
             results.forEach(test => {
                 const item = document.createElement('div');
                 item.className = 'result-item';
-
                 const isAdded = selectedTestsReturning.some(t => t.id === test.id);
+
                 const info = document.createElement('div');
                 info.className = 'test-info';
-                info.innerHTML =
-                    '<span class="test-name">' + escapeHtml(test.name) + '</span>' +
-                    '<span class="test-category">' +
-                    '<i class="fas fa-folder"></i> ' + escapeHtml(test.category || 'تحاليل') +
-                    '</span>';
+                info.innerHTML = '<span class="test-name">' + escapeHtml(test.name) + '</span>' +
+                    '<span class="test-category"><i class="fas fa-folder"></i> ' + escapeHtml(test.category || 'تحاليل') + '</span>';
 
                 const priceEl = document.createElement('span');
                 priceEl.className = 'test-price';
-                priceEl.textContent = Number.isFinite(test.price)
-                    ? formatMoney(test.price) + ' جنيه'
-                    : 'السعر غير مسجل';
+                priceEl.textContent = Number.isFinite(test.price) ? formatMoney(test.price) + ' جنيه' : 'السعر غير مسجل';
 
                 const addBtn = document.createElement('button');
                 addBtn.type = 'button';
                 addBtn.className = 'add-btn' + (isAdded ? ' added' : '');
-                addBtn.innerHTML = isAdded
-                    ? '<i class="fas fa-check"></i>'
-                    : '<i class="fas fa-plus"></i>';
-                addBtn.title = isAdded ? 'تم الإضافة' : 'إضافة التحليل';
-                addBtn.onclick = function (e) {
-                    e.stopPropagation();
-                    toggleTestReturning(test);
-                };
+                addBtn.innerHTML = isAdded ? '<i class="fas fa-check"></i>' : '<i class="fas fa-plus"></i>';
+                addBtn.onclick = function (e) { e.stopPropagation(); toggleTestReturning(test); };
 
                 item.onclick = function () { toggleTestReturning(test); };
                 item.append(info, priceEl, addBtn);
@@ -1126,11 +982,7 @@
             selectedTestsList.innerHTML = '';
 
             if (!selectedTests.length) {
-                selectedTestsList.innerHTML =
-                    '<div class="selected-empty">' +
-                    '<i class="fas fa-plus-circle"></i>' +
-                    'لم يتم اختيار أي تحاليل بعد' +
-                    '</div>';
+                selectedTestsList.innerHTML = '<div class="selected-empty"><i class="fas fa-plus-circle"></i> لم يتم اختيار أي تحاليل بعد</div>';
                 return;
             }
 
@@ -1152,9 +1004,7 @@
                     price.className += ' package-test-badge';
                     price.innerHTML = '<i class="fas fa-gift"></i> ضمن الباقة — بدون سعر منفصل';
                 } else {
-                    price.textContent = Number.isFinite(test.price)
-                        ? formatMoney(test.price) + ' جنيه'
-                        : 'السعر غير مسجل';
+                    price.textContent = Number.isFinite(test.price) ? formatMoney(test.price) + ' جنيه' : 'السعر غير مسجل';
                 }
 
                 info.append(name, price);
@@ -1192,11 +1042,7 @@
             selectedTestsListReturning.innerHTML = '';
 
             if (!selectedTestsReturning.length) {
-                selectedTestsListReturning.innerHTML =
-                    '<div class="selected-empty">' +
-                    '<i class="fas fa-plus-circle"></i>' +
-                    'لم يتم اختيار أي تحاليل بعد' +
-                    '</div>';
+                selectedTestsListReturning.innerHTML = '<div class="selected-empty"><i class="fas fa-plus-circle"></i> لم يتم اختيار أي تحاليل بعد</div>';
                 return;
             }
 
@@ -1218,9 +1064,7 @@
                     price.className += ' package-test-badge';
                     price.innerHTML = '<i class="fas fa-gift"></i> ضمن الباقة — بدون سعر منفصل';
                 } else {
-                    price.textContent = Number.isFinite(test.price)
-                        ? formatMoney(test.price) + ' جنيه'
-                        : 'السعر غير مسجل';
+                    price.textContent = Number.isFinite(test.price) ? formatMoney(test.price) + ' جنيه' : 'السعر غير مسجل';
                 }
 
                 info.append(name, price);
@@ -1231,13 +1075,11 @@
 
                 if (test.isPackageTest) {
                     remove.innerHTML = '<i class="fas fa-lock"></i>';
-                    remove.title = 'تحليل تابع للباقة';
                     remove.disabled = true;
                     remove.style.opacity = '0.55';
                     remove.style.cursor = 'not-allowed';
                 } else {
                     remove.innerHTML = '<i class="fas fa-times"></i>';
-                    remove.title = 'حذف التحليل';
                     remove.onclick = function (e) {
                         e.stopPropagation();
                         selectedTestsReturning = selectedTestsReturning.filter(t => t.id !== test.id);
@@ -1256,10 +1098,7 @@
         function updatePriceSummary() {
             const packagePrice = currentPackage ? Number(currentPackage.price) || 0 : 0;
             const individualTests = selectedTests.filter(test => !test.isPackageTest);
-            const individualTotal = individualTests.reduce(
-                (sum, test) => sum + (Number.isFinite(test.price) ? Number(test.price) : 0),
-                0
-            );
+            const individualTotal = individualTests.reduce((sum, test) => sum + (Number.isFinite(test.price) ? Number(test.price) : 0), 0);
             const missing = individualTests.filter(test => !Number.isFinite(test.price)).length;
             const total = packagePrice + individualTotal;
 
@@ -1274,10 +1113,7 @@
         function updatePriceSummaryReturning() {
             const packagePrice = currentPackageReturning ? Number(currentPackageReturning.price) || 0 : 0;
             const individualTests = selectedTestsReturning.filter(test => !test.isPackageTest);
-            const individualTotal = individualTests.reduce(
-                (sum, test) => sum + (Number.isFinite(test.price) ? Number(test.price) : 0),
-                0
-            );
+            const individualTotal = individualTests.reduce((sum, test) => sum + (Number.isFinite(test.price) ? Number(test.price) : 0), 0);
             const missing = individualTests.filter(test => !Number.isFinite(test.price)).length;
             const total = packagePrice + individualTotal;
 
@@ -1292,43 +1128,29 @@
         function applyCurrentSearch() {
             if (!searchInput || !searchResults) return;
             const query = searchInput.value.trim();
-
             if ((query || currentFilter !== 'all') && availableTests.length) {
                 renderSearchResults(searchTests(query, currentFilter));
-            } else {
-                searchResults.classList.remove('active');
-            }
+            } else searchResults.classList.remove('active');
         }
 
         function applyCurrentSearchReturning() {
             if (!searchInputReturning || !searchResultsReturning) return;
             const query = searchInputReturning.value.trim();
-
             if ((query || currentFilter !== 'all') && availableTests.length) {
                 renderSearchResultsReturning(searchTests(query, currentFilter));
-            } else {
-                searchResultsReturning.classList.remove('active');
-            }
+            } else searchResultsReturning.classList.remove('active');
         }
 
         if (searchInput) {
             searchInput.addEventListener('input', function () {
                 clearTimeout(searchTimeout);
                 const query = this.value.trim();
-
-                if (clearSearchBtn) {
-                    clearSearchBtn.classList.toggle('visible', query.length > 0);
-                }
-
+                if (clearSearchBtn) clearSearchBtn.classList.toggle('visible', query.length > 0);
                 if (!query && currentFilter === 'all') {
                     searchResults.classList.remove('active');
                     return;
                 }
-
-                searchTimeout = setTimeout(
-                    () => renderSearchResults(searchTests(query, currentFilter)),
-                    150
-                );
+                searchTimeout = setTimeout(() => renderSearchResults(searchTests(query, currentFilter)), 150);
             });
         }
 
@@ -1336,20 +1158,12 @@
             searchInputReturning.addEventListener('input', function () {
                 clearTimeout(searchTimeoutReturning);
                 const query = this.value.trim();
-
-                if (clearSearchReturning) {
-                    clearSearchReturning.classList.toggle('visible', query.length > 0);
-                }
-
+                if (clearSearchReturning) clearSearchReturning.classList.toggle('visible', query.length > 0);
                 if (!query && currentFilter === 'all') {
                     searchResultsReturning.classList.remove('active');
                     return;
                 }
-
-                searchTimeoutReturning = setTimeout(
-                    () => renderSearchResultsReturning(searchTests(query, currentFilter)),
-                    150
-                );
+                searchTimeoutReturning = setTimeout(() => renderSearchResultsReturning(searchTests(query, currentFilter)), 150);
             });
         }
 
@@ -1380,13 +1194,8 @@
 
         if (clearAllBtn) {
             clearAllBtn.onclick = function () {
-                if (!selectedTests.length) {
-                    showNotification('لا توجد تحاليل لحذفها', 'warning');
-                    return;
-                }
-                if (currentPackage) {
-                    if (!confirm('سيتم حذف جميع التحاليل بما فيها تحاليل الباقة المختارة. هل أنت متأكد؟')) return;
-                }
+                if (!selectedTests.length) { showNotification('لا توجد تحاليل لحذفها', 'warning'); return; }
+                if (currentPackage && !confirm('سيتم حذف جميع التحاليل بما فيها تحاليل الباقة المختارة. هل أنت متأكد؟')) return;
                 selectedTests = [];
                 if (currentPackage) hidePackageBanner();
                 renderSelectedTests();
@@ -1398,13 +1207,8 @@
 
         if (clearAllBtnReturning) {
             clearAllBtnReturning.onclick = function () {
-                if (!selectedTestsReturning.length) {
-                    showNotification('لا توجد تحاليل لحذفها', 'warning');
-                    return;
-                }
-                if (currentPackageReturning) {
-                    if (!confirm('سيتم حذف جميع التحاليل بما فيها تحاليل الباقة المختارة. هل أنت متأكد؟')) return;
-                }
+                if (!selectedTestsReturning.length) { showNotification('لا توجد تحاليل لحذفها', 'warning'); return; }
+                if (currentPackageReturning && !confirm('سيتم حذف جميع التحاليل بما فيها تحاليل الباقة المختارة. هل أنت متأكد؟')) return;
                 selectedTestsReturning = [];
                 if (currentPackageReturning) hidePackageBannerReturning();
                 renderSelectedTestsReturning();
@@ -1430,29 +1234,29 @@
 
             if (homeVisitDetails) homeVisitDetails.style.display = isHome ? 'block' : 'none';
 
+            if (isHome && !mapInstance) {
+                setTimeout(() => {
+                    const res = initMap('map', locationLatInput, locationLngInput, locationUrlInput, mapCoordsEl);
+                    if (res) { mapInstance = res.map; mapMarker = res.getMarker; }
+                    if (mapInstance) mapInstance.invalidateSize();
+                }, 200);
+            } else if (isHome && mapInstance) {
+                setTimeout(() => mapInstance.invalidateSize(), 200);
+            }
+
             if (!isHome) {
-                if (homeVisitFeeEl) {
-                    homeVisitFeeEl.style.display = 'none';
-                    homeVisitFeeEl.textContent = '';
-                }
+                if (homeVisitFeeEl) { homeVisitFeeEl.style.display = 'none'; homeVisitFeeEl.textContent = ''; }
                 return;
             }
 
             const area = homeArea ? homeArea.value.trim() : '';
-
             if (homeVisitFeeEl) {
                 if (area === 'الحي الحداشر') {
                     homeVisitFeeEl.style.display = 'block';
-                    homeVisitFeeEl.innerHTML =
-                        '<i class="fas fa-house-chimney"></i> ' +
-                        'رسوم العينة المنزلية: ' +
-                        '<strong>100 جنيه</strong>';
+                    homeVisitFeeEl.innerHTML = '<i class="fas fa-house-chimney"></i> رسوم العينة المنزلية: <strong>100 جنيه</strong>';
                 } else if (area === 'خارج الحي الحداشر') {
                     homeVisitFeeEl.style.display = 'block';
-                    homeVisitFeeEl.innerHTML =
-                        '<i class="fas fa-route"></i> ' +
-                        'رسوم الانتقال: ' +
-                        '<strong>تُحدد حسب المسافة والمكان</strong>';
+                    homeVisitFeeEl.innerHTML = '<i class="fas fa-route"></i> رسوم الانتقال: <strong>تُحدد حسب المسافة والمكان</strong>';
                 } else {
                     homeVisitFeeEl.style.display = 'none';
                     homeVisitFeeEl.textContent = '';
@@ -1481,29 +1285,29 @@
 
             if (homeVisitDetailsReturning) homeVisitDetailsReturning.style.display = isHome ? 'block' : 'none';
 
+            if (isHome && !mapInstanceReturning) {
+                setTimeout(() => {
+                    const res = initMap('map-returning', locationLatInputReturning, locationLngInputReturning, locationUrlInputReturning, mapCoordsElReturning);
+                    if (res) { mapInstanceReturning = res.map; mapMarkerReturning = res.getMarker; }
+                    if (mapInstanceReturning) mapInstanceReturning.invalidateSize();
+                }, 200);
+            } else if (isHome && mapInstanceReturning) {
+                setTimeout(() => mapInstanceReturning.invalidateSize(), 200);
+            }
+
             if (!isHome) {
-                if (homeVisitFeeElReturning) {
-                    homeVisitFeeElReturning.style.display = 'none';
-                    homeVisitFeeElReturning.textContent = '';
-                }
+                if (homeVisitFeeElReturning) { homeVisitFeeElReturning.style.display = 'none'; homeVisitFeeElReturning.textContent = ''; }
                 return;
             }
 
             const area = homeAreaReturning ? homeAreaReturning.value.trim() : '';
-
             if (homeVisitFeeElReturning) {
                 if (area === 'الحي الحداشر') {
                     homeVisitFeeElReturning.style.display = 'block';
-                    homeVisitFeeElReturning.innerHTML =
-                        '<i class="fas fa-house-chimney"></i> ' +
-                        'رسوم العينة المنزلية: ' +
-                        '<strong>100 جنيه</strong>';
+                    homeVisitFeeElReturning.innerHTML = '<i class="fas fa-house-chimney"></i> رسوم العينة المنزلية: <strong>100 جنيه</strong>';
                 } else if (area === 'خارج الحي الحداشر') {
                     homeVisitFeeElReturning.style.display = 'block';
-                    homeVisitFeeElReturning.innerHTML =
-                        '<i class="fas fa-route"></i> ' +
-                        'رسوم الانتقال: ' +
-                        '<strong>تُحدد حسب المسافة والمكان</strong>';
+                    homeVisitFeeElReturning.innerHTML = '<i class="fas fa-route"></i> رسوم الانتقال: <strong>تُحدد حسب المسافة والمكان</strong>';
                 } else {
                     homeVisitFeeElReturning.style.display = 'none';
                     homeVisitFeeElReturning.textContent = '';
@@ -1517,7 +1321,7 @@
         }
 
         /* ============================================
-           VALIDATION - NEW PATIENT
+           VALIDATION
         ============================================ */
         function validateForm() {
             let valid = true;
@@ -1531,9 +1335,7 @@
             });
 
             const sampleLocation = document.querySelector('input[name="sample-location"]:checked');
-            if (sampleLocationGroup) {
-                sampleLocationGroup.classList.toggle('is-invalid', !sampleLocation);
-            }
+            if (sampleLocationGroup) sampleLocationGroup.classList.toggle('is-invalid', !sampleLocation);
             if (!sampleLocation) valid = false;
 
             const isHome = sampleLocation && (sampleLocation.value === 'عينة منزلية' || sampleLocation.value === 'home');
@@ -1554,13 +1356,9 @@
             const phone = $('phone');
             if (phone) {
                 const phoneValue = phone.value.replace(/\D/g, '');
-                const phoneValid = /^01\d{9}$/.test(phoneValue);
-                if (!phoneValid) {
-                    phone.classList.add('is-invalid');
-                    valid = false;
-                } else {
-                    phone.classList.remove('is-invalid');
-                }
+                const ok = /^01\d{9}$/.test(phoneValue);
+                if (!ok) { phone.classList.add('is-invalid'); valid = false; }
+                else phone.classList.remove('is-invalid');
             }
 
             if (!selectedTests.length) {
@@ -1571,9 +1369,6 @@
             return valid;
         }
 
-        /* ============================================
-           VALIDATION - RETURNING PATIENT
-        ============================================ */
         function validateFormReturning() {
             let valid = true;
             const required = ['returningDoctor', 'date-returning', 'time-returning', 'returning-referral-source'];
@@ -1586,9 +1381,7 @@
             });
 
             const sampleLocation = document.querySelector('input[name="sample-location-returning"]:checked');
-            if (sampleLocationGroupReturning) {
-                sampleLocationGroupReturning.classList.toggle('is-invalid', !sampleLocation);
-            }
+            if (sampleLocationGroupReturning) sampleLocationGroupReturning.classList.toggle('is-invalid', !sampleLocation);
             if (!sampleLocation) valid = false;
 
             const isHome = sampleLocation && (sampleLocation.value === 'عينة منزلية' || sampleLocation.value === 'home');
@@ -1615,15 +1408,12 @@
         }
 
         /* ============================================
-           COLLECT BOOKING DATA - NEW PATIENT
+           COLLECT DATA - NEW PATIENT
         ============================================ */
         function collectBookingData() {
             const packagePrice = currentPackage ? Number(currentPackage.price) || 0 : 0;
             const individualTests = selectedTests.filter(test => !test.isPackageTest);
-            const individualTestsTotal = individualTests.reduce(
-                (sum, test) => sum + (Number.isFinite(test.price) ? Number(test.price) : 0),
-                0
-            );
+            const individualTestsTotal = individualTests.reduce((sum, test) => sum + (Number.isFinite(test.price) ? Number(test.price) : 0), 0);
             const testsTotal = packagePrice + individualTestsTotal;
 
             const selected = document.querySelector('input[name="sample-location"]:checked');
@@ -1633,15 +1423,9 @@
 
             let homeVisitFee = 0;
             let feeStatus = 'pending';
-
             if (location === 'home') {
-                if (area === 'الحي الحداشر') {
-                    homeVisitFee = 100;
-                    feeStatus = 'confirmed';
-                } else {
-                    homeVisitFee = 0;
-                    feeStatus = 'pending';
-                }
+                if (area === 'الحي الحداشر') { homeVisitFee = 100; feeStatus = 'confirmed'; }
+                else { homeVisitFee = 0; feeStatus = 'pending'; }
             }
 
             return {
@@ -1661,6 +1445,9 @@
                 homeLandmark: homeLandmark ? homeLandmark.value.trim() : '',
                 homeVisitFee,
                 homeVisitFeeStatus: feeStatus,
+                locationLat: locationLatInput ? (parseFloat(locationLatInput.value) || null) : null,
+                locationLng: locationLngInput ? (parseFloat(locationLngInput.value) || null) : null,
+                locationUrl: locationUrlInput ? (locationUrlInput.value.trim() || null) : null,
                 date: $('date') ? $('date').value : '',
                 time: $('time') ? $('time').value : '',
                 notes: $('notes') ? $('notes').value.trim() : '',
@@ -1670,25 +1457,14 @@
                 packagePrice,
                 total: testsTotal + homeVisitFee,
                 missing: individualTests.some(t => !Number.isFinite(t.price)),
-                package: currentPackage ? {
-                    id: currentPackage.id || null,
-                    name: currentPackage.name,
-                    price: packagePrice,
-                    tests: [...currentPackage.tests]
-                } : null
+                package: currentPackage ? { id: currentPackage.id || null, name: currentPackage.name, price: packagePrice, tests: [...currentPackage.tests] } : null
             };
         }
 
-        /* ============================================
-           COLLECT BOOKING DATA - RETURNING PATIENT
-        ============================================ */
         function collectBookingDataReturning() {
             const packagePrice = currentPackageReturning ? Number(currentPackageReturning.price) || 0 : 0;
             const individualTests = selectedTestsReturning.filter(test => !test.isPackageTest);
-            const individualTestsTotal = individualTests.reduce(
-                (sum, test) => sum + (Number.isFinite(test.price) ? Number(test.price) : 0),
-                0
-            );
+            const individualTestsTotal = individualTests.reduce((sum, test) => sum + (Number.isFinite(test.price) ? Number(test.price) : 0), 0);
             const testsTotal = packagePrice + individualTestsTotal;
 
             const selected = document.querySelector('input[name="sample-location-returning"]:checked');
@@ -1698,21 +1474,17 @@
 
             let homeVisitFee = 0;
             let feeStatus = 'pending';
-
             if (location === 'home') {
-                if (area === 'الحي الحداشر') {
-                    homeVisitFee = 100;
-                    feeStatus = 'confirmed';
-                } else {
-                    homeVisitFee = 0;
-                    feeStatus = 'pending';
-                }
+                if (area === 'الحي الحداشر') { homeVisitFee = 100; feeStatus = 'confirmed'; }
+                else { homeVisitFee = 0; feeStatus = 'pending'; }
             }
 
             return {
                 patientId: returningPatientId ? returningPatientId.value : null,
                 name: returningFullname ? returningFullname.value : '',
                 phone: returningPhone ? returningPhone.value : '',
+                age: returningAge && returningAge.value ? Number(returningAge.value) : null,
+                gender: returningGender && returningGender.value ? returningGender.value : null,
                 referral: returningReferralSource ? returningReferralSource.value : '',
                 referringDoctor: returningDoctor ? returningDoctor.value.trim() : '',
                 sampleLocation: location,
@@ -1725,6 +1497,9 @@
                 homeLandmark: homeLandmarkReturning ? homeLandmarkReturning.value.trim() : '',
                 homeVisitFee,
                 homeVisitFeeStatus: feeStatus,
+                locationLat: locationLatInputReturning ? (parseFloat(locationLatInputReturning.value) || null) : null,
+                locationLng: locationLngInputReturning ? (parseFloat(locationLngInputReturning.value) || null) : null,
+                locationUrl: locationUrlInputReturning ? (locationUrlInputReturning.value.trim() || null) : null,
                 date: $('date-returning') ? $('date-returning').value : '',
                 time: $('time-returning') ? $('time-returning').value : '',
                 notes: $('notes-returning') ? $('notes-returning').value.trim() : '',
@@ -1734,71 +1509,48 @@
                 packagePrice,
                 total: testsTotal + homeVisitFee,
                 missing: individualTests.some(t => !Number.isFinite(t.price)),
-                package: currentPackageReturning ? {
-                    id: currentPackageReturning.id || null,
-                    name: currentPackageReturning.name,
-                    price: packagePrice,
-                    tests: [...currentPackageReturning.tests]
-                } : null
+                package: currentPackageReturning ? { id: currentPackageReturning.id || null, name: currentPackageReturning.name, price: packagePrice, tests: [...currentPackageReturning.tests] } : null
             };
         }
 
         function formatDate(value) {
             if (!value) return 'غير محدد';
-            return new Date(value + 'T00:00:00').toLocaleDateString('ar-EG', {
-                year: 'numeric', month: 'long', day: 'numeric'
-            });
+            return new Date(value + 'T00:00:00').toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function buildFullAddress(booking) {
+            const parts = [
+                booking.homeGovernorate,
+                booking.homeDistrict,
+                booking.homeDetailedArea,
+                booking.homeBuildingNumber ? 'رقم العقار: ' + booking.homeBuildingNumber : '',
+                booking.homeLandmark ? 'علامة مميزة: ' + booking.homeLandmark : ''
+            ].filter(Boolean);
+            return parts.join(' - ');
         }
 
         /* ============================================
-           SAVE BOOKING - NEW PATIENT
-           (كود موحّد: هو كود المريض وكود الحجز معاً)
+           SAVE BOOKING - NEW PATIENT (كل البيانات في bookings)
         ============================================ */
-                async function saveBooking(booking) {
+        async function saveBooking(booking) {
             let patientId = null;
             let bookingId = null;
 
             try {
-                // كود موحّد: هيبقى كود المريض وكود أول حجز ليه
                 const unifiedCode = generateUnifiedCode();
 
-                console.log('💾 Saving new patient with code:', unifiedCode);
-
-                // تجهيز بيانات المريض كاملة
+                // 1. إنشاء المريض
                 const patientInsertData = {
                     patient_code: unifiedCode,
                     full_name: booking.name,
-                    phone: booking.phone,
+                    phone: booking.phone
                 };
-
-                // إضافة العمر (لو موجود)
-                if (booking.age !== null && booking.age !== undefined) {
-                    patientInsertData.age = booking.age;
-                }
-
-                // إضافة الجنس (لو موجود)
-                if (booking.gender) {
-                    patientInsertData.gender = booking.gender;
-                }
-
-                // إضافة مصدر المعرفة (referral_source لو العمود موجود، وإلا notes)
-                if (booking.referral) {
-                    patientInsertData.referral_source = booking.referral;
-                    // احتياطي: نحطه في notes كمان لو حبيت
-                    // patientInsertData.notes = 'عرفتنا منين: ' + booking.referral;
-                }
-
-                // إضافة العنوان (لو موجود)
+                if (booking.age !== null && booking.age !== undefined) patientInsertData.age = booking.age;
+                if (booking.gender) patientInsertData.gender = booking.gender;
+                if (booking.referral) patientInsertData.referral_source = booking.referral;
                 if (booking.homeGovernorate || booking.homeDistrict || booking.homeDetailedArea) {
-                    patientInsertData.address = [
-                        booking.homeGovernorate,
-                        booking.homeDistrict,
-                        booking.homeDetailedArea,
-                        booking.homeBuildingNumber
-                    ].filter(Boolean).join(' - ');
+                    patientInsertData.address = buildFullAddress(booking);
                 }
-
-                console.log('💾 Inserting patient with data:', patientInsertData);
 
                 const { data: patient, error: patientError } = await supabaseClient
                     .from('patients')
@@ -1809,12 +1561,11 @@
                 if (patientError) throw patientError;
                 patientId = patient.id;
 
-                console.log('✅ Patient created:', patient);
-
+                // 2. إنشاء الحجز مع كل البيانات
                 const bookingCode = unifiedCode;
-
                 const subtotal = booking.testsTotal + booking.homeVisitFee;
                 const total = booking.total;
+                const fullAddress = buildFullAddress(booking);
 
                 const bookingData = {
                     booking_code: bookingCode,
@@ -1822,7 +1573,30 @@
                     patient_id: patient.id,
                     patient_name: booking.name,
                     patient_phone: booking.phone,
+                    patient_email: null,
 
+                    // بيانات المريض الإضافية
+                    patient_age: booking.age,
+                    patient_gender: booking.gender,
+                    referring_doctor: booking.referringDoctor || null,
+                    referral_source: booking.referral || null,
+
+                    // بيانات الزيارة
+                    visit_type: booking.sampleLocation,
+                    home_governorate: booking.homeGovernorate || null,
+                    home_district: booking.homeDistrict || null,
+                    home_area: booking.homeDetailedArea || null,
+                    home_building_number: booking.homeBuildingNumber || null,
+                    home_landmark: booking.homeLandmark || null,
+                    home_full_address: fullAddress || null,
+                    home_visit_fee: booking.homeVisitFee || 0,
+
+                    // إحداثيات
+                    location_lat: booking.locationLat,
+                    location_lng: booking.locationLng,
+                    location_url: booking.locationUrl,
+
+                    // مالية
                     subtotal: subtotal,
                     discount_value: 0,
                     discount_type: 'fixed',
@@ -1850,10 +1624,8 @@
                 if (bookingError) throw bookingError;
                 bookingId = bookingRow.id;
 
-                console.log('✅ Booking created:', bookingRow);
-
+                // 3. إدخال التحاليل
                 const itemsData = [];
-
                 booking.tests.filter(t => !t.isPackageTest).forEach(test => {
                     itemsData.push({
                         booking_id: bookingRow.id,
@@ -1880,42 +1652,30 @@
                     });
                 }
 
-                                if (itemsData.length) {
+                if (itemsData.length) {
                     const { error: itemsError } = await supabaseClient
                         .from('booking_items')
                         .insert(itemsData);
-
                     if (itemsError) throw itemsError;
-                    console.log('✅ Booking items created:', itemsData.length);
                 }
 
-                // ✅ تعيين كلمة مرور للحجز
+                // 4. تعيين كلمة مرور
                 const bookingPassword = generateBookingPassword();
-                console.log('🔐 Generated booking password:', bookingPassword);
-
-                const { data: pwResult, error: pwError } = await supabaseClient
-                    .rpc('set_booking_password_secure', {
-                        p_booking_code: bookingCode,
-                        p_password: bookingPassword
-                    });
-
-                if (pwError) {
-                    console.warn('⚠️ فشل تعيين كلمة المرور:', pwError);
-                } else {
-                    console.log('✅ Password set:', pwResult);
-                }
+                const { error: pwError } = await supabaseClient.rpc('set_booking_password_secure', {
+                    p_booking_code: bookingCode,
+                    p_password: bookingPassword
+                });
+                if (pwError) console.warn('⚠️ فشل تعيين كلمة المرور:', pwError);
 
                 return {
                     id: bookingRow.id,
                     booking_number: bookingRow.booking_code,
                     patient_code: patient.patient_code,
-                    booking_password: bookingPassword,
-                    daily_number: null
+                    booking_password: bookingPassword
                 };
 
             } catch (error) {
                 console.error('❌ خطأ في حفظ الحجز:', error);
-
                 if (bookingId) {
                     await supabaseClient.from('booking_items').delete().eq('booking_id', bookingId);
                     await supabaseClient.from('bookings').delete().eq('id', bookingId);
@@ -1923,31 +1683,23 @@
                 if (patientId) {
                     await supabaseClient.from('patients').delete().eq('id', patientId);
                 }
-
                 throw error;
             }
         }
 
         /* ============================================
            SAVE BOOKING - RETURNING PATIENT
-           (كود حجز جديد لكل زيارة - مربوط بنفس المريض)
         ============================================ */
         async function saveBookingReturning(booking) {
             let bookingId = null;
 
             try {
-                if (!booking.patientId) {
-                    throw new Error('لم يتم تحديد المريض. الرجاء البحث بالكود مرة أخرى.');
-                }
+                if (!booking.patientId) throw new Error('لم يتم تحديد المريض. الرجاء البحث بالكود مرة أخرى.');
 
-                // المريض العائد: كود حجز جديد لكل زيارة
                 const bookingCode = generateUnifiedCode();
-
-                console.log('💾 Saving returning booking with code:', bookingCode);
-                console.log('   Patient ID:', booking.patientId);
-
                 const subtotal = booking.testsTotal + booking.homeVisitFee;
                 const total = booking.total;
+                const fullAddress = buildFullAddress(booking);
 
                 const bookingData = {
                     booking_code: bookingCode,
@@ -1955,6 +1707,25 @@
                     patient_id: booking.patientId,
                     patient_name: booking.name,
                     patient_phone: booking.phone,
+                    patient_email: null,
+
+                    patient_age: booking.age,
+                    patient_gender: booking.gender,
+                    referring_doctor: booking.referringDoctor || null,
+                    referral_source: booking.referral || null,
+
+                    visit_type: booking.sampleLocation,
+                    home_governorate: booking.homeGovernorate || null,
+                    home_district: booking.homeDistrict || null,
+                    home_area: booking.homeDetailedArea || null,
+                    home_building_number: booking.homeBuildingNumber || null,
+                    home_landmark: booking.homeLandmark || null,
+                    home_full_address: fullAddress || null,
+                    home_visit_fee: booking.homeVisitFee || 0,
+
+                    location_lat: booking.locationLat,
+                    location_lng: booking.locationLng,
+                    location_url: booking.locationUrl,
 
                     subtotal: subtotal,
                     discount_value: 0,
@@ -1983,10 +1754,7 @@
                 if (bookingError) throw bookingError;
                 bookingId = bookingRow.id;
 
-                console.log('✅ Returning booking created:', bookingRow);
-
                 const itemsData = [];
-
                 booking.tests.filter(t => !t.isPackageTest).forEach(test => {
                     itemsData.push({
                         booking_id: bookingRow.id,
@@ -2013,47 +1781,33 @@
                     });
                 }
 
-                                if (itemsData.length) {
+                if (itemsData.length) {
                     const { error: itemsError } = await supabaseClient
                         .from('booking_items')
                         .insert(itemsData);
-
                     if (itemsError) throw itemsError;
-                    console.log('✅ Booking items created:', itemsData.length);
                 }
 
-                // ✅ تعيين كلمة مرور للحجز
                 const bookingPassword = generateBookingPassword();
-                console.log('🔐 Generated booking password:', bookingPassword);
-
-                const { data: pwResult, error: pwError } = await supabaseClient
-                    .rpc('set_booking_password_secure', {
-                        p_booking_code: bookingCode,
-                        p_password: bookingPassword
-                    });
-
-                if (pwError) {
-                    console.warn('⚠️ فشل تعيين كلمة المرور:', pwError);
-                } else {
-                    console.log('✅ Password set:', pwResult);
-                }
+                const { error: pwError } = await supabaseClient.rpc('set_booking_password_secure', {
+                    p_booking_code: bookingCode,
+                    p_password: bookingPassword
+                });
+                if (pwError) console.warn('⚠️ فشل تعيين كلمة المرور:', pwError);
 
                 return {
                     id: bookingRow.id,
                     booking_number: bookingRow.booking_code,
-                    patient_code: patient.patient_code,
-                    booking_password: bookingPassword,
-                    daily_number: null
+                    patient_code: null,
+                    booking_password: bookingPassword
                 };
 
             } catch (error) {
                 console.error('❌ خطأ في حفظ الحجز (مريض عائد):', error);
-
                 if (bookingId) {
                     await supabaseClient.from('booking_items').delete().eq('booking_id', bookingId);
                     await supabaseClient.from('bookings').delete().eq('id', bookingId);
                 }
-
                 throw error;
             }
         }
@@ -2065,82 +1819,58 @@
             const rows = booking.tests.map((test, index) => {
                 const shownPrice = test.isPackageTest
                     ? '<span style="color:#2a6a9a;">ضمن الباقة</span>'
-                    : (Number.isFinite(test.price)
-                        ? formatMoney(test.price) + ' جنيه'
-                        : 'السعر غير مسجل');
+                    : (Number.isFinite(test.price) ? formatMoney(test.price) + ' جنيه' : 'السعر غير مسجل');
 
-                return (
-                    '<div class="confirmation-test-row">' +
-                    '<span><b>' + (index + 1) + '.</b> ' + escapeHtml(test.name) + '</span>' +
-                    '<strong>' + shownPrice + '</strong>' +
-                    '</div>'
-                );
+                return '<div class="confirmation-test-row"><span><b>' + (index + 1) + '.</b> ' + escapeHtml(test.name) + '</span><strong>' + shownPrice + '</strong></div>';
             }).join('');
 
             const packageInfo = booking.package
-                ? (
-                    '<div style="background:#e8f4fd;padding:0.6rem 1rem;border-radius:10px;margin-bottom:0.8rem;">' +
-                    '<i class="fas fa-gift" style="color:#2a6a9a;"></i> ' +
-                    '<strong>الباقة المختارة:</strong> ' +
-                    escapeHtml(booking.package.name) +
-                    ' <span style="background:#2a6a9a;color:white;padding:0.1rem 0.8rem;border-radius:12px;font-size:0.85rem;">' +
-                    formatMoney(booking.package.price) + ' جنيه</span>' +
-                    '</div>'
-                )
+                ? '<div style="background:#e8f4fd;padding:0.6rem 1rem;border-radius:10px;margin-bottom:0.8rem;">' +
+                  '<i class="fas fa-gift" style="color:#2a6a9a;"></i> ' +
+                  '<strong>الباقة المختارة:</strong> ' + escapeHtml(booking.package.name) +
+                  ' <span style="background:#2a6a9a;color:white;padding:0.1rem 0.8rem;border-radius:12px;font-size:0.85rem;">' +
+                  formatMoney(booking.package.price) + ' جنيه</span></div>'
                 : '';
 
-            const homeAddress = [
-                booking.homeGovernorate,
-                booking.homeDistrict,
-                booking.homeDetailedArea,
-                booking.homeBuildingNumber ? 'رقم العقار: ' + booking.homeBuildingNumber : ''
-            ].filter(Boolean).join(' - ');
+            const homeAddress = buildFullAddress(booking);
 
-            // عرض كود الحجز (الموحّد) في شاشة التأكيد
-                       const codeInfo = savedAppointment && savedAppointment.booking_number
+            const codeInfo = savedAppointment && savedAppointment.booking_number
                 ? '<div style="background:#d4f5e9;padding:0.8rem 1rem;border-radius:10px;margin-bottom:0.8rem;">' +
                   '<i class="fas fa-id-card" style="color:#22a86e;"></i> ' +
                   '<strong>كود الحجز:</strong> ' +
                   '<span style="background:#22a86e;color:white;padding:0.2rem 0.8rem;border-radius:12px;font-size:0.9rem;font-family:monospace;font-weight:700;letter-spacing:1px;">' +
                   escapeHtml(savedAppointment.booking_number) + '</span>' +
                   (savedAppointment.booking_password
-                    ? '<br><br>' +
-                      '<i class="fas fa-lock" style="color:#e89b1f;"></i> ' +
-                      '<strong>كلمة المرور:</strong> ' +
+                    ? '<br><br><i class="fas fa-lock" style="color:#e89b1f;"></i> <strong>كلمة المرور:</strong> ' +
                       '<span style="background:#e89b1f;color:white;padding:0.2rem 0.8rem;border-radius:12px;font-size:0.9rem;font-family:monospace;font-weight:700;letter-spacing:2px;">' +
                       escapeHtml(savedAppointment.booking_password) + '</span>' +
-                      '<br><small style="color:#8a5a1a;display:block;margin-top:0.4rem;">' +
-                      '⚠️ <b>احتفظ بالكود وكلمة المرور</b> — هتحتاجهم لاستلام النتائج من الموقع' +
-                      '</small>'
+                      '<br><small style="color:#8a5a1a;display:block;margin-top:0.4rem;">⚠️ <b>احتفظ بالكود وكلمة المرور</b> — هتحتاجهم لاستلام النتائج من الموقع</small>'
                     : '') +
                   '</div>'
+                : '';
+
+            const mapLink = booking.locationUrl
+                ? '<div style="grid-column:1/-1;margin-top:0.5rem;">' +
+                  '<span><i class="fas fa-map-location-dot" style="color:#2a6a9a;"></i> رابط الموقع على الخريطة</span>' +
+                  '<strong><a href="' + escapeHtml(booking.locationUrl) + '" target="_blank" rel="noopener" style="color:#2a6a9a;text-decoration:underline;">' +
+                  'اضغط لفتح الموقع على Google Maps</a></strong></div>'
                 : '';
 
             confirmationDetailsEl.innerHTML =
                 codeInfo +
                 packageInfo +
                 '<div class="confirmation-meta">' +
-                '<div><span>رقم الحجز</span><strong>' +
-                escapeHtml(savedAppointment ? savedAppointment.booking_number : '') +
-                '</strong></div>' +
+                '<div><span>رقم الحجز</span><strong>' + escapeHtml(savedAppointment ? savedAppointment.booking_number : '') + '</strong></div>' +
                 '<div><span>المريض</span><strong>' + escapeHtml(booking.name) + '</strong></div>' +
                 '<div><span>الطبيب المحول</span><strong>' + escapeHtml(booking.referringDoctor) + '</strong></div>' +
-                '<div><span>الموعد</span><strong>' +
-                formatDate(booking.date) + ' - ' + escapeHtml(booking.time) +
-                '</strong></div>' +
-                '<div><span>مكان أخذ العينة</span><strong>' +
-                escapeHtml(booking.sampleLocationDisplay) +
-                '</strong></div>' +
-                (booking.sampleArea
-                    ? '<div><span>منطقة العينة</span><strong>' + escapeHtml(booking.sampleArea) + '</strong></div>'
-                    : '') +
+                '<div><span>الموعد</span><strong>' + formatDate(booking.date) + ' - ' + escapeHtml(booking.time) + '</strong></div>' +
+                '<div><span>مكان أخذ العينة</span><strong>' + escapeHtml(booking.sampleLocationDisplay) + '</strong></div>' +
+                (booking.sampleArea ? '<div><span>منطقة العينة</span><strong>' + escapeHtml(booking.sampleArea) + '</strong></div>' : '') +
                 (booking.sampleLocation === 'home'
                     ? '<div style="grid-column:1/-1;">' +
                       '<span>العنوان بالتفصيل</span>' +
                       '<strong>' + escapeHtml(homeAddress) + '</strong>' +
-                      '<small style="display:block;margin-top:.3rem;color:#8a9aa8;">علامة مميزة: ' +
-                      escapeHtml(booking.homeLandmark) + '</small>' +
-                      '</div>'
+                      '</div>' + mapLink
                     : '') +
                 '<div><span>عرفتنا منين</span><strong>' + escapeHtml(booking.referral) + '</strong></div>' +
                 '</div>' +
@@ -2152,16 +1882,13 @@
                     ? '<div class="confirmation-notes"><b>ملاحظات:</b> ' + escapeHtml(booking.notes) + '</div>'
                     : '');
 
-            if (confirmationTotalEl) {
-                confirmationTotalEl.textContent = formatMoney(booking.total);
-            }
+            if (confirmationTotalEl) confirmationTotalEl.textContent = formatMoney(booking.total);
 
             const priceBox = confirmationEl ? confirmationEl.querySelector('.confirmation-price-box') : null;
             if (priceBox) {
                 const homeFeeText = booking.sampleLocation === 'home'
                     ? (booking.homeVisitFeeStatus === 'confirmed'
-                        ? '<div style="margin-top:.45rem;font-size:.9rem;opacity:.9;">رسوم العينة المنزلية: ' +
-                          formatMoney(booking.homeVisitFee) + ' جنيه</div>'
+                        ? '<div style="margin-top:.45rem;font-size:.9rem;opacity:.9;">رسوم العينة المنزلية: ' + formatMoney(booking.homeVisitFee) + ' جنيه</div>'
                         : '<div style="margin-top:.45rem;font-size:.9rem;opacity:.9;">رسوم العينة المنزلية خارج الحي الحداشر: تُحدد حسب المسافة والمكان</div>')
                     : '<div style="margin-top:.45rem;font-size:.9rem;opacity:.9;">رسوم العينة: بدون رسوم منزلية</div>';
 
@@ -2192,7 +1919,6 @@
                     const savedAppointment = await saveBooking(booking);
 
                     buildBookingConfirmation(booking, savedAppointment);
-
                     showNotification('تم حفظ الحجز بنجاح في النظام!', 'success');
 
                     if (confirmationEl) {
@@ -2205,6 +1931,17 @@
                     [homeGovernorate, homeDistrict, homeArea, homeBuildingNumber, homeLandmark].forEach(field => {
                         if (field) field.classList.remove('is-invalid');
                     });
+
+                    // إعادة تعيين الخريطة
+                    if (mapMarker && mapMarker()) {
+                        mapInstance.removeLayer(mapMarker());
+                    }
+                    if (locationLatInput) locationLatInput.value = '';
+                    if (locationLngInput) locationLngInput.value = '';
+                    if (locationUrlInput) locationUrlInput.value = '';
+                    if (mapCoordsEl) mapCoordsEl.textContent = 'لم يتم تحديد الموقع بعد';
+                    if (mapInstance) mapInstance.setView(DEFAULT_CENTER, 12);
+
                     updateHomeVisitUI();
 
                     selectedTests = [];
@@ -2249,7 +1986,6 @@
                     const savedAppointment = await saveBookingReturning(booking);
 
                     buildBookingConfirmation(booking, savedAppointment);
-
                     showNotification('تم حفظ الحجز بنجاح في النظام!', 'success');
 
                     if (confirmationEl) {
@@ -2262,6 +1998,16 @@
                     [homeGovernorateReturning, homeDistrictReturning, homeAreaReturning, homeBuildingNumberReturning, homeLandmarkReturning].forEach(field => {
                         if (field) field.classList.remove('is-invalid');
                     });
+
+                    if (mapMarkerReturning && mapMarkerReturning()) {
+                        mapInstanceReturning.removeLayer(mapMarkerReturning());
+                    }
+                    if (locationLatInputReturning) locationLatInputReturning.value = '';
+                    if (locationLngInputReturning) locationLngInputReturning.value = '';
+                    if (locationUrlInputReturning) locationUrlInputReturning.value = '';
+                    if (mapCoordsElReturning) mapCoordsElReturning.textContent = 'لم يتم تحديد الموقع بعد';
+                    if (mapInstanceReturning) mapInstanceReturning.setView(DEFAULT_CENTER, 12);
+
                     updateHomeVisitUIReturning();
 
                     selectedTestsReturning = [];
@@ -2304,18 +2050,14 @@
         const dateInput = $('date');
         if (dateInput) {
             const today = new Date();
-            const localToday = new Date(
-                today.getTime() - today.getTimezoneOffset() * 60000
-            ).toISOString().slice(0, 10);
+            const localToday = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
             dateInput.min = localToday;
         }
 
         const dateInputReturning = $('date-returning');
         if (dateInputReturning) {
             const today = new Date();
-            const localToday = new Date(
-                today.getTime() - today.getTimezoneOffset() * 60000
-            ).toISOString().slice(0, 10);
+            const localToday = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
             dateInputReturning.min = localToday;
         }
 
@@ -2335,17 +2077,9 @@
         console.log('✅ Appointment system initialized. Mode:', currentMode);
     }
 
-    /* ============================================
-       WAIT FOR EVERYTHING TO LOAD
-    ============================================ */
     if (document.readyState === 'complete') {
-        console.log('📄 Document already loaded, initializing immediately');
         initAppointmentSystem();
     } else {
-        console.log('⏳ Waiting for window load event...');
-        window.addEventListener('load', function () {
-            console.log('✅ Window load event fired');
-            initAppointmentSystem();
-        });
+        window.addEventListener('load', initAppointmentSystem);
     }
 })();
