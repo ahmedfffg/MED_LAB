@@ -31,24 +31,24 @@
     * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
     html { scroll-behavior: smooth; }
     body {
-  font-family: 'Tajawal', sans-serif;
-  background: #f4f9fc;
-  color: var(--text-dark);
-  line-height: 1.7;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  padding-top: 70px; /* ✅ أبقِ هذا */
-}
+      font-family: 'Tajawal', sans-serif;
+      background: #f4f9fc;
+      color: var(--text-dark);
+      line-height: 1.7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-top: 70px;
+    }
     .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
     .results-section { padding: 40px 0 60px; flex: 1; }
     .section-title {
       text-align: center; font-size: 1.8rem; font-weight: 700;
       color: var(--primary-dark); margin-bottom: 8px;
-      display: flex; align-items: center; justify-content: center; gap: 12px;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
     }
-    .section-title i { color: var(--primary); font-size: 1.6rem; }
+    .section-title i { color: var(--primary); font-size: 1.35rem; }
     .section-subtitle { text-align: center; color: var(--text-light); margin-bottom: 35px; }
 
     /* Steps */
@@ -62,7 +62,7 @@
       font-size: 14px; font-weight: 700;
       background: var(--blue-soft); color: var(--text-light);
       border: 2px solid var(--border);
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
     }
     .step-dot.active {
       background: var(--primary); color: white;
@@ -73,7 +73,7 @@
       background: var(--success); color: white;
       border-color: var(--success);
     }
-    .step-line { width: 40px; height: 2px; background: var(--border); }
+    .step-line { width: 40px; height: 2px; background: var(--border); transition: background 0.2s ease; }
     .step-line.active { background: var(--primary); }
 
     /* Card */
@@ -87,9 +87,9 @@
       content: ''; position: absolute; top:0; right:0; left:0; height: 4px;
       background: linear-gradient(90deg, var(--primary), var(--primary-light));
     }
-    .card-icon { text-align: center; margin-bottom: 10px; }
-    .card-icon i { font-size: 54px; color: var(--primary); }
-    .card-description { text-align: center; color: var(--text-light); margin-bottom: 28px; }
+    .card-icon { text-align: center; margin-bottom: 8px; }
+    .card-icon i { font-size: 42px; color: var(--primary); }
+    .card-description { text-align: center; color: var(--text-light); margin-bottom: 26px; }
 
     /* Form */
     .form-group { margin-bottom: 20px; }
@@ -97,14 +97,14 @@
       display: flex; align-items: center; gap: 8px;
       margin-bottom: 8px; font-weight: 700; font-size: 14.5px;
     }
-    .form-label i { color: var(--primary); font-size: 14px; width: 18px; }
+    .form-label i { color: var(--primary); font-size: 13.5px; width: 18px; }
     .form-input {
       width: 100%; padding: 13px 16px;
       font-family: 'Tajawal', sans-serif; font-size: 15px;
       background: var(--blue-softer);
       border: 1.5px solid var(--border);
       border-radius: 10px; outline: none;
-      transition: all 0.22s ease;
+      transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
     }
     .form-input:focus {
       border-color: var(--primary); background: var(--white);
@@ -118,6 +118,39 @@
     }
     .form-input.code-input:focus,
     .form-input.password-input:focus { border-style: solid; }
+
+    /* Password wrapper + eye toggle */
+    .password-wrapper {
+      position: relative;
+      display: block;
+    }
+    .password-wrapper .form-input {
+      padding-left: 46px; /* مساحة للعين على اليسار */
+    }
+    .toggle-password {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 30px;
+      border: none;
+      background: transparent;
+      color: var(--text-light);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 14px;
+      line-height: 1;
+      transition: color 0.2s ease, background 0.2s ease;
+      padding: 0;
+      user-select: none;
+    }
+    .toggle-password:hover { color: var(--primary); background: rgba(10,124,184,0.08); }
+    .toggle-password:focus { outline: none; color: var(--primary); }
+
     .field-hint {
       display: flex; align-items: center; gap: 6px;
       margin-top: 6px; font-size: 12.5px; color: var(--text-light);
@@ -130,21 +163,40 @@
       gap: 9px; padding: 14px 28px;
       font-family: 'Tajawal', sans-serif; font-size: 16px; font-weight: 700;
       border: none; border-radius: 10px; cursor: pointer;
-      transition: all 0.25s ease; text-decoration: none;
+      transition: background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      text-decoration: none;
     }
     .btn-primary {
       background: linear-gradient(135deg, var(--primary), var(--primary-light));
       color: var(--white); box-shadow: 0 8px 20px -6px rgba(10,124,184,0.5);
       width: 100%; padding: 15px 28px; font-size: 16.5px;
     }
-    .btn-primary:hover { transform: translateY(-2px); }
-    .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+    .btn-primary:hover { box-shadow: 0 10px 24px -6px rgba(10,124,184,0.6); }
+    .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; box-shadow: none; }
     .btn-ghost {
       background: var(--blue-soft); color: var(--primary);
       border: 1px solid var(--border);
       font-size: 13.5px; padding: 8px 16px;
     }
-    .btn-ghost:hover { background: var(--primary); color: white; }
+    .btn-ghost:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+    /* Password form action row */
+    .password-actions {
+      display: flex;
+      gap: 10px;
+      align-items: stretch;
+    }
+    .password-actions .btn-primary {
+      flex: 1;
+      width: auto;
+    }
+    .password-actions .btn-ghost {
+      flex-shrink: 0;
+      padding: 0 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
 
     /* Security note */
     .security-note {
@@ -154,7 +206,7 @@
       border-right: 3px solid var(--primary);
       font-size: 12.5px; color: var(--text-medium);
     }
-    .security-note i { color: var(--primary); font-size: 14px; margin-top: 3px; }
+    .security-note i { color: var(--primary); font-size: 13px; margin-top: 3px; }
 
     /* Patient display */
     .patient-name-display {
@@ -170,15 +222,19 @@
     /* ============================================
        RESULTS
     ============================================ */
-    .results-area { max-width: 850px; margin: 30px auto 0; animation: fadeIn 0.4s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .results-area { max-width: 850px; margin: 30px auto 0; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
     .results-header {
       display: flex; justify-content: space-between; align-items: center;
       margin-bottom: 18px; padding-bottom: 15px;
       border-bottom: 1px solid var(--border);
       flex-wrap: wrap; gap: 10px;
     }
-    .results-header h3 { color: var(--primary-dark); font-size: 1.2rem; }
+    .results-header h3 { color: var(--primary-dark); font-size: 1.15rem; display: flex; align-items: center; gap: 8px; }
+    .results-header h3 i { font-size: 1rem; color: var(--primary); }
     .patient-info {
       color: var(--text-light); margin-bottom: 15px; font-size: 14px;
       display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
@@ -201,13 +257,13 @@
       font-size: 14px;
       color: var(--success);
       font-weight: 700;
-      animation: slideDown 0.4s ease;
+      animation: slideDown 0.3s ease;
     }
     @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-10px); }
+      from { opacity: 0; transform: translateY(-6px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    .latest-banner i { font-size: 20px; }
+    .latest-banner i { font-size: 17px; }
     .latest-banner .latest-info { flex: 1; }
     .latest-banner .latest-info .title { font-weight: 700; margin-bottom: 2px; }
     .latest-banner .latest-info .sub { font-size: 12.5px; opacity: 0.85; font-weight: 500; }
@@ -238,7 +294,7 @@
       color: var(--primary-dark);
       font-size: 14px;
     }
-    .date-filter-header .filter-label i { color: var(--primary); font-size: 15px; }
+    .date-filter-header .filter-label i { color: var(--primary); font-size: 14px; }
     .date-filter-header .results-stats {
       display: flex;
       align-items: center;
@@ -268,7 +324,7 @@
       font-size: 13px;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -277,7 +333,6 @@
     .date-chip:hover {
       border-color: var(--primary);
       background: var(--blue-soft);
-      transform: translateY(-2px);
     }
     .date-chip.active {
       background: linear-gradient(135deg, var(--primary), var(--primary-light));
@@ -307,6 +362,7 @@
     .date-chip.all-chip:hover {
       background: linear-gradient(135deg, #15663d, #1a7d4a);
       color: white;
+      box-shadow: 0 6px 15px -4px rgba(26,125,74,0.5);
     }
     .date-chip.all-chip .count {
       background: rgba(255,255,255,0.3);
@@ -337,38 +393,41 @@
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
+      align-items: center;
     }
     .btn-preview {
       background: linear-gradient(135deg, var(--primary), var(--primary-light));
       color: white;
       padding: 7px 12px;
       border-radius: 7px;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 700;
       border: none;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      transition: all 0.2s;
+      transition: box-shadow 0.2s ease, opacity 0.2s ease;
       font-family: inherit;
+      line-height: 1.4;
     }
-    .btn-preview:hover { transform: translateY(-2px); }
+    .btn-preview:hover { box-shadow: 0 6px 14px -4px rgba(10,124,184,0.55); }
     .btn-download {
       background: var(--blue-soft);
       color: var(--primary);
       padding: 7px 12px;
       border-radius: 7px;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 700;
       border: 1px solid var(--border);
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      transition: all 0.2s;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      line-height: 1.4;
     }
-    .btn-download:hover { background: var(--primary); color: white; }
+    .btn-download:hover { background: var(--primary); color: white; border-color: var(--primary); }
 
     /* Mobile card view for results */
     .results-cards {
@@ -380,7 +439,7 @@
       border-radius: 12px;
       padding: 14px;
       margin-bottom: 10px;
-      transition: 0.2s;
+      transition: border-color 0.2s ease, background 0.2s ease;
     }
     .result-card-item.latest-card {
       background: #f0fbf5;
@@ -435,7 +494,7 @@
     }
 
     .no-results { text-align: center; padding: 35px 20px; color: var(--text-light); }
-    .no-results i { font-size: 44px; margin-bottom: 14px; display: block; }
+    .no-results i { font-size: 40px; margin-bottom: 14px; display: block; }
     .no-results p { font-weight: 600; margin-bottom: 6px; }
     .no-results .sub-text { font-weight: 400; font-size: 13px; opacity: 0.85; }
 
@@ -459,11 +518,12 @@
       background: linear-gradient(135deg, var(--primary), var(--primary-light));
       color: white; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 22px; text-decoration: none;
+      font-size: 19px; text-decoration: none;
       box-shadow: 0 8px 20px -6px rgba(10,124,184,0.55);
-      z-index: 1000; transition: all 0.3s ease;
+      z-index: 1000;
+      transition: box-shadow 0.2s ease;
     }
-    .floating-home:hover { transform: translateY(-4px) scale(1.05); color: white; }
+    .floating-home:hover { box-shadow: 0 12px 26px -6px rgba(10,124,184,0.7); color: white; }
 
     /* ============================================
        PREVIEW MODAL
@@ -490,12 +550,12 @@
       display: flex;
       flex-direction: column;
       box-shadow: 0 30px 80px rgba(0,0,0,0.4);
-      animation: modalIn 0.25s ease;
+      animation: modalIn 0.22s ease;
       overflow: hidden;
     }
     @keyframes modalIn {
-      from { opacity: 0; transform: translateY(20px) scale(0.98); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     .preview-header {
@@ -517,7 +577,7 @@
     }
     .preview-header .preview-title i {
       color: var(--primary);
-      font-size: 22px;
+      font-size: 20px;
       flex-shrink: 0;
     }
     .preview-header .preview-title .t-info { min-width: 0; }
@@ -537,6 +597,8 @@
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
+      justify-content: flex-end;
+      align-items: center;
     }
 
     .preview-body {
@@ -596,24 +658,11 @@
        MOBILE STYLES
     ============================================ */
     @media (max-width: 991px) {
-      /* Date filter on mobile */
-      .date-filter-section {
-        padding: 12px;
-      }
-      .date-filter-header {
-        margin-bottom: 10px;
-      }
-      .date-chips {
-        gap: 6px;
-      }
-      .date-chip {
-        padding: 7px 11px;
-        font-size: 12px;
-      }
-      .date-chip .count {
-        font-size: 10px;
-        padding: 1px 6px;
-      }
+      .date-filter-section { padding: 12px; }
+      .date-filter-header { margin-bottom: 10px; }
+      .date-chips { gap: 6px; }
+      .date-chip { padding: 7px 11px; font-size: 12px; }
+      .date-chip .count { font-size: 10px; padding: 1px 6px; }
     }
 
     @media (max-width: 700px) {
@@ -622,34 +671,32 @@
       .preview-header { padding: 12px 15px; }
       .preview-actions .btn-sm { padding: 8px; font-size: 12px; min-width: 40px; }
       .preview-actions .btn-sm span { display: none; }
-    }
 
-   /* في @media (max-width: 600px) احذف: */
-body { padding-top: 65px; }
-.mobile-header, .mobile-header .container { height: 65px; }
-.site-title { font-size: 1.15rem; }
-.site-title i { font-size: 1rem; }
-.menu-toggle { width: 40px; height: 40px; font-size: 18px; }
+      body { padding-top: 65px; }
 
       .results-section { padding: 25px 0 50px; }
       .section-title { font-size: 1.4rem; gap: 8px; }
-      .section-title i { font-size: 1.3rem; }
+      .section-title i { font-size: 1.15rem; }
       .section-subtitle { font-size: 13.5px; margin-bottom: 25px; }
 
       .service-card { padding: 25px 18px; border-radius: 12px; }
-      .card-icon i { font-size: 44px; }
+      .card-icon i { font-size: 36px; }
       .card-description { font-size: 14px; margin-bottom: 22px; }
 
       /* Form on mobile */
       .form-input { padding: 12px 14px; font-size: 15px; }
       .form-input.code-input,
       .form-input.password-input { font-size: 16px; letter-spacing: 2px; }
+      .form-input.password-input { padding-left: 42px; }
       .form-label { font-size: 14px; }
       .btn-primary { font-size: 15.5px; padding: 14px 20px; }
 
+      .password-actions { flex-wrap: wrap; }
+      .password-actions .btn-ghost { padding: 12px 18px; }
+
       /* Results on mobile */
       .results-area { margin-top: 20px; }
-      .results-header h3 { font-size: 1.1rem; }
+      .results-header h3 { font-size: 1.05rem; }
       .results-header { margin-bottom: 14px; padding-bottom: 12px; }
       .patient-info { font-size: 13px; padding: 10px 12px; gap: 10px; }
       .patient-info strong { font-size: 13px; }
@@ -661,7 +708,7 @@ body { padding-top: 65px; }
         padding: 12px;
         font-size: 13px;
       }
-      .latest-banner i { font-size: 22px; }
+      .latest-banner i { font-size: 18px; }
       .latest-banner .latest-info .sub { font-size: 12px; }
 
       /* Date filter mobile */
@@ -672,7 +719,6 @@ body { padding-top: 65px; }
 
       .date-chips {
         gap: 6px;
-        /* Show as horizontal scroll on mobile for long lists */
         overflow-x: auto;
         flex-wrap: nowrap;
         padding-bottom: 4px;
@@ -692,11 +738,10 @@ body { padding-top: 65px; }
       .results-cards { display: block; }
 
       /* Floating home */
-      .floating-home { width: 48px; height: 48px; font-size: 18px; bottom: 18px; left: 18px; }
-    
+      .floating-home { width: 48px; height: 48px; font-size: 17px; bottom: 18px; left: 18px; }
+    }
 
     @media (max-width: 400px) {
-      .site-title { font-size: 1rem; }
       .section-title { font-size: 1.25rem; }
       .service-card { padding: 20px 15px; }
       .date-chip { padding: 6px 10px; font-size: 11.5px; }
@@ -765,13 +810,19 @@ body { padding-top: 65px; }
             <label class="form-label" for="password">
               <i class="fas fa-key"></i> كلمة السر
             </label>
-            <input type="password" id="password" class="form-input password-input"
-                   placeholder="أدخل كلمة السر"
-                   autocomplete="off" required>
+            <div class="password-wrapper">
+              <input type="password" id="password" class="form-input password-input"
+                     placeholder="أدخل كلمة السر"
+                     autocomplete="off" required>
+              <button type="button" class="toggle-password" id="togglePasswordBtn"
+                      aria-label="إظهار كلمة السر" title="إظهار كلمة السر">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
           </div>
 
-          <div style="display: flex; gap: 10px;">
-            <button type="submit" class="btn btn-primary" id="checkPasswordBtn" style="flex: 1;">
+          <div class="password-actions">
+            <button type="submit" class="btn btn-primary" id="checkPasswordBtn">
               <i class="fas fa-unlock"></i> استلم نتيجتك الآن
             </button>
             <button type="button" class="btn btn-ghost" id="backToCodeBtn">
@@ -901,6 +952,8 @@ body { padding-top: 65px; }
     const loadingResults = document.getElementById('loadingResults');
     const newSearchBtn = document.getElementById('newSearchBtn');
     const backToCodeBtn = document.getElementById('backToCodeBtn');
+    const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+    const togglePasswordIcon = togglePasswordBtn.querySelector('i');
 
     const codeForm = document.getElementById('codeForm');
     const passwordForm = document.getElementById('passwordForm');
@@ -929,6 +982,7 @@ body { padding-top: 65px; }
     let selectedDate = 'all';
     let latestResultId = null;
     let autoPreviewTimer = null;
+    let isPasswordVisible = false;
 
     // ============================================
     // HELPERS
@@ -989,7 +1043,33 @@ body { padding-top: 65px; }
       } catch { return dateStr; }
     }
 
-        // ============================================
+    // ============================================
+    // TOGGLE PASSWORD VISIBILITY
+    // ============================================
+    function togglePasswordVisibility() {
+      isPasswordVisible = !isPasswordVisible;
+
+      if (isPasswordVisible) {
+        passwordInput.type = 'text';
+        togglePasswordIcon.classList.remove('fa-eye');
+        togglePasswordIcon.classList.add('fa-eye-slash');
+        togglePasswordBtn.setAttribute('aria-label', 'إخفاء كلمة السر');
+        togglePasswordBtn.setAttribute('title', 'إخفاء كلمة السر');
+      } else {
+        passwordInput.type = 'password';
+        togglePasswordIcon.classList.remove('fa-eye-slash');
+        togglePasswordIcon.classList.add('fa-eye');
+        togglePasswordBtn.setAttribute('aria-label', 'إظهار كلمة السر');
+        togglePasswordBtn.setAttribute('title', 'إظهار كلمة السر');
+      }
+
+      // الحفاظ على التركيز في الحقل بعد التبديل
+      passwordInput.focus();
+    }
+
+    togglePasswordBtn.addEventListener('click', togglePasswordVisibility);
+
+    // ============================================
     // STEP 1: Check Code (آمن - باستخدام RPC)
     // ============================================
     codeForm.addEventListener('submit', async function (e) {
@@ -1002,27 +1082,26 @@ body { padding-top: 65px; }
       checkBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحقق...';
 
       try {
-        // ✅ استخدام دالة RPC الآمنة بدل قراءة الجدول مباشرة
         const { data, error } = await supabaseClient
-  .rpc('verify_booking_code', { p_booking_code: code });
+          .rpc('verify_booking_code', { p_booking_code: code });
 
-if (error) throw error;
+        if (error) throw error;
 
-if (!data || data.length === 0) {
-  alert('❌ لا يوجد حجز بهذا الكود.');
-  return;
-}
+        if (!data || data.length === 0) {
+          alert('❌ لا يوجد حجز بهذا الكود.');
+          return;
+        }
 
-const booking = data[0];
+        const booking = data[0];
 
-if (!booking.has_password) {
-  alert('⚠️ هذا الحجز ليس لديه كلمة سر. يرجى التواصل مع المعمل.');
-  return;
-}
+        if (!booking.has_password) {
+          alert('⚠️ هذا الحجز ليس لديه كلمة سر. يرجى التواصل مع المعمل.');
+          return;
+        }
 
-currentPatientCode = code;
-displayPatientName.textContent = booking.patient_name || 'مريض';
-displayPatientCode.textContent = 'كود الحجز: ' + booking.booking_code;
+        currentPatientCode = code;
+        displayPatientName.textContent = booking.patient_name || 'مريض';
+        displayPatientCode.textContent = 'كود الحجز: ' + booking.booking_code;
 
         step1Card.classList.add('hidden');
         step2Card.classList.remove('hidden');
@@ -1032,6 +1111,16 @@ displayPatientCode.textContent = 'كود الحجز: ' + booking.booking_code;
         step1Dot.innerHTML = '<i class="fas fa-check"></i>';
         stepLine1.classList.add('active');
         step2Dot.classList.add('active');
+
+        // إعادة ضبط حالة عين الباسوورد
+        if (isPasswordVisible) {
+          isPasswordVisible = false;
+          passwordInput.type = 'password';
+          togglePasswordIcon.classList.remove('fa-eye-slash');
+          togglePasswordIcon.classList.add('fa-eye');
+          togglePasswordBtn.setAttribute('aria-label', 'إظهار كلمة السر');
+          togglePasswordBtn.setAttribute('title', 'إظهار كلمة السر');
+        }
 
         passwordInput.focus();
 
@@ -1043,7 +1132,7 @@ displayPatientCode.textContent = 'كود الحجز: ' + booking.booking_code;
         checkBtn.innerHTML = '<i class="fas fa-search"></i> التحقق من الكود';
       }
     });
-    
+
     // ============================================
     // STEP 2: Check Password
     // ============================================
@@ -1068,14 +1157,13 @@ displayPatientCode.textContent = 'كود الحجز: ' + booking.booking_code;
       latestBanner.classList.add('hidden');
 
       try {
-        // ✅ دالة واحدة بترجع بيانات المريض + النتائج معاً
         const { data: results, error: resultsError } = await supabaseClient
-  .rpc('get_booking_results', {
-    p_booking_code: currentPatientCode,
-    p_password: password
-  });
+          .rpc('get_booking_results', {
+            p_booking_code: currentPatientCode,
+            p_password: password
+          });
+
         if (resultsError) {
-          // لو كلمة السر غلط، الدالة بترجع خطأ
           if (resultsError.message && resultsError.message.includes('بيانات الدخول غير صحيحة')) {
             loadingResults.classList.add('hidden');
             resultsArea.classList.add('hidden');
@@ -1098,21 +1186,19 @@ displayPatientCode.textContent = 'كود الحجز: ' + booking.booking_code;
           return;
         }
 
-        // بيانات المريض من أول نتيجة
-const patient = {
-  id: results[0].booking_id,
-  full_name: results[0].patient_name,
-  patient_code: results[0].booking_code
-};
+        const patient = {
+          id: results[0].booking_id,
+          full_name: results[0].patient_name,
+          patient_code: results[0].booking_code
+        };
 
-patientInfo.innerHTML = `
-  <i class="fas fa-user"></i> <strong>${escapeHtml(patient.full_name || '-')}</strong>
-  <i class="fas fa-id-card"></i> كود الحجز: <strong>${escapeHtml(patient.patient_code)}</strong>
-`;
+        patientInfo.innerHTML = `
+          <i class="fas fa-user"></i> <strong>${escapeHtml(patient.full_name || '-')}</strong>
+          <i class="fas fa-id-card"></i> كود الحجز: <strong>${escapeHtml(patient.patient_code)}</strong>
+        `;
 
         loadingResults.classList.add('hidden');
 
-        // حوّل النتائج للشكل اللي الكود بتاعك متوقعه
         allResults = results.map(r => ({
           id: r.result_id,
           file_name: r.file_name,
@@ -1472,6 +1558,14 @@ patientInfo.innerHTML = `
       selectedDate = 'all';
       latestResultId = null;
 
+      // إعادة ضبط عين الباسوورد
+      isPasswordVisible = false;
+      passwordInput.type = 'password';
+      togglePasswordIcon.classList.remove('fa-eye-slash');
+      togglePasswordIcon.classList.add('fa-eye');
+      togglePasswordBtn.setAttribute('aria-label', 'إظهار كلمة السر');
+      togglePasswordBtn.setAttribute('title', 'إظهار كلمة السر');
+
       step1Dot.classList.add('active');
       step1Dot.classList.remove('done');
       step1Dot.textContent = '1';
@@ -1497,6 +1591,14 @@ patientInfo.innerHTML = `
       selectedDate = 'all';
       latestResultId = null;
       latestBanner.classList.add('hidden');
+
+      // إعادة ضبط عين الباسوورد
+      isPasswordVisible = false;
+      passwordInput.type = 'password';
+      togglePasswordIcon.classList.remove('fa-eye-slash');
+      togglePasswordIcon.classList.add('fa-eye');
+      togglePasswordBtn.setAttribute('aria-label', 'إظهار كلمة السر');
+      togglePasswordBtn.setAttribute('title', 'إظهار كلمة السر');
 
       step1Dot.classList.add('active');
       step1Dot.classList.remove('done');
