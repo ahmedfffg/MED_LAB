@@ -11,6 +11,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
     <style>
         /* ============================================
            BOOKING MODE SELECTOR STYLES
@@ -128,14 +132,8 @@
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(15px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         /* ============================================
@@ -413,26 +411,108 @@
             background: #f0f7ff;
         }
 
+        /* ============================================
+           MAP
+        ============================================ */
+        .map-wrapper {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f0f7ff;
+            border-radius: 12px;
+            border: 2px dashed #a8d8f5;
+        }
+
+        .map-wrapper .map-label {
+            display: block;
+            font-weight: 700;
+            color: #2a3a4a;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .map-wrapper .map-label i {
+            color: #2a6a9a;
+            margin-left: 0.3rem;
+        }
+
+        #map, #map-returning {
+            height: 320px;
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .map-hint {
+            margin-top: 0.6rem;
+            font-size: 0.82rem;
+            color: #5a7a9a;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .map-hint i {
+            color: #2a6a9a;
+        }
+
+        .map-url-box {
+            margin-top: 0.8rem;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .map-url-box input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.6rem 0.9rem;
+            border: 1.5px solid #cfe0f0;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.82rem;
+            background: #fff;
+            color: #2a6a9a;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .map-url-box .btn-copy-map {
+            padding: 0.6rem 1rem;
+            background: #2a6a9a;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .map-url-box .btn-copy-map:hover {
+            background: #1a5a8a;
+        }
+
+        .map-coords {
+            margin-top: 0.6rem;
+            font-size: 0.78rem;
+            color: #7a8a9a;
+            direction: ltr;
+            text-align: center;
+            font-family: monospace;
+        }
+
+        /* ============================================
+           RESPONSIVE
+        ============================================ */
         @media (max-width: 600px) {
-            .booking-mode-selector {
-                flex-direction: column;
-            }
-
-            .booking-mode-btn {
-                min-width: auto;
-            }
-
-            .patient-code-input-group {
-                flex-direction: column;
-            }
-
-            .patient-code-input-group button {
-                justify-content: center;
-            }
-
-            .patient-info-grid {
-                grid-template-columns: 1fr 1fr;
-            }
+            .booking-mode-selector { flex-direction: column; }
+            .booking-mode-btn { min-width: auto; }
+            .patient-code-input-group { flex-direction: column; }
+            .patient-code-input-group button { justify-content: center; }
+            .patient-info-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
@@ -472,7 +552,7 @@
                     <i class="fas fa-id-card"></i>
                 </div>
                 <h3>اكتب كود المريض بتاعك</h3>
-                               <p>الكود بيكون في صورة <strong>WEB-YYYYMMDD-XXXXXX</strong> ووصلك في رسالة التأكيد</p>
+                <p>الكود بيكون في صورة <strong>WEB-YYYYMMDD-XXXXXX</strong> ووصلك في رسالة التأكيد</p>
                 <div class="patient-code-input-group">
                     <input type="text" id="patient-code-input" placeholder="WEB-20250101-000001" autocomplete="off">
                     <button type="button" id="search-patient-btn">
@@ -687,13 +767,25 @@
                             </div>
 
                             <div id="home-visit-details" class="home-visit-details" style="display:none;">
-                                <div class="form-group">
-  <label>📍 موقع العينة على الخريطة (اضغط على الدبوس الأحمر)</label>
-  <div id="map" style="height:300px; border-radius:12px;"></div>
-  <input type="hidden" id="location-lat">
-  <input type="hidden" id="location-lng">
-  <input type="text" id="location-url" readonly placeholder="سيظهر الرابط هنا بعد اختيار الموقع">
-</div>
+                                <!-- MAP -->
+                                <div class="map-wrapper">
+                                    <label class="map-label"><i class="fas fa-map-location-dot"></i> حدد موقع العينة على الخريطة (اضغط على الدبوس الأحمر)</label>
+                                    <div id="map"></div>
+                                    <div class="map-hint">
+                                        <i class="fas fa-hand-pointer"></i>
+                                        اضغط على مكان العينة على الخريطة، وسيتم حفظ الرابط تلقائياً.
+                                    </div>
+                                    <div class="map-url-box">
+                                        <input type="text" id="location-url" readonly placeholder="سيظهر الرابط هنا بعد اختيار الموقع">
+                                        <button type="button" class="btn-copy-map" id="copy-location-url">
+                                            <i class="fas fa-copy"></i> نسخ
+                                        </button>
+                                    </div>
+                                    <div class="map-coords" id="map-coords">لم يتم تحديد الموقع بعد</div>
+                                    <input type="hidden" id="location-lat">
+                                    <input type="hidden" id="location-lng">
+                                </div>
+
                                 <h3 class="home-address-title"><i class="fas fa-location-dot"></i> اكتب العنوان بالتفصيل</h3>
                                 <div class="home-address-grid">
                                     <div class="form-group">
@@ -743,35 +835,16 @@
                                 <label for="date" class="form-label">
                                     <i class="fas fa-calendar-day"></i> تاريخ الموعد
                                 </label>
-
-                                <input
-                                    type="date"
-                                    id="date"
-                                    class="form-control"
-                                    required
-                                >
-
-                                <div class="invalid-feedback">
-                                    الرجاء اختيار تاريخ صحيح
-                                </div>
+                                <input type="date" id="date" class="form-control" required>
+                                <div class="invalid-feedback">الرجاء اختيار تاريخ صحيح</div>
                             </div>
-
 
                             <div class="form-group">
                                 <label for="time" class="form-label">
                                     <i class="fas fa-clock"></i> وقت الموعد
                                 </label>
-
-                                <input
-                                    type="time"
-                                    id="time"
-                                    class="form-control"
-                                    required
-                                >
-
-                                <div class="invalid-feedback">
-                                    الرجاء اختيار وقت صحيح
-                                </div>
+                                <input type="time" id="time" class="form-control" required>
+                                <div class="invalid-feedback">الرجاء اختيار وقت صحيح</div>
                             </div>
 
                         </div>
@@ -961,6 +1034,25 @@
                             </div>
 
                             <div id="home-visit-details-returning" class="home-visit-details" style="display:none;">
+                                <!-- MAP -->
+                                <div class="map-wrapper">
+                                    <label class="map-label"><i class="fas fa-map-location-dot"></i> حدد موقع العينة على الخريطة (اضغط على الدبوس الأحمر)</label>
+                                    <div id="map-returning"></div>
+                                    <div class="map-hint">
+                                        <i class="fas fa-hand-pointer"></i>
+                                        اضغط على مكان العينة على الخريطة، وسيتم حفظ الرابط تلقائياً.
+                                    </div>
+                                    <div class="map-url-box">
+                                        <input type="text" id="location-url-returning" readonly placeholder="سيظهر الرابط هنا بعد اختيار الموقع">
+                                        <button type="button" class="btn-copy-map" id="copy-location-url-returning">
+                                            <i class="fas fa-copy"></i> نسخ
+                                        </button>
+                                    </div>
+                                    <div class="map-coords" id="map-coords-returning">لم يتم تحديد الموقع بعد</div>
+                                    <input type="hidden" id="location-lat-returning">
+                                    <input type="hidden" id="location-lng-returning">
+                                </div>
+
                                 <h3 class="home-address-title"><i class="fas fa-location-dot"></i> اكتب العنوان بالتفصيل</h3>
                                 <div class="home-address-grid">
                                     <div class="form-group">
@@ -1062,8 +1154,8 @@
     <!-- ============================================
          SCRIPTS
     ============================================ -->
-    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="js/shared-header.js"></script>
     <script src="js/appointment.js"></script>
     
@@ -1077,44 +1169,21 @@
             const dateReturning = document.getElementById('date-returning');
             const timeReturning = document.getElementById('time-returning');
 
-            if (dateInput) {
-                dateInput.addEventListener('click', function () {
+            [dateInput, timeInput, dateReturning, timeReturning].forEach(function (el) {
+                if (!el) return;
+                el.addEventListener('click', function () {
                     if (typeof this.showPicker === 'function') {
                         this.showPicker();
                     }
                 });
-            }
-
-            if (timeInput) {
-                timeInput.addEventListener('click', function () {
-                    if (typeof this.showPicker === 'function') {
-                        this.showPicker();
-                    }
-                });
-            }
-
-            if (dateReturning) {
-                dateReturning.addEventListener('click', function () {
-                    if (typeof this.showPicker === 'function') {
-                        this.showPicker();
-                    }
-                });
-            }
-
-            if (timeReturning) {
-                timeReturning.addEventListener('click', function () {
-                    if (typeof this.showPicker === 'function') {
-                        this.showPicker();
-                    }
-                });
-            }
+            });
         });
     })();
     </script>
 
 <a href="index.html" class="floating-home" aria-label="الرجوع للصفحة الرئيسية" title="الرجوع للرئيسية">
     <i class="fas fa-home"></i>
-  </a>
+</a>
 
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 <script src="js/dev-watermark.js"></script>
