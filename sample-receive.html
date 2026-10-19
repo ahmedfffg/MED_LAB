@@ -6,7 +6,7 @@
   <title>استلام النتائج - معمل ميدلاب</title>
   <link href="images/logo.png" type="image/x-icon" rel="icon">
 
-  <!-- ✅ ملف الستايل الأساسي (هيدر + لوجو + مينيو فقط) -->
+  <!-- ملف الستايل الأساسي (هيدر + لوجو + مينيو فقط) -->
   <link rel="stylesheet" href="css/style.css">
 
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
@@ -15,8 +15,6 @@
   <style>
     /* ============================================================
        ISOLATION LAYER — نعزل صفحة النتائج تماماً عن css/style.css
-       كل قاعدة هنا scoped داخل .results-section أو .preview-overlay
-       مع reset شامل + !important لضمان الأولوية المطلقة
        ============================================================ */
 
     :root {
@@ -39,7 +37,7 @@
     }
 
     /* ============================================================
-       RESET شامل لكل عناصر صفحة النتائج — يتغلب على css/style.css
+       RESET شامل لكل عناصر صفحة النتائج
        ============================================================ */
     .results-section,
     .results-section *,
@@ -51,7 +49,6 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* نلغي أي animation/transition/transform موروث من style.css على عناصر الصفحة */
     .results-section *,
     .preview-overlay * {
       animation-duration: 0s;
@@ -298,6 +295,7 @@
     .results-section .toggle-password {
       position: absolute !important;
       left: 12px !important;
+      right: auto !important;
       top: 50% !important;
       transform: translateY(-50%) !important;
       width: 28px !important;
@@ -987,11 +985,16 @@
     .footer-logo p { font-weight: 700 !important; color: var(--primary-dark) !important; }
     .copyright p { color: var(--text-light) !important; font-size: 13px !important; }
 
-    /* Floating home */
+    /* ============================================================
+       Floating home — مثبّت على الشمال إجبارياً
+       ============================================================ */
     .floating-home {
       position: fixed !important;
       bottom: 25px !important;
       left: 25px !important;
+      right: auto !important;
+      top: auto !important;
+      inset: auto auto 25px 25px !important;
       width: 55px !important;
       height: 55px !important;
       background: linear-gradient(135deg, var(--primary), var(--primary-light)) !important;
@@ -1006,8 +1009,8 @@
       transition: background 0.15s ease !important;
       transform: none !important;
       animation: none !important;
-      top: auto !important;
-      right: auto !important;
+      margin: 0 !important;
+      padding: 0 !important;
     }
     .floating-home i {
       font-size: 16px !important;
@@ -1020,6 +1023,8 @@
       color: white !important;
       transform: none !important;
       box-shadow: 0 8px 20px -6px rgba(10,124,184,0.55) !important;
+      left: 25px !important;
+      right: auto !important;
     }
 
     /* ============================================
@@ -1290,13 +1295,21 @@
       .results-section .results-table { display: none !important; }
       .results-section .results-cards { display: block !important; }
 
+      /* Floating home — موبايل على الشمال إجبارياً */
       .floating-home {
         width: 48px !important;
         height: 48px !important;
         bottom: 18px !important;
         left: 18px !important;
+        right: auto !important;
+        top: auto !important;
+        inset: auto auto 18px 18px !important;
       }
       .floating-home i { font-size: 15px !important; }
+      .floating-home:hover {
+        left: 18px !important;
+        right: auto !important;
+      }
     }
 
     @media (max-width: 400px) {
